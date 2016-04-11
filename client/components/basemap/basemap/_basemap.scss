@@ -11,15 +11,28 @@
 	border: 0;
 }
 
-.leaflet-bar a {
-	width: 30px;
-	height: 30px;
-}
+// .leaflet-bar a {
+// 	border-radius: 0 !important;
+// 	width: 30px;
+// 	height: 30px;
+// }
 
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
-	background-size: 30px 260px;
-}
+// .leaflet-control-zoom-in,
+// .leaflet-control-zoom-out {
+// 	background-size: 30px 260px;
+// }
+
+// .leaflet-draw-toolbar {
+// 	a {
+// 		background-image: none;
+// 		background-position: 0px 0px;
+// 	}
+// 	.leaflet-draw-draw-polyline {
+// 		background: url('../images/maptools/line.png') no-repeat;
+// 		width: 64px;
+// 	}
+// }
+
 
 .leaflet-left{
 	right: 0 !important;

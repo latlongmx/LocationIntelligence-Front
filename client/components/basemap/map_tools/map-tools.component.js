@@ -5,7 +5,6 @@
 	'use strict';
 
 	var MapToolsContainer = function(){
-
 		var _this = null,
 		_$js_maptools_item = null,
 		_js_maptools_item_attribute = null;
@@ -27,7 +26,18 @@
 		}
 		
 		function _drawLine() {
-			console.log("line")
+			//var map = L.map('basemap');
+			map.on('draw:created', function (e) {
+			    var type = e.layerType,
+			        layer = e.layer;
+
+			    if (type === 'marker') {
+			        // Do marker specific actions
+			    }
+
+			    // Do whatever else you need to. (save to db, add to map etc)
+			    map.addLayer(layer);
+			});
 		}
 		
 		function _drawArea() {
@@ -35,7 +45,7 @@
 		}
 		
 		function _drawRadio() {
-			console.log("<radio></radio>")
+			console.log("radio")
 		}
 		
 		return {
@@ -49,7 +59,7 @@
 		
 	};
 	
-	//MapToolsContainer.$inject = [];
+	//MapToolsContainer.$inject = ['BaseMapService'];
 
 	angular.module('maptools', [])
 		.directive('mapTools', MapToolsContainer);
