@@ -49,7 +49,7 @@ gulp.task('sass', ['cleaning-styles'], function () {
 
 gulp.task('join', function(){
 	log('Joining all js/css files');
-	var assets = $.useref.assets({searchPath: ['./', './client/']});
+	var assets = $.useref.assets({searchPath: ['client/']});
 	var cssFilter = $.filter('**/*.css', {restore: true});
 	var jsLibFilter = $.filter('**/lib.js', {restore: true});
 	var jsAppFilter = $.filter('**/app.js', {restore: true});
@@ -71,7 +71,7 @@ gulp.task('join', function(){
 		.pipe(jsAppFilter.restore)
 		.pipe(assets.restore())
 		.pipe($.useref())
-		.pipe(gulp.dest('build'));
+		.pipe(gulp.dest('public'));
 });
 
 
@@ -79,7 +79,7 @@ gulp.task('templatecache', ['clean-templatecache'], function(){
 	log('Angularjs template files!');
 	var options = {
 		module: 'walmex',
-		root: 'components/'
+		root: './components/'
 	}
 	return gulp.src('./client/components/**/*.html')
 		.pipe($.minifyHtml({empty: true}))
@@ -93,20 +93,30 @@ gulp.task('templatecache', ['clean-templatecache'], function(){
 gulp.task('html', ['cleaning-components'], function() {
 	log('Copying html files');
 	return gulp.src('./client/components/**/*.html')
-		.pipe(gulp.dest('build/components/'));
+		.pipe(gulp.dest('public/components/'));
+});
+
+gulp.task('copy-images', ['cleaning-images'], function() {
+	log('Copying images');
+	return gulp.src('./client/images/**/*.{jpg,png}')
+		.pipe($.imagemin({optimizationLevel: 4}))
+		.pipe(gulp.dest('public/images/'));
 });
 
 
 /* Cleaners */
-gulp.task('cleaning-components', function(done){
-	clean('build/components/*.*', done);
+gulp.task('cleaning-components', function(){
+	clean('public/components/**/**/*.html');
 });
-gulp.task('clean-templatecache', function(done){
-	clean('tmp', done);
+gulp.task('clean-templatecache', function(){
+	clean('tmp');
 });
 gulp.task('cleaning-styles', function(){
 	var files = './client/styles/*.css';
 	clean(files);
+});
+gulp.task('cleaning-images', function(){
+	clean('public/images/**/*.*');
 });
 
 /* Dev Server */
