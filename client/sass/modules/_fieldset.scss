@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+/**
+ *  Fieldset
+ */
+
+.m-fieldset {
+  border: 0;
+  margin: 0 0 20px !important;
+  padding: 0 !important;
+
+  @include respond-to("medium") {
+    padding: 0 10px !important;
+  }
+
+  &.m-fieldset--no-padding-right-medium {
+    @include respond-to('medium') {
+      padding-right: 0 !important;
+    }
+  }
+
+  &.m-fieldset--no-padding-left-medium {
+    @include respond-to('medium') {
+      padding-left: 0 !important;
+    }
+  }
+
+  &.m-fieldset--no-padding-left-large {
+    @include respond-to('large') {
+      padding-left: 0 !important;
+    }
+  }
+
+  &.m-fieldset--padding-left-large {
+    @include respond-to('large') {
+      padding-left: 10px !important;
+    }
+  }
+
+  &.m-fieldset--padding-left-right {
+    @include respond-to('medium') {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  }
+
+  &.m-fieldset--padding-left {
+    @include respond-to('medium') {
+      padding-left: 20px !important;
+    }
+  }
+
+  &.m-fieldset--padding-right {
+    @include respond-to('medium') {
+      padding-right: 20px !important;
+    }
+  }
+
+  &.m-fieldset--forgot-password,
+  &.m-fieldset--on-signup {
+    margin-bottom: 40px !important;
+    @include respond-to('medium') {
+      margin-bottom: auto;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+# Ignore Directories
+bower_components
+node_modules
+build
+staging
+tmp
+.DS_Store
+client/.DS_Store
+client/components/**/.DS_Store

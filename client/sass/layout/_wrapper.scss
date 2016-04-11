@@ -1,0 +1,22 @@
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  @include respond-to("medium") {
+    width: 750px;
+  }
+  @include respond-to("large") {
+    width: 980px;
+  }
+  @include respond-to("extra-large") {
+    width: 1170px;
+  }
+}
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}

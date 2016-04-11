@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+/**
+ *	Label
+ */
+.m-label {
+  color: $gray-strong;
+  display: block;
+  font-size: 14px;
+  letter-spacing: normal;
+  line-height: 100%;
+  margin: 0 15px 15px 0px !important;
+
+  &.m-label--mandatory-fields {
+    margin-bottom: 20px !important;
+    margin-left: 0 !important;
+    @include respond-to('medium') {
+      margin-bottom: 30px !important;
+    }
+  }
+}
+

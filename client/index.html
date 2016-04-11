@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="es" class="no-js"> <!--<![endif]-->
+<head>
+	<title>Walmex</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
+	
+	<!-- build:css css/styles.css -->
+	<!-- bower:css -->
+	<link rel="stylesheet" href="../bower_components/pure/pure.css" />
+	 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	<link rel="stylesheet" href="../bower_components/leaflet-dist/leaflet.css" />
+	<link rel="stylesheet" href="../bower_components/leaflet-draw/dist/leaflet.draw.css" />
+	<!-- endbower -->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="styles/styles.css">
+	<!-- endinject -->
+	<!-- endbuild -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCa4cJrJzC1_ICMNz0rD7pdAQkeM9I7WfU"></script>
+</head>
+
+<body ng-app="walmex">
+	
+	<div ui-view></div>
+	<map-tools></map-tools>
+	<!-- <map-switcher></map-switcher> -->
+
+	
+	<!-- build:js js/lib.js -->
+	<!-- bower:js -->
+	 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<script src="../bower_components/angular/angular.js"></script>
+	<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="../bower_components/leaflet-dist/leaflet.js"></script>
+	<script src="../bower_components/leaflet-draw/dist/leaflet.draw-src.js"></script>
+	<!-- endbower -->
+	<!-- endbuild -->
+	<!-- build:js js/app.js -->
+	<!-- inject:js -->
+	<script src="components/walmex.module.js"></script>
+	<script src="components/walmex.routes.js"></script>
+	<script src="components/basemap/basemap/basemap.component.js"></script>
+	<script src="components/basemap/basemap/basemap.directive.js"></script>
+	<script src="components/basemap/basemap/basemap.service.js"></script>
+	<script src="components/basemap/basemap/google.basemap.js"></script>
+	<script src="components/basemap/map_tools/map-tools.component.js"></script>
+	<script src="components/basemap/switcher/mapswitcher.directive.js"></script>
+	<!-- endinject -->
+	<!-- endbuild -->
+	
+		<!-- Angular Material Library -->
+	
+</body>
+
+</html>

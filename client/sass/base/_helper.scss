@@ -1,0 +1,286 @@
+@charset "UTF-8";
+@import 'base/_mixins';
+
+/**
+ *  Helpers
+ */
+
+.clearfix:before,
+.clearfix:after {
+	content: " "; /* 1 */
+	line-height: 0;
+	display: table; /* 2 */
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+	*zoom: 1;
+}
+
+.hide {
+	display: none;
+}
+.visually-hidden {
+  @extend %visuallyhidden;
+}
+
+.no-opacity {
+	opacity: 0;
+}
+
+.centered {
+	margin: 0 auto;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+.centered-abs-v {
+	position: absolute;
+	top: 50%;
+	@include transform(translateY(-50%));
+}
+
+.centered-abs-h {
+	position: absolute;
+	left: 50%;
+	@include transform(translateX(-50%));
+}
+
+.no-appearance {
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	-o-appearance: none !important;
+	-ms-appearance: none !important;
+	appearance: none !important;
+}
+
+.init-hidden {
+	@include respond-to("initialize") {
+		display: none !important;
+	}
+}
+
+.small-hidden {
+	@include respond-to("small") {
+		display: none !important;
+	}
+}
+
+.medium-hidden {
+	@include respond-to("medium") {
+		display: none !important;
+	}
+}
+
+.large-hidden {
+	@include respond-to("large") {
+		display: none !important;
+	}
+}
+
+.extra-large-hidden {
+	@include respond-to("extra-large") {
+		display: none !important;
+	}
+}
+
+.init-visible {
+	@include respond-to("initialize") {
+		display: block !important;
+	}
+}
+
+.small-visible {
+	@include respond-to("small") {
+		display: block !important;
+	}
+}
+
+.medium-visible {
+	@include respond-to("medium") {
+		display: block !important;
+	}
+}
+
+.large-visible {
+	@include respond-to("large") {
+		display: block !important;
+	}
+}
+
+.extra-large-visible {
+	@include respond-to("extra-large") {
+		display: block !important;
+	}
+}
+
+.no-padding { padding: 0; }
+.no-margin { margin: 0 }
+
+.align-center {
+	text-align: center;
+}
+.align-left {
+	text-align:left;
+}
+.align-right {
+	text-align: right;
+}
+
+.float-l { float: left }
+.float-r { float: right }
+
+.pos-relative {
+	position: relative;
+}
+.pos-absolute {
+	position: absolute;
+}
+
+.bold {
+	font-weight: bold !important;
+}
+
+.weight100{
+	font-weight: 100 !important;
+}
+
+.weight200{
+	font-weight: 200 !important;
+}
+
+.weight300{
+	font-weight: 300 !important;
+}
+
+.normal{
+	font-weight: 400 !important;
+}
+
+.weight500{
+	font-weight: 500 !important;
+}
+
+.semibold{
+	font-weight: 600 !important;
+}
+
+.bold{
+	font-weight: 700 !important;
+}
+.bold-italic{
+	font-weight: 700 !important;
+	font-style: italic !important
+}
+
+.weight800{
+	font-weight: 800 !important;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+.no-scroll-y {
+	overflow-y: hidden;
+}
+
+.no-scroll-x {
+	overflow-x: hidden;
+}
+
+.mobile-padding-sides {
+	padding: 0 15px;
+	@include respond-to("medium") {
+		padding: 0;
+	}
+}
+
+.desktop-padding-sides {
+	padding: 0px;
+	@include respond-to("medium") {
+		padding: 0 15px;
+	}
+}
+
+.padding-l {
+	padding-left: 15px;
+}
+
+.padding-r {
+	padding-right: 15px;
+}
+
+.padding-top {
+	padding-top: 15px;
+}
+
+.padding-bottom {
+	padding-bottom: 15px;
+}
+
+.color-white {
+	color: $white;
+}
+
+.color-blue {
+	color:$blue-indigo;
+}
+
+.color-purple {
+	color: $deep-purple;
+}
+
+.color-gray {
+	color: $gray-strong;
+}
+
+.color-green {
+	color: $green;
+}
+
+.color-orange {
+	color: $orange;
+}
+
+.color-pink {
+	color: $pink;
+}
+
+.bg-white {
+	background: $white;
+}
+
+.bg-blue {
+	background:$blue-indigo;
+}
+
+.bg-purple {
+	background: $deep-purple;
+}
+
+.bg-gray {
+	background: $gray-strong;
+}
+
+.bg-green {
+	background: $green;
+}
+
+.bg-orange {
+	background: $orange;
+}
+
+.bg-pink {
+	background: $pink;
+}

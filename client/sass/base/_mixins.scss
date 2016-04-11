@@ -1,0 +1,106 @@
+@charset "UTF-8";
+
+/**
+ *  Mixins
+ */
+
+$break-small: 35.5em; // >= 568px @ 16px
+$break-medium: 48em; // >= 768px @ 16px
+$break-large: 62em; // >= 992px @ 16px
+$break-extra-large: 75em; // >= 1280px @ 16px
+
+// @include respond-to( );
+@mixin respond-to( $condition ) {
+//
+// sizes
+//
+  @if $condition == 'initialize' {@media (min-width: 1px ){ @content; } }
+  @if $condition == 'small' { @media (min-width: $break-small ) { @content; } }
+  @if $condition == 'medium' { @media (min-width: $break-medium ) { @content; } }
+  @if $condition == 'large' { @media (min-width: $break-large ) { @content; } }
+  @if $condition == 'extra-large' { @media (min-width: $break-extra-large ) { @content; } }
+
+}
+
+// Border radius
+@mixin radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+// Box shadow
+@mixin box-shadow($args...){
+  -webkit-box-shadow: $args;
+  -moz-box-shadow: $args;
+  -ms-box-shadow: $args;
+  box-shadow: $args;
+}
+// Background size
+@mixin background-size($bsize){
+  -webkit-background-size: $bsize;
+  -moz-background-size: $bsize;
+  -o-background-size: $bsize;
+  -ms-background-size: $bsize;
+  background-size: $bsize;
+}
+
+// Opacity
+@mixin opacity($opacity) {
+  $opacity-ie: $opacity * 100;
+  -moz-opacity: $opacity;
+  filter: alpha(opacity=$opacity-ie); //IE8
+  opacity: $opacity;
+}
+
+// Transitions
+@mixin transition($transition: all linear .25s) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -o-transition: $transition;
+  -ms-transition: $transition;
+  transition: $transition;
+}
+
+// Transforms
+@mixin transform($trans){
+  -webkit-transform: $trans;
+  -moz-transform: $trans;
+  -o-transform: $trans;
+  -ms-transform: $trans;
+  transform: $trans;
+}
+
+// Animation
+@mixin animation($animation) {
+  -webkit-animation: $animation;
+  -moz-animation: $animation;
+  -ms-animation: $animation;
+  -o-animation: $animation;
+  animation: $animation;
+}
+
+@mixin clearfix() {
+  zoom: 1;
+  &:before,
+  &:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// Visually hidden
+%visuallyhidden {
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
+}

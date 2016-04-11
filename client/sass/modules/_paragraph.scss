@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+/**
+ *	Paragraph
+ */
+ 
+
+.m-paragraph {
+	line-height: 30px;
+	margin-bottom:30px;
+}
+
+.m-paragraph--in-vision {
+	line-height: 25px;
+	margin-top:0px;
+	padding: 0px;
+	@include respond-to("medium"){
+		padding: 0 0 0 20px;
+	}
+}
+
+.m-paragraph--in-emus {
+	line-height: 25px;
+	margin:0px 0px 0px;
+	@include respond-to("medium"){
+		margin:16px 0px 0px;
+	}
+	@include respond-to("large"){
+		margin:5px 0px 0px;
+	}
+}
+
+.m-paragraph--in-emus-marginbottom {
+	margin-bottom: 15px;
+}

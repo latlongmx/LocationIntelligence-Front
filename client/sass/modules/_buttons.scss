@@ -1,0 +1,71 @@
+
+.m-button-ghost {
+	background:transparent !important;
+	color: $gray-strong !important;
+	@include transition(all linear 0.25s);
+	&:hover {
+		background:$gray-strong !important;
+		color: $white !important;
+	}
+}
+
+.is-xsmall {
+	font-size: 70% !important;
+}
+
+.is-small {
+	font-size: 85% !important;
+}
+
+.is-large {
+	font-size: 110% !important;
+}
+
+.is-larger {
+	font-size: 125% !important;
+}
+
+.button-ghost-cc {
+	color: $orange !important;
+	@include transition(all linear 0.25s);
+	&:hover {
+		background:$orange !important;
+		color: $white !important;
+	}
+}
+
+.button-ghost-sit {
+	color: $pink !important;
+	@include transition(all linear 0.25s);
+	&:hover {
+		background:$pink !important;
+		color: $white !important;
+	}
+}
+
+.button-ghost-dot {
+	color: $green !important;
+	@include transition(all linear 0.25s);
+	&:hover {
+		background:$green !important;
+		color: $white !important;
+	}
+}
+
+.button-ghost-gd {
+	color: $deep-purple !important;
+	@include transition(all linear 0.25s);
+	&:hover {
+		background:$deep-purple !important;
+		color: $white !important;
+	}
+}
+
+.button-ghost-dum {
+	color: $blue-indigo !important;
+	@include transition(all linear 0.25s);
+	&:hover {
+		background:$blue-indigo !important;
+		color: $white !important;
+	}
+}
