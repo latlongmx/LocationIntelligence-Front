@@ -663,7 +663,7 @@ a {
 .m-list-functions__item-icon {
   color: #828189;
   display: block;
-  font-size: 35px;
+  font-size: 30px;
   vertical-align: middle; }
 
 .hamburger {
@@ -1359,14 +1359,29 @@ a {
 .leaflet-control-layers-base label {
   cursor: pointer;
   position: relative;
-  opacity: 0.5; }
+  opacity: 0.75;
+  -webkit-transition: all linear 0.25s;
+  -moz-transition: all linear 0.25s;
+  -o-transition: all linear 0.25s;
+  -ms-transition: all linear 0.25s;
+  transition: all linear 0.25s; }
   .leaflet-control-layers-base label:hover {
     opacity: 1; }
+    .leaflet-control-layers-base label:hover span {
+      display: block;
+      right: 50%; }
   .leaflet-control-layers-base label .leaflet-control-layers-selector {
     display: none; }
   .leaflet-control-layers-base label span {
+    -webkit-transition: all linear 0.25s;
+    -moz-transition: all linear 0.25s;
+    -o-transition: all linear 0.25s;
+    -ms-transition: all linear 0.25s;
+    transition: all linear 0.25s;
+    background: #828189;
     bottom: 0;
-    display: block;
+    color: #ffffff;
+    display: none;
     font-weight: 600;
     margin: 0 auto;
     padding: 5px;
