@@ -2355,28 +2355,28 @@ a {
 .demo-competence:before {
   content: "\f102"; }
 
-.demo-competence-1:before {
+.demo-demography:before {
   content: "\f103"; }
 
-.demo-demography:before {
+.demo-demography1:before {
   content: "\f104"; }
 
-.demo-demography1:before {
+.demo-heatmap:before {
   content: "\f105"; }
 
-.demo-heatmap:before {
+.demo-historic:before {
   content: "\f106"; }
 
-.demo-historic:before {
+.demo-locations:before {
   content: "\f107"; }
 
-.demo-locations:before {
+.demo-locations1:before {
   content: "\f108"; }
 
-.demo-locations1:before {
+.demo-origin-destiny:before {
   content: "\f109"; }
 
-.demo-origin-destiny:before {
+.demo-origin-destiny1:before {
   content: "\f10a"; }
 
 .demo-potencial-location:before {
@@ -2907,20 +2907,22 @@ a {
   cursor: pointer;
   display: block;
   padding: 0px 6px;
+  border-left: 4px solid transparent;
   -webkit-transition: all linear 0.25s;
   -moz-transition: all linear 0.25s;
   -o-transition: all linear 0.25s;
   -ms-transition: all linear 0.25s;
   transition: all linear 0.25s; }
   .m-list-functions__item:hover {
-    background: #6fc9c4; }
+    background: #F5F5F5;
+    border-color: #22ac9b; }
     .m-list-functions__item:hover .m-list-functions__item-icon {
-      color: #ffffff; }
+      color: #22ac9b; }
 
 .m-list-functions__item-icon {
   color: #828189;
   display: block;
-  font-size: 35px;
+  font-size: 30px;
   vertical-align: middle; }
 
 .hamburger {
@@ -3555,10 +3557,13 @@ a {
   background-image: url("../images/icons-000000@2x.png"); }
 
 .leaflet-left {
-  right: 0 !important;
-  left: inherit; }
+  right: 0; }
   .leaflet-left .leaflet-control {
     margin-right: 10px; }
+
+.leaflet-control-zoom {
+  right: 0;
+  position: absolute; }
 
 .leaflet-control-layers.leaflet-control {
   margin-bottom: 20px !important;
@@ -3613,14 +3618,29 @@ a {
 .leaflet-control-layers-base label {
   cursor: pointer;
   position: relative;
-  opacity: 0.5; }
+  opacity: 0.75;
+  -webkit-transition: all linear 0.25s;
+  -moz-transition: all linear 0.25s;
+  -o-transition: all linear 0.25s;
+  -ms-transition: all linear 0.25s;
+  transition: all linear 0.25s; }
   .leaflet-control-layers-base label:hover {
     opacity: 1; }
+    .leaflet-control-layers-base label:hover span {
+      display: block;
+      right: 50%; }
   .leaflet-control-layers-base label .leaflet-control-layers-selector {
     display: none; }
   .leaflet-control-layers-base label span {
+    -webkit-transition: all linear 0.25s;
+    -moz-transition: all linear 0.25s;
+    -o-transition: all linear 0.25s;
+    -ms-transition: all linear 0.25s;
+    transition: all linear 0.25s;
+    background: #828189;
     bottom: 0;
-    display: block;
+    color: #ffffff;
+    display: none;
     font-weight: 600;
     margin: 0 auto;
     padding: 5px;

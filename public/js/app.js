@@ -9,6 +9,8 @@
 			'mapswitcher.directive',
 			'maptools',
 			'exploration.directive',
+			'analysis.directive',
+			'historical.directive',
 			'ui.router'
 		]
 	)
@@ -42,6 +44,39 @@
 	*/
 	'use strict';
 
+	function AnalysisFunctions(){
+		return {
+			restrict: 'E',
+			template: [
+				'<ul class="m-list-functions">',
+					'<li class="m-list-functions__item">',
+						'<i class="m-list-functions__item-icon demo demo-accessibility1"></i>',
+					'</li>',
+					'<li class="m-list-functions__item">',
+						'<i class="m-list-functions__item-icon demo demo-origin-destiny"></i>',
+					'</li>',
+					'<li class="m-list-functions__item">',
+						'<i class="m-list-functions__item-icon demo demo-heatmap"></i>',
+					'</li>',
+					'<li class="m-list-functions__item">',
+						'<i class="m-list-functions__item-icon demo demo-rings"></i>',
+					'</li>',
+				'</ul>',
+			].join('')
+		};
+	}
+	
+	//AnalysisFunctions.$inject = [];
+
+	angular.module('analysis.directive', [])
+		.directive('analysisFunctions', AnalysisFunctions);
+}());
+(function(){
+	/**
+	*  KlDirective Directive
+	*/
+	'use strict';
+
 	function ExplorationFunctions(){
 		return {
 			restrict: 'E',
@@ -56,6 +91,9 @@
 					'<li class="m-list-functions__item">',
 						'<i class="m-list-functions__item-icon demo demo-demography"></i>',
 					'</li>',
+					'<li class="m-list-functions__item">',
+						'<i class="m-list-functions__item-icon demo demo-potencial-location"></i>',
+					'</li>',
 				'</ul>',
 			].join('')
 		};
@@ -65,6 +103,30 @@
 
 	angular.module('exploration.directive', [])
 		.directive('explorationFunctions', ExplorationFunctions);
+}());
+(function(){
+	/**
+	*  KlDirective Directive
+	*/
+	'use strict';
+
+	function HistoricalFunctions(){
+		return {
+			restrict: 'E',
+			template: [
+				'<ul class="m-list-functions">',
+					'<li class="m-list-functions__item">',
+						'<i class="m-list-functions__item-icon demo demo-historic"></i>',
+					'</li>',
+				'</ul>',
+			].join('')
+		};
+	}
+	
+	//HistoricalFunctions.$inject = [];
+
+	angular.module('historical.directive', [])
+		.directive('historicalFunctions', HistoricalFunctions);
 }());
 (function(){
 	/*

@@ -1,7 +1,7 @@
 # Ignore Directories
 bower_components
 node_modules
-build
+public
 staging
 tmp
 .DS_Store
