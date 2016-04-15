@@ -61,7 +61,7 @@ img {
  *	Fonts
  */
 /*
-		Flaticon icon font: Flaticon
+		demo icon font: demo
 		Creation date: 15/04/2016 01:15
 		*/
 @font-face {
@@ -105,50 +105,56 @@ img {
 .demo-competence:before {
   content: "\f104"; }
 
-.demo-demography:before {
+.demo-delete:before {
   content: "\f105"; }
 
-.demo-demography1:before {
+.demo-demography:before {
   content: "\f106"; }
 
-.demo-heatmap:before {
+.demo-demography1:before {
   content: "\f107"; }
 
-.demo-historic:before {
+.demo-edit:before {
   content: "\f108"; }
 
-.demo-line:before {
+.demo-heatmap:before {
   content: "\f109"; }
 
-.demo-locations:before {
+.demo-historic:before {
   content: "\f10a"; }
 
-.demo-locations1:before {
+.demo-line:before {
   content: "\f10b"; }
 
-.demo-origin-destiny:before {
+.demo-locations:before {
   content: "\f10c"; }
 
-.demo-origin-destiny1:before {
+.demo-locations1:before {
   content: "\f10d"; }
 
-.demo-potencial-location:before {
+.demo-origin-destiny:before {
   content: "\f10e"; }
 
-.demo-radio:before {
+.demo-origin-destiny1:before {
   content: "\f10f"; }
 
-.demo-rings:before {
+.demo-potencial-location:before {
   content: "\f110"; }
 
-.demo-search:before {
+.demo-radio:before {
   content: "\f111"; }
 
-.demo-zoom-in:before {
+.demo-rings:before {
   content: "\f112"; }
 
-.demo-zoom-out:before {
+.demo-search:before {
   content: "\f113"; }
+
+.demo-zoom-in:before {
+  content: "\f114"; }
+
+.demo-zoom-out:before {
+  content: "\f115"; }
 
 /**
  *  Mixins
@@ -1311,6 +1317,7 @@ img {
 .m-logo {
   margin: 10px;
   position: absolute;
+  right: 0;
   z-index: 1; }
 
 #basemap {
@@ -1341,7 +1348,12 @@ img {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); }
 
 .leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
+.leaflet-control-zoom-out,
+.leaflet-draw-draw-polyline,
+.leaflet-draw-draw-polygon,
+.leaflet-draw-draw-circle,
+.leaflet-draw-edit-edit,
+.leaflet-draw-edit-remove {
   opacity: 1 !important;
   height: 35px !important;
   width: 35px !important;
@@ -1354,9 +1366,39 @@ img {
   .leaflet-zoom-in:before,
   .leaflet-zoom-out:before {
     padding: 8px;
-    color: #828189; }
+    color: #828189;
+    display: block; }
   .leaflet-zoom-in:hover:before,
   .leaflet-zoom-out:hover:before {
+    color: #22ac9b; }
+
+.line-tool,
+.polygon-tool,
+.area-tool {
+  display: block; }
+  .line-tool:before,
+  .polygon-tool:before,
+  .area-tool:before {
+    color: #828189;
+    display: block;
+    font-size: 22px;
+    padding: 8px 0px; }
+  .line-tool:hover:before,
+  .polygon-tool:hover:before,
+  .area-tool:hover:before {
+    color: #22ac9b; }
+
+.edit-tool,
+.delete-tool {
+  display: block; }
+  .edit-tool:before,
+  .delete-tool:before {
+    color: #828189;
+    display: block;
+    font-size: 22px;
+    padding: 8px 0px; }
+  .edit-tool:hover:before,
+  .delete-tool:hover:before {
     color: #22ac9b; }
 
 .leaflet-zoom-out:before {
@@ -1449,6 +1491,26 @@ img {
     display: block;
     margin: 0 auto;
     text-align: center; }
+
+.leaflet-draw {
+  left: 300px;
+  margin-top: 5px !important; }
+
+.leaflet-draw-section {
+  display: inline-block;
+  margin-right: 10px; }
+
+.leaflet-draw-actions {
+  display: block;
+  left: 0px;
+  top: 40px; }
+
+.leaflet-draw-toolbar.leaflet-bar.leaflet-draw-toolbar-top a,
+.leaflet-draw-toolbar.leaflet-bar a {
+  display: inline-block;
+  border-bottom: 0;
+  border-left: 1px solid #f5f5f5;
+  background-image: none; }
 
 .m-switcher {
   bottom: 0;

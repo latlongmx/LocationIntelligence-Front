@@ -5,9 +5,10 @@
  */
  
 		/*
-		Flaticon icon font: Flaticon
+		demo icon font: demo
 		Creation date: 15/04/2016 01:15
 		*/
+
 
 @font-face {
   font-family: "demo";
@@ -47,39 +48,43 @@
 .demo-area:before { content: "\f102"; }
 .demo-area1:before { content: "\f103"; }
 .demo-competence:before { content: "\f104"; }
-.demo-demography:before { content: "\f105"; }
-.demo-demography1:before { content: "\f106"; }
-.demo-heatmap:before { content: "\f107"; }
-.demo-historic:before { content: "\f108"; }
-.demo-line:before { content: "\f109"; }
-.demo-locations:before { content: "\f10a"; }
-.demo-locations1:before { content: "\f10b"; }
-.demo-origin-destiny:before { content: "\f10c"; }
-.demo-origin-destiny1:before { content: "\f10d"; }
-.demo-potencial-location:before { content: "\f10e"; }
-.demo-radio:before { content: "\f10f"; }
-.demo-rings:before { content: "\f110"; }
-.demo-search:before { content: "\f111"; }
-.demo-zoom-in:before { content: "\f112"; }
-.demo-zoom-out:before { content: "\f113"; }
-    
+.demo-delete:before { content: "\f105"; }
+.demo-demography:before { content: "\f106"; }
+.demo-demography1:before { content: "\f107"; }
+.demo-edit:before { content: "\f108"; }
+.demo-heatmap:before { content: "\f109"; }
+.demo-historic:before { content: "\f10a"; }
+.demo-line:before { content: "\f10b"; }
+.demo-locations:before { content: "\f10c"; }
+.demo-locations1:before { content: "\f10d"; }
+.demo-origin-destiny:before { content: "\f10e"; }
+.demo-origin-destiny1:before { content: "\f10f"; }
+.demo-potencial-location:before { content: "\f110"; }
+.demo-radio:before { content: "\f111"; }
+.demo-rings:before { content: "\f112"; }
+.demo-search:before { content: "\f113"; }
+.demo-zoom-in:before { content: "\f114"; }
+.demo-zoom-out:before { content: "\f115"; }
+
 $font-demo-accessibility: "\f100";
 $font-demo-accessibility1: "\f101";
 $font-demo-area: "\f102";
 $font-demo-area1: "\f103";
 $font-demo-competence: "\f104";
-$font-demo-demography: "\f105";
-$font-demo-demography1: "\f106";
-$font-demo-heatmap: "\f107";
-$font-demo-historic: "\f108";
-$font-demo-line: "\f109";
-$font-demo-locations: "\f10a";
-$font-demo-locations1: "\f10b";
-$font-demo-origin-destiny: "\f10c";
-$font-demo-origin-destiny1: "\f10d";
-$font-demo-potencial-location: "\f10e";
-$font-demo-radio: "\f10f";
-$font-demo-rings: "\f110";
-$font-demo-search: "\f111";
-$font-demo-zoom-in: "\f112";
-$font-demo-zoom-out: "\f113";
+$font-demo-delete: "\f105";
+$font-demo-demography: "\f106";
+$font-demo-demography1: "\f107";
+$font-demo-edit: "\f108";
+$font-demo-heatmap: "\f109";
+$font-demo-historic: "\f10a";
+$font-demo-line: "\f10b";
+$font-demo-locations: "\f10c";
+$font-demo-locations1: "\f10d";
+$font-demo-origin-destiny: "\f10e";
+$font-demo-origin-destiny1: "\f10f";
+$font-demo-potencial-location: "\f110";
+$font-demo-radio: "\f111";
+$font-demo-rings: "\f112";
+$font-demo-search: "\f113";
+$font-demo-zoom-in: "\f114";
+$font-demo-zoom-out: "\f115";

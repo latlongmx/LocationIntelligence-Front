@@ -17,7 +17,13 @@
 		_google_roadmap = null,
 		_google_satellite = null,
 		_zoom_in = null,
-		_zoom_out = null;
+		_zoom_out = null,
+		_line_tool = null,
+		_polygon_tool = null,
+		_area_tool = null,
+		_actions_tool = null,
+		_edit_tool = null,
+		_delete_tool = null;
 
 		_map = BaseMapService.mapElement;
 
@@ -77,11 +83,39 @@
 		
 		_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
 		_zoom_in.text("");
-		_zoom_in.append('<i class="demo demo-zoom-in leaflet-zoom-in"></i>')
+		_zoom_in.append('<i class="demo demo-zoom-in leaflet-zoom-in"></i>');
 		
 		_zoom_out = angular.element(document.getElementsByClassName('leaflet-control-zoom-out'));
 		_zoom_out.text("");
-		_zoom_out.append('<i class="demo demo-zoom-out leaflet-zoom-out"></i>')
+		_zoom_out.append('<i class="demo demo-zoom-out leaflet-zoom-out"></i>');
+		
+		_line_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-polyline'));
+		_line_tool.text("");
+		_line_tool.append('<i class="demo demo-line line-tool"></i>');
+		
+		_polygon_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-polygon'));
+		_polygon_tool.text("");
+		_polygon_tool.append('<i class="demo demo-area polygon-tool"></i>');
+		
+		_area_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-circle'));
+		_area_tool.text("");
+		_area_tool.append('<i class="demo demo-radio area-tool"></i>');
+		
+		_actions_tool = angular.element(document.getElementsByClassName('leaflet-draw-actions'));
+		_actions_tool.text("");
+		_actions_tool.css({
+			display: "block",
+			left: "0px",
+			top: "40px"
+		});
+		
+		_edit_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-edit'));
+		_edit_tool.text("");
+		_edit_tool.append('<i class="demo demo-edit edit-tool"></i>');
+		
+		_delete_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-remove'));
+		_delete_tool.text("");
+		_delete_tool.append('<i class="demo demo-delete delete-tool"></i>');
 	};
 	
 	BaseMapController.$inject = ['$scope', 'BaseMapService'];

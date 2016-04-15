@@ -51,7 +51,12 @@
 }
 
 .leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
+.leaflet-control-zoom-out,
+.leaflet-draw-draw-polyline,
+.leaflet-draw-draw-polygon,
+.leaflet-draw-draw-circle,
+.leaflet-draw-edit-edit,
+.leaflet-draw-edit-remove {
 	opacity:1 !important;
 	height: 35px !important;
 	width: 35px !important;
@@ -59,11 +64,45 @@
 	background-color: $white !important;
 }
 .leaflet-zoom-in,
-.leaflet-zoom-out {
+.leaflet-zoom-out{
 	display:block;
 	&:before {
 		padding: 8px;
 		color: $gray;
+		display:block;
+	}
+	&:hover {
+		&:before {
+			color: $green-sdark;
+		}
+	}
+}
+
+.line-tool,
+.polygon-tool,
+.area-tool {
+	display:block;
+	&:before {
+		color: $gray;
+		display:block;
+		font-size: 22px;
+		padding: 8px 0px;
+	}
+	&:hover {
+		&:before {
+			color: $green-sdark;
+		}
+	}
+}
+
+.edit-tool,
+.delete-tool {
+	display:block;
+	&:before {
+		color: $gray;
+		display:block;
+		font-size: 22px;
+		padding: 8px 0px;
 	}
 	&:hover {
 		&:before {
@@ -165,5 +204,34 @@
 	}
 }
 
+.leaflet-draw {
+	left: 300px;
+	margin-top: 5px !important;
+}
+.leaflet-draw-section {
+	display:inline-block;
+	margin-right:10px;
+}
+.leaflet-draw-actions {
+	display: block;
+	left: 0px;
+	top: 40px;
+}
 
+.leaflet-draw-actions.leaflet-draw-actions-top {
+	// bottom: 10px !important;
+	// display: block !important;
+	// top: initial !important;
+
+}
+
+.leaflet-draw-toolbar.leaflet-bar.leaflet-draw-toolbar-top,
+.leaflet-draw-toolbar.leaflet-bar {
+	a {
+		display:inline-block;
+		border-bottom:0;
+		border-left:1px solid #f5f5f5;
+		background-image: none;
+	}
+}
 

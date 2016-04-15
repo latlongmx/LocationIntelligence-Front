@@ -12,6 +12,10 @@
 		
 		var featureGroup = L.featureGroup().addTo(this.mapElement);
 		var drawControl = new L.Control.Draw({
+				draw: {
+					rectangle: false,
+					marker: false
+				},
 		    edit: {
 		      featureGroup: featureGroup
 		    }
