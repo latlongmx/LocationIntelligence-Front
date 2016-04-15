@@ -15,11 +15,12 @@
 	<!-- build:css css/styles.css -->
 	<!-- bower:css -->
 	<link rel="stylesheet" href="../bower_components/pure/pure.css" />
-	 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	<link rel="stylesheet" href="../bower_components/mapbox.js/mapbox.css" />
+	<link rel="stylesheet" href="../bower_components/leaflet-dist/leaflet.css" />
 	<link rel="stylesheet" href="../bower_components/leaflet-draw/dist/leaflet.draw.css" />
 	<!-- endbower -->
 	<!-- inject:css -->
-	<link rel="stylesheet" href="styles/styles.css">
+	<link rel="stylesheet" href="css/styles.css">
 	<!-- endinject -->
 	<!-- endbuild -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCa4cJrJzC1_ICMNz0rD7pdAQkeM9I7WfU"></script>
@@ -28,13 +29,18 @@
 <body ng-app="walmex">
 	
 	<div ui-view></div>
-	<map-tools></map-tools>
+	<div class="m-panel-functions">
+		<exploration-functions class="m-panel-functions__exploration"></exploration-functions>
+		<analysis-functions class="m-panel-functions__analysis"></analysis-functions>
+		<historical-functions class="m-panel-functions__historical"></historical-functions>
+	</div>
+	<!--<map-tools></map-tools>-->
 	<!-- <map-switcher></map-switcher> -->
 
 	
 	<!-- build:js js/lib.js -->
 	<!-- bower:js -->
-	 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<script src="../bower_components/mapbox.js/mapbox.js"></script>
 	<script src="../bower_components/angular/angular.js"></script>
 	<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 	<script src="../bower_components/leaflet-dist/leaflet.js"></script>
@@ -45,6 +51,9 @@
 	<!-- inject:js -->
 	<script src="components/walmex.module.js"></script>
 	<script src="components/walmex.routes.js"></script>
+	<script src="components/analysis_functions/analysis-functions.component.js"></script>
+	<script src="components/exploration_functions/exploration-function.component.js"></script>
+	<script src="components/historical_functions/historical-functions.component.js"></script>
 	<script src="components/basemap/basemap/basemap.component.js"></script>
 	<script src="components/basemap/basemap/basemap.directive.js"></script>
 	<script src="components/basemap/basemap/basemap.service.js"></script>
@@ -53,7 +62,7 @@
 	<script src="components/basemap/switcher/mapswitcher.directive.js"></script>
 	<!-- endinject -->
 	
-	<!-- inject:template:js -->
+	<!-- inject:templates:js -->
 	<!-- endinject -->
 	<!-- endbuild -->
 	

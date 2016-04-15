@@ -7,10 +7,12 @@
 
 .leaflet-bar,
 .leaflet-control-layers {
-	@include box-shadow(0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15));
+	//@include box-shadow(0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15));
 	border: 0;
 }
-
+.mapbox-icon {
+	background-image:url('../images/icons-000000@2x.png');
+}
 // .leaflet-bar a {
 // 	border-radius: 0 !important;
 // 	width: 30px;
@@ -35,17 +37,30 @@
 
 
 .leaflet-left{
-	right: 0 !important;
-	left: inherit;
+	right: 0;
 	.leaflet-control {
 		margin-right: 10px;
 	}
 }
 
+.leaflet-control-zoom {
+	right: 0;
+	position:absolute;
+}
+
+.leaflet-control-container {
+	// bottom:0;
+	// left:0;
+	// position:absolute;
+	// right:0;
+	// top:0;
+}
 
 .leaflet-control-layers.leaflet-control {
   margin-bottom: 20px !important;
   border:0 !important;
+  @include box-shadow(none);
+  @include radius(0);
 }
 
 .leaflet-control-layers {
@@ -56,12 +71,12 @@
 		-ms-touch-action: manipulation;
 		-ms-user-select: none;
 		-webkit-user-select: none;
-		@include box-shadow(0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15));
+		@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
 		background-image: none;
 		background-image: none;
 		border-radius: 0px !important;
-		border: 1px solid transparent;
-		color: $gray-strong;
+		border: 0px solid transparent;
+		color: $gray;
 		cursor: pointer;
 		font-size: 14px;
 		font-weight: 600;

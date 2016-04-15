@@ -4,3 +4,68 @@
  *	Fonts
  */
  
+		/*
+		Flaticon icon font: Flaticon
+		Creation date: 15/04/2016 01:15
+		*/
+
+@font-face {
+	font-family: "demo";
+	src: url("../fonts/demo.eot");
+	src: url("../fonts/demo.eot?#iefix") format("embedded-opentype"),
+			 url("../fonts/demo.woff") format("woff"),
+			 url("../fonts/demo.ttf") format("truetype"),
+			 url("../fonts/demo.svg#demo") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	@font-face {
+		font-family: "demo";
+		src: url("../fonts/demo.svg#demo") format("svg");
+	}
+}
+
+.demo:before{
+	display: inline-block;
+	font-family: "demo";
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	line-height: 1;
+	text-decoration: inherit;
+	text-rendering: optimizeLegibility;
+	text-transform: none;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
+
+.demo-accessibility:before { content: "\f100"; }
+.demo-accessibility1:before { content: "\f101"; }
+.demo-competence:before { content: "\f102"; }
+.demo-demography:before { content: "\f103"; }
+.demo-demography1:before { content: "\f104"; }
+.demo-heatmap:before { content: "\f105"; }
+.demo-historic:before { content: "\f106"; }
+.demo-locations:before { content: "\f107"; }
+.demo-locations1:before { content: "\f108"; }
+.demo-origin-destiny:before { content: "\f109"; }
+.demo-origin-destiny1:before { content: "\f10a"; }
+.demo-potencial-location:before { content: "\f10b"; }
+.demo-rings:before { content: "\f10c"; }
+		
+$font-demo-accessibility: "\f100";
+$font-demo-accessibility1: "\f101";
+$font-demo-competence: "\f102";
+$font-demo-demography: "\f103";
+$font-demo-demography1: "\f104";
+$font-demo-heatmap: "\f105";
+$font-demo-historic: "\f106";
+$font-demo-locations: "\f107";
+$font-demo-locations1: "\f108";
+$font-demo-origin-destiny: "\f109";
+$font-demo-origin-destiny1: "\f10a";
+$font-demo-potencial-location: "\f10b";
+$font-demo-rings: "\f10c";

@@ -10,7 +10,7 @@
 }
 
 .m-list-maptools {
-	@include box-shadow( 0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15));
+	@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
 	background: $white;
 	margin: 10px;
 }
@@ -19,7 +19,36 @@
 	padding: 10px;
 	cursor:pointer;
 	&:hover {
-		background: $gray-light;
+		background: $gray;
 		color: $white;
 	}
+}
+
+.m-list-functions {
+	@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
+	background: $white;
+	margin:10px 0px;
+	padding: 0px 0px;
+}
+
+.m-list-functions__item {
+	cursor:pointer;
+	display:block;
+	padding: 0px 6px;
+	border-left: 4px solid transparent;
+	@include transition(all linear 0.25s);
+	&:hover {
+		background: #F5F5F5;
+		border-color:$green-sdark;
+		.m-list-functions__item-icon {
+			color: $green-sdark;
+		}
+	}
+}
+
+.m-list-functions__item-icon {
+	color: $gray;
+	display:block;
+	font-size: 35px;
+	vertical-align:middle;
 }

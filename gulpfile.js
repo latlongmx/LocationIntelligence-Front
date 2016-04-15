@@ -1,10 +1,10 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
 var wiredep = require('wiredep').stream;
+var del = require('del');
 var $ = require('gulp-load-plugins')({lazy: true});
 var args = require('yargs').argv;
-var del = require('del');
-
+var useref = require('gulp-useref');
 
 /*** To Dev ***/
 
@@ -38,9 +38,9 @@ gulp.task('sass', ['cleaning-styles'], function () {
 	log('Compiling sass to css');
 	return gulp.src('./client/sass/config.scss')
 		.pipe($.sass().on('error', $.sass.logError))
-		.pipe($.sass({outputStyle: 'compressed'}))
+		//.pipe($.sass({outputStyle: 'compressed'}))
 		.pipe($.concat('styles.css'))
-		.pipe(gulp.dest('./client/styles/'));
+		.pipe(gulp.dest('./client/css/'));
 });
 
 
@@ -49,16 +49,16 @@ gulp.task('sass', ['cleaning-styles'], function () {
 
 gulp.task('join', function(){
 	log('Joining all js/css files');
-	var assets = $.useref.assets({searchPath: ['client/']});
+	//var assets = useref({searchPath: ['./']});
 	var cssFilter = $.filter('**/*.css', {restore: true});
 	var jsLibFilter = $.filter('**/lib.js', {restore: true});
 	var jsAppFilter = $.filter('**/app.js', {restore: true});
 
 	return gulp.src('./client/index.html')
 		.pipe($.inject(gulp.src(
-			'tmp/templates.js',{read: false}
-		),{starttag: '<!-- inject:template:js -->'}))
-		.pipe(assets)
+			'../tmp/templates.js',{read: false}
+		),{starttag: '<!-- inject:templates:js -->'}))
+		//.pipe(assets)
 		.pipe(cssFilter)
 		.pipe($.csso())
 		.pipe(cssFilter.restore)
@@ -69,8 +69,8 @@ gulp.task('join', function(){
 		.pipe($.ngAnnotate())
 		.pipe($.uglify())
 		.pipe(jsAppFilter.restore)
-		.pipe(assets.restore())
-		.pipe($.useref())
+		//.pipe(assets.restore())
+		.pipe(useref())
 		.pipe(gulp.dest('public'));
 });
 
@@ -87,7 +87,7 @@ gulp.task('templatecache', ['clean-templatecache'], function(){
 			'templates.js',
 			options
 		))
-		.pipe(gulp.dest('tmp'));
+		.pipe(gulp.dest('./tmp'));
 });
 
 gulp.task('html', ['cleaning-components'], function() {
@@ -96,23 +96,28 @@ gulp.task('html', ['cleaning-components'], function() {
 		.pipe(gulp.dest('public/components/'));
 });
 
-gulp.task('copy-images', ['cleaning-images'], function() {
+gulp.task('images', ['cleaning-images'], function() {
 	log('Copying images');
 	return gulp.src('./client/images/**/*.{jpg,png}')
 		.pipe($.imagemin({optimizationLevel: 4}))
 		.pipe(gulp.dest('public/images/'));
 });
 
+gulp.task('fonts', function() {
+	log('Copying iconfonts');
+	return gulp.src('./client/fonts/*.*')
+		.pipe(gulp.dest('public/fonts/'));
+});
 
 /* Cleaners */
 gulp.task('cleaning-components', function(){
 	clean('public/components/**/**/*.html');
 });
 gulp.task('clean-templatecache', function(){
-	clean('tmp');
+	clean('./tmp');
 });
 gulp.task('cleaning-styles', function(){
-	var files = './client/styles/*.css';
+	var files = './client/css/*.css';
 	clean(files);
 });
 gulp.task('cleaning-images', function(){
@@ -146,6 +151,30 @@ gulp.task('dev-server', function(){
 			routes: {
 				"/bower_components": "bower_components",
 				"./client": "client"
+			}
+		}
+	});
+});
+
+/* Dev Server */
+gulp.task('prod', function(){
+	log('Dev server running...');
+
+	browserSync.init({
+		ghostMode: {
+			clicks: false,
+			forms: true,
+			scroll: false
+		},
+		logFileChanges: true,
+		logPrefix: "Walmex Project",
+		notify: true,
+		port: 2016,
+		reloadDelay: 1500,
+		server: {
+			baseDir: './public',
+			routes: {
+				"./public": "public"
 			}
 		}
 	});

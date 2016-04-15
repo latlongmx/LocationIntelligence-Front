@@ -14,14 +14,14 @@
   border-top-color: transparent !important;
   border-left-color: transparent !important;
   border-right-color: transparent !important;
-  color: $gray-strong;
+  color: $gray;
   margin: 0 !important;
   outline:0;
   padding-left: 15px;
   width: 100%;
   &:focus {
-    border-bottom: 1px solid $orange !important;
-    box-shadow: 0 1px 0 0 $orange !important;
+    border-bottom: 1px solid $green-lsmooth !important;
+    box-shadow: 0 1px 0 0 $green-lsmooth !important;
   }
 }
 
@@ -43,7 +43,7 @@
 	border-top-left-radius: 0px !important;
 	border-top-right-radius:0px !important;
 	border-top: 0px solid transparent !important;
-	color: $gray-strong;
+	color: $gray;
 	height: 44px !important;
 	line-height: 100%;
 	margin: 0 !important;

@@ -8,6 +8,9 @@
 			'routes',
 			'mapswitcher.directive',
 			'maptools',
+			'exploration.directive',
+			'analysis.directive',
+			'historical.directive',
 			'ui.router'
 		]
 	)
@@ -15,7 +18,6 @@
 
 		$rootScope.$state = $state;
 		$rootScope.$stateParams = $stateParams;
-
 		return $rootScope;
 
 	}]);

@@ -1,0 +1,23 @@
+.m-panel-functions {
+	 -webkit-flex-wrap: nowrap;
+	-webkit-align-items: center;
+	-webkit-flex-direction: column;
+	-webkit-justify-content: center;
+	align-items:center;
+	display: -webkit-inline-flex;
+	display: inline-flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	text-align: center;
+	top:0;
+	bottom:0;
+}
+
+.m-panel-functions__exploration {
+	
+}
