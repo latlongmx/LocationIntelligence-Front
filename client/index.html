@@ -31,6 +31,7 @@
 		<img src="./images/latlong_logo.png" alt="" width="60">
 	</div>
 	<div ui-view></div>
+	<search></search>
 	<div class="m-panel-functions">
 		<exploration-functions class="m-panel-functions__exploration"></exploration-functions>
 		<analysis-functions class="m-panel-functions__analysis"></analysis-functions>
@@ -53,14 +54,15 @@
 	<!-- inject:js -->
 	<script src="components/walmex.module.js"></script>
 	<script src="components/walmex.routes.js"></script>
-	<script src="components/historical_functions/historical-functions.component.js"></script>
 	<script src="components/analysis_functions/analysis-functions.component.js"></script>
 	<script src="components/exploration_functions/exploration-function.component.js"></script>
-	<script src="components/basemap/map_tools/map-tools.component.js"></script>
+	<script src="components/historical_functions/historical-functions.component.js"></script>
+	<script src="components/search/search.component.js"></script>
 	<script src="components/basemap/basemap/basemap.component.js"></script>
 	<script src="components/basemap/basemap/basemap.directive.js"></script>
 	<script src="components/basemap/basemap/basemap.service.js"></script>
 	<script src="components/basemap/basemap/google.basemap.js"></script>
+	<script src="components/basemap/map_tools/map-tools.component.js"></script>
 	<script src="components/basemap/switcher/mapswitcher.directive.js"></script>
 	<!-- endinject -->
 	

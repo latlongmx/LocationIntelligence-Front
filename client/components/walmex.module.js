@@ -11,6 +11,7 @@
 			'exploration.directive',
 			'analysis.directive',
 			'historical.directive',
+			'search.directive',
 			'ui.router'
 		]
 	)

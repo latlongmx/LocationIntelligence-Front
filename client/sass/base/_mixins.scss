@@ -55,12 +55,12 @@ $break-extra-large: 75em; // >= 1280px @ 16px
 }
 
 // Transitions
-@mixin transition($transition: all linear .25s) {
-  -webkit-transition: $transition;
-  -moz-transition: $transition;
-  -o-transition: $transition;
-  -ms-transition: $transition;
-  transition: $transition;
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -o-transition: $args;
+  -ms-transition: $args;
+  transition: $args;
 }
 
 // Transforms

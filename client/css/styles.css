@@ -1449,10 +1449,10 @@ img {
     white-space: nowrap;
     width: inherit; }
   .leaflet-control-layers .leaflet-control-layers-list {
-    -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
-    -moz-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
-    -ms-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
-    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15); }
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    -ms-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); }
 
 .leaflet-control-layers-base label {
   cursor: pointer;
@@ -1494,7 +1494,7 @@ img {
 
 .leaflet-draw {
   left: 300px;
-  margin-top: 5px !important; }
+  margin-top: 0px !important; }
 
 .leaflet-draw-section {
   display: inline-block;
@@ -1573,3 +1573,58 @@ img {
   text-align: center;
   top: 0;
   bottom: 0; }
+
+.m-search {
+  position: absolute;
+  top: 10px;
+  left: auto;
+  -webkit-transform: translate(-80%, 0);
+  -moz-transform: translate(-80%, 0);
+  -o-transform: translate(-80%, 0);
+  -ms-transform: translate(-80%, 0);
+  transform: translate(-80%, 0);
+  -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  -moz-transition: -moz-transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  -ms-transition: -ms-transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  -o-transition: -o-transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 1; }
+  .m-search.is-showed-form {
+    -webkit-transform: translate(5%, 0);
+    -moz-transform: translate(5%, 0);
+    -o-transform: translate(5%, 0);
+    -ms-transform: translate(5%, 0);
+    transform: translate(5%, 0); }
+
+.m-search__input {
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  -ms-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  border: 0;
+  outline: 0;
+  padding: 0px 24px 0px 10px;
+  height: 35px;
+  visibility: collapse;
+  opacity: 0;
+  color: #828189;
+  -webkit-transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+  -moz-transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+  -o-transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+  -ms-transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+  transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; }
+  .m-search__input.is-showed-input {
+    visibility: visible;
+    opacity: 1; }
+
+.m-search__icon {
+  background: #ffffff;
+  cursor: pointer;
+  padding: 6.5px 14.5px;
+  position: relative;
+  right: -6px;
+  top: 0px;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  -ms-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); }

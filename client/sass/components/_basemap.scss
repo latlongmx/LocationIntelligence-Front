@@ -161,7 +161,7 @@
 		width: inherit;
 	}
 	.leaflet-control-layers-list {
-		@include box-shadow(0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15));
+		@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
 	}
 }
 
@@ -206,7 +206,7 @@
 
 .leaflet-draw {
 	left: 300px;
-	margin-top: 5px !important;
+	margin-top: 0px !important;
 }
 .leaflet-draw-section {
 	display:inline-block;

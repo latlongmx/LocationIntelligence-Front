@@ -38102,7 +38102,7 @@ L.Toolbar = L.Class.extend({
 	_showActionsToolbar: function () {
 		var buttonIndex = this._activeMode.buttonIndex,
 			lastButtonIndex = this._lastButtonIndex,
-			toolbarPosition = this._activeMode.button.offsetTop - 1;
+			toolbarPosition = this._activeMode.button.offsetTop + 40;
 
 		// Recreate action buttons on every click
 		this._createActions(this._activeMode.handler);
