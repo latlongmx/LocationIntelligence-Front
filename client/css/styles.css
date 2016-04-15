@@ -51,6 +51,9 @@ a {
   vertical-align: baseline;
   background: transparent; }
 
+img {
+  display: block; }
+
 /**
  *  Colors
  */
@@ -93,38 +96,59 @@ a {
 .demo-accessibility1:before {
   content: "\f101"; }
 
-.demo-competence:before {
+.demo-area:before {
   content: "\f102"; }
 
-.demo-demography:before {
+.demo-area1:before {
   content: "\f103"; }
 
-.demo-demography1:before {
+.demo-competence:before {
   content: "\f104"; }
 
-.demo-heatmap:before {
+.demo-demography:before {
   content: "\f105"; }
 
-.demo-historic:before {
+.demo-demography1:before {
   content: "\f106"; }
 
-.demo-locations:before {
+.demo-heatmap:before {
   content: "\f107"; }
 
-.demo-locations1:before {
+.demo-historic:before {
   content: "\f108"; }
 
-.demo-origin-destiny:before {
+.demo-line:before {
   content: "\f109"; }
 
-.demo-origin-destiny1:before {
+.demo-locations:before {
   content: "\f10a"; }
 
-.demo-potencial-location:before {
+.demo-locations1:before {
   content: "\f10b"; }
 
-.demo-rings:before {
+.demo-origin-destiny:before {
   content: "\f10c"; }
+
+.demo-origin-destiny1:before {
+  content: "\f10d"; }
+
+.demo-potencial-location:before {
+  content: "\f10e"; }
+
+.demo-radio:before {
+  content: "\f10f"; }
+
+.demo-rings:before {
+  content: "\f110"; }
+
+.demo-search:before {
+  content: "\f111"; }
+
+.demo-zoom-in:before {
+  content: "\f112"; }
+
+.demo-zoom-out:before {
+  content: "\f113"; }
 
 /**
  *  Mixins
@@ -640,8 +664,8 @@ a {
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   -ms-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  background: #ffffff;
-  margin: 10px 0px;
+  background: #F5F5F5;
+  margin: 10px;
   padding: 0px 0px; }
 
 .m-list-functions__item {
@@ -655,7 +679,7 @@ a {
   -ms-transition: all linear 0.25s;
   transition: all linear 0.25s; }
   .m-list-functions__item:hover {
-    background: #F5F5F5;
+    background: #ffffff;
     border-color: #22ac9b; }
     .m-list-functions__item:hover .m-list-functions__item-icon {
       color: #22ac9b; }
@@ -1284,6 +1308,11 @@ a {
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg); }
 
+.m-logo {
+  margin: 10px;
+  position: absolute;
+  z-index: 1; }
+
 #basemap {
   bottom: 0;
   position: absolute;
@@ -1303,8 +1332,35 @@ a {
     margin-right: 10px; }
 
 .leaflet-control-zoom {
+  margin-top: 80px !important;
+  position: absolute;
   right: 0;
-  position: absolute; }
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  -ms-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); }
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  opacity: 1 !important;
+  height: 35px !important;
+  width: 35px !important;
+  background-image: none;
+  background-color: #ffffff !important; }
+
+.leaflet-zoom-in,
+.leaflet-zoom-out {
+  display: block; }
+  .leaflet-zoom-in:before,
+  .leaflet-zoom-out:before {
+    padding: 8px;
+    color: #828189; }
+  .leaflet-zoom-in:hover:before,
+  .leaflet-zoom-out:hover:before {
+    color: #22ac9b; }
+
+.leaflet-zoom-out:before {
+  padding: 8px 6.5px; }
 
 .leaflet-control-layers.leaflet-control {
   margin-bottom: 20px !important;
@@ -1378,7 +1434,8 @@ a {
     -o-transition: all linear 0.25s;
     -ms-transition: all linear 0.25s;
     transition: all linear 0.25s;
-    background: #828189;
+    background: rgba(130, 129, 137, 0.95);
+    border-right: 4px solid #6fc9c4;
     bottom: 0;
     color: #ffffff;
     display: none;

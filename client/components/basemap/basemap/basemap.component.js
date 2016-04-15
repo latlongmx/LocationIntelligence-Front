@@ -15,7 +15,9 @@
 		_mapbox_relieve = null,
 		_mapbox_satellite = null,
 		_google_roadmap = null,
-		_google_satellite = null;
+		_google_satellite = null,
+		_zoom_in = null,
+		_zoom_out = null;
 
 		_map = BaseMapService.mapElement;
 
@@ -73,32 +75,13 @@
 
 		});
 		
-		// var ourCustomControl = L.Control.extend({
-
-		// 	options: {
-		// 		position: 'topleft' 
-		// 		//control position - allowed: 'topleft', 'topright', 'bottomleft', 'bottomright'
-		// 	},
-
-		// 	onAdd: function (map) {
-		// 		var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
-
-		// 		container.style.backgroundColor = 'white';
-		// 		container.style.width = '30px';
-		// 		container.style.height = '30px';
-
-		// 		container.onclick = function(){
-		// 		 console.log('buttonClicked');
-		// 		}
-				
-		// 		return container;
-		// 	},
-
-		// });
-		// _map.addControl(new ourCustomControl());
-		// $scope.callback = function (map) {
-		// 	map.setView([19.432711775616433, -99.13325428962708], 12);
-		// }
+		_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
+		_zoom_in.text("");
+		_zoom_in.append('<i class="demo demo-zoom-in leaflet-zoom-in"></i>')
+		
+		_zoom_out = angular.element(document.getElementsByClassName('leaflet-control-zoom-out'));
+		_zoom_out.text("");
+		_zoom_out.append('<i class="demo demo-zoom-out leaflet-zoom-out"></i>')
 	};
 	
 	BaseMapController.$inject = ['$scope', 'BaseMapService'];

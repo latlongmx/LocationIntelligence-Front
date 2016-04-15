@@ -26,8 +26,8 @@
 
 .m-list-functions {
 	@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
-	background: $white;
-	margin:10px 0px;
+	background: #F5F5F5;
+	margin:10px;
 	padding: 0px 0px;
 }
 
@@ -38,7 +38,7 @@
 	border-left: 4px solid transparent;
 	@include transition(all linear 0.25s);
 	&:hover {
-		background: #F5F5F5;
+		background: $white;
 		border-color:$green-sdark;
 		.m-list-functions__item-icon {
 			color: $green-sdark;
