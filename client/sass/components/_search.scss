@@ -12,6 +12,7 @@
 	&.is-showed-form {
 		@include transform(translate(5%,0));
 	}
+	
 }
 
 .m-search__input {
@@ -33,9 +34,9 @@
 .m-search__icon {
 	background: $white;
 	cursor:pointer;
-	padding: 6.5px 14.5px;
+	padding: 6px 14.5px;
 	position: relative;
 	right: -6px;
 	top: 0px;
-	@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
+	//@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
 }

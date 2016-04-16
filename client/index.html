@@ -44,11 +44,16 @@
 	<!-- build:js js/lib.js -->
 	<!-- bower:js -->
 	<script src="../bower_components/angular/angular.js"></script>
-	<script src="../bower_components/mapbox.js/mapbox.js"></script>
 	<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="../bower_components/mapbox.js/mapbox.js"></script>
 	<script src="../bower_components/leaflet-dist/leaflet.js"></script>
 	<script src="../bower_components/leaflet-draw/dist/leaflet.draw-src.js"></script>
+	<script src="../bower_components/angular-animate/angular-animate.js"></script>
 	<!-- endbower -->
+	<!-- inject:own:js -->
+	<script src="../bower_components/angular-ui-bootstrap/ui-bootstrap-custom-1.3.2.js"></script>
+	<script src="../bower_components/angular-ui-bootstrap/ui-bootstrap-custom-tpls-1.3.2.js"></script>
+	<!-- endinject -->
 	<!-- endbuild -->
 	<!-- build:js js/app.js -->
 	<!-- inject:js -->
@@ -58,12 +63,16 @@
 	<script src="components/exploration_functions/exploration-function.component.js"></script>
 	<script src="components/historical_functions/historical-functions.component.js"></script>
 	<script src="components/search/search.component.js"></script>
+	<script src="components/basemap/map_tools/map-tools.component.js"></script>
 	<script src="components/basemap/basemap/basemap.component.js"></script>
 	<script src="components/basemap/basemap/basemap.directive.js"></script>
 	<script src="components/basemap/basemap/basemap.service.js"></script>
 	<script src="components/basemap/basemap/google.basemap.js"></script>
-	<script src="components/basemap/map_tools/map-tools.component.js"></script>
 	<script src="components/basemap/switcher/mapswitcher.directive.js"></script>
+	<script src="components/exploration_functions/demography_modal/demography-modal.controller.js"></script>
+	<script src="components/exploration_functions/competence_modal/competence-modal.controller.js"></script>
+	<script src="components/exploration_functions/potential_modal/potential-modal.controller.js"></script>
+	<script src="components/exploration_functions/location_modal/location-modal.controller.js"></script>
 	<!-- endinject -->
 	
 	<!-- inject:templates:js -->

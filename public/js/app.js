@@ -9,10 +9,15 @@
 			'mapswitcher.directive',
 			'maptools',
 			'exploration.directive',
+			'location.modal.controller',
+			'competence.modal.controller',
+			'demography.modal.controller',
+			'potential.modal.controller',
 			'analysis.directive',
 			'historical.directive',
 			'search.directive',
-			'ui.router'
+			'ui.router',
+			'ui.bootstrap'
 		]
 	)
 	.run(["$rootScope", "$state", "$stateParams", function ($rootScope, $state, $stateParams) {
@@ -78,32 +83,53 @@
 	*/
 	'use strict';
 
-	function ExplorationFunctions(){
+	function explorationFunctions($uibModal){
+
 		return {
 			restrict: 'E',
 			template: [
 				'<ul class="m-list-functions">',
-					'<li class="m-list-functions__item">',
+					'<li class="m-list-functions__item js-exploration-item" data-ep="location">',
 						'<i class="m-list-functions__item-icon demo demo-locations"></i>',
 					'</li>',
-					'<li class="m-list-functions__item">',
+					'<li class="m-list-functions__item js-exploration-item" data-ep="competence">',
 						'<i class="m-list-functions__item-icon demo demo-competence"></i>',
 					'</li>',
-					'<li class="m-list-functions__item">',
+					'<li class="m-list-functions__item js-exploration-item" data-ep="demography">',
 						'<i class="m-list-functions__item-icon demo demo-demography"></i>',
 					'</li>',
-					'<li class="m-list-functions__item">',
+					'<li class="m-list-functions__item js-exploration-item" data-ep="potential">',
 						'<i class="m-list-functions__item-icon demo demo-potencial-location"></i>',
 					'</li>',
 				'</ul>',
-			].join('')
+			].join(''),
+			controller: function($scope){
+				var _$js_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
+				var _data_ep = null;
+				_$js_exploration_item.on('click', function(e){
+					e.preventDefault();
+					$scope.epId = this.getAttribute('data-ep');
+					_data_ep = this.getAttribute('data-ep');
+					$uibModal.open({
+						controller: _data_ep+'ModalController',
+						templateUrl: './components/exploration_functions/'+_data_ep+'_modal/'+_data_ep+'.tpl.html',
+						animation: true,
+						resolve: {
+							epId: function () {
+								return $scope.epId;
+							}
+						}
+					});
+				});
+				
+			}
 		};
 	}
 	
-	//ExplorationFunctions.$inject = [];
+	explorationFunctions.$inject = ['$uibModal'];
 
 	angular.module('exploration.directive', [])
-		.directive('explorationFunctions', ExplorationFunctions);
+		.directive('explorationFunctions', explorationFunctions);
 }());
 (function(){
 	/**
@@ -182,6 +208,74 @@
 	angular.module('search.directive', [])
 		.directive('search', Search);
 }());
+(function(){
+	/**
+	*  KlDirective Directive
+	*/
+	'use strict';
+
+	var MapToolsContainer = function(){
+		var _this = null,
+		_$js_maptools_item = null,
+		_js_maptools_item_attribute = null;
+		
+		function _maptoolsItem() {
+			_js_maptools_item_attribute = this.getAttribute('data-maptool');
+			
+			if(_js_maptools_item_attribute === "line") {
+				_drawLine();
+			}
+			
+			if(_js_maptools_item_attribute === "area") {
+				_drawArea();
+			}
+			
+			if(_js_maptools_item_attribute === "radio") {
+				_drawRadio();
+			}
+		}
+		
+		function _drawLine() {
+			//var map = L.map('basemap');
+			map.on('draw:created', function (e) {
+			    var type = e.layerType,
+			        layer = e.layer;
+
+			    if (type === 'marker') {
+			        // Do marker specific actions
+			    }
+
+			    // Do whatever else you need to. (save to db, add to map etc)
+			    map.addLayer(layer);
+			});
+		}
+		
+		function _drawArea() {
+			console.log("area")
+		}
+		
+		function _drawRadio() {
+			console.log("radio")
+		}
+		
+		return {
+			restrict: 'E',
+			template: '<div class="m-map-tools"><ul class="m-list m-list-maptools"><li class="m-list__item m-list-maptools__item js-maptools-item" data-maptool="line">Línea</li><li class="m-list__item m-list-maptools__item js-maptools-item" data-maptool="area">Área</li><li class="m-list__item m-list-maptools__item js-maptools-item" data-maptool="radio">Radio</li></ul></div>',
+			controller: function() {
+				_$js_maptools_item = angular.element(document.getElementsByClassName('js-maptools-item'));
+				_$js_maptools_item.bind('click', _maptoolsItem);
+			}
+		};
+		
+	};
+	
+	//MapToolsContainer.$inject = ['BaseMapService'];
+
+	angular.module('maptools', [])
+		.directive('mapTools', MapToolsContainer);
+
+}());
+
 (function(){
 	/*
 	* BaseMap Module
@@ -601,74 +695,6 @@ L.Google.asyncInitialize = function() {
 	*/
 	'use strict';
 
-	var MapToolsContainer = function(){
-		var _this = null,
-		_$js_maptools_item = null,
-		_js_maptools_item_attribute = null;
-		
-		function _maptoolsItem() {
-			_js_maptools_item_attribute = this.getAttribute('data-maptool');
-			
-			if(_js_maptools_item_attribute === "line") {
-				_drawLine();
-			}
-			
-			if(_js_maptools_item_attribute === "area") {
-				_drawArea();
-			}
-			
-			if(_js_maptools_item_attribute === "radio") {
-				_drawRadio();
-			}
-		}
-		
-		function _drawLine() {
-			//var map = L.map('basemap');
-			map.on('draw:created', function (e) {
-			    var type = e.layerType,
-			        layer = e.layer;
-
-			    if (type === 'marker') {
-			        // Do marker specific actions
-			    }
-
-			    // Do whatever else you need to. (save to db, add to map etc)
-			    map.addLayer(layer);
-			});
-		}
-		
-		function _drawArea() {
-			console.log("area")
-		}
-		
-		function _drawRadio() {
-			console.log("radio")
-		}
-		
-		return {
-			restrict: 'E',
-			template: '<div class="m-map-tools"><ul class="m-list m-list-maptools"><li class="m-list__item m-list-maptools__item js-maptools-item" data-maptool="line">Línea</li><li class="m-list__item m-list-maptools__item js-maptools-item" data-maptool="area">Área</li><li class="m-list__item m-list-maptools__item js-maptools-item" data-maptool="radio">Radio</li></ul></div>',
-			controller: function() {
-				_$js_maptools_item = angular.element(document.getElementsByClassName('js-maptools-item'));
-				_$js_maptools_item.bind('click', _maptoolsItem);
-			}
-		};
-		
-	};
-	
-	//MapToolsContainer.$inject = ['BaseMapService'];
-
-	angular.module('maptools', [])
-		.directive('mapTools', MapToolsContainer);
-
-}());
-
-(function(){
-	/**
-	*  KlDirective Directive
-	*/
-	'use strict';
-
 	function MapSwitcher($window,$rootScope){
 		// var  _this = null,
 		// _google_map = null,
@@ -772,5 +798,129 @@ L.Google.asyncInitialize = function() {
 	angular.module('mapswitcher.directive', [])
 		.directive('mapSwitcher', MapSwitcher);
 }());
-angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/basemap/basemap/basemap.component.html","<div id=basemap class=m-basemap></div>");
+(function(){
+	/**
+	*  Modal Module
+	*/
+	'use strict';
+
+	var demographyModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope){
+
+		var _this = null;
+		init();
+
+		function init(){
+			console.log("modal")
+		}
+
+		$scope.ok = function(){
+			$uibModalInstance.close();
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.close('cancel');
+		};
+	};
+
+	demographyModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope'];
+
+	angular.module('demography.modal.controller', [])
+		.controller('demographyModalController', demographyModalController);
+
+}());
+(function(){
+	/**
+	*  Modal Module
+	*/
+	'use strict';
+
+	var competenceModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope){
+
+		var _this = null;
+		init();
+
+		function init(){
+			console.log("modal")
+		}
+
+		$scope.ok = function(){
+			$uibModalInstance.close();
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.close('cancel');
+		};
+	};
+
+	competenceModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope'];
+
+	angular.module('competence.modal.controller', [])
+		.controller('competenceModalController', competenceModalController);
+
+}());
+(function(){
+	/**
+	*  Modal Module
+	*/
+	'use strict';
+
+	var potentialModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope){
+
+		var _this = null;
+		init();
+
+		function init(){
+			console.log("modal")
+		}
+
+		$scope.ok = function(){
+			$uibModalInstance.close();
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.close('cancel');
+		};
+	};
+
+	potentialModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope'];
+
+	angular.module('potential.modal.controller', [])
+		.controller('potentialModalController', potentialModalController);
+
+}());
+(function(){
+	/**
+	*  Modal Module
+	*/
+	'use strict';
+
+	var locationModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope){
+
+		var _this = null;
+		init();
+
+		function init(){
+			console.log("modal")
+		}
+
+		$scope.ok = function(){
+			$uibModalInstance.close();
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.close('cancel');
+		};
+	};
+
+	locationModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope'];
+
+	angular.module('location.modal.controller', [])
+		.controller('locationModalController', locationModalController);
+
+}());
+angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/exploration_functions/competence_modal/competence.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/exploration_functions/demography_modal/demography.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/exploration_functions/potential_modal/potential.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/exploration_functions/location_modal/location.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/basemap/basemap/basemap.component.html","<div id=basemap class=m-basemap></div>");
 $templateCache.put("./components/basemap/switcher/mapswitcher.tpl.html","<div class=m-switcher><button class=m-switcher__button>Mapa Base</button><div class=m-switcher__base></div><ul class=\"m-switcher__options-list js-switcher-options\"><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=mbx data-basemap=mapbox>Mapbox</span></li><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=gg data-basemap=g-satelite>Google Satélite</span></li><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=gg data-basemap=g-normal>Google RoadMap</span></li></ul></div>");}]);

@@ -5,6 +5,7 @@ var del = require('del');
 var $ = require('gulp-load-plugins')({lazy: true});
 var args = require('yargs').argv;
 var useref = require('gulp-useref');
+var ngAnnotate = require('gulp-ng-annotate');
 
 /*** To Dev ***/
 
@@ -16,6 +17,7 @@ gulp.task('inject', function(){
 			directory: 'bower_components',
 			ignorePath: '../../'
 		}))
+		.pipe($.inject(gulp.src('bower_components/angular-ui-bootstrap/*.js', {read: false}),{starttag: '<!-- inject:own:js -->'}))
 		.pipe($.inject(gulp.src([
 			'./client/styles/styles.css'
 		]), {ignorePath: '../../', relative: true}))
@@ -44,38 +46,7 @@ gulp.task('sass', ['cleaning-styles'], function () {
 });
 
 
-
-/* To Production */
-
-gulp.task('join', function(){
-	log('Joining all js/css files');
-	//var assets = useref({searchPath: ['./']});
-	var cssFilter = $.filter('**/*.css', {restore: true});
-	var jsLibFilter = $.filter('**/lib.js', {restore: true});
-	var jsAppFilter = $.filter('**/app.js', {restore: true});
-
-	return gulp.src('./client/index.html')
-		.pipe($.inject(gulp.src(
-			'../tmp/templates.js',{read: false}
-		),{starttag: '<!-- inject:templates:js -->'}))
-		//.pipe(assets)
-		.pipe(cssFilter)
-		.pipe($.csso())
-		.pipe(cssFilter.restore)
-		.pipe(jsLibFilter)
-		.pipe($.uglify())
-		.pipe(jsLibFilter.restore)
-		.pipe(jsAppFilter)
-		.pipe($.ngAnnotate())
-		.pipe($.uglify())
-		.pipe(jsAppFilter.restore)
-		//.pipe(assets.restore())
-		.pipe(useref())
-		.pipe(gulp.dest('public'));
-});
-
-
-gulp.task('templatecache', ['clean-templatecache'], function(){
+gulp.task('template', ['clean-templatecache'], function(){
 	log('Angularjs template files!');
 	var options = {
 		module: 'walmex',
@@ -124,9 +95,38 @@ gulp.task('cleaning-images', function(){
 	clean('public/images/**/*.*');
 });
 
+/* To Production */
+
+gulp.task('join', function(){
+	log('Joining all js/css files');
+	//var assets = useref({searchPath: ['./']});
+	var cssFilter = $.filter('**/*.css', {restore: true});
+	var jsLibFilter = $.filter('**/lib.js', {restore: true});
+	var jsAppFilter = $.filter('**/app.js', {restore: true});
+
+	return gulp.src('./client/index.html')
+		.pipe($.inject(gulp.src(
+			'../tmp/templates.js',{read: false}
+		),{starttag: '<!-- inject:templates:js -->'}))
+		//.pipe(assets)
+		.pipe(cssFilter)
+		.pipe($.csso())
+		.pipe(cssFilter.restore)
+		.pipe(jsLibFilter)
+		.pipe($.uglify())
+		.pipe(jsLibFilter.restore)
+		.pipe(jsAppFilter)
+		.pipe(ngAnnotate())
+		.pipe($.uglify())
+		.pipe(jsAppFilter.restore)
+		//.pipe(assets.restore())
+		.pipe($.useref())
+		.pipe(gulp.dest('public'));
+});
+
 /* Dev Server */
 gulp.task('dev-server', function(){
-	log('Dev server running...');
+	log('Developer server running...');
 
 	browserSync.init({
 		files: [
@@ -158,7 +158,7 @@ gulp.task('dev-server', function(){
 
 /* Dev Server */
 gulp.task('prod', function(){
-	log('Dev server running...');
+	log('Production server running...');
 
 	browserSync.init({
 		ghostMode: {
