@@ -9,7 +9,7 @@
 			restrict: 'E',
 			template: [
 				'<ul class="m-list-functions">',
-					'<li class="m-list-functions__item">',
+					'<li class="m-list-functions__item" tooltip-placement="right" uib-tooltip="Históricos" tooltip-animation="true">',
 						'<i class="m-list-functions__item-icon demo demo-historic"></i>',
 					'</li>',
 				'</ul>',
