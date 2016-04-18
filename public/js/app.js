@@ -8,12 +8,17 @@
 			'routes',
 			'mapswitcher.directive',
 			'maptools',
+			'menu.directive',
 			'exploration.directive',
 			'location.modal.controller',
 			'competence.modal.controller',
 			'demography.modal.controller',
 			'potential.modal.controller',
 			'analysis.directive',
+			'accessibility.modal.controller',
+			'heatmap.modal.controller',
+			'od.modal.controller',
+			'rings.modal.controller',
 			'historical.directive',
 			'search.directive',
 			'ui.router',
@@ -21,11 +26,42 @@
 		]
 	)
 	.run(["$rootScope", "$state", "$stateParams", function ($rootScope, $state, $stateParams) {
-
 		$rootScope.$state = $state;
 		$rootScope.$stateParams = $stateParams;
-		return $rootScope;
 
+		L.drawLocal.draw.toolbar.actions.text = "Cancelar";
+		L.drawLocal.draw.toolbar.actions.title = "Cancelar Dibujo";
+		L.drawLocal.draw.toolbar.finish.text = "Terminar";
+		L.drawLocal.draw.toolbar.finish.title = "Terminar Dibujo";
+		L.drawLocal.draw.toolbar.buttons.polyline = "Dibujar Líneas";
+		L.drawLocal.draw.toolbar.buttons.polygon = "Dibujar Poligono";
+		L.drawLocal.draw.toolbar.buttons.circle = "Dibujar Radio";
+		L.drawLocal.draw.toolbar.undo.text = "Borrar último punto";
+		L.drawLocal.draw.toolbar.undo.title = "Borrar el último punto dibujado";
+		L.drawLocal.draw.handlers.polyline.tooltip.start = "Click para empezar a trazar líneas";
+		L.drawLocal.draw.handlers.polyline.tooltip.cont = "Click para continuar trazando líneas";
+		L.drawLocal.draw.handlers.polyline.tooltip.end = "Click en el último punto para temrinar";
+		L.drawLocal.draw.handlers.polygon.tooltip.start = "Click para empezar a dibujar un polígono";
+		L.drawLocal.draw.handlers.polygon.tooltip.cont = "Click para continuar dibujando el polígono";
+		L.drawLocal.draw.handlers.polygon.tooltip.end = "Click en el primer punto para cerrar el polígono";
+		L.drawLocal.draw.handlers.circle.radius = "Radio";
+		L.drawLocal.draw.handlers.circle.tooltip.start = "Click y arrastrar para dibujar un radio";
+		L.drawLocal.draw.handlers.simpleshape.tooltip.end = "Suelte el ratón para completar el radio";
+		
+		L.drawLocal.edit.handlers.edit.tooltip.subtext = "click en Cancelar para deshacer los cambios";
+		L.drawLocal.edit.handlers.edit.tooltip.text = "Control de arrastre, o marcador para editar dibujo";
+		L.drawLocal.edit.handlers.remove.tooltip.text = "Click en un dibujo para eliminar";
+		
+		L.drawLocal.edit.toolbar.actions.cancel.text = "Cancelar";
+		L.drawLocal.edit.toolbar.actions.cancel.title = "Cancelar editar, deshacer todos los cambios";
+		L.drawLocal.edit.toolbar.actions.save.text = "Guardar";
+		L.drawLocal.edit.toolbar.actions.save.title = "Guardar cambios";
+		
+		L.drawLocal.edit.toolbar.buttons.edit = "Editar dibujo";
+		L.drawLocal.edit.toolbar.buttons.editDisabled = "No hay dibujos para editar";
+		L.drawLocal.edit.toolbar.buttons.remove = "Eliminar dibujos";
+		L.drawLocal.edit.toolbar.buttons.removeDisabled = "No hay dibujos para eliminar";
+		return $rootScope;
 	}]);
 
 }());
@@ -50,29 +86,49 @@
 	*/
 	'use strict';
 
-	function AnalysisFunctions(){
+	function AnalysisFunctions($uibModal){
 		return {
 			restrict: 'E',
 			template: [
 				'<ul class="m-list-functions">',
-					'<li class="m-list-functions__item">',
+					'<li class="m-list-functions__item js-analysis-item" data-af="accessibility">',
 						'<i class="m-list-functions__item-icon demo demo-accessibility1"></i>',
 					'</li>',
-					'<li class="m-list-functions__item">',
+					'<li class="m-list-functions__item js-analysis-item" data-af="od">',
 						'<i class="m-list-functions__item-icon demo demo-origin-destiny"></i>',
 					'</li>',
-					'<li class="m-list-functions__item">',
+					'<li class="m-list-functions__item js-analysis-item" data-af="heatmap">',
 						'<i class="m-list-functions__item-icon demo demo-heatmap"></i>',
 					'</li>',
-					'<li class="m-list-functions__item">',
+					'<li class="m-list-functions__item js-analysis-item" data-af="rings">',
 						'<i class="m-list-functions__item-icon demo demo-rings"></i>',
 					'</li>',
 				'</ul>',
-			].join('')
+			].join(''),
+			controller: function($scope){
+				var _$js_analysis_item = angular.element(document.getElementsByClassName('js-analysis-item'));
+				var _data_af = null;
+				_$js_analysis_item.on('click', function(e){
+					e.preventDefault();
+					$scope.analysisId = this.getAttribute('data-af');
+					_data_af = this.getAttribute('data-af');
+					$uibModal.open({
+						controller: _data_af+'ModalController',
+						templateUrl: './components/analysis_functions/'+_data_af+'_modal/'+_data_af+'.tpl.html',
+						animation: true,
+						resolve: {
+							analysisId: function () {
+								return $scope.analysisId;
+							}
+						}
+					});
+				});
+				
+			}
 		};
 	}
 	
-	//AnalysisFunctions.$inject = [];
+	AnalysisFunctions.$inject = ['$uibModal'];
 
 	angular.module('analysis.directive', [])
 		.directive('analysisFunctions', AnalysisFunctions);
@@ -161,6 +217,64 @@
 	*/
 	'use strict';
 
+	function MenuController($window){
+		return {
+			restrict: 'E',
+			template: [
+				'<div class="m-burger-menu js-menu-button" data-module="burger-menu">',
+					'<div data-container="line">',
+						'<div data-line="top"></div>',
+						'<div data-line="middle"></div>',
+						'<div data-line="bottom"></div>',
+					'</div>',
+				'</div>',
+				'<ul class="m-list-navigation js-list-navigation">',
+					'<li class="m-list-navigation__item js-menu-item"><a>Menu 1</a></li>',
+					'<li class="m-list-navigation__item js-menu-item"><a>Menu 2</a></li>',
+					'<li class="m-list-navigation__item js-menu-item"><a>Menu 3</a></li>',
+				'</ul>',
+			].join(''),
+			controller: function(){
+				var _$js_menu_button = angular.element(document.getElementsByClassName('js-menu-button'));
+				var _$js_list_navigation = angular.element(document.getElementsByClassName('js-list-navigation'));
+				
+				
+				
+				_$js_menu_button.on('click', function(e){
+					e.preventDefault();
+					angular.element(this).toggleClass('is-menu-active')
+					_$js_list_navigation.toggleClass('is-menu-opened');
+					return false;
+				});
+				
+				// $window.addEventListener('mouseup', function(e){
+				// 	e.preventDefault();
+				// 	// if (_$js_menu_button.hasClass('is-menu-active')) {
+				// 	// 	_$js_menu_button.removeClass('is-menu-active');
+				// 	// 	_$js_list_navigation.removeClass('is-menu-opened');
+				// 	// }
+				// 	// console.log(e);
+				// 	console.log(_$js_list_navigation.find(_$js_list_navigation))
+				// 	// if (e.target !== _$js_list_navigation && _$js_list_navigation.eq(e.target).length === 0 && e.target !== _$js_menu_button) {
+				// 	// 	_$js_menu_button.removeClass('is-menu-active')
+				// 	// 	_$js_list_navigation.removeClass('is-menu-opened');
+				// 	// }
+				// });
+			}
+		};
+	}
+	
+	MenuController.$inject = ['$window'];
+
+	angular.module('menu.directive', [])
+		.directive('menu', MenuController);
+}());
+(function(){
+	/**
+	*  KlDirective Directive
+	*/
+	'use strict';
+
 	function Search($window, $timeout){
 		return {
 			restrict: 'E',
@@ -209,6 +323,126 @@
 		.directive('search', Search);
 }());
 (function(){
+	/**
+	*  Modal Module
+	*/
+	'use strict';
+
+	var accessibilityModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope){
+
+		var _this = null;
+		init();
+
+		function init(){
+			console.log("modal")
+		}
+
+		$scope.ok = function(){
+			$uibModalInstance.close();
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.close('cancel');
+		};
+	};
+
+	accessibilityModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope'];
+
+	angular.module('accessibility.modal.controller', [])
+		.controller('accessibilityModalController', accessibilityModalController);
+
+}());
+(function(){
+	/**
+	*  Modal Module
+	*/
+	'use strict';
+
+	var heatmapModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope){
+
+		var _this = null;
+		init();
+
+		function init(){
+			console.log("modal")
+		}
+
+		$scope.ok = function(){
+			$uibModalInstance.close();
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.close('cancel');
+		};
+	};
+
+	heatmapModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope'];
+
+	angular.module('heatmap.modal.controller', [])
+		.controller('heatmapModalController', heatmapModalController);
+
+}());
+(function(){
+	/**
+	*  Modal Module
+	*/
+	'use strict';
+
+	var odModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope){
+
+		var _this = null;
+		init();
+
+		function init(){
+			console.log("modal")
+		}
+
+		$scope.ok = function(){
+			$uibModalInstance.close();
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.close('cancel');
+		};
+	};
+
+	odModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope'];
+
+	angular.module('od.modal.controller', [])
+		.controller('odModalController', odModalController);
+
+}());
+(function(){
+	/**
+	*  Modal Module
+	*/
+	'use strict';
+
+	var ringsModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope){
+
+		var _this = null;
+		init();
+
+		function init(){
+			console.log("modal")
+		}
+
+		$scope.ok = function(){
+			$uibModalInstance.close();
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.close('cancel');
+		};
+	};
+
+	ringsModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope'];
+
+	angular.module('rings.modal.controller', [])
+		.controller('ringsModalController', ringsModalController);
+
+}());
+(function(){
 	/*
 	* BaseMap Module
 	*/
@@ -233,9 +467,14 @@
 		_area_tool = null,
 		_actions_tool = null,
 		_edit_tool = null,
-		_delete_tool = null;
+		_delete_tool = null,
+		_drawControl = null,
+		_drawType = null,
+		_featureGroup = null,
+		_colorLine = null;
 
 		_map = BaseMapService.mapElement;
+		_featureGroup = L.featureGroup().addTo(_map);
 
 		_google_roadmap = new L.Google('ROADMAP');
 		_google_satellite = new L.Google();
@@ -257,7 +496,40 @@
 						'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 					id: 'mapbox.satellite'
 				});
+		
+		// _map.on('baselayerchange', function(e){
+		// 	console.log(e)
+		// 	if(e.name === "Google Roadmap"){
+		// 		_drawControl.setDrawingOptions({
+		// 		    polyline: {
+		// 		        shapeOptions: {
+		// 		            color: '#000000'
+		// 		        }
+		// 		    }
+		// 		});
+		// 	}
+		// });
+		_drawControl = new L.Control.Draw({
+			draw: {
+				rectangle: false,
+				marker: false,
+				polyline: {
+					shapeOptions: {
+          	color: '#f06eaa',
+						opacity: 1
+          }
+        },
+			},
+			edit: {
+				featureGroup: _featureGroup,
+				selectedPathOptions: {
+		        maintainColor: true
+		    }
+			}
+		}).addTo(_map);
 
+
+		
 		angular.element(document).ready(function(){
 			/**
 			 * [Add layers to custom control]
@@ -291,6 +563,18 @@
 
 		});
 		
+		
+
+		
+		_map.on('draw:created', function (e) {
+				_drawType = e.layerType;
+				
+				//     layer = e.layer;
+				// Do whatever else you need to. (save to db, add to map etc)
+				_featureGroup.addLayer(e.layer);
+		});
+		
+				
 		_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
 		_zoom_in.text("");
 		_zoom_in.append('<i class="demo demo-zoom-in leaflet-zoom-in"></i>');
@@ -326,6 +610,7 @@
 		_delete_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-remove'));
 		_delete_tool.text("");
 		_delete_tool.append('<i class="demo demo-delete delete-tool"></i>');
+
 	};
 	
 	BaseMapController.$inject = ['$scope', 'BaseMapService'];
@@ -406,17 +691,6 @@
 		this.mapId = 'pokaxperia.pk657nfi';
 		this.accessToken = 'pk.eyJ1IjoicG9rYXhwZXJpYSIsImEiOiJjaW13eHJ2NHMwM2Uwdjdra3c1bWF3Nzd6In0.leOLCkHazd_6JAQtdiHOFw';
 		this.mapElement = L.map('basemap').setView([19.432711775616433, -99.13325428962708], 12);
-		
-		var featureGroup = L.featureGroup().addTo(this.mapElement);
-		var drawControl = new L.Control.Draw({
-				draw: {
-					rectangle: false,
-					marker: false
-				},
-		    edit: {
-		      featureGroup: featureGroup
-		    }
-		  }).addTo(this.mapElement);
 	});
 
 
@@ -918,9 +1192,13 @@ L.Google.asyncInitialize = function() {
 		.controller('potentialModalController', potentialModalController);
 
 }());
-angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/exploration_functions/competence_modal/competence.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
-$templateCache.put("./components/exploration_functions/demography_modal/demography.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
-$templateCache.put("./components/exploration_functions/potential_modal/potential.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
-$templateCache.put("./components/exploration_functions/location_modal/location.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/analysis_functions/accessibility_modal/accessibility.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/analysis_functions/heatmap_modal/heatmap.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/analysis_functions/od_modal/od.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/analysis_functions/rings_modal/rings.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
 $templateCache.put("./components/basemap/basemap/basemap.component.html","<div id=basemap class=m-basemap></div>");
-$templateCache.put("./components/basemap/switcher/mapswitcher.tpl.html","<div class=m-switcher><button class=m-switcher__button>Mapa Base</button><div class=m-switcher__base></div><ul class=\"m-switcher__options-list js-switcher-options\"><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=mbx data-basemap=mapbox>Mapbox</span></li><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=gg data-basemap=g-satelite>Google Satélite</span></li><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=gg data-basemap=g-normal>Google RoadMap</span></li></ul></div>");}]);
+$templateCache.put("./components/basemap/switcher/mapswitcher.tpl.html","<div class=m-switcher><button class=m-switcher__button>Mapa Base</button><div class=m-switcher__base></div><ul class=\"m-switcher__options-list js-switcher-options\"><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=mbx data-basemap=mapbox>Mapbox</span></li><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=gg data-basemap=g-satelite>Google Satélite</span></li><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=gg data-basemap=g-normal>Google RoadMap</span></li></ul></div>");
+$templateCache.put("./components/exploration_functions/competence_modal/competence.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/exploration_functions/demography_modal/demography.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/exploration_functions/location_modal/location.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+$templateCache.put("./components/exploration_functions/potential_modal/potential.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");}]);

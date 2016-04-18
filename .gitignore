@@ -6,4 +6,5 @@ staging
 tmp
 .DS_Store
 client/.DS_Store
+client/sass/.DS_Store
 client/components/**/.DS_Store
