@@ -27,32 +27,13 @@
 		_drawControl = null,
 		_drawType = null,
 		_featureGroup = null,
-		_colorLine = null;
+		_colorLine = null,
+		_autocomplete = null;
 
-		_map = BaseMapService.mapElement;
-		_featureGroup = L.featureGroup().addTo(_map);
-
-		_google_roadmap = new L.Google('ROADMAP');
-		_google_satellite = new L.Google();
-		_mapbox_streets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + BaseMapService.accessToken, {
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-						'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-						'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-					id: BaseMapService.mapId
-				});
-		_mapbox_relieve = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + BaseMapService.accessToken, {
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-						'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-						'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-					id: 'caarloshugo1.lnipn7db'
-				});
-		_mapbox_satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + BaseMapService.accessToken, {
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-						'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-						'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-					id: 'mapbox.satellite'
-				});
-		
+		_map = BaseMapService.mapElement();
+		_featureGroup = BaseMapService._featureGroup.addTo(_map);
+		_drawControl = BaseMapService.drawControl(_featureGroup);
+		_drawControl.addTo(_map);
 		// _map.on('baselayerchange', function(e){
 		// 	console.log(e)
 		// 	if(e.name === "Google Roadmap"){
@@ -65,37 +46,22 @@
 		// 		});
 		// 	}
 		// });
-		_drawControl = new L.Control.Draw({
-			draw: {
-				rectangle: false,
-				marker: false,
-				polyline: {
-					shapeOptions: {
-          	color: '#f06eaa',
-						opacity: 1
-          }
-        },
-			},
-			edit: {
-				featureGroup: _featureGroup,
-				selectedPathOptions: {
-		        maintainColor: true
-		    }
-			}
-		}).addTo(_map);
-
-
 		
+		//var _searchInput = document.getElementById('search');
+		//console.log(_searchInput)
+
+		//_autocomplete = new google.maps.places.Autocomplete(_searchInput);
+		//_autocomplete.bindTo('bounds', _map);
 		angular.element(document).ready(function(){
 			/**
 			 * [Add layers to custom control]
 			 */
 			_map.addControl(new L.Control.Layers( {
-				'Mapbox Calles': _mapbox_streets.addTo(_map),
-				'Mapbox Relieve': _mapbox_relieve,
-				'Mapbox Satellite': _mapbox_satellite,
-				'Google Roadmap': _google_roadmap,
-				'Google Satellite': _google_satellite
+				'Mapbox Calles': BaseMapService.mapbox_streets.addTo(_map),
+				'Mapbox Relieve': BaseMapService.mapbox_relieve(),
+				'Mapbox Satellite': BaseMapService.mapbox_satellite(),
+				'Google Roadmap': BaseMapService.google_roadmap,
+				'Google Satellite': BaseMapService.google_satellite
 			}, {}, { position: 'bottomright'}));
 
 			/**
