@@ -2,5 +2,67 @@
 	margin: 10px;
 	position:absolute;
 	right: 0;
-	z-index:1;
+	z-index:5;
+	top:0;
 }
+.m-burger-menu {
+	@include transition(all 0.2s ease-in-out);
+	background: $gray;
+	cursor: pointer;
+	//margin: 10px;
+	padding: 12.25px 15px;
+	position: absolute;
+	right: 0px;
+	z-index: 10;
+	[data-line] {
+		@include transition(all 0.2s ease-in-out);
+		background: $white;
+		height: 1px;
+		margin: 8px 0;
+		width: 40px;
+	}
+	&.is-menu-active {
+		[data-line][data-line="top"] {
+			@include transform(translateX(0px) translateY(10px) rotate(45deg));
+		}
+		[data-line][data-line="middle"] {
+			visibility: hidden;
+		}
+		[data-line][data-line="bottom"] {
+			@include transform(translateX(0px) translateY(-8px) rotate(-45deg));
+		}
+		// &:hover {
+		// 	[data-line][data-line="top"] {
+		// 		@include transform(translateX(3px));
+		// 		background: $green-sdark;
+		// 	}
+		// 	[data-line][data-line="middle"] {
+		// 		@include transform(translateX(-3px));
+		// 		width: 40px;
+		// 		background: $white;
+		// 	}
+		// 	[data-line][data-line="bottom"] {
+		// 		background: $green-sdark;
+		// 		@include transform(translateX(3px));
+		// 	}
+		// }
+	}
+}
+
+// [data-module="burger-menu"]:hover {
+// 	[data-line][data-line="top"] {
+// 		@include transform(translateX(8px));
+// 		background: $green-sdark;
+// 		width: 25px;
+// 	}
+// 	[data-line][data-line="middle"] {
+// 		@include transform(translateX(-3px));
+// 		width: 40px;
+// 		background: $white;
+// 	}
+// 	[data-line][data-line="bottom"] {
+// 		background: $green-sdark;
+// 		@include transform(translateX(8px));
+// 		width: 25px;
+// 	}
+// }

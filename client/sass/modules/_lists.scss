@@ -34,7 +34,7 @@
 .m-list-functions__item {
 	cursor:pointer;
 	display:block;
-	padding: 0px 6px;
+	padding: 3px 6px;
 	border-left: 4px solid transparent;
 	@include transition(all linear 0.25s);
 	&:hover {
@@ -44,11 +44,42 @@
 			color: $green-sdark;
 		}
 	}
-}
+}	
 
 .m-list-functions__item-icon {
 	color: $gray;
 	display:block;
 	font-size: 30px;
 	vertical-align:middle;
+}
+
+.m-list-navigation {
+	//padding: 12px 200px 12px 0px;
+	@include transform(translate(100%,0));
+	//@include transition(opacity .3s ease-in-out,visibility 0s linear);
+	@include transition(transform .3s ease-in-out);
+	//background: #d1d7da;
+	background: $gray;
+	margin: 0px 70px 0px 0px;
+	padding: 0;
+	&.is-menu-opened {
+		@include transform(translate(0%,0));
+		@include transition(transform .3s ease-in-out);
+	}
+}
+
+.m-list-navigation__item {
+	display: inline-block;
+	a {
+		@include transition(all 0.25s linear);
+		color: $white;
+		cursor: pointer;
+		display: block;
+		font-weight: 400;
+		padding: 20px;
+		&:hover {
+			color: $green-sdark;
+			background: $white;
+		}
+	}
 }

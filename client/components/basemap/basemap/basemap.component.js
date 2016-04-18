@@ -23,9 +23,14 @@
 		_area_tool = null,
 		_actions_tool = null,
 		_edit_tool = null,
-		_delete_tool = null;
+		_delete_tool = null,
+		_drawControl = null,
+		_drawType = null,
+		_featureGroup = null,
+		_colorLine = null;
 
 		_map = BaseMapService.mapElement;
+		_featureGroup = L.featureGroup().addTo(_map);
 
 		_google_roadmap = new L.Google('ROADMAP');
 		_google_satellite = new L.Google();
@@ -47,7 +52,40 @@
 						'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 					id: 'mapbox.satellite'
 				});
+		
+		// _map.on('baselayerchange', function(e){
+		// 	console.log(e)
+		// 	if(e.name === "Google Roadmap"){
+		// 		_drawControl.setDrawingOptions({
+		// 		    polyline: {
+		// 		        shapeOptions: {
+		// 		            color: '#000000'
+		// 		        }
+		// 		    }
+		// 		});
+		// 	}
+		// });
+		_drawControl = new L.Control.Draw({
+			draw: {
+				rectangle: false,
+				marker: false,
+				polyline: {
+					shapeOptions: {
+          	color: '#f06eaa',
+						opacity: 1
+          }
+        },
+			},
+			edit: {
+				featureGroup: _featureGroup,
+				selectedPathOptions: {
+		        maintainColor: true
+		    }
+			}
+		}).addTo(_map);
 
+
+		
 		angular.element(document).ready(function(){
 			/**
 			 * [Add layers to custom control]
@@ -81,6 +119,18 @@
 
 		});
 		
+		
+
+		
+		_map.on('draw:created', function (e) {
+				_drawType = e.layerType;
+				
+				//     layer = e.layer;
+				// Do whatever else you need to. (save to db, add to map etc)
+				_featureGroup.addLayer(e.layer);
+		});
+		
+				
 		_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
 		_zoom_in.text("");
 		_zoom_in.append('<i class="demo demo-zoom-in leaflet-zoom-in"></i>');
@@ -116,6 +166,7 @@
 		_delete_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-remove'));
 		_delete_tool.text("");
 		_delete_tool.append('<i class="demo demo-delete delete-tool"></i>');
+
 	};
 	
 	BaseMapController.$inject = ['$scope', 'BaseMapService'];

@@ -15,7 +15,8 @@ gulp.task('inject', function(){
 		.pipe(wiredep({
 			bowerJson: require('./bower.json'),
 			directory: 'bower_components',
-			ignorePath: '../../'
+			ignorePath: '../../',
+			//exclude: [ 'bower_components/leaflet-dist/leaflet.js', 'bower_components/leaflet-dist/leaflet.css' ]
 		}))
 		.pipe($.inject(gulp.src('bower_components/angular-ui-bootstrap/*.js', {read: false}),{starttag: '<!-- inject:own:js -->'}))
 		.pipe($.inject(gulp.src([
@@ -122,6 +123,19 @@ gulp.task('join', function(){
 		//.pipe(assets.restore())
 		.pipe($.useref())
 		.pipe(gulp.dest('public'));
+});
+
+gulp.task('annotate', function () {
+    return gulp.src('public/js/app.js')
+        .pipe(ngAnnotate())
+        .pipe($.uglify())
+        .pipe(gulp.dest('public/js'));
+});
+
+gulp.task('uglify', function () {
+    return gulp.src('public/js/lib.js')
+        .pipe($.uglify())
+        .pipe(gulp.dest('public/js/'));
 });
 
 /* Dev Server */

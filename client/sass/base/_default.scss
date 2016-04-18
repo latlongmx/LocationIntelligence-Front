@@ -9,8 +9,9 @@
 	-moz-box-sizing: border-box;
 	-o-box-sizing: border-box;
 	-ms-box-sizing: border-box;
-	font-family: 'Open Sans', sans-serif !important;
 	outline:0;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 300;
 }
 html {
 	-moz-osx-font-smoothing: grayscale;
@@ -59,4 +60,12 @@ a {
 
 img {
 	display:block;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Montserrat', sans-serif;
 }

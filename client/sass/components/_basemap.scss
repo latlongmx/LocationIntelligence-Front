@@ -154,11 +154,13 @@
 		height: initial;
 		opacity:1;
 		padding: 6px 12px;
+		text-decoration: none;
 		touch-action: manipulation;
 		user-select: none;
 		vertical-align: middle;
 		white-space: nowrap;
 		width: inherit;
+		text-transform: uppercase;
 	}
 	.leaflet-control-layers-list {
 		@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
@@ -216,6 +218,13 @@
 	display: block;
 	left: 0px;
 	top: 40px;
+	a {
+		background: $green-ssmooth;
+		font-size: 14px;
+		font-weight: 400;
+		height: 28px;
+		line-height: 28px;
+	}
 }
 
 .leaflet-draw-actions.leaflet-draw-actions-top {
