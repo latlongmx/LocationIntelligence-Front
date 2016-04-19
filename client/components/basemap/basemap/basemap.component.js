@@ -31,7 +31,7 @@
 		_autocomplete = null;
 
 		_map = BaseMapService.mapElement();
-		_featureGroup = BaseMapService._featureGroup.addTo(_map);
+		_featureGroup = BaseMapService.featureGroup.addTo(_map);
 		_drawControl = BaseMapService.drawControl(_featureGroup);
 		_drawControl.addTo(_map);
 		// _map.on('baselayerchange', function(e){

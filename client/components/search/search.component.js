@@ -19,6 +19,8 @@
 				var _searchButton = angular.element(document.getElementsByClassName('js-search'));
 				var _searchInput = angular.element(document.getElementsByClassName('js-search-input'));
 				var _searchInputId = document.getElementById('search');
+				//var _map = BaseMapService.mapElement();
+				//var _map = BaseMapService.mapElement();
 				
 				/**
 				 * [Click to show input search]
