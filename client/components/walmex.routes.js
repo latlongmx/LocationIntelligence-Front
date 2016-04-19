@@ -7,7 +7,7 @@
 		$stateProvider
 			.state('root', {
 				url: '/',
-				templateUrl: './components/basemap/basemap/basemap.component.html',
+				template: '<basemap></basemap>',
 				controller: 'BaseMapController'
 			});
 	}]);

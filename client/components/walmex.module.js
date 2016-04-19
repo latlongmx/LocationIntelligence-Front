@@ -4,6 +4,7 @@
 
 	angular.module('walmex',[
 			'basemap',
+			'basemap.directive',
 			'basemap.service',
 			'routes',
 			'mapswitcher.directive',
