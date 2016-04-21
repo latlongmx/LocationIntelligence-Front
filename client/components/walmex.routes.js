@@ -5,9 +5,15 @@
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.otherwise('/');
 		$stateProvider
-			.state('root', {
+			.state('/', {
 				url: '/',
-				template: '<basemap></basemap>',
+				templateUrl: './components/login/login.html',
+				controller: 'LoginController',
+				controllerAs: 'lg'
+			})
+			.state('mapa', {
+				url: '/mapa',
+				templateUrl: './components/basemap/basemap/basemap.component.html',
 				controller: 'BaseMapController'
 			});
 	}]);

@@ -18,7 +18,10 @@ gulp.task('inject', function(){
 			ignorePath: '../../',
 			//exclude: [ 'bower_components/leaflet-dist/leaflet.js', 'bower_components/leaflet-dist/leaflet.css' ]
 		}))
-		.pipe($.inject(gulp.src('bower_components/angular-ui-bootstrap/*.js', {read: false}),{starttag: '<!-- inject:own:js -->'}))
+		.pipe($.inject(gulp.src([
+			'bower_components/angular-ui-bootstrap/*.js',
+			'bower_components/md5/md5.js'
+			], {read: false}),{starttag: '<!-- inject:own:js -->'}))
 		.pipe($.inject(gulp.src([
 			'./client/styles/styles.css'
 		]), {ignorePath: '../../', relative: true}))

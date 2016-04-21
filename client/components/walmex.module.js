@@ -3,6 +3,8 @@
 	'use strict';
 
 	angular.module('walmex',[
+			'login',
+			'login.service',
 			'basemap',
 			'basemap.directive',
 			'basemap.service',
