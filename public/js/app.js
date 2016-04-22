@@ -3,7 +3,10 @@
 	'use strict';
 
 	angular.module('walmex',[
+			'login',
+			'login.service',
 			'basemap',
+			'basemap.directive',
 			'basemap.service',
 			'routes',
 			'mapswitcher.directive',
@@ -72,8 +75,14 @@
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.otherwise('/');
 		$stateProvider
-			.state('root', {
+			.state('/', {
 				url: '/',
+				templateUrl: './components/login/login.html',
+				controller: 'LoginController',
+				controllerAs: 'lg'
+			})
+			.state('mapa', {
+				url: '/mapa',
 				templateUrl: './components/basemap/basemap/basemap.component.html',
 				controller: 'BaseMapController'
 			});
@@ -212,6 +221,93 @@
 		.directive('historicalFunctions', HistoricalFunctions);
 }());
 (function(){
+	/*
+	* BaseMap Module
+	*/
+	'use strict';
+
+	function LoginController($scope, LoginService){
+		var _$js_login_form = null,
+		_data = null;
+
+	_$js_login_form = document.getElementsByClassName('js-login-form');
+		this.submitLogin = function(loginForm, data){
+			if(loginForm.$valid) {
+				_data = LoginService.encodeData(data);
+				LoginService.loginRequest(_data).
+				then(function(data){
+					console.log(data)
+				}, function(error){
+					console.log(error)
+				});
+				//console.log()
+			}
+		}
+	};
+	
+	LoginController.$inject = ['$scope', 'LoginService'];
+	
+	angular.module('login', []).
+	controller('LoginController', LoginController);
+
+})();
+
+(function(){
+	/*
+	* BaseMap Module
+	*/
+	'use strict';
+	
+	function LoginService($q, $http, $httpParamSerializer){
+		var deferred = $q.defer();
+
+		var _lginRequest = null,
+		username = null,
+		password = null,
+		grant_type = "password",
+		client_id = null,
+		client_secret = null,
+		_data = null;
+
+		return {
+			encodeData : function(encode){
+				username = encode.user;
+				password = md5(encode.password);
+				client_id = md5(username);
+				client_secret = sha256(password).substr(0,40);
+				_data = {username: username, password: password, grant_type: grant_type, client_id: client_id, client_secret: client_secret};
+				return _data;
+			},
+			loginRequest : function(data){
+
+				_lginRequest = $http({
+					url: 'http://52.8.211.37/api.walmex.latlong.mx/oa/accesstk',
+					method: 'POST',
+					data: $httpParamSerializer(data),
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'
+					}
+				});
+				
+				_lginRequest.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			}
+		}
+		// this.BindToAutocomplete = function(){
+			// return this.AutoComplete(bindTo('bounds', this.mapElement()));
+		// }
+	}
+	LoginService.$inject = ['$q', '$http', '$httpParamSerializer'];
+	angular.module('login.service', []).
+		service('LoginService', LoginService);
+
+}());
+
+(function(){
 	/**
 	*  KlDirective Directive
 	*/
@@ -275,39 +371,60 @@
 	*/
 	'use strict';
 
-	function Search($window, $timeout){
+	function Search($window, $timeout, BaseMapService){
+
 		return {
 			restrict: 'E',
 			template: [
 				'<div class="m-search js-search-form">',
-					'<input class="m-search__input js-search-input" type="text" ng-model="search" placeholder="buscar"/>',
+					'<input class="m-search__input js-search-input" id="search" type="text" ng-model="search" placeholder="buscar" map="map"/>',
 					'<i class="demo demo-search m-search__icon js-search"></i>',
 				'</div>'
 			].join(''),
+			scope: {
+				id: '=map'
+			},
 			controller: function($scope){
-				var searchForm = angular.element(document.getElementsByClassName('js-search-form'));
-				var searchButton = angular.element(document.getElementsByClassName('js-search'));
-				var searchInput = angular.element(document.getElementsByClassName('js-search-input'));
+				var _searchForm = angular.element(document.getElementsByClassName('js-search-form'));
+				var _searchButton = angular.element(document.getElementsByClassName('js-search'));
+				var _searchInput = angular.element(document.getElementsByClassName('js-search-input'));
+				var _searchInputId = document.getElementById('search');
+				
+				BaseMapService.map.then(function (map) {
+					_searchFunction(map)
+				});
+				//var _map = BaseMapService.mapElement();
+				//var _map = BaseMapService.mapElement();
 				
 				/**
 				 * [Click to show input search]
 				 */
-				searchForm.on('click', function(){
-					$timeout(function(){
-						$scope.search = "";
-					}, 0);
-					searchForm.addClass('is-showed-form');
-					searchInput.addClass('is-showed-input');
-				});
+				// _searchForm.on('click', function(){
+				// 	$timeout(function(){
+				// 		$scope.search = "";
+				// 	}, 0);
+				// 	_searchForm.addClass('is-showed-form');
+				// 	_searchInput.addClass('is-showed-input');
+				// });
+				var _searchFunction = function(map) {
+					console.log(map)
+					BaseMapService.autoComplete(_searchInputId).bindTo('bounds', map);
+				}
+				
+				
+				//_autocomplete = BaseMapService.AutoComplete(_searchInput);
+				//_autocomplete.bindTo('bounds', _map);
+
+				
 				
 				/**
 				 * [Bind event to hide input search]
 				 */
 				$window.addEventListener('mouseup', function(e){
 					e.preventDefault();
-					if (e.target !== searchButton && e.target.parentNode !== searchButton) {
-						searchForm.removeClass('is-showed-form');
-						searchInput.removeClass('is-showed-input');
+					if (e.target !== _searchButton && e.target.parentNode !== _searchButton) {
+						_searchForm.removeClass('is-showed-form');
+						_searchInput.removeClass('is-showed-input');
 
 					}
 				});
@@ -317,7 +434,7 @@
 		};
 	}
 	
-	Search.$inject = ['$window', '$timeout'];
+	Search.$inject = ['$window', '$timeout', 'BaseMapService'];
 
 	angular.module('search.directive', [])
 		.directive('search', Search);
@@ -471,77 +588,46 @@
 		_drawControl = null,
 		_drawType = null,
 		_featureGroup = null,
-		_colorLine = null;
+		_colorLine = null,
+		_autocomplete = null;
 
-		_map = BaseMapService.mapElement;
-		_featureGroup = L.featureGroup().addTo(_map);
-
-		_google_roadmap = new L.Google('ROADMAP');
-		_google_satellite = new L.Google();
-		_mapbox_streets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + BaseMapService.accessToken, {
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-						'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-						'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-					id: BaseMapService.mapId
-				});
-		_mapbox_relieve = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + BaseMapService.accessToken, {
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-						'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-						'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-					id: 'caarloshugo1.lnipn7db'
-				});
-		_mapbox_satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + BaseMapService.accessToken, {
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-						'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-						'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-					id: 'mapbox.satellite'
-				});
+		BaseMapService.map.then(function (map) {
+			_mapFunctions(map)
+		});
 		
-		// _map.on('baselayerchange', function(e){
-		// 	console.log(e)
-		// 	if(e.name === "Google Roadmap"){
-		// 		_drawControl.setDrawingOptions({
-		// 		    polyline: {
-		// 		        shapeOptions: {
-		// 		            color: '#000000'
-		// 		        }
-		// 		    }
-		// 		});
-		// 	}
-		// });
-		_drawControl = new L.Control.Draw({
-			draw: {
-				rectangle: false,
-				marker: false,
-				polyline: {
-					shapeOptions: {
-          	color: '#f06eaa',
-						opacity: 1
-          }
-        },
-			},
-			edit: {
-				featureGroup: _featureGroup,
-				selectedPathOptions: {
-		        maintainColor: true
-		    }
-			}
-		}).addTo(_map);
-
-
-		
-		angular.element(document).ready(function(){
+		var _mapFunctions = function(map){
+			_google_roadmap = new L.Google('ROADMAP');
+			_google_satellite = new L.Google();
+			_mapbox_streets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + BaseMapService.accessToken, {
+				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+					'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+					'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+				id: BaseMapService.mapId
+			});
+			_mapbox_relieve = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + BaseMapService.accessToken, {
+				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+					'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+					'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+				id: 'caarloshugo1.lnipn7db'
+			});
+			_mapbox_satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + BaseMapService.accessToken, {
+				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+					'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+					'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+				id: 'mapbox.satellite'
+			});
+			
 			/**
 			 * [Add layers to custom control]
 			 */
-			_map.addControl(new L.Control.Layers( {
-				'Mapbox Calles': _mapbox_streets.addTo(_map),
+			map.addControl(new L.Control.Layers( {
+				'Mapbox Calles': _mapbox_streets.addTo(map),
 				'Mapbox Relieve': _mapbox_relieve,
 				'Mapbox Satellite': _mapbox_satellite,
 				'Google Roadmap': _google_roadmap,
 				'Google Satellite': _google_satellite
 			}, {}, { position: 'bottomright'}));
-
+			
 			/**
 			 * [Set image name to each layer]
 			 * @type {Array}
@@ -560,57 +646,85 @@
 			angular.forEach(_label_item, function(item, index) {
 				angular.element(item).append('<img src="./images/switcher_map/'+imagesArray[index]+'.jpg" width="120"/>');
 			});
+			
+			_featureGroup = BaseMapService.featureGroup.addTo(map);
+			_drawControl = BaseMapService.drawControl(_featureGroup);
+			_drawControl = new L.Control.Draw({
+				draw: {
+					rectangle: false,
+					marker: false,
+					polyline: {
+						shapeOptions: {
+							color: '#f06eaa',
+							opacity: 1
+						}
+					},
+				},
+				edit: {
+					featureGroup: _featureGroup,
+					selectedPathOptions: {
+						maintainColor: true
+					}
+				}
+			}).addTo(map);
+			
+			map.on('draw:created', function (e) {
+					_drawType = e.layerType;
+					
+					//     layer = e.layer;
+					// Do whatever else you need to. (save to db, add to map etc)
+					_featureGroup.addLayer(e.layer);
+			});
+			
+			_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
+			_zoom_in.text("");
+			_zoom_in.append('<i class="demo demo-zoom-in leaflet-zoom-in"></i>');
+			
+			_zoom_out = angular.element(document.getElementsByClassName('leaflet-control-zoom-out'));
+			_zoom_out.text("");
+			_zoom_out.append('<i class="demo demo-zoom-out leaflet-zoom-out"></i>');
+			
+			_line_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-polyline'));
+			_line_tool.text("");
+			_line_tool.append('<i class="demo demo-line line-tool"></i>');
+			
+			_polygon_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-polygon'));
+			_polygon_tool.text("");
+			_polygon_tool.append('<i class="demo demo-area polygon-tool"></i>');
+			
+			_area_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-circle'));
+			_area_tool.text("");
+			_area_tool.append('<i class="demo demo-radio area-tool"></i>');
+			
+			_actions_tool = angular.element(document.getElementsByClassName('leaflet-draw-actions'));
+			_actions_tool.text("");
+			_actions_tool.css({
+				display: "block",
+				left: "0px",
+				top: "40px"
+			});
+			
+			_edit_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-edit'));
+			_edit_tool.text("");
+			_edit_tool.append('<i class="demo demo-edit edit-tool"></i>');
+			
+			_delete_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-remove'));
+			_delete_tool.text("");
+			_delete_tool.append('<i class="demo demo-delete delete-tool"></i>');
+		}
 
-		});
-		
-		
-
-		
-		_map.on('draw:created', function (e) {
-				_drawType = e.layerType;
-				
-				//     layer = e.layer;
-				// Do whatever else you need to. (save to db, add to map etc)
-				_featureGroup.addLayer(e.layer);
-		});
-		
-				
-		_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
-		_zoom_in.text("");
-		_zoom_in.append('<i class="demo demo-zoom-in leaflet-zoom-in"></i>');
-		
-		_zoom_out = angular.element(document.getElementsByClassName('leaflet-control-zoom-out'));
-		_zoom_out.text("");
-		_zoom_out.append('<i class="demo demo-zoom-out leaflet-zoom-out"></i>');
-		
-		_line_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-polyline'));
-		_line_tool.text("");
-		_line_tool.append('<i class="demo demo-line line-tool"></i>');
-		
-		_polygon_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-polygon'));
-		_polygon_tool.text("");
-		_polygon_tool.append('<i class="demo demo-area polygon-tool"></i>');
-		
-		_area_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-circle'));
-		_area_tool.text("");
-		_area_tool.append('<i class="demo demo-radio area-tool"></i>');
-		
-		_actions_tool = angular.element(document.getElementsByClassName('leaflet-draw-actions'));
-		_actions_tool.text("");
-		_actions_tool.css({
-			display: "block",
-			left: "0px",
-			top: "40px"
-		});
-		
-		_edit_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-edit'));
-		_edit_tool.text("");
-		_edit_tool.append('<i class="demo demo-edit edit-tool"></i>');
-		
-		_delete_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-remove'));
-		_delete_tool.text("");
-		_delete_tool.append('<i class="demo demo-delete delete-tool"></i>');
-
+		// _map.on('baselayerchange', function(e){
+		// 	console.log(e)
+		// 	if(e.name === "Google Roadmap"){
+		// 		_drawControl.setDrawingOptions({
+		// 		    polyline: {
+		// 		        shapeOptions: {
+		// 		            color: '#000000'
+		// 		        }
+		// 		    }
+		// 		});
+		// 	}
+		// });
 	};
 	
 	BaseMapController.$inject = ['$scope', 'BaseMapService'];
@@ -626,56 +740,18 @@
 	*/
 	'use strict';
 
-	function BaseMap($rootScope, $timeout){
-		// var  _this = null,
-		// _label = null,
-		// _label_item = null,
-		// _ggl = null,
-		// _google_roadmap = null,
-		// _google_satellite = null;
-
-		// _google_roadmap = new L.Google('ROADMAP');
-		// _google_satellite = new L.Google();
-
-		// return {
-		// 	restrict: 'E',
-		// 	scope: {
-		// 		callback: '='
-		// 	},
-		// 	template: '<div id="basemap" class="m-basemap"></div>',
-		// 	controller:['$scope', function(scope, element){
-		// 		L.mapbox.accessToken = 'pk.eyJ1IjoicG9rYXhwZXJpYSIsImEiOiJjaW1yd21hZ2owMTkydXdtNGxxeGMweGZkIn0.SftIiLD3MaCzLKMZsKau9g';
-		// 		var map = L.mapbox.map('basemap');
-		// 		scope.callback(map);
-
-		// 		angular.element(document).ready(function(){
-
-		// 			map.addControl(new L.Control.Layers( {
-		// 				'Mapbox Calles': L.mapbox.tileLayer('pokaxperia.pk657nfi').addTo(map),
-		// 				'Mapbox Relieve': L.mapbox.tileLayer('caarloshugo1.lnipn7db'),
-		// 				'Mapbox Satellite': L.mapbox.tileLayer('mapbox.satellite'),
-		// 				'Google Roadmap': _google_roadmap,
-		// 				'Google Satellite': _google_satellite
-		// 			}, {}, { position: 'bottomright'}));
-					
-		// 			var imagesArray = ['mapbox-calles', 'mapbox-relieve', 'mapbox-satellite', 'mapbox-satellite', 'mapbox-calles'];
-		// 			_label_item = angular.element(document.getElementsByClassName('leaflet-control-layers-base')).children();
-		// 			_label = angular.element(document.getElementsByClassName('leaflet-control-layers-toggle'));
-		// 			_label.text("Mapa Base");
-					
-		// 			angular.forEach(_label_item, function(item, index) {
-		// 				angular.element(item).append('<img src="./images/switcher_map/'+imagesArray[index]+'.jpg" width="120"/>');
-		// 			});
-
-		// 		});
-
-		// 	}]
-			
-		// };
-
+	function BaseMap($rootScope, $timeout, BaseMapService){
+		return {
+			restrict: 'E',
+			replace:true,
+			template: '<div id="basemap" class="m-basemap"></div>',
+			link:function(scope, element){
+				BaseMapService.resolve(element[0]);
+			}
+		};
 	}
 	
-	BaseMap.$inject = ['$rootScope', '$timeout'];
+	BaseMap.$inject = ['$rootScope', '$timeout', 'BaseMapService'];
 
 	angular.module('basemap.directive', [])
 		.directive('basemap', BaseMap);
@@ -686,13 +762,49 @@
 	*/
 	'use strict';
 	
+	function BaseMapService($q){
+		var deferred = $q.defer();
+		return {
+			map: deferred.promise,
+			featureGroup : L.featureGroup(),
+			mapId : 'pokaxperia.pk657nfi',
+			accessToken : 'pk.eyJ1IjoicG9rYXhwZXJpYSIsImEiOiJjaW13eHJ2NHMwM2Uwdjdra3c1bWF3Nzd6In0.leOLCkHazd_6JAQtdiHOFw',
+			featureGroup : L.featureGroup(),
+			resolve: function (element) {
+			  deferred.resolve(new L.Map(element).setView([19.432711775616433, -99.13325428962708], 12));
+			},
+			
+			autoComplete : function(searchInput){
+				return new google.maps.places.Autocomplete(searchInput);
+			},
+			drawControl : function(feature){
+				return new L.Control.Draw({
+					draw: {
+						rectangle: false,
+						marker: false,
+						polyline: {
+							shapeOptions: {
+		          	color: '#f06eaa',
+								opacity: 1
+		          }
+		        },
+					},
+					edit: {
+						featureGroup: feature,
+						selectedPathOptions: {
+				        maintainColor: true
+				    }
+					}
+				})
+			}
+		}
+		// this.BindToAutocomplete = function(){
+			// return this.AutoComplete(bindTo('bounds', this.mapElement()));
+		// }
+	}
+	BaseMapService.$inject = ['$q'];
 	angular.module('basemap.service', []).
-	service('BaseMapService', function(){
-		this.mapId = 'pokaxperia.pk657nfi';
-		this.accessToken = 'pk.eyJ1IjoicG9rYXhwZXJpYSIsImEiOiJjaW13eHJ2NHMwM2Uwdjdra3c1bWF3Nzd6In0.leOLCkHazd_6JAQtdiHOFw';
-		this.mapElement = L.map('basemap').setView([19.432711775616433, -99.13325428962708], 12);
-	});
-
+		service('BaseMapService', BaseMapService);
 
 }());
 
@@ -1192,11 +1304,12 @@ L.Google.asyncInitialize = function() {
 		.controller('potentialModalController', potentialModalController);
 
 }());
-angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/analysis_functions/accessibility_modal/accessibility.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
+angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/login/login.html","<div class=m-login><div class=m-login__container><div class=container><div class=pure-g><div class=\"pure-u-1 pure-u-sm-8-24\"></div><div class=\"pure-u-1 pure-u-sm-8-24\"><div class=m-login__container-body><form action name=loginForm class=\"m-login__container-body__form js-login-form\"><fieldset class=m-fieldset><label for class=m-label>Usuario</label> <input type=text class=m-input ng-model=lg.login.user required></fieldset><fieldset class=m-fieldset><label for class=m-label>Password</label> <input type=password class=m-input ng-model=lg.login.password required></fieldset><div class=align-center><button type=button class=pure-button ng-click=\"lg.submitLogin(loginForm, lg.login)\">Enviar</button></div></form></div></div><div class=\"pure-u-1 pure-u-sm-8-24\"></div></div></div></div></div>");
+$templateCache.put("./components/analysis_functions/accessibility_modal/accessibility.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
 $templateCache.put("./components/analysis_functions/heatmap_modal/heatmap.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
 $templateCache.put("./components/analysis_functions/od_modal/od.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
 $templateCache.put("./components/analysis_functions/rings_modal/rings.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
-$templateCache.put("./components/basemap/basemap/basemap.component.html","<div id=basemap class=m-basemap></div>");
+$templateCache.put("./components/basemap/basemap/basemap.component.html","<div class=m-logo><img src=./images/latlong_logo.png alt width=60></div><menu></menu><basemap></basemap><search></search><div class=m-panel-functions><exploration-functions class=m-panel-functions__exploration></exploration-functions><analysis-functions class=m-panel-functions__analysis></analysis-functions><historical-functions class=m-panel-functions__historical></historical-functions></div>");
 $templateCache.put("./components/basemap/switcher/mapswitcher.tpl.html","<div class=m-switcher><button class=m-switcher__button>Mapa Base</button><div class=m-switcher__base></div><ul class=\"m-switcher__options-list js-switcher-options\"><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=mbx data-basemap=mapbox>Mapbox</span></li><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=gg data-basemap=g-satelite>Google Satélite</span></li><li class=m-switcher__options-list__item><span class=js-switcher-options-item data-map-id=gg data-basemap=g-normal>Google RoadMap</span></li></ul></div>");
 $templateCache.put("./components/exploration_functions/competence_modal/competence.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
 $templateCache.put("./components/exploration_functions/demography_modal/demography.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{epId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");

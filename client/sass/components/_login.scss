@@ -1,0 +1,35 @@
+.m-login__container {
+	display: table;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	right: 0;
+	width: 100%;
+	@include linearGradient(#cbdf7d, #6fc9c4);
+	.container {
+		display: table-cell;
+		position:relative;
+		vertical-align:middle;
+	}
+}
+.m-login__container-body {
+	@include box-shadow(0px 10px 63px rgba(0, 0, 0, 0.15));
+	background: $white;
+	padding: 30px 30px;
+}
+
+.m-login__container-body__logo {
+	margin: 0px auto 30px;
+	text-align:center;
+	img {
+		margin: 0 auto;
+	}
+}
+
+.m-login__container-body__button {
+	background: $green-ssmooth;
+	color: $white;
+	font-weight: 600;
+	margin-top: 30px;
+	width: 100%;
+}

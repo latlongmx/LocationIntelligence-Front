@@ -5,15 +5,21 @@
 	'use strict';
 
 	function LoginController($scope, LoginService){
-		var _$js_login_form = null;
+		var _$js_login_form = null,
+		_data = null;
 
-	_$js_login_form = document.getElementsByClassName('js-login-form');
 		this.submitLogin = function(loginForm, data){
 			if(loginForm.$valid) {
-				LoginService.loginRequest(data);
-				//console.log()
+				_data = LoginService.encodeData(data);
+				LoginService.loginRequest(_data).
+				then(function(data){
+					//console.log(data)
+				}, function(error){
+					//console.log(error)
+				});
 			}
 		}
+
 	};
 	
 	LoginController.$inject = ['$scope', 'LoginService'];
