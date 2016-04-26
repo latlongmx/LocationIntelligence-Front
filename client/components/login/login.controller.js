@@ -4,19 +4,19 @@
 	*/
 	'use strict';
 
-	function LoginController($scope, LoginService, $location){
+	function LoginController($scope, LoginService, $location, $timeout){
 		var lg = this;
 		var _$js_login_form = null,
 		_data = null,
 		_session = null;
-		lg.login = {
-			status: "Iniciar"
+		lg.status = {
+			text: "Enviar"
 		}
 
 		lg.submitLogin = function(loginForm, data){
 			if(loginForm.$valid) {
-				lg.login = {
-					status: "enviando"
+				lg.status = {
+					text: "Enviando"
 				}
 				_data = LoginService.encodeData(data);
 				LoginService.loginRequest(_data).
@@ -27,17 +27,41 @@
 						sessionStorage.setItem('access_token', _session);
 					}
 				}, function(error){
-					lg.login = {
-						status: "Enviar",
-						error : "Ha ocurrido un error, intenta nuevamente"
-					}
-
 					if(error.status === 401 && error.statusText === "Unauthorized") {
-						lg.login = {
-							status: "Enviar",
-							error : "Los datos son incorrectos"
-						}
 						sessionStorage.removeItem('access_token');
+						lg.error = {
+							text : "Las credenciales son incorrectas",
+							error : true
+						}
+
+						$timeout(function(){
+							lg.status = {
+								text: "Enviar"
+							}
+						}, 0);
+
+						$timeout(function(){
+							lg.error = {
+								error : false
+							}
+						}, 2500);
+					}
+					else {
+						lg.error = {
+							text : "Ha ocurrido un error, intenta nuevamente",
+							error : true
+						}
+						$timeout(function(){
+							lg.status = {
+								text: "Enviar"
+							}
+						}, 0);
+
+						$timeout(function(){
+							lg.error = {
+								error : false
+							}
+						}, 2500);
 					}
 				});
 			}
@@ -45,7 +69,7 @@
 
 	};
 	
-	LoginController.$inject = ['$scope', 'LoginService','$location'];
+	LoginController.$inject = ['$scope', 'LoginService','$location', '$timeout'];
 
 	angular.module('login', []).
 	controller('LoginController', LoginController);

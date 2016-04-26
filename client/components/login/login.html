@@ -18,8 +18,8 @@
 								<input type="password" class="m-input m-input--in-login" ng-model="lg.login.password" required>
 							</fieldset>
 							<div class="align-center">
-								<span class="m-input-error" ng-if="lg.login.error">{{lg.login.error}}</span>
-								<button type="button" class="pure-button m-login__container-body__button is-larger" ng-click="lg.submitLogin(loginForm, lg.login)">{{lg.login.status}}</button>
+								<span class="m-input-error" ng-if="lg.error.error">{{lg.error.text}}</span>
+								<button type="button" class="pure-button m-login__container-body__button is-larger" ng-click="lg.submitLogin(loginForm, lg.login)">{{lg.status.text}}	</button>
 							</div>
 						</form>
 					</div>

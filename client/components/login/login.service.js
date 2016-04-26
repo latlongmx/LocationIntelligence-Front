@@ -13,7 +13,8 @@
 		grant_type = "password",
 		client_id = null,
 		client_secret = null,
-		_data = null;
+		_data = null,
+		_session = null;
 
 		return {
 			encodeData : function(encode){

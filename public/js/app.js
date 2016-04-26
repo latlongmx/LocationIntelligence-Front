@@ -31,7 +31,6 @@
 	.run(["$rootScope", "$state", "$stateParams", function ($rootScope, $state, $stateParams) {
 		$rootScope.$state = $state;
 		$rootScope.$stateParams = $stateParams;
-
 		L.drawLocal.draw.toolbar.actions.text = "Cancelar";
 		L.drawLocal.draw.toolbar.actions.title = "Cancelar Dibujo";
 		L.drawLocal.draw.toolbar.finish.text = "Terminar";
@@ -227,12 +226,19 @@
 	'use strict';
 
 	function LoginController($scope, LoginService, $location){
+		var lg = this;
 		var _$js_login_form = null,
 		_data = null,
 		_session = null;
+		lg.login = {
+			status: "Iniciar"
+		}
 
-		this.submitLogin = function(loginForm, data){
+		lg.submitLogin = function(loginForm, data){
 			if(loginForm.$valid) {
+				lg.login = {
+					status: "enviando"
+				}
 				_data = LoginService.encodeData(data);
 				LoginService.loginRequest(_data).
 				then(function(data){
@@ -242,8 +248,14 @@
 						sessionStorage.setItem('access_token', _session);
 					}
 				}, function(error){
+					lg.login = {
+						status: "Enviar",
+						error : "Ha ocurrido un error, intenta nuevamente"
+					}
+
 					if(error.status === 401 && error.statusText === "Unauthorized") {
-						$scope.login = {
+						lg.login = {
+							status: "Enviar",
 							error : "Los datos son incorrectos"
 						}
 						sessionStorage.removeItem('access_token');
@@ -255,7 +267,7 @@
 	};
 	
 	LoginController.$inject = ['$scope', 'LoginService','$location'];
-	
+
 	angular.module('login', []).
 	controller('LoginController', LoginController);
 
@@ -399,45 +411,51 @@
 				var _searchButton = angular.element(document.getElementsByClassName('js-search'));
 				var _searchInput = angular.element(document.getElementsByClassName('js-search-input'));
 				var _searchInputId = document.getElementById('search');
+				var autocomplete = null;
+				var place = null;
+				var _lat = null;
+				var _lon = null;
+				var _map = null;
+				var _locationMarker = null;
+				var _markerGroup = new L.LayerGroup();
 				
 				BaseMapService.map.then(function (map) {
-					_searchFunction(map)
+					_searchFunction(map);
 				});
-				//var _map = BaseMapService.mapElement();
-				//var _map = BaseMapService.mapElement();
-				
+
 				/**
-				 * [Click to show input search]
+				 * [_searchFunction Search Address]
+				 * @param  {[type]} map [Map]
 				 */
-				// _searchForm.on('click', function(){
-				// 	$timeout(function(){
-				// 		$scope.search = "";
-				// 	}, 0);
-				// 	_searchForm.addClass('is-showed-form');
-				// 	_searchInput.addClass('is-showed-input');
-				// });
 				var _searchFunction = function(map) {
-					console.log(map)
-					BaseMapService.autoComplete(_searchInputId).bindTo('bounds', map);
+					_map = map;
+					autocomplete = new google.maps.places.Autocomplete(_searchInputId);
+					google.maps.event.addListener(autocomplete, 'place_changed', _onPlaceChanged);
 				}
 				
-				
-				//_autocomplete = BaseMapService.AutoComplete(_searchInput);
-				//_autocomplete.bindTo('bounds', _map);
+				var _onPlaceChanged = function() {
+					_markerGroup.clearLayers();
+					place = autocomplete.getPlace();
+					_lat = place.geometry.location.lat();
+					_lon = place.geometry.location.lng();
+					_locationMarker = L.marker([_lat, _lon]);
+					_markerGroup.addLayer(_locationMarker);
+					_markerGroup.addTo(_map);
+					_map.setView([_lat, _lon], 16);
+					//console.log(_locationMarker)
+				}
 
-				
-				
 				/**
 				 * [Bind event to hide input search]
 				 */
-				$window.addEventListener('mouseup', function(e){
-					e.preventDefault();
-					if (e.target !== _searchButton && e.target.parentNode !== _searchButton) {
-						_searchForm.removeClass('is-showed-form');
-						_searchInput.removeClass('is-showed-input');
+				// $window.addEventListener('mouseup', function(e){
+				// 	e.preventDefault();
+				// 	if (e.target !== _searchButton && e.target.parentNode !== _searchButton) {
+				// 		_searchForm.removeClass('is-showed-form');
+				// 		_searchInput.removeClass('is-showed-input');
 
-					}
-				});
+				// 	}
+				// });
 			}
 			// controller: function($scope){
 			// }
@@ -1314,7 +1332,7 @@ L.Google.asyncInitialize = function() {
 		.controller('potentialModalController', potentialModalController);
 
 }());
-angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/login/login.html","<div class=m-login><div class=m-login__container><div class=container><div class=pure-g><div class=\"pure-u-1 pure-u-sm-5-24 pure-u-md-6-24 pure-u-lg-8-24\"></div><div class=\"pure-u-1 pure-u-sm-14-24 pure-u-md-12-24 pure-u-lg-8-24\"><div class=m-login__container-body><div class=m-login__container-body__logo><img src=./images/login/login_logo.png alt width=150></div><form action name=loginForm class=\"m-login__container-body__form js-login-form\"><fieldset class=m-fieldset><label for class=\"m-label m-label--in-login\" data-user=user>Usuario</label> <input type=text class=\"m-input m-input--in-login\" ng-model=lg.login.user required></fieldset><fieldset class=m-fieldset><label for class=\"m-label m-label--in-login\" data-user=password>Password</label> <input type=password class=\"m-input m-input--in-login\" ng-model=lg.login.password required></fieldset><div class=align-center><span class=m-input-error ng-if=login.error>{{login.error}}</span> <button type=button class=\"pure-button m-login__container-body__button is-larger\" ng-click=\"lg.submitLogin(loginForm, lg.login)\">Enviar</button></div></form></div></div><div class=\"pure-u-1 pure-u-sm-5-24 pure-u-md-6-24 pure-u-lg-8-24\"></div></div></div></div></div>");
+angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/login/login.html","<div class=m-login><div class=m-login__container><div class=container><div class=pure-g><div class=\"pure-u-1 pure-u-sm-5-24 pure-u-md-6-24 pure-u-lg-8-24\"></div><div class=\"pure-u-1 pure-u-sm-14-24 pure-u-md-12-24 pure-u-lg-8-24\"><div class=m-login__container-body><div class=m-login__container-body__logo><img src=./images/login/login_logo.png alt width=150></div><form action name=loginForm class=\"m-login__container-body__form js-login-form\"><fieldset class=m-fieldset><label for class=\"m-label m-label--in-login\" data-user=user>Usuario</label> <input type=text class=\"m-input m-input--in-login\" ng-model=lg.login.user required></fieldset><fieldset class=m-fieldset><label for class=\"m-label m-label--in-login\" data-user=password>Password</label> <input type=password class=\"m-input m-input--in-login\" ng-model=lg.login.password required></fieldset><div class=align-center><span class=m-input-error ng-if=lg.login.error>{{lg.login.error}}</span> <button type=button class=\"pure-button m-login__container-body__button is-larger\" ng-click=\"lg.submitLogin(loginForm, lg.login)\">{{lg.login.status}}</button></div></form></div></div><div class=\"pure-u-1 pure-u-sm-5-24 pure-u-md-6-24 pure-u-lg-8-24\"></div></div></div></div></div>");
 $templateCache.put("./components/analysis_functions/accessibility_modal/accessibility.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
 $templateCache.put("./components/analysis_functions/heatmap_modal/heatmap.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
 $templateCache.put("./components/analysis_functions/od_modal/od.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
