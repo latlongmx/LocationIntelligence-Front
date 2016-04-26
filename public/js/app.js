@@ -226,26 +226,35 @@
 	*/
 	'use strict';
 
-	function LoginController($scope, LoginService){
+	function LoginController($scope, LoginService, $location){
 		var _$js_login_form = null,
-		_data = null;
+		_data = null,
+		_session = null;
 
-	_$js_login_form = document.getElementsByClassName('js-login-form');
 		this.submitLogin = function(loginForm, data){
 			if(loginForm.$valid) {
 				_data = LoginService.encodeData(data);
 				LoginService.loginRequest(_data).
 				then(function(data){
-					console.log(data)
+					if(data.status === 200 && data.statusText === "OK") {
+						_session = JSON.stringify(data.data);
+						$location.path("/mapa");
+						sessionStorage.setItem('access_token', _session);
+					}
 				}, function(error){
-					console.log(error)
+					if(error.status === 401 && error.statusText === "Unauthorized") {
+						$scope.login = {
+							error : "Los datos son incorrectos"
+						}
+						sessionStorage.removeItem('access_token');
+					}
 				});
-				//console.log()
 			}
 		}
+
 	};
 	
-	LoginController.$inject = ['$scope', 'LoginService'];
+	LoginController.$inject = ['$scope', 'LoginService','$location'];
 	
 	angular.module('login', []).
 	controller('LoginController', LoginController);
@@ -278,8 +287,8 @@
 				_data = {username: username, password: password, grant_type: grant_type, client_id: client_id, client_secret: client_secret};
 				return _data;
 			},
-			loginRequest : function(data){
 
+			loginRequest : function(data){
 				_lginRequest = $http({
 					url: 'http://52.8.211.37/api.walmex.latlong.mx/oa/accesstk',
 					method: 'POST',
@@ -288,7 +297,7 @@
 						'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'
 					}
 				});
-				
+
 				_lginRequest.then(function(result){
 					deferred.resolve(result);
 				}, function(error){
@@ -297,6 +306,7 @@
 				return deferred.promise;
 			}
 		}
+
 		// this.BindToAutocomplete = function(){
 			// return this.AutoComplete(bindTo('bounds', this.mapElement()));
 		// }
@@ -1304,7 +1314,7 @@ L.Google.asyncInitialize = function() {
 		.controller('potentialModalController', potentialModalController);
 
 }());
-angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/login/login.html","<div class=m-login><div class=m-login__container><div class=container><div class=pure-g><div class=\"pure-u-1 pure-u-sm-8-24\"></div><div class=\"pure-u-1 pure-u-sm-8-24\"><div class=m-login__container-body><form action name=loginForm class=\"m-login__container-body__form js-login-form\"><fieldset class=m-fieldset><label for class=m-label>Usuario</label> <input type=text class=m-input ng-model=lg.login.user required></fieldset><fieldset class=m-fieldset><label for class=m-label>Password</label> <input type=password class=m-input ng-model=lg.login.password required></fieldset><div class=align-center><button type=button class=pure-button ng-click=\"lg.submitLogin(loginForm, lg.login)\">Enviar</button></div></form></div></div><div class=\"pure-u-1 pure-u-sm-8-24\"></div></div></div></div></div>");
+angular.module("walmex").run(["$templateCache", function($templateCache) {$templateCache.put("./components/login/login.html","<div class=m-login><div class=m-login__container><div class=container><div class=pure-g><div class=\"pure-u-1 pure-u-sm-5-24 pure-u-md-6-24 pure-u-lg-8-24\"></div><div class=\"pure-u-1 pure-u-sm-14-24 pure-u-md-12-24 pure-u-lg-8-24\"><div class=m-login__container-body><div class=m-login__container-body__logo><img src=./images/login/login_logo.png alt width=150></div><form action name=loginForm class=\"m-login__container-body__form js-login-form\"><fieldset class=m-fieldset><label for class=\"m-label m-label--in-login\" data-user=user>Usuario</label> <input type=text class=\"m-input m-input--in-login\" ng-model=lg.login.user required></fieldset><fieldset class=m-fieldset><label for class=\"m-label m-label--in-login\" data-user=password>Password</label> <input type=password class=\"m-input m-input--in-login\" ng-model=lg.login.password required></fieldset><div class=align-center><span class=m-input-error ng-if=login.error>{{login.error}}</span> <button type=button class=\"pure-button m-login__container-body__button is-larger\" ng-click=\"lg.submitLogin(loginForm, lg.login)\">Enviar</button></div></form></div></div><div class=\"pure-u-1 pure-u-sm-5-24 pure-u-md-6-24 pure-u-lg-8-24\"></div></div></div></div></div>");
 $templateCache.put("./components/analysis_functions/accessibility_modal/accessibility.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
 $templateCache.put("./components/analysis_functions/heatmap_modal/heatmap.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");
 $templateCache.put("./components/analysis_functions/od_modal/od.tpl.html","<div class=modal-header><h3 class=modal-title>I\'m a modal!</h3></div><div class=modal-body><h3>{{analysisId}}</h3></div><div class=modal-footer><button class=\"btn btn-primary\" type=button ng-click=ok()>OK</button> <button class=\"btn btn-warning\" type=button ng-click=cancel()>Cancel</button></div>");

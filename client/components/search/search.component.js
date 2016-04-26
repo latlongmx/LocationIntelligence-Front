@@ -22,45 +22,51 @@
 				var _searchButton = angular.element(document.getElementsByClassName('js-search'));
 				var _searchInput = angular.element(document.getElementsByClassName('js-search-input'));
 				var _searchInputId = document.getElementById('search');
+				var autocomplete = null;
+				var place = null;
+				var _lat = null;
+				var _lon = null;
+				var _map = null;
+				var _locationMarker = null;
+				var _markerGroup = new L.LayerGroup();
 				
 				BaseMapService.map.then(function (map) {
-					_searchFunction(map)
+					_searchFunction(map);
 				});
-				//var _map = BaseMapService.mapElement();
-				//var _map = BaseMapService.mapElement();
-				
+
 				/**
-				 * [Click to show input search]
+				 * [_searchFunction Search Address]
+				 * @param  {[type]} map [Map]
 				 */
-				// _searchForm.on('click', function(){
-				// 	$timeout(function(){
-				// 		$scope.search = "";
-				// 	}, 0);
-				// 	_searchForm.addClass('is-showed-form');
-				// 	_searchInput.addClass('is-showed-input');
-				// });
 				var _searchFunction = function(map) {
-					console.log(map)
-					BaseMapService.autoComplete(_searchInputId).bindTo('bounds', map);
+					_map = map;
+					autocomplete = new google.maps.places.Autocomplete(_searchInputId);
+					google.maps.event.addListener(autocomplete, 'place_changed', _onPlaceChanged);
 				}
 				
-				
-				//_autocomplete = BaseMapService.AutoComplete(_searchInput);
-				//_autocomplete.bindTo('bounds', _map);
+				var _onPlaceChanged = function() {
+					_markerGroup.clearLayers();
+					place = autocomplete.getPlace();
+					_lat = place.geometry.location.lat();
+					_lon = place.geometry.location.lng();
+					_locationMarker = L.marker([_lat, _lon]);
+					_markerGroup.addLayer(_locationMarker);
+					_markerGroup.addTo(_map);
+					_map.setView([_lat, _lon], 16);
+					//console.log(_locationMarker)
+				}
 
-				
-				
 				/**
 				 * [Bind event to hide input search]
 				 */
-				$window.addEventListener('mouseup', function(e){
-					e.preventDefault();
-					if (e.target !== _searchButton && e.target.parentNode !== _searchButton) {
-						_searchForm.removeClass('is-showed-form');
-						_searchInput.removeClass('is-showed-input');
+				// $window.addEventListener('mouseup', function(e){
+				// 	e.preventDefault();
+				// 	if (e.target !== _searchButton && e.target.parentNode !== _searchButton) {
+				// 		_searchForm.removeClass('is-showed-form');
+				// 		_searchInput.removeClass('is-showed-input');
 
-					}
-				});
+				// 	}
+				// });
 			}
 			// controller: function($scope){
 			// }

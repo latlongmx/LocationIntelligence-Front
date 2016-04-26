@@ -31,7 +31,6 @@
 	.run(["$rootScope", "$state", "$stateParams", function ($rootScope, $state, $stateParams) {
 		$rootScope.$state = $state;
 		$rootScope.$stateParams = $stateParams;
-
 		L.drawLocal.draw.toolbar.actions.text = "Cancelar";
 		L.drawLocal.draw.toolbar.actions.title = "Cancelar Dibujo";
 		L.drawLocal.draw.toolbar.finish.text = "Terminar";
