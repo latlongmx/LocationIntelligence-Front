@@ -1,5 +1,6 @@
 # Ignore Directories
 bower_components
+!bower_components/angular-ui-bootstrap/*
 node_modules
 public/*
 staging

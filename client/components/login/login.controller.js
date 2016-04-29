@@ -15,18 +15,20 @@
 
 		lg.submitLogin = function(loginForm, data){
 			if(loginForm.$valid) {
-				lg.status = {
-					text: "Enviando"
-				}
-				_data = LoginService.encodeData(data);
-				LoginService.loginRequest(_data).
-				then(function(data){
-					if(data.status === 200 && data.statusText === "OK") {
-						_session = JSON.stringify(data.data);
+				// lg.status = {
+				// 	text: "Enviando"
+				// }
+				//_data = LoginService.encodeData(data);
+				var promesa = LoginService.loginRequest(data);
+				
+				promesa.then(function(result){
+					if(result.status === 200 && result.statusText === "OK") {
+						_session = JSON.stringify(result.data);
 						$location.path("/mapa");
 						sessionStorage.setItem('access_token', _session);
 					}
 				}, function(error){
+
 					if(error.status === 401 && error.statusText === "Unauthorized") {
 						sessionStorage.removeItem('access_token');
 						lg.error = {
