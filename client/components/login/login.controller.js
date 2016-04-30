@@ -23,7 +23,7 @@
 				
 				promesa.then(function(result){
 					if(result.status === 200 && result.statusText === "OK") {
-						Auth.login();
+						Auth.login(result.data);
 						// _session = JSON.stringify(result.data);
 						// $location.path("/mapa");
 						// sessionStorage.setItem('access_token', _session);

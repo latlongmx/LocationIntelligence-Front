@@ -12,9 +12,9 @@
 		return {
 			login : function(session) {
 				console.log(session)
-				_session = JSON.stringify(session);
-				sessionStorage.setItem('access_token', _session);
-				$location.path("/mapa");
+				// _session = JSON.stringify(session);
+				// sessionStorage.setItem('access_token', _session);
+				// $location.path("/mapa");
 			}
 		}
 		
