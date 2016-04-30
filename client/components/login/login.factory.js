@@ -17,7 +17,7 @@
 			},
 			logout : function() {
 				sessionStorage.removeItem('access_token');
-				$location.path("/login");
+				$location.path("/");
 			}
 		};
 		

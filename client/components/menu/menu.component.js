@@ -36,7 +36,6 @@
 				});
 				
 				_$logout.on('click', function(e){
-					e.preventDefault();
 					Auth.logout();
 				});
 				
