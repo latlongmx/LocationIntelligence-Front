@@ -37,9 +37,9 @@
 				        maintainColor: true
 				    }
 					}
-				})
+				});
 			}
-		}
+		};
 		// this.BindToAutocomplete = function(){
 			// return this.AutoComplete(bindTo('bounds', this.mapElement()));
 		// }

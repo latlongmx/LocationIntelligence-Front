@@ -11,7 +11,7 @@
 		_session = null;
 		lg.status = {
 			text: "Enviar"
-		}
+		};
 
 		lg.submitLogin = function(loginForm, data){
 			if(loginForm.$valid) {
@@ -35,42 +35,42 @@
 						lg.error = {
 							text : "Las credenciales son incorrectas",
 							error : true
-						}
+						};
 
 						$timeout(function(){
 							lg.status = {
 								text: "Enviar"
-							}
+							};
 						}, 0);
 
 						$timeout(function(){
 							lg.error = {
 								error : false
-							}
+							};
 						}, 2500);
 					}
 					else {
 						lg.error = {
 							text : "Ha ocurrido un error, intenta nuevamente",
 							error : true
-						}
+						};
 						$timeout(function(){
 							lg.status = {
 								text: "Enviar"
-							}
+							};
 						}, 0);
 
 						$timeout(function(){
 							lg.error = {
 								error : false
-							}
+							};
 						}, 2500);
 					}
 				});
 			}
-		}
+		};
 
-	};
+	}
 	
 	LoginController.$inject = ['$scope', 'LoginService','$location', '$timeout', 'Auth'];
 

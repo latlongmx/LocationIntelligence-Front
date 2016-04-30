@@ -10,7 +10,7 @@
 		init();
 
 		function init(){
-			console.log("modal")
+			console.log("modal");
 		}
 
 		$scope.ok = function(){

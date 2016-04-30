@@ -41,11 +41,11 @@
 		}
 		
 		function _drawArea() {
-			console.log("area")
+			console.log("area");
 		}
 		
 		function _drawRadio() {
-			console.log("radio")
+			console.log("radio");
 		}
 		
 		return {

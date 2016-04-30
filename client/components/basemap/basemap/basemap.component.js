@@ -31,7 +31,7 @@
 		_autocomplete = null;
 
 		BaseMapService.map.then(function (map) {
-			_mapFunctions(map)
+			_mapFunctions(map);
 		});
 		
 		var _mapFunctions = function(map){
@@ -150,7 +150,7 @@
 			_delete_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-remove'));
 			_delete_tool.text("");
 			_delete_tool.append('<i class="demo demo-delete delete-tool"></i>');
-		}
+		};
 
 		// _map.on('baselayerchange', function(e){
 		// 	console.log(e)

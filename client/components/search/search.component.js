@@ -42,7 +42,7 @@
 					_map = map;
 					autocomplete = new google.maps.places.Autocomplete(_searchInputId);
 					google.maps.event.addListener(autocomplete, 'place_changed', _onPlaceChanged);
-				}
+				};
 				
 				var _onPlaceChanged = function() {
 					_markerGroup.clearLayers();
@@ -54,7 +54,7 @@
 					_markerGroup.addTo(_map);
 					_map.setView([_lat, _lon], 16);
 					//console.log(_locationMarker)
-				}
+				};
 
 				/**
 				 * [Bind event to hide input search]

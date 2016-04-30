@@ -4,7 +4,8 @@
 	*/
 	'use strict';
 
-	function MenuController($window){
+	function MenuController($window, Auth){
+		var _$logout = null;
 		return {
 			restrict: 'E',
 			template: [
@@ -18,21 +19,28 @@
 				'<ul class="m-list-navigation js-list-navigation">',
 					'<li class="m-list-navigation__item js-menu-item"><a>Menu 1</a></li>',
 					'<li class="m-list-navigation__item js-menu-item"><a>Menu 2</a></li>',
-					'<li class="m-list-navigation__item js-menu-item"><a>Menu 3</a></li>',
+					'<li class="m-list-navigation__item js-logout"><a>Cerrar sesión</a></li>',
 				'</ul>',
 			].join(''),
 			controller: function(){
 				var _$js_menu_button = angular.element(document.getElementsByClassName('js-menu-button'));
 				var _$js_list_navigation = angular.element(document.getElementsByClassName('js-list-navigation'));
-				
+				_$logout = angular.element(document.getElementsByClassName('js-logout'));
 				
 				
 				_$js_menu_button.on('click', function(e){
 					e.preventDefault();
-					angular.element(this).toggleClass('is-menu-active')
+					angular.element(this).toggleClass('is-menu-active');
 					_$js_list_navigation.toggleClass('is-menu-opened');
 					return false;
 				});
+				
+				_$logout.on('click', function(e){
+					e.preventDefault();
+					Auth.logout();
+				});
+				
+				
 				
 				// $window.addEventListener('mouseup', function(e){
 				// 	e.preventDefault();
@@ -51,7 +59,7 @@
 		};
 	}
 	
-	MenuController.$inject = ['$window'];
+	MenuController.$inject = ['$window', 'Auth'];
 
 	angular.module('menu.directive', [])
 		.directive('menu', MenuController);

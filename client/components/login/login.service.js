@@ -45,7 +45,7 @@
 				deferred.reject(error);
 			});
 			return deferred.promise;
-		}
+		};
 
 		// this.BindToAutocomplete = function(){
 			// return this.AutoComplete(bindTo('bounds', this.mapElement()));
