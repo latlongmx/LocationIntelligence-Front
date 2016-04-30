@@ -3,10 +3,10 @@
 	
 	angular.module('routes', ['ui.router'])
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-		$urlRouterProvider.otherwise('/');
+		$urlRouterProvider.otherwise('/login');
 		$stateProvider
-			.state('/', {
-				url: '/',
+			.state('login', {
+				url: '/login',
 				templateUrl: './components/login/login.html',
 				controller: 'LoginController',
 				controllerAs: 'lg'
