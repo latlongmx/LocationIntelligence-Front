@@ -5,6 +5,7 @@
 	angular.module('walmex',[
 			'login',
 			'login.service',
+			'login.factory',
 			'basemap',
 			'basemap.directive',
 			'basemap.service',

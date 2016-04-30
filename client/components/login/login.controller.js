@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function LoginController($scope, LoginService, $location, $timeout){
+	function LoginController($scope, LoginService, $location, $timeout, Auth){
 		var lg = this;
 		var _$js_login_form = null,
 		_data = null,
@@ -23,9 +23,10 @@
 				
 				promesa.then(function(result){
 					if(result.status === 200 && result.statusText === "OK") {
-						_session = JSON.stringify(result.data);
-						$location.path("/mapa");
-						sessionStorage.setItem('access_token', _session);
+						Auth.login();
+						// _session = JSON.stringify(result.data);
+						// $location.path("/mapa");
+						// sessionStorage.setItem('access_token', _session);
 					}
 				}, function(error){
 
@@ -71,7 +72,7 @@
 
 	};
 	
-	LoginController.$inject = ['$scope', 'LoginService','$location', '$timeout'];
+	LoginController.$inject = ['$scope', 'LoginService','$location', '$timeout', 'Auth'];
 
 	angular.module('login', []).
 	controller('LoginController', LoginController);

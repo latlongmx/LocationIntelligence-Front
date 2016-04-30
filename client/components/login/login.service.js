@@ -7,7 +7,7 @@
 	function LoginService($q, $http, $httpParamSerializer){
 		var deferred = null;
 
-		var _lginRequest = null,
+		var _loginRequest = null,
 		username = null,
 		password = null,
 		grant_type = "password",
@@ -30,7 +30,7 @@
 			client_secret = sha256(password).substr(0,40);
 			_data = {username: username, password: password, grant_type: grant_type, client_id: client_id, client_secret: client_secret};
 			
-			_lginRequest = $http({
+			_loginRequest = $http({
 				url: 'http://52.8.211.37/api.walmex.latlong.mx/oa/accesstk',
 				method: 'POST',
 				data: $httpParamSerializer(_data),
@@ -39,7 +39,7 @@
 				}
 			});
 
-			_lginRequest.then(function(result){
+			_loginRequest.then(function(result){
 				deferred.resolve(result);
 			}, function(error){
 				deferred.reject(error);
