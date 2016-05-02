@@ -61,7 +61,7 @@
 	}
 	
 	
-	MenuController.$inject = ['$window', 'Auth', '$location'];
+	MenuController.$inject = ['$window', 'Auth', '$location', 'BaseMapService'];
 
 	angular.module('menu.directive', [])
 		.directive('menu', MenuController);

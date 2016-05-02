@@ -17,6 +17,9 @@
 				$location.replace();
 			},
 			logout: function() {
+				BaseMapService.map.then(function (map) {
+					map.remove();
+				});
 				sessionStorage.removeItem('access_token');
 				$location.path("/login");
 				$location.replace();
