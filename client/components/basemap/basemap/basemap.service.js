@@ -11,7 +11,6 @@
 			featureGroup : L.featureGroup(),
 			mapId : 'pokaxperia.pk657nfi',
 			accessToken : 'pk.eyJ1IjoicG9rYXhwZXJpYSIsImEiOiJjaW13eHJ2NHMwM2Uwdjdra3c1bWF3Nzd6In0.leOLCkHazd_6JAQtdiHOFw',
-			featureGroup : L.featureGroup(),
 			resolve: function (element) {
 			  deferred.resolve(new L.Map(element).setView([19.432711775616433, -99.13325428962708], 12));
 			},

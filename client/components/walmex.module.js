@@ -29,7 +29,7 @@
 			'ui.bootstrap'
 		]
 	)
-	.run(["$rootScope", "$state", "$stateParams", function ($rootScope, $state, $stateParams) {
+	.run(["$rootScope", "$state", "$stateParams", "Auth", function ($rootScope, $state, $stateParams, Auth) {
 		$rootScope.$state = $state;
 		$rootScope.$stateParams = $stateParams;
 		L.drawLocal.draw.toolbar.actions.text = "Cancelar";
@@ -64,6 +64,9 @@
 		L.drawLocal.edit.toolbar.buttons.editDisabled = "No hay dibujos para editar";
 		L.drawLocal.edit.toolbar.buttons.remove = "Eliminar dibujos";
 		L.drawLocal.edit.toolbar.buttons.removeDisabled = "No hay dibujos para eliminar";
+		$rootScope.$on('$stateChangeStart', function() {
+        Auth.checkStatus();
+    });
 		return $rootScope;
 	}]);
 

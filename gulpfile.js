@@ -211,9 +211,9 @@ gulp.task('dev',['dev-server', 'watch']);
 //gulp.task('prod', ['prod-server']);
 
 
-function clean(path, done){
+function clean(path){
 	log('Cleaning: '+ $.util.colors.blue(path));
-	del(path, done)
+	del(path)
 }
 
 function log(msg) {

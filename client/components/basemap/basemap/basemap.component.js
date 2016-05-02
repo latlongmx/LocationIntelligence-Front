@@ -29,10 +29,15 @@
 		_featureGroup = null,
 		_colorLine = null,
 		_autocomplete = null;
+		
+		init();
 
-		BaseMapService.map.then(function (map) {
-			_mapFunctions(map);
-		});
+		function init() {
+			BaseMapService.map.then(function (map) {
+				_mapFunctions(map);
+			});
+		}
+
 		
 		var _mapFunctions = function(map){
 			_google_roadmap = new L.Google('ROADMAP');

@@ -30,6 +30,10 @@
 				var _locationMarker = null;
 				var _markerGroup = new L.LayerGroup();
 				
+				/**
+				 * [Get map element]
+				 * @param  {[type]} map
+				 */
 				BaseMapService.map.then(function (map) {
 					_searchFunction(map);
 				});
@@ -44,6 +48,9 @@
 					google.maps.event.addListener(autocomplete, 'place_changed', _onPlaceChanged);
 				};
 				
+				/**
+				 * [_onPlaceChanged Place marker]
+				 */
 				var _onPlaceChanged = function() {
 					_markerGroup.clearLayers();
 					place = autocomplete.getPlace();
@@ -53,7 +60,6 @@
 					_markerGroup.addLayer(_locationMarker);
 					_markerGroup.addTo(_map);
 					_map.setView([_lat, _lon], 16);
-					//console.log(_locationMarker)
 				};
 
 				/**

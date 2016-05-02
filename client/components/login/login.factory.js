@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 	
-	function AuthFactory($location){
+	function AuthFactory($location, $window){
 		var _privateRoutes = null,
 		_session = null,
 		_key = null;
@@ -14,38 +14,42 @@
 				_session = JSON.stringify(session);
 				sessionStorage.setItem('access_token', _session);
 				$location.path("/mapa");
+				$location.replace();
 			},
 			logout: function() {
 				sessionStorage.removeItem('access_token');
 				$location.path("/login");
-				//console.log(sessionStorage.getItem('access_token').access_token);
+				$location.replace();
 			},
-			// checkStatus : function() {
-			// 	_privateRoutes = ["/mapa"];
-			// 	if(this.in_array($location.path(),rutasPrivadas) && typeof(JSON.parse(sessionStorage.getItem('access_token').access_token)) == "undefined"){
-			// 		console.log("funciona")
-			// 			//$location.path("/");
-			// 	}
+			checkStatus : function() {
+				var token = JSON.parse(sessionStorage.getItem('access_token'));
+				_privateRoutes = ["/mapa"];
+				$location.replace();
 
-				// if(this.in_array("/",rutasPrivadas) && typeof($cookies.username) != "undefined"){
-				// 	$location.path("/mapa");
-				// }
+				if(this.in_array($location.path(), _privateRoutes) && token === null){
+						$location.path("/login");
+						$location.replace();
+				}
+
+				if($location.path("/login") && token !== null){
+					$location.path("/mapa");
+					$location.replace();
+				}
 				
-			// },
-			// in_array : function(needle, haystack) {
-			// 	var key = '';
-			// 	for(key in haystack){
-			// 		if(haystack[key] == needle)
-			// 		{
-			// 				return true;
-			// 		}
-			// 	}
-			// 	return false;
-			// }
+			},
+			in_array : function(needle, haystack) {
+				var key = '';
+				for(key in haystack){
+					if(haystack[key] == needle){
+						return true;
+					}
+				}
+				return false;
+			}
 		};
 		
 	}
-	AuthFactory.$inject = ['$location'];
+	AuthFactory.$inject = ['$location','$window'];
 	angular.module('login.factory', []).
 		factory('Auth', AuthFactory);
 
