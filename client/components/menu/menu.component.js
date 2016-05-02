@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function MenuController($window, Auth, $location){
+	function MenuController($window, Auth, $location, BaseMapService){
 		var _menuDirective = {
 			restrict: 'E',
 			template: [

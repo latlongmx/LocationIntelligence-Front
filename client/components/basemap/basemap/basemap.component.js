@@ -30,11 +30,13 @@
 		_colorLine = null,
 		_autocomplete = null;
 
-		setTimeout(function(){
+		
 			BaseMapService.map.then(function (map) {
-				_mapFunctions(map);
+				setTimeout(function(){
+					_mapFunctions(map);
+				}, 2000);
 			});
-		}, 2000);
+		
 		var _mapFunctions = function(map){
 			_google_roadmap = new L.Google('ROADMAP');
 			_google_satellite = new L.Google();
