@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function MenuController($window, Auth, $location){
+	function MenuController($window, Auth, $location, BaseMapService){
 		var _menuDirective = {
 			restrict: 'E',
 			template: [
@@ -61,7 +61,7 @@
 	}
 	
 	
-	MenuController.$inject = ['$window', 'Auth', '$location'];
+	MenuController.$inject = ['$window', 'Auth', '$location', 'BaseMapService'];
 
 	angular.module('menu.directive', [])
 		.directive('menu', MenuController);
