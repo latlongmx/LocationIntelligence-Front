@@ -39,9 +39,6 @@
 				});
 			}
 		};
-		// this.BindToAutocomplete = function(){
-			// return this.AutoComplete(bindTo('bounds', this.mapElement()));
-		// }
 	}
 	BaseMapService.$inject = ['$q'];
 	angular.module('basemap.service', []).

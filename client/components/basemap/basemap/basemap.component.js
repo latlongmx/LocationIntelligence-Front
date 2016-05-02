@@ -29,16 +29,12 @@
 		_featureGroup = null,
 		_colorLine = null,
 		_autocomplete = null;
-		
-		init();
 
-		function init() {
+		setTimeout(function(){
 			BaseMapService.map.then(function (map) {
 				_mapFunctions(map);
 			});
-		}
-
-		
+		}, 2000);
 		var _mapFunctions = function(map){
 			_google_roadmap = new L.Google('ROADMAP');
 			_google_satellite = new L.Google();
@@ -60,7 +56,9 @@
 					'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 				id: 'mapbox.satellite'
 			});
-			
+
+
+
 			/**
 			 * [Add layers to custom control]
 			 */
@@ -71,7 +69,8 @@
 				'Google Roadmap': _google_roadmap,
 				'Google Satellite': _google_satellite
 			}, {}, { position: 'bottomright'}));
-			
+
+
 			/**
 			 * [Set image name to each layer]
 			 * @type {Array}
