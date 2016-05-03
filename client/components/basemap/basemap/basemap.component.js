@@ -34,7 +34,7 @@
 			BaseMapService.map.then(function (map) {
 				setTimeout(function(){
 					_mapFunctions(map);
-				}, 2000);
+				}, 1500);
 			});
 		
 		var _mapFunctions = function(map){

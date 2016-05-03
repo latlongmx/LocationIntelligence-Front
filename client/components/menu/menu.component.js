@@ -40,16 +40,9 @@
 					$scope.$apply();
 					
 					setTimeout(function() {
-						sessionStorage.removeItem('access_token');
-						
-						console.log("redirect");
-						
-						// similar behavior as an HTTP redirect
-						window.location.replace("http://52.8.211.37/walmex.latlong.mx");
-
-						// similar behavior as clicking on a link
+						//sessionStorage.removeItem('access_token');
 						window.location.href = "http://52.8.211.37/walmex.latlong.mx";
-					}, 2000);
+					}, 500);
 					
 				});
 				
