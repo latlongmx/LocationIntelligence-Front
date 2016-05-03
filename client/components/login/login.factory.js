@@ -38,7 +38,7 @@
 					return true;
 				}
 				
-				return false;
+				return true;
 			},
 			in_array : function(needle, haystack) {
 				var key = '';

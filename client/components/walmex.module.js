@@ -72,9 +72,6 @@
 					window.location.href = "http://52.8.211.37/walmex.latlong.mx";
 				}, 0);
 			}
-			
-			$rootScope.$apply();
-
 		});
 		return $rootScope;
 	}]);
