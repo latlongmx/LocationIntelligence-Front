@@ -23,6 +23,7 @@
 				//}, 0);
 				$location.path("/login");
 				$location.replace();
+				console.log("funciona");
 			},
 			checkStatus : function() {
 				var token = JSON.parse(sessionStorage.getItem('access_token'));
