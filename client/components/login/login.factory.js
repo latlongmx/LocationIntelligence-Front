@@ -17,9 +17,6 @@
 				$location.replace();
 			},
 			logout: function() {
-				BaseMapService.map.then(function (map) {
-					map.remove();
-				});
 				sessionStorage.removeItem('access_token');
 				$location.path("/login");
 				$location.replace();
@@ -28,12 +25,12 @@
 				var token = JSON.parse(sessionStorage.getItem('access_token'));
 				_privateRoutes = ["/mapa"];
 				$location.replace();
-
+				
 				if(this.in_array($location.path(), _privateRoutes) && token === null){
-						$location.path("/login");
-						$location.replace();
+					$location.path("/login");
+					$location.replace();
 				}
-
+				
 				if($location.path("/login") && token !== null){
 					$location.path("/mapa");
 					$location.replace();

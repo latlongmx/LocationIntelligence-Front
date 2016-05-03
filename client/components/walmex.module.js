@@ -65,8 +65,9 @@
 		L.drawLocal.edit.toolbar.buttons.remove = "Eliminar dibujos";
 		L.drawLocal.edit.toolbar.buttons.removeDisabled = "No hay dibujos para eliminar";
 		$rootScope.$on('$stateChangeStart', function() {
-        Auth.checkStatus();
-    });
+			Auth.checkStatus();
+			$rootScope.$apply();
+		});
 		return $rootScope;
 	}]);
 
