@@ -39,7 +39,9 @@
 					Auth.logout();
 					$scope.$apply();
 					
-					setTimeout(function(){
+					setTimeout(function() {
+						sessionStorage.removeItem('access_token');
+						
 						console.log("redirect");
 						
 						// similar behavior as an HTTP redirect

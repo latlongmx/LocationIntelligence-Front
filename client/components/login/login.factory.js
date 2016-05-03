@@ -18,8 +18,9 @@
 			},
 			logout: function() {
 				sessionStorage.removeItem('access_token');
-				//$location.path("/login");
-				//$location.replace();
+				$location.path("/login");
+				$location.replace();
+				console.log("prueba logout");
 			},
 			checkStatus : function() {
 				var token = JSON.parse(sessionStorage.getItem('access_token'));
