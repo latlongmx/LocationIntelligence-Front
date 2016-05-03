@@ -38,12 +38,6 @@
 				_$js_logout.on('click', function(){
 					Auth.logout();
 					$scope.$apply();
-					
-					setTimeout(function() {
-						//sessionStorage.removeItem('access_token');
-						window.location.href = "http://52.8.211.37/walmex.latlong.mx";
-					}, 500);
-					
 				});
 				
 				
