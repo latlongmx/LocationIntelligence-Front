@@ -17,12 +17,10 @@
 				$location.replace();
 			},
 			logout: function() {
-				BaseMapService.map.then(function (map) {
-					map.remove();
-				});
 				sessionStorage.removeItem('access_token');
 				$location.path("/login");
 				$location.replace();
+				window.location = "http://52.8.211.37/walmex.latlong.mx/#/login";
 			},
 			checkStatus : function() {
 				var token = JSON.parse(sessionStorage.getItem('access_token'));
