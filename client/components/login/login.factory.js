@@ -18,9 +18,9 @@
 			},
 			logout: function() {
 				sessionStorage.removeItem('access_token');
-				setTimeout(function() {
-				window.location.href = "http://52.8.211.37/walmex.latlong.mx";
-				}, 0);
+				// setTimeout(function() {
+				// window.location.href = "http://52.8.211.37/walmex.latlong.mx";
+				// }, 0);
 				$location.path("/login");
 				$location.replace();
 
