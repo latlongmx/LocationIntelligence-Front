@@ -59,6 +59,4 @@
 	AuthFactory.$inject = ['$location','$window', 'BaseMapService'];
 	angular.module('login.factory', []).
 		factory('Auth', AuthFactory);
-	//cambios locales de pruebas
-	var a = 55;
 }());

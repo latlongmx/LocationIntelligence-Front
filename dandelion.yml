@@ -16,4 +16,6 @@ exclude:
     - README.md
     - .bowerrc
 
+additional:
+    - public/
 
