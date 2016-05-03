@@ -74,6 +74,7 @@
 			}
 			
 			$rootScope.$apply();
+
 		});
 		return $rootScope;
 	}]);
