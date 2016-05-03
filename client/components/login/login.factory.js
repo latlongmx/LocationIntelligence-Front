@@ -21,23 +21,25 @@
 				// setTimeout(function() {
 				// window.location.href = "http://52.8.211.37/walmex.latlong.mx";
 				// }, 0);
-				$location.path("/login");
-				$location.replace();
+				$window.location.href = "/login";
+				//$location.path("/login");
+				//$location.replace();
 			},
 			checkStatus : function() {
 				var token = JSON.parse(sessionStorage.getItem('access_token'));
 				_privateRoutes = ["/mapa"];
-				$location.replace();
 				
 				if(this.in_array($location.path(), _privateRoutes) && token === null){
-					$location.path("/login");
-					$location.replace();
+					$window.location.href = "/login";
+					// $location.path("/login");
+					// $location.replace();
 					return false;
 				}
 				
 				if($location.path("/login") && token !== null){
-					$location.path("/mapa");
-					$location.replace();
+					$window.location.href = "/mapa";
+					// $location.path("/mapa");
+					// $location.replace();
 					return true;
 				}
 				
