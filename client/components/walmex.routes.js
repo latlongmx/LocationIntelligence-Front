@@ -7,13 +7,13 @@
 		$stateProvider
 			.state('login', {
 				url: '/login',
-				templateUrl: './components/login/login.html',
+				templateUrl: '../components/login/login.html',
 				controller: 'LoginController',
 				controllerAs: 'lg'
 			})
 			.state('mapa', {
 				url: '/mapa',
-				templateUrl: './components/basemap/basemap/basemap.component.html',
+				templateUrl: '../components/basemap/basemap/basemap.component.html',
 				controller: 'BaseMapController'
 			});
 	}]);
