@@ -29,13 +29,16 @@
 				if(this.in_array($location.path(), _privateRoutes) && token === null){
 					$location.path("/login");
 					$location.replace();
+					return false;
 				}
 				
 				if($location.path("/login") && token !== null){
 					$location.path("/mapa");
 					$location.replace();
+					return true;
 				}
 				
+				return false;
 			},
 			in_array : function(needle, haystack) {
 				var key = '';

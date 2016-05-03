@@ -65,7 +65,14 @@
 		L.drawLocal.edit.toolbar.buttons.remove = "Eliminar dibujos";
 		L.drawLocal.edit.toolbar.buttons.removeDisabled = "No hay dibujos para eliminar";
 		$rootScope.$on('$stateChangeStart', function() {
-			Auth.checkStatus();
+			var auth = Auth.checkStatus();
+			
+			if(auth === false) {
+				setTimeout(function() {
+					window.location.href = "http://52.8.211.37/walmex.latlong.mx";
+				}, 0);
+			}
+			
 			$rootScope.$apply();
 		});
 		return $rootScope;
