@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 	
-	function AuthFactory($location, $window){
+	function AuthFactory($location, $window, BaseMapService){
 		var _privateRoutes = null,
 		_session = null,
 		_key = null;
@@ -52,7 +52,7 @@
 		};
 		
 	}
-	AuthFactory.$inject = ['$location','$window'];
+	AuthFactory.$inject = ['$location','$window', 'BaseMapService'];
 	angular.module('login.factory', []).
 		factory('Auth', AuthFactory);
 
