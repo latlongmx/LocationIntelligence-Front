@@ -1,0 +1,19 @@
+adapter: sftp
+host: 52.8.211.37
+username: ubuntu
+path: /var/www/html/walmex.latlong.mx
+
+exclude:
+    - .gitignore
+    - dandelion.yml
+    - database/
+    - client/
+    - bower_components
+    - bower.json
+    - gulpfile.js
+    - node_modules/
+    - package.json
+    - README.md
+    - .bowerrc
+
+
