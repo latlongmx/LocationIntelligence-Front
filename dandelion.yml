@@ -8,7 +8,7 @@ exclude:
     - dandelion.yml
     - database/
     - client/
-    - bower_components
+    - bower_components/
     - bower.json
     - gulpfile.js
     - node_modules/
