@@ -9,16 +9,13 @@
 		var _$js_login_form = null,
 		_data = null,
 		_session = null;
+
 		lg.status = {
 			text: "Enviar"
 		};
 
 		lg.submitLogin = function(loginForm, data){
 			if(loginForm.$valid) {
-				// lg.status = {
-				// 	text: "Enviando"
-				// }
-				//_data = LoginService.encodeData(data);
 				var promesa = LoginService.loginRequest(data);
 				
 				promesa.then(function(result){

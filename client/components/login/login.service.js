@@ -5,9 +5,8 @@
 	'use strict';
 	
 	function LoginService($q, $http, $httpParamSerializer){
-		var deferred = null;
-
-		var _loginRequest = null,
+		var deferred = null,
+		_loginRequest = null,
 		username = null,
 		password = null,
 		grant_type = "password",
@@ -47,9 +46,6 @@
 			return deferred.promise;
 		};
 
-		// this.BindToAutocomplete = function(){
-			// return this.AutoComplete(bindTo('bounds', this.mapElement()));
-		// }
 	}
 	LoginService.$inject = ['$q', '$http', '$httpParamSerializer'];
 	angular.module('login.service', []).

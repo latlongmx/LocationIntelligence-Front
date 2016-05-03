@@ -32,9 +32,7 @@
 
 		
 			BaseMapService.map.then(function (map) {
-				setTimeout(function(){
-					_mapFunctions(map);
-				}, 1500);
+				_mapFunctions(map);
 			});
 		
 		var _mapFunctions = function(map){
@@ -58,9 +56,7 @@
 					'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 				id: 'mapbox.satellite'
 			});
-
-
-
+			console.log(_mapbox_streets)
 			/**
 			 * [Add layers to custom control]
 			 */
@@ -71,7 +67,6 @@
 				'Google Roadmap': _google_roadmap,
 				'Google Satellite': _google_satellite
 			}, {}, { position: 'bottomright'}));
-
 
 			/**
 			 * [Set image name to each layer]

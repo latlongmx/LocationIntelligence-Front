@@ -9,12 +9,14 @@
 				url: '/login',
 				templateUrl: './components/login/login.html',
 				controller: 'LoginController',
-				controllerAs: 'lg'
+				controllerAs: 'lg',
+				reload: true
 			})
 			.state('mapa', {
 				url: '/mapa',
 				templateUrl: './components/basemap/basemap/basemap.component.html',
-				controller: 'BaseMapController'
+				controller: 'BaseMapController',
+				reload: true
 			});
 	}]);
 

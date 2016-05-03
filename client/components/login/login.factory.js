@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 	
-	function AuthFactory($location, $window, BaseMapService){
+	function AuthFactory($location, $window, $rootScope, BaseMapService){
 		var _privateRoutes = null,
 		_session = null,
 		_key = null;
@@ -14,32 +14,27 @@
 				_session = JSON.stringify(session);
 				sessionStorage.setItem('access_token', _session);
 				$location.path("/mapa");
-				$location.replace();
 			},
 			logout: function() {
 				sessionStorage.removeItem('access_token');
 				// setTimeout(function() {
 				// window.location.href = "http://52.8.211.37/walmex.latlong.mx";
 				// }, 0);
-				$window.location.href = "/login";
-				//$location.path("/login");
-				//$location.replace();
+				$location.path("/login");
 			},
 			checkStatus : function() {
 				var token = JSON.parse(sessionStorage.getItem('access_token'));
 				_privateRoutes = ["/mapa"];
+				$location.replace();
 				
 				if(this.in_array($location.path(), _privateRoutes) && token === null){
-					$window.location.href = "/login";
-					// $location.path("/login");
-					// $location.replace();
+					$location.path("/login");
+					$location.replace();
 					return false;
 				}
 				
 				if($location.path("/login") && token !== null){
-					$window.location.href = "/mapa";
-					// $location.path("/mapa");
-					// $location.replace();
+					$location.path("/mapa");
 					return true;
 				}
 				
@@ -57,7 +52,7 @@
 		};
 		
 	}
-	AuthFactory.$inject = ['$location','$window', 'BaseMapService'];
+	AuthFactory.$inject = ['$location','$window', '$rootScope', 'BaseMapService'];
 	angular.module('login.factory', []).
 		factory('Auth', AuthFactory);
 }());
