@@ -38,13 +38,17 @@
 				_$js_logout.on('click', function(){
 					Auth.logout();
 					$scope.$apply();
-					console.log("redirect");
-				
-					// similar behavior as an HTTP redirect
-					window.location.replace("http://52.8.211.37/walmex.latlong.mx");
+					
+					setTimeout(function(){
+						console.log("redirect");
+						
+						// similar behavior as an HTTP redirect
+						window.location.replace("http://52.8.211.37/walmex.latlong.mx");
 
-					// similar behavior as clicking on a link
-					window.location.href = "http://52.8.211.37/walmex.latlong.mx";
+						// similar behavior as clicking on a link
+						window.location.href = "http://52.8.211.37/walmex.latlong.mx";
+					}, 2000);
+					
 				});
 				
 				
