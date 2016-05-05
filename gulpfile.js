@@ -199,7 +199,7 @@ gulp.task('prod', function(){
 });
 
 /* Watch files */
-gulp.task('watch', function(){
+gulp.task('watch', ['sass'], function(){
 	log('Watching files!');
 	gulp.watch('client/components/**/*.js', ['js']);
 	gulp.watch('client/components/**/**/*.scss', ['sass']);
