@@ -9,14 +9,12 @@ var ngAnnotate = require('gulp-ng-annotate');
 
 /*** To Dev ***/
 
-
 gulp.task('inject', function(){
 	return gulp.src('./client/index.html')
 		.pipe(wiredep({
 			bowerJson: require('./bower.json'),
 			directory: 'bower_components',
-			ignorePath: '../../',
-			//exclude: [ 'bower_components/leaflet-dist/leaflet.js', 'bower_components/leaflet-dist/leaflet.css' ]
+			ignorePath: '../../'
 		}))
 		.pipe($.inject(gulp.src([
 			'bower_components/angular-ui-bootstrap/*.js',
@@ -95,13 +93,14 @@ gulp.task('cleaning-styles', function(){
 	var files = './client/css/*.css';
 	clean(files);
 });
+
 gulp.task('cleaning-images', function(){
 	clean('public/images/**/*.*');
 });
 
 /* To Production */
 
-gulp.task('join', function(){
+gulp.task('join', ['template', 'html', 'images', 'fonts'], function(){
 	log('Joining all js/css files');
 	//var assets = useref({searchPath: ['./']});
 	var cssFilter = $.filter('**/*.css', {restore: true});
