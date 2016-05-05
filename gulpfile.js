@@ -42,7 +42,7 @@ gulp.task('sass', ['cleaning-styles'], function () {
 	log('Compiling sass to css');
 	return gulp.src('./client/sass/config.scss')
 		.pipe($.sass().on('error', $.sass.logError))
-		//.pipe($.sass({outputStyle: 'compressed'}))
+		.pipe($.sass({outputStyle: 'compressed'}))
 		.pipe($.concat('styles.css'))
 		.pipe(gulp.dest('./client/css/'));
 });
@@ -102,7 +102,6 @@ gulp.task('cleaning-images', function(){
 
 gulp.task('join', ['template', 'html', 'images', 'fonts'], function(){
 	log('Joining all js/css files');
-	//var assets = useref({searchPath: ['./']});
 	var cssFilter = $.filter('**/*.css', {restore: true});
 	var jsLibFilter = $.filter('**/lib.js', {restore: true});
 	var jsAppFilter = $.filter('**/app.js', {restore: true});
@@ -111,33 +110,36 @@ gulp.task('join', ['template', 'html', 'images', 'fonts'], function(){
 		.pipe($.inject(gulp.src(
 			'../tmp/templates.js',{read: false}
 		),{starttag: '<!-- inject:templates:js -->'}))
-		//.pipe(assets)
 		.pipe(cssFilter)
 		.pipe($.csso())
 		.pipe(cssFilter.restore)
 		.pipe(jsLibFilter)
-		.pipe($.uglify())
 		.pipe(jsLibFilter.restore)
 		.pipe(jsAppFilter)
-		.pipe(ngAnnotate())
-		.pipe($.uglify())
 		.pipe(jsAppFilter.restore)
-		//.pipe(assets.restore())
 		.pipe($.useref())
 		.pipe(gulp.dest('public'));
 });
 
-gulp.task('annotate', function () {
-    return gulp.src('public/js/app.js')
-        .pipe(ngAnnotate())
-        .pipe($.uglify())
-        .pipe(gulp.dest('public/js'));
+gulp.task('con', ['app', 'lib', 'css']);
+
+gulp.task('app', function () {
+  return gulp.src('public/js/app.js')
+    .pipe(ngAnnotate())
+    .pipe($.uglify())
+    .pipe(gulp.dest('public/js'));
 });
 
-gulp.task('uglify', function () {
-    return gulp.src('public/js/lib.js')
-        .pipe($.uglify())
-        .pipe(gulp.dest('public/js/'));
+gulp.task('lib', function () {
+  return gulp.src('public/js/lib.js')
+    .pipe($.uglify())
+    .pipe(gulp.dest('public/js/'));
+});
+
+gulp.task('css', function () {
+	log('Compiling css to public');
+	return gulp.src('./client/css/*.css')
+		.pipe(gulp.dest('./public/css/'));
 });
 
 /* Dev Server */
@@ -207,7 +209,7 @@ gulp.task('watch', function(){
 
 
 gulp.task('dev',['dev-server', 'watch']);
-//gulp.task('prod', ['prod-server']);
+gulp.task('prod', ['prod-server']);
 
 
 function clean(path){
