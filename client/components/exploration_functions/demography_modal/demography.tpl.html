@@ -1,10 +1,15 @@
 <div class="modal-header">
-	<h3 class="modal-title">I'm a modal!</h3>
+	<h3 class="modal-title">Demografía</h3>
 </div>
 <div class="modal-body">
-	<h3>{{epId}}</h3>
+	
+	<h3>{{demography.epId}}</h3>
+	<div class="m-modal__demography-list" ng-if="demography.list === true">
+		<wxy-push-menu menu="demography.menu" options="demography.options"></wxy-push-menu>
+	</div>
+	
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-	<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="demography.ok()">OK</button>
+	<button class="btn btn-warning" type="button" ng-click="demography.cancel()">Cancel</button>
 </div>

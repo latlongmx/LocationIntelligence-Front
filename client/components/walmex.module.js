@@ -17,6 +17,7 @@
 			'location.modal.controller',
 			'competence.modal.controller',
 			'demography.modal.controller',
+			'demograhpy.json.service',
 			'potential.modal.controller',
 			'analysis.directive',
 			'accessibility.modal.controller',
@@ -26,7 +27,8 @@
 			'historical.directive',
 			'search.directive',
 			'ui.router',
-			'ui.bootstrap'
+			'ui.bootstrap',
+			'wxy.pushmenu'
 		]
 	)
 	.run(["$rootScope", "$state", "$stateParams", "Auth", function ($rootScope, $state, $stateParams, Auth) {

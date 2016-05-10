@@ -56,7 +56,6 @@
 					'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 				id: 'mapbox.satellite'
 			});
-			console.log(_mapbox_streets)
 			/**
 			 * [Add layers to custom control]
 			 */

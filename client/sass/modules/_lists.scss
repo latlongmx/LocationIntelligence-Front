@@ -18,7 +18,7 @@
 .m-list-maptools__item {
 	padding: 10px;
 	cursor:pointer;
-	&:hover {
+	&:hover{
 		background: $gray;
 		color: $white;
 	}
@@ -37,7 +37,8 @@
 	padding: 3px 6px;
 	border-left: 4px solid transparent;
 	@include transition(all linear 0.25s);
-	&:hover {
+	&:hover,
+	&.is-item-panel-active {
 		background: $white;
 		border-color:$green-sdark;
 		.m-list-functions__item-icon {

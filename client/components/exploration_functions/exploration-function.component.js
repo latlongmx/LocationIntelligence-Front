@@ -25,21 +25,35 @@
 				'</ul>',
 			].join(''),
 			controller: function($scope){
-				var _$js_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
-				var _data_ep = null;
+				var _$js_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item')),
+				_data_ep = null,
+				modalDemographyInstance = null;
+
 				_$js_exploration_item.on('click', function(e){
 					e.preventDefault();
 					$scope.epId = this.getAttribute('data-ep');
+					$scope.explorationItemSelected = angular.element(this);
 					_data_ep = this.getAttribute('data-ep');
-					$uibModal.open({
+					angular.element(this).addClass('is-item-panel-active');
+
+					modalDemographyInstance = $uibModal.open({
 						controller: _data_ep+'ModalController',
+						controllerAs: _data_ep,
 						templateUrl: './components/exploration_functions/'+_data_ep+'_modal/'+_data_ep+'.tpl.html',
 						animation: true,
+						windowClass: "m-modal__" + _data_ep,
 						resolve: {
-							epId: function () {
-								return $scope.epId;
+							items: function () {
+								return {
+									id: $scope.epId,
+									item: $scope.explorationItemSelected
+								};
 							}
 						}
+					});
+
+					modalDemographyInstance.closed.then(function(){
+						angular.element(document.getElementsByClassName('js-exploration-item')).removeClass('is-item-panel-active');
 					});
 				});
 				

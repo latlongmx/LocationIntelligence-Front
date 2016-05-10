@@ -4,25 +4,43 @@
 	*/
 	'use strict';
 
-	var demographyModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope){
-
+	var demographyModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope, items, DemographyJsonService){
 		var _this = null;
-		init();
+		var demography = this;
+		demography.epId = items.id;
 
-		function init(){
-			console.log("modal");
-		}
+		//demography.variableSearch = function(){
+			
+			DemographyJsonService.demographyJsonRequest()
+			.then(function(result){
+				demography.list = true;
+				demography.menu = result.data;
+				
+			}, function(error){
+				console.log(error)
+			});
+			
+			demography.events = [];
+			demography.options = {
+				collapsed: true,
+				fullCollapse: true
+	      // containersToPush: [$('#pushobj')],
+	      // direction: 'ltr',
+	      // onItemClick: function(event, item) {
+	      //   demography.events.push('Item ' + item.name + ' clicked!');
+	      // }
+	    };
+		//};
 
-		$scope.ok = function(){
-			$uibModalInstance.close();
-		};
 
-		$scope.cancel = function () {
+		demography.ok = $uibModalInstance.close;
+
+		demography.cancel = function(){
 			$uibModalInstance.close('cancel');
 		};
 	};
 
-	demographyModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope'];
+	demographyModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope', 'items', 'DemographyJsonService'];
 
 	angular.module('demography.modal.controller', [])
 		.controller('demographyModalController', demographyModalController);

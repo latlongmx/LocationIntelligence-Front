@@ -4,10 +4,10 @@
 	*/
 	'use strict';
 
-	var competenceModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope, epId){
+	var competenceModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope, items){
 
 		var _this = null;
-		$scope.epId = epId;
+		var competence = this;
 		init();
 
 		function init(){
@@ -23,7 +23,7 @@
 		};
 	};
 
-	competenceModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope', 'epId'];
+	competenceModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope', 'items'];
 
 	angular.module('competence.modal.controller', [])
 		.controller('competenceModalController', competenceModalController);
