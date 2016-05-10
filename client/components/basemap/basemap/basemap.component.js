@@ -30,11 +30,11 @@
 		_colorLine = null,
 		_autocomplete = null;
 
-		
+
 			BaseMapService.map.then(function (map) {
 				_mapFunctions(map);
 			});
-		
+
 		var _mapFunctions = function(map){
 			_google_roadmap = new L.Google('ROADMAP');
 			_google_satellite = new L.Google();
@@ -73,7 +73,7 @@
 			 * @type {Array}
 			 */
 			var imagesArray = ['mapbox-calles', 'mapbox-relieve', 'mapbox-satellite', 'mapbox-satellite', 'mapbox-calles'];
-			
+
 			_label_item = angular.element(document.getElementsByClassName('leaflet-control-layers-base')).children();
 			_label = angular.element(document.getElementsByClassName('leaflet-control-layers-toggle'));
 			_label.text("Mapa Base");
@@ -86,7 +86,7 @@
 			angular.forEach(_label_item, function(item, index) {
 				angular.element(item).append('<img src="./images/switcher_map/'+imagesArray[index]+'.jpg" width="120"/>');
 			});
-			
+
 			_featureGroup = BaseMapService.featureGroup.addTo(map);
 			_drawControl = BaseMapService.drawControl(_featureGroup);
 			_drawControl = new L.Control.Draw({
@@ -107,35 +107,38 @@
 					}
 				}
 			}).addTo(map);
-			
+
 			map.on('draw:created', function (e) {
 					_drawType = e.layerType;
-					
+
+					//TEST JOYS
+					var accTK = JSON.parse(sessionStorage.getItem('access_token')).access_token;
+
 					//     layer = e.layer;
 					// Do whatever else you need to. (save to db, add to map etc)
 					_featureGroup.addLayer(e.layer);
 			});
-			
+
 			_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
 			_zoom_in.text("");
 			_zoom_in.append('<i class="demo demo-zoom-in leaflet-zoom-in"></i>');
-			
+
 			_zoom_out = angular.element(document.getElementsByClassName('leaflet-control-zoom-out'));
 			_zoom_out.text("");
 			_zoom_out.append('<i class="demo demo-zoom-out leaflet-zoom-out"></i>');
-			
+
 			_line_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-polyline'));
 			_line_tool.text("");
 			_line_tool.append('<i class="demo demo-line line-tool"></i>');
-			
+
 			_polygon_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-polygon'));
 			_polygon_tool.text("");
 			_polygon_tool.append('<i class="demo demo-area polygon-tool"></i>');
-			
+
 			_area_tool = angular.element(document.getElementsByClassName('leaflet-draw-draw-circle'));
 			_area_tool.text("");
 			_area_tool.append('<i class="demo demo-radio area-tool"></i>');
-			
+
 			_actions_tool = angular.element(document.getElementsByClassName('leaflet-draw-actions'));
 			_actions_tool.text("");
 			_actions_tool.css({
@@ -143,11 +146,11 @@
 				left: "0px",
 				top: "40px"
 			});
-			
+
 			_edit_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-edit'));
 			_edit_tool.text("");
 			_edit_tool.append('<i class="demo demo-edit edit-tool"></i>');
-			
+
 			_delete_tool = angular.element(document.getElementsByClassName('leaflet-draw-edit-remove'));
 			_delete_tool.text("");
 			_delete_tool.append('<i class="demo demo-delete delete-tool"></i>');
@@ -166,9 +169,9 @@
 		// 	}
 		// });
 	};
-	
+
 	BaseMapController.$inject = ['$scope', 'BaseMapService'];
-	
+
 	angular.module('basemap', []).
 	controller('BaseMapController', BaseMapController);
 
