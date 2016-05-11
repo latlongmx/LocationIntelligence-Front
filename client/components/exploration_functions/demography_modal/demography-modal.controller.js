@@ -23,13 +23,16 @@
 			demography.events = [];
 			demography.options = {
 				collapsed: true,
-				fullCollapse: true
-	      // containersToPush: [$('#pushobj')],
-	      // direction: 'ltr',
-	      // onItemClick: function(event, item) {
-	      //   demography.events.push('Item ' + item.name + ' clicked!');
-	      // }
-	    };
+				fullCollapse: true,
+				onExpandMenuEnd: function() {
+					console.log("terminado")
+				},
+				// containersToPush: [$('#pushobj')],
+				// direction: 'ltr',
+				// onItemClick: function(event, item) {
+				//   demography.events.push('Item ' + item.name + ' clicked!');
+				// }
+			};
 		//};
 
 

@@ -4,12 +4,12 @@
 <div class="modal-body">
 	
 	<h3>{{demography.epId}}</h3>
-	<div class="m-modal__demography-list" ng-if="demography.list === true">
-		<wxy-push-menu menu="demography.menu" options="demography.options"></wxy-push-menu>
-	</div>
 	
 </div>
 <div class="modal-footer">
 	<button class="btn btn-primary" type="button" ng-click="demography.ok()">OK</button>
 	<button class="btn btn-warning" type="button" ng-click="demography.cancel()">Cancel</button>
 </div>
+	<div class="m-modal__demography-list" ng-if="demography.list === true">
+		<wxy-push-menu menu="demography.menu" options="demography.options"></wxy-push-menu>
+	</div>
