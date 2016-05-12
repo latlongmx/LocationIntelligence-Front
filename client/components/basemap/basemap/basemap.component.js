@@ -126,14 +126,14 @@
 				var i =0;
 				switch (geom.layerType) {
 					case 'polygon':
-							wkt = "POLYGON(('";
+							wkt = "POLYGON((";
 							wkt += getCoords(layer);
-							wkt +="'))";
+							wkt +="))";
 						break;
 					case 'polyline':
-							wkt = "LINESTRING('";
+							wkt = "LINESTRING(";
 							wkt += getCoords(layer);
-							wkt +="')";
+							wkt +=")";
 						break;
 					case 'circle':
 							var latlng = layer.getLatLng();
@@ -151,10 +151,25 @@
 
 			map.on('draw:created', function (e) {
 					_drawType = e.layerType;
-					var wkt = Geo2WKT(e);
+					var geo_wkt = Geo2WKT(e);
 					var accTK = JSON.parse(sessionStorage.getItem('access_token')).access_token;
-					if(wkt){
-						BaseMapService.testRequest(wkt)
+					if(geo_wkt){
+						var opts = {
+							url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/intersect',
+							method: 'GET',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							params: {
+								s:'inegi',
+								t: 'inter15_vias',
+								c:'tipovial',
+								w:'',
+								wkt: geo_wkt.wkt,
+								mts: geo_wkt.mts,
+							}
+						};
+						BaseMapService.testRequest(opts)
 						.then(function(result){
 							console.log(result);
 						}, function(error){
@@ -165,7 +180,7 @@
 					}
 
 					//TEST JOYS
-					
+
 
 					//     layer = e.layer;
 					// Do whatever else you need to. (save to db, add to map etc)
