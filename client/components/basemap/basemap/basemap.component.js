@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	var BaseMapController = function($scope, BaseMapService, $http){
+	var BaseMapController = function($scope, BaseMapService){
 
 		var _this = null,
 		_map = null,
@@ -152,13 +152,20 @@
 			map.on('draw:created', function (e) {
 					_drawType = e.layerType;
 					var wkt = Geo2WKT(e);
+					var accTK = JSON.parse(sessionStorage.getItem('access_token')).access_token;
 					if(wkt){
-						console.log(wkt);
+						BaseMapService.testRequest(wkt)
+						.then(function(result){
+							console.log(result);
+						}, function(error){
+							console.log(error);
+						});
+						//console.log(wkt);
 						//aqui usar $http
 					}
 
 					//TEST JOYS
-					var accTK = JSON.parse(sessionStorage.getItem('access_token')).access_token;
+					
 
 					//     layer = e.layer;
 					// Do whatever else you need to. (save to db, add to map etc)
@@ -216,7 +223,7 @@
 		// });
 	};
 
-	BaseMapController.$inject = ['$scope', 'BaseMapService', '$http'];
+	BaseMapController.$inject = ['$scope', 'BaseMapService'];
 
 	angular.module('basemap', []).
 	controller('BaseMapController', BaseMapController);

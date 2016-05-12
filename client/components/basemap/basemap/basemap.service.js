@@ -4,8 +4,9 @@
 	*/
 	'use strict';
 	
-	function BaseMapService($q){
-		var deferred = $q.defer();
+	function BaseMapService($q, $http){
+		var deferred = $q.defer(),
+		_testRequest = null;
 		return {
 			map: deferred.promise,
 			featureGroup : L.featureGroup(),
@@ -37,10 +38,29 @@
 				    }
 					}
 				});
+			},
+			testRequest: function(wkt){
+				deferred = $q.defer();
+				console.log(wkt)
+				_testRequest = $http({
+					url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/catalog/analisis',
+					method: 'POST',
+					data: wkt,
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				});
+
+				_testRequest.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					deferred.reject(error);
+				});
+				return deferred.promise;
 			}
 		};
 	}
-	BaseMapService.$inject = ['$q'];
+	BaseMapService.$inject = ['$q', '$http'];
 	angular.module('basemap.service', []).
 		service('BaseMapService', BaseMapService);
 
