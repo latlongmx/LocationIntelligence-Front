@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	var BaseMapController = function($scope, BaseMapService){
+	var BaseMapController = function($scope, BaseMapService, $http){
 
 		var _this = null,
 		_map = null,
@@ -108,8 +108,55 @@
 				}
 			}).addTo(map);
 
+			var getCoords = function(layer){
+				var coors = "";
+				var latlngs = layer.getLatLngs();
+				for (var i=0; i<latlngs.length; i++){
+					if (i !== 0){
+						coors += ',';
+					}
+				 coors += latlngs[0].lng+' '+latlngs[0].lat;
+				}
+				return coors;
+			};
+			//Funcion para convertir a WKT
+			var Geo2WKT = function(geom){
+				var wkt = false;
+				var mts = 0;
+				var layer = geom.layer;
+				var i =0;
+				switch (geom.layerType) {
+					case 'polygon':
+							wkt = "POLYGON(('";
+							wkt += getCoords(layer);
+							wkt +="'))";
+						break;
+					case 'polyline':
+							wkt = "LINESTRING('";
+							wkt += getCoords(layer);
+							wkt +="')";
+						break;
+					case 'circle':
+							var latlng = layer.getLatLng();
+							wkt = "POINT("+latlng.lng+" "+latlng.lat+")";
+							mts = parseInt(layer.getRadius());
+						break;
+					default:
+						break;
+				}
+				return {
+					wkt: wkt,
+					mts: mts
+				};
+			};
+
 			map.on('draw:created', function (e) {
 					_drawType = e.layerType;
+					var wkt = Geo2WKT(e);
+					if(wkt){
+						console.log(wkt);
+						//aqui usar $http
+					}
 
 					//TEST JOYS
 					var accTK = JSON.parse(sessionStorage.getItem('access_token')).access_token;
@@ -170,7 +217,7 @@
 		// });
 	};
 
-	BaseMapController.$inject = ['$scope', 'BaseMapService'];
+	BaseMapController.$inject = ['$scope', 'BaseMapService', '$http'];
 
 	angular.module('basemap', []).
 	controller('BaseMapController', BaseMapController);
