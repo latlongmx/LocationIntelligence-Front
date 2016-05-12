@@ -31,6 +31,17 @@
   line-height: 1em;
   //color: #1f4164;
   color: #C3EE97;
+  margin-top: 60px;
+}
+
+.multilevelpushmenu_wrapper .menu-icon {
+  color: #C3EE97;
+  font-size: 1.5em;
+  line-height: 1em;
+  padding: 0 .4em 0 .4em;
+  position: absolute;
+  right: 0;
+  top: 20px;
 }
 
 .multilevelpushmenu_wrapper ul {
@@ -40,7 +51,8 @@
 }
 
 .multilevelpushmenu_wrapper ul li {
-  padding: .4em .4em .4em .4em;
+  //padding: .4em .4em .4em .4em;
+  padding: 0em;
   cursor: pointer;
   //border-top: 1px solid #295685;
 }
@@ -55,7 +67,7 @@
 
 .multilevelpushmenu_wrapper a {
   display: block;
-  padding: .2em .2em;
+  padding: .6em .6em;
   overflow: hidden;
   font-size: 18px;
   line-height: 1em;
@@ -71,7 +83,8 @@
 
 .multilevelpushmenu_wrapper .backItemClass {
   display: block;
-  padding: .4em .4em .4em .4em;
+  //padding: .4em .4em .4em .4em;
+  padding: 0em;
   background: #666470;
   //border-top: 1px solid #295685;
 }
@@ -141,3 +154,4 @@
 .multilevelpushmenu_wrapper.rtl .floatLeft {
   float: right;
 }
+
