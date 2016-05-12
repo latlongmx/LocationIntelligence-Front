@@ -19,19 +19,18 @@
 			}, function(error){
 				console.log(error)
 			});
-			
-			demography.events = [];
+
 			demography.options = {
 				collapsed: true,
 				fullCollapse: true,
+				onExpandMenuStart: function() {
+				},
 				onExpandMenuEnd: function() {
 					console.log("terminado")
 				},
-				// containersToPush: [$('#pushobj')],
-				// direction: 'ltr',
-				// onItemClick: function(event, item) {
-				//   demography.events.push('Item ' + item.name + ' clicked!');
-				// }
+				onItemClick: function(event, item) {
+				  console.log(item.id)
+				}
 			};
 		//};
 
