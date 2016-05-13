@@ -107,14 +107,17 @@
 				}
 			}).addTo(map);
 
-			var getCoords = function(layer){
+			var getCoords = function(layer, geomtype){
 				var coors = "";
 				var latlngs = layer.getLatLngs();
 				for (var i=0; i<latlngs.length; i++){
 					if (i !== 0){
 						coors += ',';
 					}
-				 coors += latlngs[0].lng+' '+latlngs[0].lat;
+				 coors += latlngs[i].lng+' '+latlngs[i].lat;
+				}
+				if(geomtype==='polygon'){
+					coors += ','+latlngs[0].lng+' '+latlngs[0].lat;
 				}
 				return coors;
 			};
@@ -126,14 +129,14 @@
 				var i =0;
 				switch (geom.layerType) {
 					case 'polygon':
-							wkt = "POLYGON(('";
-							wkt += getCoords(layer);
-							wkt +="'))";
+							wkt = "POLYGON((";
+							wkt += getCoords(layer, geom.layerType);
+							wkt +="))";
 						break;
 					case 'polyline':
-							wkt = "LINESTRING('";
-							wkt += getCoords(layer);
-							wkt +="')";
+							wkt = "LINESTRING(";
+							wkt += getCoords(layer, geom.layerType);
+							wkt +=")";
 						break;
 					case 'circle':
 							var latlng = layer.getLatLng();
@@ -151,12 +154,31 @@
 
 			map.on('draw:created', function (e) {
 					_drawType = e.layerType;
-					var wkt = Geo2WKT(e);
+					var geo_wkt = Geo2WKT(e);
 					var accTK = JSON.parse(sessionStorage.getItem('access_token')).access_token;
-					if(wkt){
-						BaseMapService.testRequest(wkt)
+					if(geo_wkt){
+						var opts = {
+							url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/intersect',
+							method: 'GET',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							params: {
+								s:'inegi',
+								t: 'inter15_vias',
+								c:'tipovial',
+								w:'',
+								wkt: geo_wkt.wkt,
+								mts: geo_wkt.mts,
+							}
+						};
+						BaseMapService.testRequest(opts)
 						.then(function(result){
 							console.log(result);
+							if(result && result.data){
+								var info = result.data.info;
+								var geojson = result.data.geojson;
+							}
 						}, function(error){
 							console.log(error);
 						});
@@ -165,7 +187,7 @@
 					}
 
 					//TEST JOYS
-					
+
 
 					//     layer = e.layer;
 					// Do whatever else you need to. (save to db, add to map etc)

@@ -3,7 +3,7 @@
 	* BaseMap Module
 	*/
 	'use strict';
-	
+
 	function BaseMapService($q, $http){
 		var deferred = $q.defer(),
 		_testRequest = null;
@@ -15,7 +15,7 @@
 			resolve: function (element) {
 			  deferred.resolve(new L.Map(element).setView([19.432711775616433, -99.13325428962708], 12));
 			},
-			
+
 			autoComplete : function(searchInput){
 				return new google.maps.places.Autocomplete(searchInput);
 			},
@@ -39,17 +39,9 @@
 					}
 				});
 			},
-			testRequest: function(wkt){
+			testRequest: function(opts){
 				deferred = $q.defer();
-				console.log(wkt)
-				_testRequest = $http({
-					url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/catalog/analisis',
-					method: 'POST',
-					data: wkt,
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				});
+				_testRequest = $http(opts);
 
 				_testRequest.then(function(result){
 					deferred.resolve(result);
