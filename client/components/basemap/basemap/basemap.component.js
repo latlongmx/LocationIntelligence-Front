@@ -107,14 +107,17 @@
 				}
 			}).addTo(map);
 
-			var getCoords = function(layer){
+			var getCoords = function(layer, geomtype){
 				var coors = "";
 				var latlngs = layer.getLatLngs();
 				for (var i=0; i<latlngs.length; i++){
 					if (i !== 0){
 						coors += ',';
 					}
-				 coors += latlngs[0].lng+' '+latlngs[0].lat;
+				 coors += latlngs[i].lng+' '+latlngs[i].lat;
+				}
+				if(geomtype==='polygon'){
+					coors += ','+latlngs[0].lng+' '+latlngs[0].lat;
 				}
 				return coors;
 			};
@@ -127,12 +130,12 @@
 				switch (geom.layerType) {
 					case 'polygon':
 							wkt = "POLYGON((";
-							wkt += getCoords(layer);
+							wkt += getCoords(layer, geom.layerType);
 							wkt +="))";
 						break;
 					case 'polyline':
 							wkt = "LINESTRING(";
-							wkt += getCoords(layer);
+							wkt += getCoords(layer, geom.layerType);
 							wkt +=")";
 						break;
 					case 'circle':
@@ -172,6 +175,10 @@
 						BaseMapService.testRequest(opts)
 						.then(function(result){
 							console.log(result);
+							if(result && result.data){
+								var info = result.data.info;
+								var geojson = result.data.geojson;
+							}
 						}, function(error){
 							console.log(error);
 						});
