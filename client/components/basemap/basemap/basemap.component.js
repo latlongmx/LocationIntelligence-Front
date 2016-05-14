@@ -107,6 +107,10 @@
 				}
 			}).addTo(map);
 
+
+			//TEST JOYS
+
+			//lee la geometria dibujada y regresa todas sus coordenadas
 			var getCoords = function(layer, geomtype){
 				var coors = "";
 				var latlngs = layer.getLatLngs();
@@ -155,8 +159,9 @@
 			map.on('draw:created', function (e) {
 					_drawType = e.layerType;
 					var geo_wkt = Geo2WKT(e);
-					var accTK = JSON.parse(sessionStorage.getItem('access_token')).access_token;
+					var access_token = JSON.parse(sessionStorage.getItem('access_token')).access_token;
 					if(geo_wkt){
+						//Servicio que obtiene las geometrias del area seleccionada
 						var opts = {
 							url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/intersect',
 							method: 'GET',
@@ -172,21 +177,38 @@
 								mts: geo_wkt.mts,
 							}
 						};
-						BaseMapService.testRequest(opts)
+						/*BaseMapService.testRequest(opts)
 						.then(function(result){
 							console.log(result);
 							if(result && result.data){
 								var info = result.data.info;
 								var geojson = result.data.geojson;
+								//var myLayer = L.geoJson().addTo(map);
+								//myLayer.addData(geojson);
 							}
 						}, function(error){
 							console.log(error);
-						});
-						//console.log(wkt);
-						//aqui usar $http
+						});*/
 					}
+					//Servicio que obtiene mis ubicaciones usando oauth token
+					BaseMapService.testRequest({
+						url: 'http://52.8.211.37/api.walmex.latlong.mx/ws/places',
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': 'Bearer '+access_token
+						}
+					})
+					.then(function(result){
+						console.log(result);
+					}, function(error){
+						console.log(error);
+						if(error.status===401 && error.statusText==='"Unauthorized"'){
+							//Actualizar token
+						}
+					});
 
-					//TEST JOYS
+
 
 
 					//     layer = e.layer;
