@@ -41,7 +41,15 @@
 			},
 			testRequest: function(opts){
 				deferred = $q.defer();
-				_testRequest = $http(opts);
+				//_testRequest = $http(opts);
+				_testRequest = $http({
+					url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/intersect',
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					params: opts
+				});
 
 				_testRequest.then(function(result){
 					deferred.resolve(result);

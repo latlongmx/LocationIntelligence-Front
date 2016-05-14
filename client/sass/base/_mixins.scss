@@ -32,6 +32,15 @@ $break-extra-large: 75em; // >= 1280px @ 16px
   background: linear-gradient(to bottom,  $top 0%,$bottom 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
 }
+
+// Placeholder
+@mixin placeholder {
+  ::-webkit-input-placeholder {@content}
+  :-moz-placeholder           {@content}
+  ::-moz-placeholder          {@content}
+  :-ms-input-placeholder      {@content}  
+}
+
 // Border radius
 @mixin radius($radius) {
   -webkit-border-radius: $radius;

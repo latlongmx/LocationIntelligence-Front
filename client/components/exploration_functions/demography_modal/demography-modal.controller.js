@@ -24,6 +24,13 @@
 				collapsed: true,
 				fullCollapse: true,
 				onExpandMenuStart: function() {
+					setTimeout(function(){
+						angular.element(document.getElementsByClassName('js-filter-demography-catalog')).addClass('is-filter-demography-active');
+					}, 1000);
+					
+				},
+				onCollapseMenuStart: function() {
+					angular.element(document.getElementsByClassName('js-filter-demography-catalog')).removeClass('is-filter-demography-active').val("");
 				},
 				onExpandMenuEnd: function() {
 					console.log("terminado")

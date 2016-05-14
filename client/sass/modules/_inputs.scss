@@ -83,13 +83,46 @@
   }
 }
 
-.m-input--in-demography {
-	border: 1px solid #9e9e9e !important;
-	color: initial;
-	width: initial;
+.m-input--in-demography__catalog {
+	border-bottom: 1px solid $white !important;
+	display:none;
+	visibility:hidden;
 	height: 30px;
+	left: 10px;
+	margin: 20px auto !important;
+	opacity:0;
+	position: absolute;
+	width: initial;
+	z-index: 10;
+	background: transparent;
+	color: $white;
+	font-weight: 400;
+	font-size: 18px;
+	@include transform(translateX(-100%));
+	@include transition(opacity linear 0.25s, transform linear 0.25s);
+	&::-webkit-input-placeholder {
+		color: $gray0;
+	}
+	&:-moz-placeholder {
+		color: $gray0;
+	}
+	&::-moz-placeholder {
+		color: $gray0;
+	}
+	&:-ms-input-placeholder {
+		color: $gray0;
+	}
 	&:focus {
-	  border: 1px solid $green-sdark !important;
+	  border-bottom: 1px solid #C3EE97 !important;
 	  @include box-shadow(none !important);
+	  @include transition(box-shadow linear 5s);
+	}
+	&.is-filter-demography-active {
+		opacity:1;
+		display:block;
+		visibility:visible;
+		@include transform(translateX(0%));
+		@include transition(opacity linear 0.25s, transform linear 0.25s);
 	}
 }
+

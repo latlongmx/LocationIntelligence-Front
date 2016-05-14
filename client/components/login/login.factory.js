@@ -15,6 +15,9 @@
 				sessionStorage.setItem('access_token', _session);
 				$location.path("/mapa");
 			},
+			getToken : function() {
+				return JSON.parse(sessionStorage.getItem('access_token'));
+			},
 			logout: function() {
 				sessionStorage.removeItem('access_token');
 				// setTimeout(function() {
@@ -23,7 +26,7 @@
 				$location.path("/login");
 			},
 			checkStatus : function() {
-				var token = JSON.parse(sessionStorage.getItem('access_token'));
+				var token = this.getToken();
 				_privateRoutes = ["/mapa"];
 				$location.replace();
 				

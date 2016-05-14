@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	var BaseMapController = function($scope, BaseMapService){
+	var BaseMapController = function($scope, BaseMapService, Auth){
 
 		var _this = null,
 		_map = null,
@@ -31,9 +31,9 @@
 		_autocomplete = null;
 
 
-			BaseMapService.map.then(function (map) {
-				_mapFunctions(map);
-			});
+		BaseMapService.map.then(function (map) {
+			_mapFunctions(map);
+		});
 
 		var _mapFunctions = function(map){
 			_google_roadmap = new L.Google('ROADMAP');
@@ -88,24 +88,7 @@
 
 			_featureGroup = BaseMapService.featureGroup.addTo(map);
 			_drawControl = BaseMapService.drawControl(_featureGroup);
-			_drawControl = new L.Control.Draw({
-				draw: {
-					rectangle: false,
-					marker: false,
-					polyline: {
-						shapeOptions: {
-							color: '#f06eaa',
-							opacity: 1
-						}
-					},
-				},
-				edit: {
-					featureGroup: _featureGroup,
-					selectedPathOptions: {
-						maintainColor: true
-					}
-				}
-			}).addTo(map);
+			_drawControl.addTo(map);
 
 
 			//TEST JOYS
@@ -120,32 +103,33 @@
 					}
 				 coors += latlngs[i].lng+' '+latlngs[i].lat;
 				}
-				if(geomtype==='polygon'){
+				if(geomtype ==='polygon'){
 					coors += ','+latlngs[0].lng+' '+latlngs[0].lat;
 				}
 				return coors;
 			};
-			//Funcion para convertir a WKT
+
+			/**
+			 * [Geo2WKT Funcion para convertir a WKT]
+			 * @param {[type]} geom [element drawed]
+			 */
 			var Geo2WKT = function(geom){
 				var wkt = false;
+				var latlng = null;
 				var mts = 0;
 				var layer = geom.layer;
 				var i =0;
 				switch (geom.layerType) {
 					case 'polygon':
-							wkt = "POLYGON((";
-							wkt += getCoords(layer, geom.layerType);
-							wkt +="))";
+						wkt = "POLYGON(("+getCoords(layer, geom.layerType)+"))";
 						break;
 					case 'polyline':
-							wkt = "LINESTRING(";
-							wkt += getCoords(layer, geom.layerType);
-							wkt +=")";
+						wkt = "LINESTRING("+getCoords(layer, geom.layerType)+")";
 						break;
 					case 'circle':
-							var latlng = layer.getLatLng();
-							wkt = "POINT("+latlng.lng+" "+latlng.lat+")";
-							mts = parseInt(layer.getRadius());
+						latlng = layer.getLatLng();
+						wkt = "POINT("+latlng.lng+" "+latlng.lat+")";
+						mts = parseInt(layer.getRadius());
 						break;
 					default:
 						break;
@@ -157,25 +141,18 @@
 			};
 
 			map.on('draw:created', function (e) {
-					_drawType = e.layerType;
+					//_drawType = e.layerType;
 					var geo_wkt = Geo2WKT(e);
-					var access_token = JSON.parse(sessionStorage.getItem('access_token')).access_token;
+					var access_token = Auth.getToken();
 					if(geo_wkt){
 						//Servicio que obtiene las geometrias del area seleccionada
 						var opts = {
-							url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/intersect',
-							method: 'GET',
-							headers: {
-								'Content-Type': 'application/json'
-							},
-							params: {
-								s:'inegi',
-								t: 'inter15_vias',
-								c:'tipovial',
-								w:'',
-								wkt: geo_wkt.wkt,
-								mts: geo_wkt.mts,
-							}
+							s:'inegi',
+							t: 'inter15_vias',
+							c:'tipovial',
+							w:'',
+							wkt: geo_wkt.wkt,
+							mts: geo_wkt.mts
 						};
 						/*BaseMapService.testRequest(opts)
 						.then(function(result){
@@ -207,9 +184,6 @@
 							//Actualizar token
 						}
 					});
-
-
-
 
 					//     layer = e.layer;
 					// Do whatever else you need to. (save to db, add to map etc)
@@ -267,7 +241,7 @@
 		// });
 	};
 
-	BaseMapController.$inject = ['$scope', 'BaseMapService'];
+	BaseMapController.$inject = ['$scope', 'BaseMapService', 'Auth'];
 
 	angular.module('basemap', []).
 	controller('BaseMapController', BaseMapController);
