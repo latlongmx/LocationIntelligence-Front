@@ -1,9 +1,11 @@
 <div class="modal-header">
-	<h3 class="modal-title">Demografía</h3>
+	<h3 class="modal-title">Selector de Variables</h3>
 </div>
 <div class="modal-body">
 	
-	<h3>{{demography.epId}}</h3>
+	<div class="m-modal__demography-variables">
+		<ul class="m-modal__demography-variables__list js-variables-list"></ul>
+	</div>
 	
 </div>
 <div class="modal-footer">
@@ -11,5 +13,8 @@
 	<button class="btn btn-warning" type="button" ng-click="demography.cancel()">Cancel</button>
 </div>
 <div class="m-modal__demography-list" ng-if="demography.list === true">
+	<div class="m-catalog-filter js-filter-demography-catalog">
+		<input type="text" class="m-input m-input--in-demography__catalog" ng-model="demography.search" ng-change="demography.quickFilter()" placeholder="Filtro rápido">
+	</div>
 	<wxy-push-menu menu="demography.menu" options="demography.options"></wxy-push-menu>
 </div>

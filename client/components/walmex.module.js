@@ -28,7 +28,8 @@
 			'search.directive',
 			'ui.router',
 			'ui.bootstrap',
-			'wxy.pushmenu'
+			'wxy.pushmenu',
+			'angular-toArrayFilter'
 		]
 	)
 	.run(["$rootScope", "$state", "$stateParams", "Auth", function ($rootScope, $state, $stateParams, Auth) {

@@ -1,8 +1,4 @@
-{
-	"title":"Demografía",
-	"idCatalog": 1,
-	"icon": "fa fa-bars",
-	"items": [
+	[
 		{
 			"name": "Población",
 			"id": "pob",
@@ -124,4 +120,3 @@
 			}
 		}
 	]
-}

@@ -32,3 +32,25 @@
 	}
 }
 
+.m-catalog-filter {
+	background: $gray50;
+	height: 50px;
+	left: 0;
+	overflow: auto;
+	position: absolute;
+	right: 0;
+	width: 225px;
+	z-index: 99;
+	display:none;
+	visibility:hidden;
+	opacity:0;
+	@include transform(translateX(-100%));
+	@include transition(opacity linear 0.25s, transform linear 0.25s);
+	&.is-filter-demography-active {
+		opacity:1;
+		display:block;
+		visibility:visible;
+		@include transform(translateX(0%));
+		@include transition(opacity linear 0.25s, transform linear 0.25s);
+	}
+}
