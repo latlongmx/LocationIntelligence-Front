@@ -147,28 +147,37 @@
 					if(geo_wkt){
 						//Servicio que obtiene las geometrias del area seleccionada
 						var opts = {
-							s:'inegi',
-							t: 'inter15_vias',
-							c:'tipovial',
-							w:'',
-							wkt: geo_wkt.wkt,
-							mts: geo_wkt.mts
+							url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/intersect',
+							method: 'GET',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							params: {
+								s:'inegi',
+								t: 'denue_2016',
+								c:'',
+								w:'',
+								wkt: geo_wkt.wkt,
+								mts: geo_wkt.mts
+							}
 						};
-						/*BaseMapService.testRequest(opts)
+						BaseMapService.testRequest(opts)
 						.then(function(result){
 							console.log(result);
 							if(result && result.data){
 								var info = result.data.info;
 								var geojson = result.data.geojson;
-								//var myLayer = L.geoJson().addTo(map);
-								//myLayer.addData(geojson);
+								BaseMapService.map.then(function (map) {
+									var myLayer = L.geoJson().addTo(map);
+									myLayer.addData(geojson);
+								});
 							}
 						}, function(error){
 							console.log(error);
-						});*/
+						});
 					}
 					//Servicio que obtiene mis ubicaciones usando oauth token
-					BaseMapService.testRequest({
+					/*BaseMapService.testRequest({
 						url: 'http://52.8.211.37/api.walmex.latlong.mx/ws/places',
 						method: 'GET',
 						headers: {
@@ -180,10 +189,10 @@
 						console.log(result);
 					}, function(error){
 						console.log(error);
-						if(error.status===401 && error.statusText==='"Unauthorized"'){
+						if(error.status===401 && error.statusText==='Unauthorized'){
 							//Actualizar token
 						}
-					});
+					});*/
 
 					//     layer = e.layer;
 					// Do whatever else you need to. (save to db, add to map etc)
