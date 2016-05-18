@@ -48,10 +48,16 @@
 									id: $scope.epId,
 									item: $scope.explorationItemSelected
 								};
+							},
+							variables: function(){
+								return $scope.variables;
 							}
 						}
 					});
-
+					modalDemographyInstance.result.then(function(variables){
+						$scope.variables = variables;
+						console.log(variables);
+					});
 					modalDemographyInstance.closed.then(function(){
 						angular.element(document.getElementsByClassName('js-exploration-item')).removeClass('is-item-panel-active');
 					});
