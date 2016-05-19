@@ -129,9 +129,10 @@
           });
         };
       }else if(layer==='competencia'){
+        delete opts.onEachFeature;
         opts.style = {
           radius: 8,
-          fillColor: "#4bb917",
+          fillColor: "#ff0000",
           color: "#000",
           weight: 1,
           opacity: 1,
