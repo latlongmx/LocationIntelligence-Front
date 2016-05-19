@@ -4,26 +4,29 @@
 	*/
 	'use strict';
 
-	var demographyModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope, items, DemographyJsonService, $filter, variables){
-		var _this = null,
-		demography = this,
+	var demographyModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope, items, DemographyJsonService, $filter, variable_list, variable_flag){
+		var demography = this,
 		_newVariables = null,
 		_resultProcess = null,
 		_matchWord = null,
 		_matchInput = null,
 		_currentItems = null,
-		_current_variable = null,
+		
 		_last_variable = null,
 		_template = [],
-		_variables = [],
+		_variable_flag = [],
 		_variable_list = null,
 		_save_variable_list = [],
 		_remove_child = null,
-		_variable_id = null;
-		
+		_variable_id = null,
+		_current_variable = null;
+		demography.variable_list = variable_list;
+		console.log(demography.variable_list)
+		demography.variable_flag = variable_flag;
+		console.log(demography.variable_flag)
+
 		setTimeout(function(){
-			angular.forEach(variables, function(variable){
-				console.log(variable)
+			angular.forEach(demography.variable_list, function(variable){
 				_variable_list = angular.element(document.getElementsByClassName('js-variables-list'));
 				_variable_list.append('<li id="'+variable.variableId+'">'+variable.variable+'</li>');
 			})
@@ -73,17 +76,25 @@
 				_variable_id = item.id;
 				_current_variable = item.name;
 
-				if(_variables.indexOf(_current_variable) == -1){
-					_variables.push(_current_variable);
-					_addVariable(_current_variable, _variable_id);
+				if(_variable_flag.indexOf(_current_variable) == -1){
+					_variable_flag.push(_current_variable);
 					_save_variable_list.push({_current_variable, _variable_id});
+					_addVariable(_current_variable, _variable_id);
 					_last_variable = _current_variable;
 				}
 				else {
 					_removeVariable(_current_variable, _variable_id);
 					_last_variable = "";
-					for (var i=0; i<_save_variable_list.length; i++){
-						if (_save_variable_list[i] === variable){
+					
+					for (var i=0; i<_variable_flag.length; i++){
+						if (_variable_flag[i] === _current_variable){
+							_variable_flag.splice(i,1);
+							break;
+						}
+					}
+
+					for (var i = 0; i < _save_variable_list.length; i++){
+						if (_save_variable_list[i]._current_variable === _current_variable){
 							_save_variable_list.splice(i,1);
 							break;
 						}
@@ -156,21 +167,24 @@
 		var _removeVariable = function(variable, variableId) {
 			_remove_child = angular.element(document.getElementById(variableId));
 			_remove_child.remove();
-			for (var i=0; i<_variables.length; i++){
-				if (_variables[i] === variable){
-					_variables.splice(i,1);
-					break;
-				}
-			}
 		}
 		demography.ok = function(){
 			var valores = null;
-			if (demography.variables !== _save_variable_list) {
-				valores = _variables;
+			if (demography.variable_flag) {
+				for (var i=0; i<demography.variable_flag.length; i++){
+					if (_variable_flag[i] === _current_variable){
+						valores = [demography.variable_list,demography.variable_flag];
+					}
+					else {
+						valores = [_save_variable_list, _variable_flag];
+					}
+				}
 			}
 			else {
-				valores = demography.variables;
+				valores = [_save_variable_list, _variable_flag];
 			}
+
+
 			$uibModalInstance.close(valores);
 		};
 		
@@ -190,7 +204,7 @@
 		};
 	};
 
-	demographyModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope', 'items', 'DemographyJsonService', '$filter', 'variables'];
+	demographyModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope', 'items', 'DemographyJsonService', '$filter', 'variable_list', 'variable_flag'];
 
 	angular.module('demography.modal.controller', [])
 		.controller('demographyModalController', demographyModalController);
