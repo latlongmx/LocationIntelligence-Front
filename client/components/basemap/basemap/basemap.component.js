@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	var BaseMapController = function($scope, BaseMapService, Auth){
+	var BaseMapController = function($scope, BaseMapFactory, BaseMapService){
 
 		var _this = null,
 		_map = null,
@@ -91,108 +91,40 @@
 			_drawControl.addTo(map);
 
 
-			//TEST JOYS
 
-			//lee la geometria dibujada y regresa todas sus coordenadas
-			var getCoords = function(layer, geomtype){
-				var coors = "";
-				var latlngs = layer.getLatLngs();
-				for (var i=0; i<latlngs.length; i++){
-					if (i !== 0){
-						coors += ',';
-					}
-				 coors += latlngs[i].lng+' '+latlngs[i].lat;
-				}
-				if(geomtype ==='polygon'){
-					coors += ','+latlngs[0].lng+' '+latlngs[0].lat;
-				}
-				return coors;
-			};
-
-			/**
-			 * [Geo2WKT Funcion para convertir a WKT]
-			 * @param {[type]} geom [element drawed]
-			 */
-			var Geo2WKT = function(geom){
-				var wkt = false;
-				var latlng = null;
-				var mts = 0;
-				var layer = geom.layer;
-				var i =0;
-				switch (geom.layerType) {
-					case 'polygon':
-						wkt = "POLYGON(("+getCoords(layer, geom.layerType)+"))";
-						break;
-					case 'polyline':
-						wkt = "LINESTRING("+getCoords(layer, geom.layerType)+")";
-						break;
-					case 'circle':
-						latlng = layer.getLatLng();
-						wkt = "POINT("+latlng.lng+" "+latlng.lat+")";
-						mts = parseInt(layer.getRadius());
-						break;
-					default:
-						break;
-				}
-				return {
-					wkt: wkt,
-					mts: mts
-				};
-			};
 
 			map.on('draw:created', function (e) {
 					//_drawType = e.layerType;
-					var geo_wkt = Geo2WKT(e);
-					var access_token = Auth.getToken();
+					var geo_wkt = BaseMapFactory.geom2wkt(e);
 					if(geo_wkt){
 						//Servicio que obtiene las geometrias del area seleccionada
+						var servType = 'denue_2016';
+						var cols = '';
+						if(e.layerType==='circle'){
+							servType = 'inter15_vias';
+							cols = 'tipovial';
+						}else if(e.layerType==='polyline'){
+							servType = 'pobviv2010';
+							cols = 'pea';
+						}
 						var opts = {
-							url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/intersect',
-							method: 'GET',
-							headers: {
-								'Content-Type': 'application/json'
-							},
-							params: {
-								s:'inegi',
-								t: 'denue_2016',
-								c:'',
-								w:'',
-								wkt: geo_wkt.wkt,
-								mts: geo_wkt.mts
-							}
+							s:'inegi',
+							t: servType,
+							c: cols,
+							w:'',
+							wkt: geo_wkt.wkt,
+							mts: geo_wkt.mts
 						};
-						BaseMapService.testRequest(opts)
-						.then(function(result){
-							console.log(result);
+						BaseMapService.intersect(opts).then(function(result){
 							if(result && result.data){
 								var info = result.data.info;
 								var geojson = result.data.geojson;
-								BaseMapService.map.then(function (map) {
-									var myLayer = L.geoJson().addTo(map);
-									myLayer.addData(geojson);
-								});
+								BaseMapFactory.addGeoJSON2Map(geojson, servType);
 							}
 						}, function(error){
 							console.log(error);
 						});
 					}
-					//Servicio que obtiene mis ubicaciones usando oauth token
-					/*BaseMapService.testRequest({
-						url: 'http://52.8.211.37/api.walmex.latlong.mx/ws/places',
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': 'Bearer '+access_token
-						}
-					})
-					.then(function(result){
-						console.log(result);
-					}, function(error){
-						console.log(error);
-						if(error.status===401 && error.statusText==='Unauthorized'){
-							//Actualizar token
-						}
-					});*/
 
 					//     layer = e.layer;
 					// Do whatever else you need to. (save to db, add to map etc)
@@ -250,7 +182,7 @@
 		// });
 	};
 
-	BaseMapController.$inject = ['$scope', 'BaseMapService', 'Auth'];
+	BaseMapController.$inject = ['$scope', 'BaseMapFactory', 'BaseMapService'];
 
 	angular.module('basemap', []).
 	controller('BaseMapController', BaseMapController);

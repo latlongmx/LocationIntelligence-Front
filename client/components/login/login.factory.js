@@ -3,8 +3,8 @@
 	* BaseMap Module
 	*/
 	'use strict';
-	
-	function AuthFactory($location, $window, $rootScope, BaseMapService){
+
+	function AuthFactory($location, $window, $rootScope){
 		var _privateRoutes = null,
 		_session = null,
 		_key = null;
@@ -29,18 +29,18 @@
 				var token = this.getToken();
 				_privateRoutes = ["/mapa"];
 				$location.replace();
-				
+
 				if(this.in_array($location.path(), _privateRoutes) && token === null){
 					$location.path("/login");
 					$location.replace();
 					return false;
 				}
-				
+
 				if($location.path("/login") && token !== null){
 					$location.path("/mapa");
 					return true;
 				}
-				
+
 				return true;
 			},
 			in_array : function(needle, haystack) {
@@ -53,9 +53,9 @@
 				return false;
 			}
 		};
-		
+
 	}
-	AuthFactory.$inject = ['$location','$window', '$rootScope', 'BaseMapService'];
+	AuthFactory.$inject = ['$location','$window', '$rootScope'];
 	angular.module('login.factory', []).
 		factory('Auth', AuthFactory);
 }());

@@ -9,6 +9,7 @@
 			'basemap',
 			'basemap.directive',
 			'basemap.service',
+			'basemap.factory',
 			'routes',
 			'mapswitcher.directive',
 			'maptools',
@@ -52,16 +53,16 @@
 		L.drawLocal.draw.handlers.circle.radius = "Radio";
 		L.drawLocal.draw.handlers.circle.tooltip.start = "Click y arrastrar para dibujar un radio";
 		L.drawLocal.draw.handlers.simpleshape.tooltip.end = "Suelte el ratón para completar el radio";
-		
+
 		L.drawLocal.edit.handlers.edit.tooltip.subtext = "click en Cancelar para deshacer los cambios";
 		L.drawLocal.edit.handlers.edit.tooltip.text = "Control de arrastre, o marcador para editar dibujo";
 		L.drawLocal.edit.handlers.remove.tooltip.text = "Click en un dibujo para eliminar";
-		
+
 		L.drawLocal.edit.toolbar.actions.cancel.text = "Cancelar";
 		L.drawLocal.edit.toolbar.actions.cancel.title = "Cancelar editar, deshacer todos los cambios";
 		L.drawLocal.edit.toolbar.actions.save.text = "Guardar";
 		L.drawLocal.edit.toolbar.actions.save.title = "Guardar cambios";
-		
+
 		L.drawLocal.edit.toolbar.buttons.edit = "Editar dibujo";
 		L.drawLocal.edit.toolbar.buttons.editDisabled = "No hay dibujos para editar";
 		L.drawLocal.edit.toolbar.buttons.remove = "Eliminar dibujos";
@@ -69,7 +70,7 @@
 		$rootScope.$on('$viewContentLoading', function(e, config) {
 			Auth.checkStatus();
 			//var auth = Auth.checkStatus();
-			
+
 			// if(auth === false) {
 			// 	setTimeout(function() {
 			// 		window.location.href = "http://52.8.211.37/walmex.latlong.mx";

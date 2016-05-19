@@ -4,10 +4,11 @@
 	*/
 	'use strict';
 
-	function BaseMapService($q, $http){
+	function BaseMapService($q, $http, Auth){
 		var deferred = $q.defer(),
 		_testRequest = null;
 		return {
+			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
 			map: deferred.promise,
 			featureGroup : L.featureGroup(),
 			mapId : 'pokaxperia.pk657nfi',
@@ -39,28 +40,95 @@
 					}
 				});
 			},
-			testRequest: function(opts){
+
+			/**
+	     * [intersect: Solicita e servicio de obtener las geometrias que intersecten WKT sobre el layer solicitado]
+			 * @param {[type]} object [element drawed]
+	     * @return {Object} http promise
+	     */
+			intersect: function(opts){
 				deferred = $q.defer();
-				_testRequest = $http(opts);
-				/*_testRequest = $http({
-					url: 'http://52.8.211.37/api.walmex.latlong.mx/dyn/intersect',
+				var access_token = Auth.getToken();
+				var _intersect = $http({
+					url: this.apiBaseURL + '/dyn/intersect',
 					method: 'GET',
 					headers: {
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
 					},
 					params: opts
-				});*/
-
-				_testRequest.then(function(result){
+				});
+				_intersect.then(function(result){
 					deferred.resolve(result);
 				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
 					deferred.reject(error);
 				});
 				return deferred.promise;
-			}
+			},
+
+			/**
+	     * [intersect: Solicita e servicio de obtener las geometrias que intersecten WKT sobre el layer solicitado]
+			 * @param {[type]} object [element drawed]
+	     * @return {Object} http promise
+	     */
+			getPlaces: function(opts){
+				deferred = $q.defer();
+				var access_token = Auth.getToken();
+				var _getPlaces = $http({
+					url: this.apiBaseURL + '/ws/places',
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					}
+				});
+				_getPlaces.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+			/**
+	     * [intersect: Solicita el servicio de obtener las geometrias que intersecten WKT sobre el layer solicitado]
+			 * @param {[type]} object [element drawed]
+	     * @return {Object} http promise
+	     */
+			addPlaces: function(opts){
+				deferred = $q.defer();
+				var access_token = Auth.getToken();
+				var _getPlaces = $http({
+					url: this.apiBaseURL + '/ws/places',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					}
+				});
+				_getPlaces.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+
+
+
 		};
 	}
-	BaseMapService.$inject = ['$q', '$http'];
+	BaseMapService.$inject = ['$q', '$http', 'Auth'];
 	angular.module('basemap.service', []).
 		service('BaseMapService', BaseMapService);
 
