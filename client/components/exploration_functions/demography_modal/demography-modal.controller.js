@@ -4,35 +4,50 @@
 	*/
 	'use strict';
 
-	var demographyModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope, items, DemographyJsonService, $filter, variable_list, variable_flag){
+	var demographyModalController = function($uibModalInstance, $uibModal, $uibModalStack, $scope, items, DemographyJsonService, $filter, variables){
 		var demography = this,
 		_newVariables = null,
 		_resultProcess = null,
 		_matchWord = null,
 		_matchInput = null,
 		_currentItems = null,
-		
 		_last_variable = null,
 		_template = [],
-		_variable_flag = [],
 		_variable_list = null,
+		_icon_list = null,
+		_icon_data_id = null,
 		_save_variable_list = [],
 		_remove_child = null,
 		_variable_id = null,
-		_current_variable = null;
-		demography.variable_list = variable_list;
-		console.log(demography.variable_list)
-		demography.variable_flag = variable_flag;
-		console.log(demography.variable_flag)
+		_current_variable = null,
+		valores = null,
+		list = null,
+		flag = null,
+		_last_list = null,
+		_last_flag = null;
+		demography.variable_flag = [];
 
-		setTimeout(function(){
-			angular.forEach(demography.variable_list, function(variable){
-				_variable_list = angular.element(document.getElementsByClassName('js-variables-list'));
-				_variable_list.append('<li id="'+variable.variableId+'">'+variable.variable+'</li>');
-			})
-		}, 100);
-		//demography.variables = variables;
+		if (variables) {
 
+			_last_list = variables.list;
+			_last_flag = variables.flag;
+			
+			_save_variable_list = _last_list;
+			demography.variable_flag = _last_flag;
+			setTimeout(function(){
+				_getVariable(_last_list);
+				_updateSelectedVariable(_last_list);
+			}, 100);
+			
+			var _updateSelectedVariable = function(list) {
+				angular.forEach(list, function(variable){
+					_icon_data_id = angular.element(document.querySelector('[data-varId="'+variable._variable_id+'"]'));
+					_icon_data_id.addClass('fa fa-check').css(
+						{"color": "#C3EE97", "transition": "all linear 0.25s"}
+					);
+				});
+			}
+		}
 		/**
 		 * Get demography variables
 		 */
@@ -48,7 +63,7 @@
 			}
 			demography.menu = demography.currentVariables;
 		}, function(error){
-			console.log(error)
+			console.log(error);
 		});
 
 		/**
@@ -75,20 +90,47 @@
 			onItemClick: function(event, item) {
 				_variable_id = item.id;
 				_current_variable = item.name;
+				
+				if (variables) {
+					if(demography.variable_flag.indexOf(_current_variable) == -1){
+						demography.variable_flag.push(_current_variable);
+						_save_variable_list.push({_current_variable, _variable_id});
+						_updateVariable(_current_variable, _variable_id);
+						_last_variable = _current_variable;
+					}
 
-				if(_variable_flag.indexOf(_current_variable) == -1){
-					_variable_flag.push(_current_variable);
+					else {
+						_removeVariable(_current_variable, _variable_id);
+						_last_variable = "";
+						for (var i=0; i<demography.variable_flag.length; i++){
+							if (demography.variable_flag[i] === _current_variable){
+								demography.variable_flag.splice(i,1);
+								break;
+							}
+						}
+
+						for (var i = 0; i < _save_variable_list.length; i++){
+							if (_save_variable_list[i]._current_variable === _current_variable){
+								_save_variable_list.splice(i,1);
+								break;
+							}
+						}
+					}
+				}
+				
+				if(demography.variable_flag.indexOf(_current_variable) == -1){
+					demography.variable_flag.push(_current_variable);
 					_save_variable_list.push({_current_variable, _variable_id});
 					_addVariable(_current_variable, _variable_id);
 					_last_variable = _current_variable;
 				}
+
 				else {
 					_removeVariable(_current_variable, _variable_id);
 					_last_variable = "";
-					
-					for (var i=0; i<_variable_flag.length; i++){
-						if (_variable_flag[i] === _current_variable){
-							_variable_flag.splice(i,1);
+					for (var i=0; i<demography.variable_flag.length; i++){
+						if (demography.variable_flag[i] === _current_variable){
+							demography.variable_flag.splice(i,1);
 							break;
 						}
 					}
@@ -160,36 +202,63 @@
 		};
 		
 		var _addVariable = function(variable, variableId) {
+			console.log(variable)
+			console.log(variableId)
 			_variable_list = angular.element(document.getElementsByClassName('js-variables-list'));
-			_variable_list.append('<li id="'+variableId+'">'+variable+'</li>');
+			_variable_list.append(
+				'<li class="m-modal__demography-variables__list-item" id="'+variableId+'"><a href="">'+variable+'</a></li>'
+				);
 		}
 
 		var _removeVariable = function(variable, variableId) {
 			_remove_child = angular.element(document.getElementById(variableId));
 			_remove_child.remove();
 		}
+		
+		var _updateVariable = function(_current_variable, _variable_id) {
+			console.log(_current_variable)
+			console.log(_variable_id)
+			demography.variable_flag.push(_current_variable);
+			_save_variable_list.push({_current_variable, _variable_id});
+			_variable_list = angular.element(document.getElementsByClassName('js-variables-list'));
+			_variable_list.append('<li class="m-modal__demography-variables__list-item" id="'+_variable_id+'"><a href="">'+_current_variable+'</a></li>');
+			console.log(_variable_list)
+		}
+		
+		var _getVariable = function(list) {
+			angular.forEach(list, function(variable){
+				_variable_list = angular.element(document.getElementsByClassName('js-variables-list'));
+				_variable_list.append('<li class="m-modal__demography-variables__list-item" id="'+variable._variable_id+'"><a href="">'+variable._current_variable+'</a></li>');
+			});
+		}
+		/**
+		 * [ok Save changes and close current modal]
+		 */
 		demography.ok = function(){
-			var valores = null;
-			if (demography.variable_flag) {
-				for (var i=0; i<demography.variable_flag.length; i++){
-					if (_variable_flag[i] === _current_variable){
-						valores = [demography.variable_list,demography.variable_flag];
+			if (variables) {
+				for (var i=0; i<_last_flag.length; i++){
+					if (_last_flag[i] !== demography.variable_flag[i]){
+						list = _last_list;
+						flag = _last_flag;
+						valores = {list, flag};
 					}
 					else {
-						valores = [_save_variable_list, _variable_flag];
+						list = _save_variable_list;
+						flag = demography.variable_flag;
+						valores = {list, flag};
 					}
 				}
 			}
 			else {
-				valores = [_save_variable_list, _variable_flag];
+				list = _save_variable_list;
+				flag = demography.variable_flag;
+				valores = {list, flag};
 			}
-
-
 			$uibModalInstance.close(valores);
 		};
 		
 		/**
-		 * [cancel Cancel curent modal]
+		 * [cancel Cancel current modal]
 		 */
 		demography.cancel = function(){
 			var valores = null;
@@ -200,11 +269,11 @@
 				valores = demography.variables;
 			}
 			
-			$uibModalInstance.dismiss(valores);
+			$uibModalInstance.dismiss();
 		};
 	};
 
-	demographyModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope', 'items', 'DemographyJsonService', '$filter', 'variable_list', 'variable_flag'];
+	demographyModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope', 'items', 'DemographyJsonService', '$filter', 'variables'];
 
 	angular.module('demography.modal.controller', [])
 		.controller('demographyModalController', demographyModalController);

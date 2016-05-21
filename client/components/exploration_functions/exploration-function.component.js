@@ -42,6 +42,7 @@
 						templateUrl: './components/exploration_functions/'+_data_ep+'_modal/'+_data_ep+'.tpl.html',
 						animation: true,
 						windowClass: "m-modal__" + _data_ep,
+						backdrop: false,
 						resolve: {
 							items: function () {
 								return {
@@ -49,18 +50,14 @@
 									item: $scope.explorationItemSelected
 								};
 							},
-							variable_flag: function(){
-								return $scope.variable_flag;
-							},
-							variable_list: function(){
-								return $scope.variable_list;
+							variables: function(){
+								return $scope.variables;
 							}
 						}
 					});
-					modalDemographyInstance.result.then(function(variable_flag, variable_list){
-						$scope.variable_flag = variable_flag;
-						$scope.variable_list = variable_list;
-						console.log(variable_flag);
+					modalDemographyInstance.result.then(function(variables){
+						$scope.variables = variables;
+						console.log(variables);
 					});
 					modalDemographyInstance.closed.then(function(){
 						angular.element(document.getElementsByClassName('js-exploration-item')).removeClass('is-item-panel-active');
