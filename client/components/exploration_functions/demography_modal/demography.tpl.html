@@ -2,9 +2,13 @@
 	<h3 class="modal-title">Selector de Variables</h3>
 </div>
 <div class="modal-body">
-	
 	<div class="m-modal__demography-variables">
-		<ul class="m-modal__demography-variables__list js-variables-list"></ul>
+		<ul class="m-modal__demography-variables__list js-variables-list">
+			<li ng-repeat="variable in demography.save_variable_list" class="m-modal__demography-variables__list-item" >
+				<a ng-class="{'is-not-visible-in-map': variable._variable_id === false}">{{variable._variable_name}}<md-switch ng-model="variable._variable_id" ng-init="variable._variable_id = true" aria-label="Hola" class="m-modal__demography-variables__switch md-primary md-mode-A200" ></md-switch></a>
+				
+			</li>
+		</ul>
 	</div>
 </div>
 <div class="modal-footer">

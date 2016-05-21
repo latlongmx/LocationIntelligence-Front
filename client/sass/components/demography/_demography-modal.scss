@@ -85,6 +85,9 @@
 				border-color: $green-lsmooth;
 			}
 		}
+		&.is-not-visible-in-map {
+			text-decoration: line-through;
+		}
 	}
 }
 
@@ -93,4 +96,12 @@
   left: 0;
   position: absolute;
   right: 0;
+}
+
+.m-modal__demography-variables__switch {
+	bottom:0px;
+	margin:0px;
+	position:absolute;
+	right:0px;
+	top:2px;
 }

@@ -24,9 +24,13 @@
 		_last_variable_list = null,
 		_last_list = null,
 		_last_flag = null,
-		_save_variable_list = [],
 		_variable_flag = [];
+		demography.save_variable_list = [];
 
+		/**
+		 * [if exists variables from the last modal opened]
+		 * @param  {[type]} keep_previous_data [Array with list and flag variables]
+		 */
 		if (keep_previous_data) {
 
 			setTimeout(function(){
@@ -34,12 +38,15 @@
 				_last_variable_list = keep_previous_data._keep_list;
 				
 				_variable_flag = _last_variable_flag;
-				_save_variable_list = _last_variable_list;
+				demography.save_variable_list = _last_variable_list;
 				_updateVariableList(keep_previous_data);
 			}, 0);
 		}
 		
-		
+		/**
+		 * [_updateVariableList Update new variables, to existent list]
+		 * @param  {[type]} list [ array with variable name and variable id ]
+		 */
 		var _updateVariableList = function (list) {
 			_variable_list = angular.element(document.getElementsByClassName('js-variables-list'));
 
@@ -48,9 +55,8 @@
 				_icon_data_id.addClass('fa fa-check').css(
 					{"color": "#C3EE97", "transition": "all linear 0.25s"}
 				);
-				_variable_list.append('<li class="m-modal__demography-variables__list-item" id="'+item._variable_id+'"><a href="">'+item._variable_name+'</a></li>');
+				//_variable_list.append('<li class="m-modal__demography-variables__list-item" id="'+item._variable_id+'"><a href="">'+item._variable_name+'</a></li>');
 			});
-
 		};
 
 		/**
@@ -102,7 +108,7 @@
 				 */
 				if(_variable_flag.indexOf(_variable_name) == -1){
 					_variable_flag.push(_variable_name);
-					_save_variable_list.push({_variable_name, _variable_id});
+					demography.save_variable_list.push({_variable_name, _variable_id});
 					_addVariable(_variable_name, _variable_id);
 					_last_variable = _variable_name;
 				}
@@ -124,9 +130,9 @@
 					/**
 					 * [ If there is a variable name in the list of variables array, remove it ]
 					 */
-					for (var i = 0; i < _save_variable_list.length; i++){
-						if (_save_variable_list[i]._variable_name === _variable_name){
-							_save_variable_list.splice(i,1);
+					for (var i = 0; i < demography.save_variable_list.length; i++){
+						if (demography.save_variable_list[i]._variable_name === _variable_name){
+							demography.save_variable_list.splice(i,1);
 							break;
 						}
 					}
@@ -139,7 +145,7 @@
 		};
 		
 		/**
-		 * [quickFilter Function to get current value of catalog]
+		 * [quickFilter Function to get filter values from catalog]
 		 */
 		demography.quickFilter = function(){
 			_resultProcess = null;
@@ -190,13 +196,23 @@
 			}
 		};
 		
+		/**
+		 * [_addVariable Add variables to list]
+		 * @param {[type]} variable   [variable name]
+		 * @param {[type]} variableId [variable id]
+		 */
 		var _addVariable = function(variable, variableId) {
-			_variable_list = angular.element(document.getElementsByClassName('js-variables-list'));
-			_variable_list.append(
-				'<li class="m-modal__demography-variables__list-item" id="'+variableId+'"><a href="">'+variable+'</a></li>'
-				);
+			// _variable_list = angular.element(document.getElementsByClassName('js-variables-list'));
+			// _variable_list.append(
+			// 	'<li class="m-modal__demography-variables__list-item" id="'+variableId+'"><a href="">'+variable+'</a><md-switch ng-model="'+variableId+'" aria-label="'+variableId+'">'+variableId+'</md-switch></li>'
+			// 	);
 		}
 
+		/**
+		 * [_removeVariable Remove variables from the list]
+		 * @param  {[type]} variable   [variable name]
+		 * @param  {[type]} variableId [variable id]
+		 */
 		var _removeVariable = function(variable, variableId) {
 			_remove_child = angular.element(document.getElementById(variableId));
 			_remove_child.remove();
@@ -210,7 +226,7 @@
 			/**
 			 * [ Save list and flag and pass to instance when modal is closed, to keep data  ]
 			 */
-			_keep_list = _save_variable_list;
+			_keep_list = demography.save_variable_list;
 			_keep_flag = _variable_flag;
 			_keep_values = {_keep_list, _keep_flag};
 			
@@ -218,7 +234,7 @@
 				
 				for (var i = 0; i < _last_variable_flag.length; i++) {
 					if (_last_variable_flag[i] === _variable_flag[i]) {
-						_keep_list = _save_variable_list;
+						_keep_list = demography.save_variable_list;
 						_keep_flag = _variable_flag;
 						break;
 					}
@@ -231,12 +247,12 @@
 		};
 		
 		/**
-		 * [cancel Cancel current modal]
+		 * [cancel Cancel current modal, withput save changes]
 		 */
 		demography.cancel = function(){
 			var _keep_values = null;
-			if (demography.variables !== _save_variable_list) {
-				_keep_values = _save_variable_list;
+			if (demography.variables !== demography.save_variable_list) {
+				_keep_values = demography.save_variable_list;
 			}
 			else {
 				_keep_values = demography.variables;
