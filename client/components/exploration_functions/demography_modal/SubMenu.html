@@ -13,7 +13,7 @@
 			<li ng-repeat="item in menu.items">
 				<a ng-href="{{item.link}}" ng-click="onSubmenuClicked(item, $event)">
 					<i ng-if="item.menu" class="floatLeft iconSpacing" ng-class="options.groupIcon"></i>
-					<i class="floatRight" ng-class="item.icon" data-varId="{{item.id}}"></i>{{item.name}}
+					<i class="floatRight" ng-class="item.icon" data-variable-id="{{item.id}}"></i>{{item.name}}
 				</a>
 				<div ng-if="item.menu">
 					<recursive><wxy-submenu menu="item.menu" level="childrenLevel" visible="item.visible"></wxy-submenu></recursive>

@@ -1,9 +1,13 @@
 # Ignore Directories
 bower_components
+!angular-multilevelpushmenu/
+!angular-ui-bootstrap/
+!md5/
 node_modules
 public/*
 staging
 tmp
+
 .DS_Store
 client/.DS_Store
 client/sass/.DS_Store

@@ -18,6 +18,7 @@ gulp.task('inject', function(){
 		}))
 		.pipe($.inject(gulp.src([
 			'bower_components/angular-ui-bootstrap/*.js',
+			'bower_components/angular-multilevelpushmenu/pushmenu.js',
 			'bower_components/md5/md5.js'
 			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:js -->'}))
 		.pipe($.inject(gulp.src([

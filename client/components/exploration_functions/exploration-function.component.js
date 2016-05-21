@@ -50,14 +50,14 @@
 									item: $scope.explorationItemSelected
 								};
 							},
-							variables: function(){
-								return $scope.variables;
+							keep_previous_data: function(){
+								return $scope.keep_previous_data;
 							}
 						}
 					});
-					modalDemographyInstance.result.then(function(variables){
-						$scope.variables = variables;
-						console.log(variables);
+					modalDemographyInstance.result.then(function(keep_previous_data){
+						$scope.keep_previous_data = keep_previous_data;
+						console.log(keep_previous_data);
 					});
 					modalDemographyInstance.closed.then(function(){
 						angular.element(document.getElementsByClassName('js-exploration-item')).removeClass('is-item-panel-active');
