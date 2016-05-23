@@ -5,7 +5,7 @@
 	*/
 	'use strict';
 
-	function BaseMapFactory(BaseMapService) { //_, chroma, $http
+	function BaseMapFactory(BaseMapService, chroma, _) { //_, chroma, $http
     var factory = {};
 
     factory.LAYERS = {};
@@ -188,10 +188,43 @@
       });
     };
 
+    factory.addColorPletMap = function(GeoJSON, column){
+      var self = this;
+
+			if(self.LAYERS.heatMap !== undefined){
+				self.LAYERS.heatMap.clearLayers();
+				self.LAYERS.heatMap.addData(GeoJSON);
+				return;
+			}
+
+      BaseMapService.map.then(function (map) {
+
+				var SCALE = 10;
+				var vals = GeoJSON.features.map(function(o){return parseInt(o.properties[column]) || 0;});
+				var dmax = window._.max(vals);
+			  //var dmin = _.min(vals)
+			  var scaleColor = chroma.chroma.bezier(['lightyellow', 'orange', 'deeppink', 'darkred']);
+			  scaleColor = chroma.chroma.scale(scaleColor).domain([1,SCALE], 1 ).correctLightness(true);
+				var opts = {
+	        onEachFeature: self.eachFeature,
+	        style: function(feature){
+						var p = feature.properties;
+						var color = scaleColor( (   ((parseInt(p[column])*SCALE)/dmax) || 0) ).hex();
+	          return {
+	            fillOpacity: 0.65,
+	            fillColor: color,
+	            stroke: 0
+	          };
+					}
+	      };
+				self.LAYERS.heatMap = L.geoJson(GeoJSON, opts).addTo(map);
+      });
+    };
+
     return factory;
   }
 
-  BaseMapFactory.$inject = ['BaseMapService'];
+  BaseMapFactory.$inject = ['BaseMapService', 'chroma'];
   angular.module('basemap.factory',[])
     .factory('BaseMapFactory', BaseMapFactory);
 

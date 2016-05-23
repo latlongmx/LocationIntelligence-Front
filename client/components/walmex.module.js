@@ -29,8 +29,12 @@
 			'search.directive',
 			'ui.router',
 			'ui.bootstrap',
-			'wxy.pushmenu'
+			'wxy.pushmenu',
+			'chroma.angularChroma'
 		]
+	)
+	.constant('_',
+    window._
 	)
 	.run(["$rootScope", "$state", "$stateParams", "Auth", function ($rootScope, $state, $stateParams, Auth) {
 		$rootScope.$state = $state;

@@ -36,31 +36,37 @@
 					_data_ep = this.getAttribute('data-ep');
 					angular.element(this).addClass('is-item-panel-active');
 
-					modalDemographyInstance = $uibModal.open({
-						controller: _data_ep+'ModalController',
-						controllerAs: _data_ep,
-						templateUrl: './components/exploration_functions/'+_data_ep+'_modal/'+_data_ep+'.tpl.html',
-						animation: true,
-						windowClass: "m-modal__" + _data_ep,
-						resolve: {
-							items: function () {
-								return {
-									id: $scope.epId,
-									item: $scope.explorationItemSelected
-								};
+					//if(_data_ep!=='location'){
+						modalDemographyInstance = $uibModal.open({
+							controller: _data_ep+'ModalController',
+							controllerAs: _data_ep,
+							templateUrl: './components/exploration_functions/'+_data_ep+'_modal/'+_data_ep+'.tpl.html',
+							animation: true,
+							windowClass: "m-modal__" + _data_ep,
+							resolve: {
+								items: function () {
+									return {
+										id: $scope.epId,
+										item: $scope.explorationItemSelected
+									};
+								}
 							}
-						}
-					});
+						});
 
-					modalDemographyInstance.closed.then(function(){
-						angular.element(document.getElementsByClassName('js-exploration-item')).removeClass('is-item-panel-active');
-					});
+						modalDemographyInstance.closed.then(function(){
+							angular.element(document.getElementsByClassName('js-exploration-item')).removeClass('is-item-panel-active');
+						});
+					//}
+
+					/*if(_data_ep==='location'){
+						console.log('asd'); //locationDirective
+					}*/
 				});
-				
+
 			}
 		};
 	}
-	
+
 	explorationFunctions.$inject = ['$uibModal'];
 
 	angular.module('exploration.directive', [])

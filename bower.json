@@ -24,6 +24,8 @@
     "angular-animate": "~1.5.3",
     "js-sha256": "^0.3.0",
     "angular-multilevelpushmenu": "*",
-    "jquery": "~2.2.3"
+    "jquery": "~2.2.3",
+    "angular-chroma": "*",
+    "underscore": "^1.8.3"
   }
 }
