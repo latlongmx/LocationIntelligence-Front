@@ -311,7 +311,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap', 'ui.bootstrap.p
         openedWindows.remove(modalInstance);
         previousTopOpenedModal = openedWindows.top();
         if (previousTopOpenedModal) {
-          topModalIndex = parseInt(previousTopOpenedModal.value.modalDomEl.attr('index'), 10);
+          topModalIndex = parseInt(previousTopOpenedModal.value.modalDomEl.attr('index'), 0);
         }
 
         removeAfterAnimate(modalWindow.modalDomEl, modalWindow.modalScope, function() {
@@ -1469,9 +1469,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
    *     $tooltipProvider.options( { placement: 'left' } );
    *   });
    */
-	this.options = function(value) {
-		angular.extend(globalOptions, value);
-	};
+  this.options = function(value) {
+    angular.extend(globalOptions, value);
+  };
 
   /**
    * This allows you to extend the set of trigger mappings available. E.g.:
@@ -2135,7 +2135,7 @@ angular.module("uib/template/modal/window.html", []).run(["$templateCache", func
     "<div modal-render=\"{{$isRendered}}\" tabindex=\"-1\" role=\"dialog\" class=\"modal\"\n" +
     "    uib-modal-animation-class=\"fade\"\n" +
     "    modal-in-class=\"in\"\n" +
-    "    ng-style=\"{'z-index': 1050 + index*10, display: 'block'}\">\n" +
+    "    ng-style=\"{'z-index': 1, display: 'block'}\">\n" +
     "    <div class=\"modal-dialog {{size ? 'modal-' + size : ''}}\"><div class=\"modal-content\" uib-modal-transclude></div></div>\n" +
     "</div>\n" +
     "");

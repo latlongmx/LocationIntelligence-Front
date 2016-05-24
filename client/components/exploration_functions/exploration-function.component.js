@@ -16,9 +16,7 @@
 					'<li class="m-list-functions__item js-exploration-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Competencia" tooltip-animation="true">',
 						'<i class="m-list-functions__item-icon demo demo-competence"></i>',
 					'</li>',
-					'<li class="m-list-functions__item js-exploration-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-demography"></i>',
-					'</li>',
+					'<demography></demography>',
 					'<li class="m-list-functions__item js-exploration-item" data-ep="potential" tooltip-placement="right" uib-tooltip="Potencial de ubicación" tooltip-animation="true">',
 						'<i class="m-list-functions__item-icon demo demo-potencial-location"></i>',
 					'</li>',
@@ -43,6 +41,7 @@
 						animation: true,
 						windowClass: "m-modal__" + _data_ep,
 						backdrop: false,
+						keyboard:false,
 						resolve: {
 							items: function () {
 								return {

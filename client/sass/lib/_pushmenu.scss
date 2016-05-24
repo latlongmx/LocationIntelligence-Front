@@ -16,6 +16,7 @@
   overflow-y: scroll;
   font-size: 1em;
   background: $gray;
+  overflow: visible;
   //@include linearGradient(#D5F7F6, #A0E4E1);
   //background: #336ca6;
   zoom: 1;
@@ -41,7 +42,7 @@
   padding: 0 .4em 0 .4em;
   position: absolute;
   right: 0;
-  top: 20px;
+  top: 10px;
 }
 
 .multilevelpushmenu_wrapper ul {
@@ -66,15 +67,16 @@
 }
 
 .multilevelpushmenu_wrapper a {
-  display: block;
-  padding: .6em .6em;
-  overflow: hidden;
-  font-size: 18px;
-  line-height: 1em;
   color: $white;
-  text-decoration: none;
-  outline: none;
+  display: block;
+  font-size: 16px;
   font-weight: 400;
+  line-height: 1em;
+  outline: none;
+  overflow: hidden;
+  padding: .6em .6em;
+  text-align: left;
+  text-decoration: none;
 }
 
 .multilevelpushmenu_wrapper a:hover {
@@ -99,6 +101,8 @@
 
 .multilevelpushmenu_wrapper .cursorPointer {
   cursor: pointer;
+  position: absolute;
+  right: -40px;
 }
 
 .multilevelpushmenu_wrapper.ltr .levelHolderClass {
@@ -155,3 +159,13 @@
   float: right;
 }
 
+recursive {
+  bottom: 0;
+  display: block;
+  left: 0;
+  overflow-x: auto;
+  overflow-y: scroll;
+  position: initial;
+  right: 0;
+  top: 0;
+}

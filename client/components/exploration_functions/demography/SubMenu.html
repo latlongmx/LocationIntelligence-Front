@@ -1,7 +1,7 @@
 ﻿<div ng-show="visible" ng-class="{visible: visible, multilevelpushmenu_inactive: inactive && !collapsed}" class="levelHolderClass">
 	<div>
 		<h2>{{menu.title}}</h2>
-		<i class="floatRight cursorPointer menu-icon" ng-class="menu.icon" ng-click="openMenu($event, menu)"></i>
+		<i class="floatRight cursorPointer menu-icon testing" ng-class="menu.icon" ng-click="openMenu($event, menu)"></i>
 	</div>
 	<div ng-show="level != 0 && !inactive" ng-class="options.backItemClass">
 		<a href="" ng-click="goBack($event, menu)">

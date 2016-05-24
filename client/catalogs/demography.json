@@ -118,5 +118,89 @@
 					}
 				]
 			}
+		},
+		{
+			"name": "Fecundidad",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Fecundidad",
+				"icon": "fa fa-male",
+				"items": [
+					{
+						"name": "Promedio de hijos nacidos vivos",
+						"id": "PROM_HNV",
+						"icon": "",
+						"link": ""
+					}
+				]
+			}
+		},
+		{
+			"name": "Migración",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Migración",
+				"icon": "fa fa-male",
+				"items": [
+					{
+						"name": "Promedio de hijos nacidos vivos",
+						"id": "PROM_HNV",
+						"icon": "",
+						"link": ""
+					},
+					{
+						"name": "Población nacida en la entidad",
+						"id": "PNACENT"
+					},
+					{
+						"name": "Población masculina nacida en la entidad",
+						"id": "PNACENT_M"
+					},
+					{
+						"name": "Población femenina nacida en la entidad",
+						"id": "PNACENT_F"
+					},
+					{
+						"name": "Población nacida en otra entidad",
+						"id": "PNACOE"
+					},
+					{
+						"name": "Población masculina nacida en otra entidad",
+						"id": "PNACOE_M"
+					},
+					{
+						"name": "Población femenina nacida en otra entidad",
+						"id": "PNACOE_F"
+					},
+					{
+						"name": "Población de 5 años y más residente en la entidad en junio de 2005",
+						"id": "PRES2005"
+					},
+					{
+						"name": "Población masculina de 5 años y más residente en la entidad en junio de 2005",
+						"id": "PRES2005_M"
+					},
+					{
+						"name": "Población femenina de 5 años y más residente en la entidad en junio de 2005",
+						"id": "PRES2005_F"
+					},
+					{
+						"name": "Población de 5 años y más residente en otra entidad en junio de 2005",
+						"id": "PRESOE05"
+					},
+					{
+						"name": "Población masculina de 5 años y más residente en otra entidad en junio de 2005",
+						"id": "PRESOE05_M"
+					},
+					{
+						"name": "Población femenina de 5 años y más residente en otra entidad en junio de 2005",
+						"id": "PRESOE05_F"
+					}
+				]
+			}
 		}
 	]
