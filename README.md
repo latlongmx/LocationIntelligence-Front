@@ -74,6 +74,6 @@ Important:
 * After run gulp inject, inside client directory, in index.html, adjust the jquery library before the library angular: 
 
 ```
-<script src="../bower_components/angular/angular.js"></script>
 <script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
 ```
