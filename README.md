@@ -71,7 +71,7 @@ $ gulp inject
 Important:
 -------
 
-* After run gulp inject, inside client directory, in index.html, move jquery library script before angular.js library script, like this: 
+* After run gulp inject, inside client directory, in index.html, adjust the jquery library before the library angular: 
 
 ```
 <script src="../bower_components/angular/angular.js"></script>
