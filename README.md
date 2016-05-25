@@ -78,7 +78,7 @@ Check that the following libraries are inside the folder bower_components:
 * angular-multilevelpushmenu
 * md5
 
-* After run gulp inject, inside client directory, in index.html, adjust the jquery library before the library angular: 
+After run gulp inject, inside client directory, in index.html, adjust the jquery library before the library angular: 
 
 ```
 <script src="../bower_components/jquery/dist/jquery.js"></script>
