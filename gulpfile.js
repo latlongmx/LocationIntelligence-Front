@@ -11,16 +11,21 @@ var ngAnnotate = require('gulp-ng-annotate');
 
 gulp.task('lib1', function() {
 	log('Copying external resources');
-	return gulp.src('./angular-multilevelpushmenu/')
-		.pipe(gulp.dest('./bower_components/angular-multilevelpushmenu/*.js'));
+	return gulp.src('./angular-multilevelpushmenu/*.js')
+		.pipe(gulp.dest('./bower_components/angular-multilevelpushmenu/'));
 });
 gulp.task('lib2', function() {
 	log('Copying external resources');
-	return gulp.src('./angular-ui-bootstrap/')
-		.pipe(gulp.dest('./bower_components/angular-ui-bootstrap/*.js'));
+	return gulp.src('./angular-ui-bootstrap/*.js')
+		.pipe(gulp.dest('./bower_components/angular-ui-bootstrap/'));
+});
+gulp.task('lib3', function() {
+	log('Copying external resources');
+	return gulp.src('./md5/*.js')
+		.pipe(gulp.dest('./bower_components/md5/'));
 });
 
-gulp.task('inject', ['lib1', 'lib2'], function(){
+gulp.task('inject', ['lib1', 'lib2', 'lib3'], function(){
 	return gulp.src('./client/index.html')
 		.pipe(wiredep({
 			bowerJson: require('./bower.json'),
