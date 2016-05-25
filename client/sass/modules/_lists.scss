@@ -34,13 +34,24 @@
 .m-list-functions__item {
 	cursor:pointer;
 	display:block;
-	padding: 3px 6px;
-	border-left: 4px solid transparent;
+	padding: 3px 10px;
+	position:relative;
 	@include transition(all linear 0.25s);
+	&:before {
+    background: transparent;
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 3px;
+	}
 	&:hover,
 	&.is-item-panel-active {
 		background: $white;
-		border-color:$green-sdark;
+		&:before {
+			background: $green-sdark;
+		}
 		.m-list-functions__item-icon {
 			color: $green-sdark;
 		}

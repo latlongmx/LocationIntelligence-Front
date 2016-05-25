@@ -1,21 +1,28 @@
-.m-modal__demography {
-	@include respond-to("medium") {
-		.modal-dialog {
-			bottom:0;
-			margin: 30px auto;
-			position:absolute;
-			top:0;
-			left:56px;
-			width: 600px;
-		}
-		.modal-content {
-			height:100%;
-			padding-left:40px;
-			overflow: hidden;
-		}
-		.modal-body {
-			position: initial;
-		}
+.m-side-panel {
+	@include box-shadow(8px 8px 13px -6px rgba(0,0,0,0.25));
+	background: #ffffff;
+	bottom: 18px;
+	left: 56px;
+	position: absolute;
+	top: 55px;
+	width: 400px;
+	opacity: 0;
+	overflow:hidden;
+	z-index:9999;
+	-webkit-transition: -webkit-clip-path,-webkit-clip-path,opacity;
+	transition: -webkit-clip-path,clip-path,opacity;
+	-webkit-transition-duration: .5s,.5s,.25s;
+	transition-duration: .5s,.5s,.25s;
+	-webkit-transition-delay: 0s,0s,.3s;
+	transition-delay: 0s,0s,.3s;
+	-webkit-clip-path: polygon(0 0,-17% 0,0 100%,0 100%);
+	clip-path: polygon(0 0,-17% 0,0 100%,0 100%);
+	&.is-demography-panel-open {
+		opacity: 1;
+		-webkit-clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+		clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+		-webkit-transition-delay: 0s;
+		transition-delay: 0s;
 	}
 }
 
@@ -32,3 +39,92 @@
 	}
 }
 
+.m-catalog-filter {
+	background: $gray75;
+	height: 50px;
+	left: 0;
+	overflow: auto;
+	position: absolute;
+	right: 0;
+	width: 225px;
+	z-index: 99;
+	display:none;
+	visibility:hidden;
+	opacity:0;
+	@include transform(translateX(-100%));
+	@include transition(opacity linear 0.25s, transform linear 0.25s);
+	&.is-filter-demography-active {
+		opacity:1;
+		display:block;
+		visibility:visible;
+		@include transform(translateX(0%));
+		@include transition(opacity linear 0.25s, transform linear 0.25s);
+	}
+}
+
+.m-modal__demography-variables {
+	bottom: 0;
+	left: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	padding: 00px 20px 0px 40px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.m-modal__demography-variables__title {
+	color: #82c341;
+	font-weight: 100;
+	margin: 10px;
+	text-align: left;
+}
+
+.m-modal__demography-variables__list {
+	margin:0;
+	padding:0;
+}
+
+.m-modal__demography-variables__list-item {
+	position:relative;
+	a {
+		color: $gray75;
+		display: block;
+		font-weight: 400;
+		padding: 8px 0px;
+		text-decoration: none;
+		text-align: left;
+		@include transition(all 0.25s linear);
+		&:before {
+			@include transition(all 0.25s linear);
+			border: 2px solid transparent;
+			content:'';
+			left:2px;
+			margin-right: 5px;
+			padding-bottom: 5px;
+			padding-top: 5px;
+		}
+		&:hover {
+			background: #f5f5f5;
+			&:before {
+				@include transition(all 0.25s linear);
+				border-color: $green-lsmooth;
+			}
+		}
+		&.is-not-visible-in-map {
+			text-decoration: line-through;
+		}
+	}
+}
+
+
+.m-modal__demography-variables__switch {
+	bottom:0px;
+	margin:0px;
+	position:absolute;
+	right:0px;
+	top:2px;
+}
+.fa-search,
+.fa-times {
+	color: $gray !important;
+}

@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function explorationFunctions($uibModal){
+	function explorationFunctions(){
 
 		return {
 			restrict: 'E',
@@ -16,9 +16,7 @@
 					'<li class="m-list-functions__item js-exploration-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Competencia" tooltip-animation="true">',
 						'<i class="m-list-functions__item-icon demo demo-competence"></i>',
 					'</li>',
-					'<li class="m-list-functions__item js-exploration-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-demography"></i>',
-					'</li>',
+					'<demography></demography>',
 					'<li class="m-list-functions__item js-exploration-item" data-ep="potential" tooltip-placement="right" uib-tooltip="Potencial de ubicación" tooltip-animation="true">',
 						'<i class="m-list-functions__item-icon demo demo-potencial-location"></i>',
 					'</li>',
@@ -35,39 +33,13 @@
 					$scope.explorationItemSelected = angular.element(this);
 					_data_ep = this.getAttribute('data-ep');
 					angular.element(this).addClass('is-item-panel-active');
-
-					//if(_data_ep!=='location'){
-						modalDemographyInstance = $uibModal.open({
-							controller: _data_ep+'ModalController',
-							controllerAs: _data_ep,
-							templateUrl: './components/exploration_functions/'+_data_ep+'_modal/'+_data_ep+'.tpl.html',
-							animation: true,
-							windowClass: "m-modal__" + _data_ep,
-							resolve: {
-								items: function () {
-									return {
-										id: $scope.epId,
-										item: $scope.explorationItemSelected
-									};
-								}
-							}
-						});
-
-						modalDemographyInstance.closed.then(function(){
-							angular.element(document.getElementsByClassName('js-exploration-item')).removeClass('is-item-panel-active');
-						});
-					//}
-
-					/*if(_data_ep==='location'){
-						console.log('asd'); //locationDirective
-					}*/
 				});
 
 			}
 		};
 	}
 
-	explorationFunctions.$inject = ['$uibModal'];
+	explorationFunctions.$inject = [];
 
 	angular.module('exploration.directive', [])
 		.directive('explorationFunctions', explorationFunctions);

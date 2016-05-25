@@ -17,8 +17,8 @@
 			'exploration.directive',
 			'location.modal.controller',
 			'competence.modal.controller',
-			'demography.modal.controller',
-			'demograhpy.json.service',
+			'demograhpy.service',
+			'demography.directive',
 			'potential.modal.controller',
 			'analysis.directive',
 			'accessibility.modal.controller',
@@ -30,7 +30,8 @@
 			'ui.router',
 			'ui.bootstrap',
 			'wxy.pushmenu',
-			'chroma.angularChroma'
+			'chroma.angularChroma',
+			'ngMaterial'
 		]
 	)
 	.constant('_',
