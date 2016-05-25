@@ -63,6 +63,8 @@
 }
 
 .multilevelpushmenu_wrapper ul li:hover {
+  @include box-shadow(0px 2px 2px 0px rgba(0,0,0,0.125));
+  @include transition(all 0.25s linear);
   background-color: #A2A2A7;
 }
 
@@ -80,7 +82,7 @@
 }
 
 .multilevelpushmenu_wrapper a:hover {
-  color: #ffe;
+  color: $white;
 }
 
 .multilevelpushmenu_wrapper .backItemClass {

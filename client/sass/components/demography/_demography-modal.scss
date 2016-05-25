@@ -8,12 +8,11 @@
 	width: 400px;
 	opacity: 0;
 	overflow:hidden;
-	padding: 20px 20px 0px 40px;
 	z-index:9999;
 	-webkit-transition: -webkit-clip-path,-webkit-clip-path,opacity;
 	transition: -webkit-clip-path,clip-path,opacity;
-	-webkit-transition-duration: .6s,.6s,.3s;
-	transition-duration: .6s,.6s,.3s;
+	-webkit-transition-duration: .5s,.5s,.25s;
+	transition-duration: .5s,.5s,.25s;
 	-webkit-transition-delay: 0s,0s,.3s;
 	transition-delay: 0s,0s,.3s;
 	-webkit-clip-path: polygon(0 0,-17% 0,0 100%,0 100%);
@@ -24,29 +23,6 @@
 		clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
 		-webkit-transition-delay: 0s;
 		transition-delay: 0s;
-	}
-}
-
-.m-modal__demography {
-	position:initial;
-	@include respond-to("small") {
-		.modal-dialog {
-			bottom:0;
-			margin: 55px 0px 10px 0px;
-			position:absolute;
-			top:0;
-			left:56px;
-			width: 600px;
-			z-index: 1001;
-		}
-		.modal-content {
-			height:100%;
-			padding-left:40px;
-			overflow: hidden;
-		}
-		.modal-body {
-			position: initial;
-		}
 	}
 }
 
@@ -64,7 +40,7 @@
 }
 
 .m-catalog-filter {
-	background: $gray50;
+	background: $gray75;
 	height: 50px;
 	left: 0;
 	overflow: auto;
@@ -91,10 +67,16 @@
 	left: 0;
 	overflow-x: hidden;
 	overflow-y: scroll;
-	padding: 20px 20px 0px 40px;
+	padding: 00px 20px 0px 40px;
 	position: absolute;
 	right: 0;
 	top: 0;
+}
+.m-modal__demography-variables__title {
+	color: #82c341;
+	font-weight: 100;
+	margin: 10px;
+	text-align: left;
 }
 
 .m-modal__demography-variables__list {
@@ -134,12 +116,6 @@
 	}
 }
 
-.modal-footer {
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-}
 
 .m-modal__demography-variables__switch {
 	bottom:0px;
@@ -147,4 +123,8 @@
 	position:absolute;
 	right:0px;
 	top:2px;
+}
+.fa-search,
+.fa-times {
+	color: $gray !important;
 }

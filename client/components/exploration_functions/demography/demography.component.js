@@ -21,6 +21,7 @@
 					'</li>',
 					'<div class="m-side-panel js-side-panel">',
 						'<div class="m-modal__demography-variables">',
+							'<h3 class="m-modal__demography-variables__title">Seleccionar variables</h3>',
 							'<ul class="m-modal__demography-variables__list js-variables-list">',
 								'<li ng-repeat="variable in save_variable_list" class="m-modal__demography-variables__list-item">',
 								'<a>{{variable._variable_name}}',
@@ -109,7 +110,13 @@
 							
 						}, 500);
 						var search = angular.element(document.getElementsByClassName('testing'));
-						angular.element(search[0]).removeClass('fa-search').addClass('fa-times');
+						angular.element(search[0]).removeClass('fa-search').addClass('fa-times').css({
+							"-webkit-transition": "all linear 0.25s",
+							"-moz-transition": "all linear 0.25s",
+							"-o-transition": "all linear 0.25s",
+							"-ms-transition": "all linear 0.25s",
+							"transition": "all linear 0.25s"
+						});
 					},
 					onExpandMenuEnd: function() {
 						angular.element(document.getElementsByClassName('current-category')).addClass('visible').removeClass('invisible');
@@ -130,17 +137,9 @@
 						if(scope._variable_flag.indexOf(_variable_name) === -1){
 							scope._variable_flag.push(_variable_name);
 							scope.save_variable_list.push({_variable_name, _variable_id});
-							//if (scope.save_variable_list.length <= 1) {
-								// scope.first_variable = scope.save_variable_list[0]._variable_id;
-								// console.log(scope.first_variable)
-							//}
 						}
 
 						else {
-							/**
-							 * [ If there is a variable name in the list of variables array, remove it ]
-							 */
-							
 							for (var i=0; i<scope._variable_flag.length; i++){
 								if (scope._variable_flag[i] === _variable_name){
 									scope._variable_flag.splice(i,1);
@@ -181,6 +180,7 @@
 					}
 					else {
 						_current_checked.$index = true;
+						
 						// Do request
 					}
 				}
