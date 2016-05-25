@@ -9,7 +9,18 @@ var ngAnnotate = require('gulp-ng-annotate');
 
 /*** To Dev ***/
 
-gulp.task('inject', function(){
+gulp.task('lib1', function() {
+	log('Copying external resources');
+	return gulp.src('./angular-multilevelpushmenu/')
+		.pipe(gulp.dest('./bower_components/angular-multilevelpushmenu/*.js'));
+});
+gulp.task('lib2', function() {
+	log('Copying external resources');
+	return gulp.src('./angular-ui-bootstrap/')
+		.pipe(gulp.dest('./bower_components/angular-ui-bootstrap/*.js'));
+});
+
+gulp.task('inject', ['lib1', 'lib2'], function(){
 	return gulp.src('./client/index.html')
 		.pipe(wiredep({
 			bowerJson: require('./bower.json'),
@@ -31,7 +42,6 @@ gulp.task('inject', function(){
 		.pipe(gulp.dest('./client/'));
 });
 
-
 gulp.task('js', function(){
 	log('Analizyng components...');
 	gulp.src(['./client/components/**/*.js'])
@@ -47,7 +57,6 @@ gulp.task('sass', ['cleaning-styles'], function () {
 		.pipe($.concat('styles.css'))
 		.pipe(gulp.dest('./client/css/'));
 });
-
 
 gulp.task('template', ['clean-templatecache'], function(){
 	log('Angularjs template files!');
@@ -99,7 +108,77 @@ gulp.task('cleaning-images', function(){
 	clean('public/images/**/*.*');
 });
 
+
+/* Dev Server */
+gulp.task('dev-server', function(){
+	log('Developer server running...');
+
+	browserSync.init({
+		files: [
+			"./client/index.html",
+			"./client/components/**/*.*",
+			"./client/components/**/**/*.scss",
+			"./client/sass/**/*.scss",
+			"./client/sass/config.scss"
+		],
+		ghostMode: {
+			clicks: false,
+			forms: true,
+			scroll: false
+		},
+		logFileChanges: true,
+		logPrefix: "Walmex Project",
+		notify: true,
+		port: 2016,
+		reloadDelay: 1500,
+		server: {
+			baseDir: './client',
+			routes: {
+				"/bower_components": "bower_components",
+				"./client": "client"
+			}
+		}
+	});
+});
+
+/* Watch files */
+gulp.task('watch', ['sass'], function(){
+	log('Watching files!');
+	gulp.watch('client/components/**/*.js', ['js']);
+	gulp.watch('client/components/**/**/*.scss', ['sass']);
+	gulp.watch('client/sass/**/*.scss', ['sass']);
+	gulp.watch('client/sass/config.scss', ['sass']);
+});
+
+
+gulp.task('dev',['dev-server', 'watch']);
+gulp.task('prod', ['prod-server']);
+
 /* To Production */
+
+/* Prod Server */
+gulp.task('prod', function(){
+	log('Production server running...');
+
+	browserSync.init({
+		ghostMode: {
+			clicks: false,
+			forms: true,
+			scroll: false
+		},
+		logFileChanges: true,
+		logPrefix: "Walmex Project",
+		notify: true,
+		port: 2016,
+		reloadDelay: 1500,
+		server: {
+			baseDir: './public',
+			routes: {
+				"./public": "public"
+			}
+		}
+	});
+});
 
 gulp.task('join', ['template', 'html', 'images', 'fonts'], function(){
 	log('Joining all js/css files');
@@ -142,75 +221,6 @@ gulp.task('css', function () {
 	return gulp.src('./client/css/*.css')
 		.pipe(gulp.dest('./public/css/'));
 });
-
-/* Dev Server */
-gulp.task('dev-server', function(){
-	log('Developer server running...');
-
-	browserSync.init({
-		files: [
-			"./client/index.html",
-			"./client/components/**/*.*",
-			"./client/components/**/**/*.scss",
-			"./client/sass/**/*.scss",
-			"./client/sass/config.scss"
-		],
-		ghostMode: {
-			clicks: false,
-			forms: true,
-			scroll: false
-		},
-		logFileChanges: true,
-		logPrefix: "Walmex Project",
-		notify: true,
-		port: 2016,
-		reloadDelay: 1500,
-		server: {
-			baseDir: './client',
-			routes: {
-				"/bower_components": "bower_components",
-				"./client": "client"
-			}
-		}
-	});
-});
-
-/* Dev Server */
-gulp.task('prod', function(){
-	log('Production server running...');
-
-	browserSync.init({
-		ghostMode: {
-			clicks: false,
-			forms: true,
-			scroll: false
-		},
-		logFileChanges: true,
-		logPrefix: "Walmex Project",
-		notify: true,
-		port: 2016,
-		reloadDelay: 1500,
-		server: {
-			baseDir: './public',
-			routes: {
-				"./public": "public"
-			}
-		}
-	});
-});
-
-/* Watch files */
-gulp.task('watch', ['sass'], function(){
-	log('Watching files!');
-	gulp.watch('client/components/**/*.js', ['js']);
-	gulp.watch('client/components/**/**/*.scss', ['sass']);
-	gulp.watch('client/sass/**/*.scss', ['sass']);
-	gulp.watch('client/sass/config.scss', ['sass']);
-});
-
-
-gulp.task('dev',['dev-server', 'watch']);
-gulp.task('prod', ['prod-server']);
 
 
 function clean(path){
