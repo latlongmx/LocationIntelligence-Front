@@ -53,7 +53,7 @@
             return options;
           };
         }],
-        templateUrl: './components/exploration_functions/demography_modal/MainMenu.html',
+        templateUrl: './components/exploration_functions/demography/MainMenu.html',
         restrict: 'E',
         replace: true
       };
@@ -83,12 +83,13 @@
           };
           if (scope.level === 0) {
             scope.collasped = false;
-            marginCollapsed = options.overlapWidth - ctrl.GetBaseWidth();
+            marginCollapsed = options.overlapWidth - ctrl.GetBaseWidth() - 40;
             if (options.collapsed) {
               scope.collapsed = true;
               scope.inactive = true;
               element.css({
-                marginLeft: marginCollapsed
+                marginLeft: "-265px",
+                overflow: "visible"
               });
             }
             collapse = function() {
@@ -127,9 +128,6 @@
               onOpen();
             }
           };
-          scope.demographyFilter = function(item) {
-            console.log(item)
-          }
           scope.onSubmenuClicked = function(item, $event) {
             if (item.menu) {
               item.visible = true;
@@ -151,7 +149,7 @@
                 if (scope.level > 0) {
                   options.onExpandMenuStart();
                   animatePromise = $animate.addClass(element, 'slide', {
-                    fromMargin: -ctrl.GetBaseWidth(),
+                    fromMargin: -ctrl.GetBaseWidth() + 40,
                     toMargin: 0
                   });
                   animatePromise.then(function() {
@@ -191,7 +189,7 @@
             };
           })(this));
         },
-        templateUrl: './components/exploration_functions/demography_modal/SubMenu.html',
+        templateUrl: './components/exploration_functions/demography/SubMenu.html',
         require: '^wxyPushMenu',
         restrict: 'EA',
         replace: true
@@ -256,27 +254,6 @@
         }, onAnimationCompleted);
       }
     };
-  });
-  module.filter('searchFor', function(){
-
-    return function(arr, searchCatalog){
-      
-      var filtered = [];
-      var searchCatalog = new RegExp(searchCatalog, 'i');
-      for (var i = 0; i < arr.length; i++) {
-        var item = arr[i];
-        if (searchCatalog.test(item.name)) {
-          filtered.push(item);
-        }
-        else {
-          filtered = []
-        }
-      }
-      console.log(filtered)
-      return filtered;
-
-    };
-
   });
 
   module.value('wxyOptions', {

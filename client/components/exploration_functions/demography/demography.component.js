@@ -252,7 +252,6 @@
 							}
 						}
 						return scope.arreglo;
-
 					}
 				};
 
