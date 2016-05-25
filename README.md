@@ -19,6 +19,7 @@ Folder Structure
 .walmex-front
 |--angular-multilevelpushmenu/   # Custom library**
 |--angular-ui-bootstrap/   # Custom library**
+|--md5/   # Custom library**
 |--bower_components/   # Frontend packages
 |--node_modules/       # browser-sync, gulp and dependencies
 |--public/             # Main Prod (**only for production**)
@@ -70,6 +71,12 @@ $ gulp inject
 
 Important:
 -------
+
+Check that the following libraries are inside the folder bower_components:
+
+* angular-ui-bootstrap
+* angular-multilevelpushmenu
+* md5
 
 * After run gulp inject, inside client directory, in index.html, adjust the jquery library before the library angular: 
 
