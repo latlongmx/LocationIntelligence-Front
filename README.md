@@ -67,3 +67,10 @@ Run:
 ```
 $ gulp inject
 ```
+
+**Important**:
+-------
+
+```
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+```
