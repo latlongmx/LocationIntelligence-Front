@@ -33,7 +33,8 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3'], function(){
 			ignorePath: '../../'
 		}))
 		.pipe($.inject(gulp.src([
-			'bower_components/angular-ui-bootstrap/*.js',
+			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-1.3.2.js',
+			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-tpls-1.3.2.js',
 			'bower_components/angular-multilevelpushmenu/pushmenu.js',
 			'bower_components/md5/md5.js'
 			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:js -->'}))

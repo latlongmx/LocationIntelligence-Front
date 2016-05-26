@@ -11,6 +11,7 @@
 @import 'modules/_fieldset';
 @import 'modules/_label';
 @import 'modules/_lists';
+@import 'modules/_side_panel_function';
 @import 'lib/_hamburgers';
 @import 'lib/_modal';
 @import 'lib/_tooltip';
@@ -23,4 +24,4 @@
 @import 'components/_maptools';
 @import 'components/_exploration-functions';
 @import 'components/_search';
-@import 'components/demography/_demography-modal';
+@import 'components/demography/demography_panel';

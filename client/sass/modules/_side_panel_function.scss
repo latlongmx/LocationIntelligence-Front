@@ -1,0 +1,34 @@
+.m-side-panel {
+	@include box-shadow(8px 8px 13px -6px rgba(0,0,0,0.25));
+	background: #ffffff;
+	bottom: 18px;
+	left: 56px;
+	position: absolute;
+	top: 55px;
+	width: 400px;
+	opacity: 0;
+	overflow:hidden;
+	z-index:9999;
+	-webkit-transition: -webkit-clip-path,-webkit-clip-path,opacity;
+	transition: -webkit-clip-path,clip-path,opacity;
+	-webkit-transition-duration: .5s,.5s,.25s;
+	transition-duration: .5s,.5s,.25s;
+	-webkit-transition-delay: 0s,0s,.3s;
+	transition-delay: 0s,0s,.3s;
+	-webkit-clip-path: polygon(0 0,-17% 0,0 100%,0 100%);
+	clip-path: polygon(0 0,-17% 0,0 100%,0 100%);
+	&.is-panel-open {
+		opacity: 1;
+		-webkit-clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+		clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+		-webkit-transition-delay: 0s;
+		transition-delay: 0s;
+	}
+}
+
+.m-side-panel__title {
+	color: #82c341;
+	font-weight: 100;
+	margin: 10px;
+	text-align: left;
+}

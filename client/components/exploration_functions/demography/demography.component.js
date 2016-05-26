@@ -4,24 +4,26 @@
 	*/
 	'use strict';
 
-	function demographyDirective(DemographyJsonService){
-		var _$js_side_panel = null,
+	function demographyDirective(DemographyJsonService, BaseMapService, BaseMapFactory, $mdToast, $document){
+		var _$js_demography_side_panel = null,
 		_$js_demography_item = null,
 		_last_checked = null,
-		_current_checked = null;
+		_current_checked = null,
+		_column_request = null
 
 		return {
 			restrict: 'E',
 			replace: true,
+			require: '^explorationFunctions',
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-demography-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-exploration-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true">',
 						'<i class="m-list-functions__item-icon demo demo-demography"></i>',
 					'</li>',
-					'<div class="m-side-panel js-side-panel">',
+					'<div class="m-side-panel js-demography-side-panel">',
 						'<div class="m-modal__demography-variables">',
-							'<h3 class="m-modal__demography-variables__title">Seleccionar variables</h3>',
+							'<h3 class="m-side-panel__title">Seleccionar variables</h3>',
 							'<ul class="m-modal__demography-variables__list js-variables-list">',
 								'<li ng-repeat="variable in save_variable_list" class="m-modal__demography-variables__list-item">',
 								'<a>{{variable._variable_name}}',
@@ -33,13 +35,18 @@
 					'<div>',
 					'<div class="m-modal__demography-list" ng-if="list === true">',
 						'<div class="m-catalog-filter js-filter-demography-catalog">',
-							'<input type="text" class="m-input m-input--in-demography__catalog" ng-model="search" ng-change="quickFilter()" placeholder="Filtro rápido">',
+							'<md-content class="md-primary" layout-gt-sm="row">',
+								'<md-input-container class="md-block">',
+								  '<label>Filtro rápido</label>',
+								  '<input ng-model="search" ng-change="quickFilter()">',
+								'</md-input-container>',
+								'</md-content>',
 						'</div>',
 						'<wxy-push-menu menu="menu" options="options"></wxy-push-menu>',
 					'</div>',
 				'<div>'
 			].join(''),
-			link: function(scope, element){
+			link: function(scope, element, attr, demographyCtrl){
 				var _newVariables = null,
 				_resultProcess = null,
 				_matchWord = null,
@@ -70,15 +77,6 @@
 				if (!scope.arreglo) {
 					scope.arreglo = [];
 				}
-				
-				_$js_demography_item = angular.element(document.getElementsByClassName('js-demography-item'));
-				_$js_side_panel = angular.element(document.getElementsByClassName('js-side-panel'));
-
-				_$js_demography_item.on('click', function(e){
-					e.preventDefault();
-					_$js_side_panel.toggleClass('is-demography-panel-open');
-					_$js_demography_item.toggleClass('is-item-panel-active');
-				});
 
 				/**
 				 * Get demography variables
@@ -119,14 +117,11 @@
 						});
 					},
 					onExpandMenuEnd: function() {
-						angular.element(document.getElementsByClassName('current-category')).addClass('visible').removeClass('invisible');
 					},
 					onCollapseMenuStart: function() {
 						angular.element(document.getElementsByClassName('js-filter-demography-catalog')).removeClass('is-filter-demography-active').val("");
-						angular.element(document.getElementsByClassName('current-category')).addClass('visible').removeClass('invisible');
 					},
 					onCollapseMenuEnd: function(event, item) {
-						angular.element(document.getElementsByClassName('current-category')).removeClass('visible').addClass('invisible');
 						var hide = angular.element(document.getElementsByClassName('testing'));
 						angular.element(hide[0]).removeClass('fa-times').addClass('fa-search');
 					},
@@ -137,6 +132,16 @@
 						if(scope._variable_flag.indexOf(_variable_name) === -1){
 							scope._variable_flag.push(_variable_name);
 							scope.save_variable_list.push({_variable_name, _variable_id});
+							$mdToast.show(
+								$mdToast.simple({
+									textContent: 'Se agregó ' + _variable_name,
+									position: 'top right',
+									hideDelay: 1500,
+									parent: $document[0].querySelector('.m-side-panel'),
+									theme: 'info-toast',
+									autoWrap: true
+								})
+							);
 						}
 
 						else {
@@ -146,6 +151,16 @@
 									break;
 								}
 							}
+							$mdToast.show(
+								$mdToast.simple({
+									textContent: 'Se removió ' + _variable_name,
+									position: 'top right',
+									hideDelay: 2500,
+									parent: $document[0].querySelector('.m-side-panel'),
+									theme: 'error-toast',
+									autoWrap: true
+								})
+							);
 
 							for (var i = 0; i < scope.save_variable_list.length; i++){
 								if (scope.save_variable_list[i]._variable_name === _variable_name){
@@ -167,6 +182,7 @@
 				 * @param  {[type]} index [currend variable index ]
 				 */
 				scope.variableShowed = function(list, index){
+					_column_request = this.variable._variable_id;
 					_last_checked = _current_checked;
 					_current_checked = list.save_variable_list[index];
 					
@@ -176,12 +192,11 @@
 					
 					if (_current_checked === _last_checked) {
 						_current_checked = false;
-						// Cancel request
+						BaseMapFactory.cleanColorPletMap();
 					}
 					else {
 						_current_checked.$index = true;
-						
-						// Do request
+						_demographyWKTRequest(_column_request);
 					}
 				}
 				/**
@@ -190,14 +205,13 @@
 				scope.quickFilter = function(){
 					scope.arreglo = [];
 					_resultProcess = null;
-					_matchWord = new RegExp(this.search, 'i');
-					_matchInput= this.search;
+					_matchWord = this.search;
+
 					/**
 					 * [_newVariables Get result of getObject Match words function]
 					 */
 					_newVariables = getObject(scope.currentVariables.items);
-
-					if (_newVariables && _matchInput !== "") {
+					if (_newVariables && _matchWord !== "") {
 						scope.menu = {
 							title: 'Resultados',
 							id: 'menuId',
@@ -222,8 +236,6 @@
 									{"color": "#C3EE97", "transition": "all linear 0.25s"}
 								);
 							}, 0);
-							
-
 						});
 					}
 
@@ -233,33 +245,59 @@
 					 */
 					function getObject(theObject) {
 						scope.arreglo = [];
-						for (var prop in theObject[0].menu.items) {
-								if(_matchWord.test(theObject[0].menu.items[prop].name.toLowerCase()) || _matchInput === "") {
-									scope.arreglo.push(theObject[0].menu.items[prop]);
-									
-								}
-						}
-						for (var prop in theObject[1].menu.items) {
-							if(_matchWord.test(theObject[1].menu.items[prop].name.toLowerCase()) || _matchInput === "") {
-								scope.arreglo.push(theObject[1].menu.items[prop]);
-								
+						_.each(theObject,function(o){
+							var items = o.menu.items;
+							var found = _.filter(items,function(item){
+								return item.name.toLowerCase().indexOf( _matchWord ) !== -1;
+							});
+							if(found.length > 0){
+								_.extend(scope.arreglo,found);
 							}
-						}
-						for (var prop in theObject[2].menu.items) {
-							if(_matchWord.test(theObject[2].menu.items[prop].name.toLowerCase()) || _matchInput === "") {
-								scope.arreglo.push(theObject[2].menu.items[prop]);
-								
-							}
-						}
+						});
 						return scope.arreglo;
 					}
 				};
+				
+				/**
+				 * [_demographyWKTRequest Create Heatmap]
+				 * @param  {[type]} param [description]
+				 */
+				var _demographyWKTRequest = function(param) {
+					BaseMapService.map.then(function (map) {
+
+						if(map.getZoom()<15){
+							console.log('zoom mayor');
+							return;
+						}
+
+						var demographyWKT = BaseMapFactory.bounds2polygonWKT(map.getBounds());
+						if(demographyWKT){
+							BaseMapService.intersect({
+								s:'inegi',
+								t: 'pobviv2010',
+								c: param,
+								w:'',
+								wkt: demographyWKT,
+								mts: 0
+							}).then(function(result){
+								console.log(result)
+								if(result && result.data){
+									var info = result.data.info;
+									var geojson = result.data.geojson;
+									BaseMapFactory.addColorPletMap(geojson,param);
+								}
+							}, function(error){
+								console.log(error);
+							});
+						}
+					});
+				}
 
 			}
 		};
 	}
 	
-	demographyDirective.$inject = ['DemographyJsonService'];
+	demographyDirective.$inject = ['DemographyJsonService', 'BaseMapService', 'BaseMapFactory', '$mdToast', '$document'];
 
 	angular.module('demography.directive', [])
 		.directive('demography', demographyDirective);

@@ -19,7 +19,7 @@
 			'competence.modal.controller',
 			'demograhpy.service',
 			'demography.directive',
-			'potential.modal.controller',
+			'potential.directive',
 			'analysis.directive',
 			'accessibility.modal.controller',
 			'heatmap.modal.controller',
