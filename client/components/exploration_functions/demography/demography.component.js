@@ -26,7 +26,7 @@
 								'<li ng-repeat="variable in save_variable_list" class="m-modal__demography-variables__list-item">',
 								'<a>{{variable._variable_name}}',
 									'<md-switch ng-model="variable.$index" ng-change="variableShowed($parent, $index)" ng-init="variable.$index = $index === 0" aria-label="variable._variable_id" data-variable= "variable._variable_id" class="m-modal__demography-variables__switch md-primary md-mode-A200" ></md-switch>',
-									'<md-button class="md-icon-button m-modal__demography-variables__close" ng-click="removeVariable(variable._variable_name, variable._variable_id)">',
+									'<md-button class="md-icon-button m-modal__demography-variables__close" ng-model="variable.$index" ng-click="removeVariable($parent, $index)">',
 									  '<md-icon>close</md-icon>',
 									'</md-button>',
 								'</a>',
@@ -81,7 +81,15 @@
 				if (!scope.arreglo) {
 					scope.arreglo = [];
 				}
-
+				scope.$watchGroup(['_variable_flag','save_variable_list','current_checked'], function(s){
+					console.log(s)
+					var found = _.filter(s[0],function(item){
+						return item.indexOf(s[2]._variable_name) !== -1;
+					});
+					if (found.length === 0 && found.length === "") {
+						BaseMapFactory.cleanColorPletMap();
+					}
+				}, true);
 				/**
 				 * Get demography variables
 				 */
@@ -117,14 +125,6 @@
 					onItemClick: function(event, item) {
 						_variable_id = item.id;
 						_variable_name = item.name;
-						scope.$watchGroup(['_variable_flag','save_variable_list','current_checked'], function(s){
-							var found = _.filter(s[0],function(item){
-								return item.indexOf(s[2]._variable_name) !== -1;
-							});
-							if (found.length === 0) {
-								BaseMapFactory.cleanColorPletMap();
-							}
-						}, true);
 						
 
 						if(scope._variable_flag.indexOf(_variable_name) === -1){
@@ -186,7 +186,6 @@
 							);
 
 						}
-						console.log(event)
 						angular.element(event.currentTarget.children).toggleClass('fa fa-check').css(
 							{"color": "#C3EE97", "transition": "all linear 0.25s"}
 						);
@@ -311,39 +310,30 @@
 					});
 				};
 				
-				scope.removeVariable = function(_variable_name, _variable_id) {
-					BaseMapFactory.cleanColorPletMap();
-					setTimeout(function(){
-						_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+_variable_id+'"]'));
+				scope.removeVariable = function(parent,index) {
+						_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+scope.save_variable_list[index]._variable_id+'"]'));
 						_icon_data_id.removeClass('fa fa-check').css(
 							{ "transition": "all linear 0.25s"}
 						);
-					}, 0);
-					for (var i=0; i<scope._variable_flag.length; i++){
-						if (scope._variable_flag[i] === _variable_name){
-							scope._variable_flag.splice(i,1);
-							break;
-						}
+
+					if (scope.save_variable_list[index].$index === true){
+						BaseMapFactory.cleanColorPletMap();
+						scope.save_variable_list.splice(index,1);
+						scope._variable_flag.splice(index,1);
 					}
-					
-					for (var k = 0; k < scope.save_variable_list.length; k++){
-						if (scope.save_variable_list[k]._variable_name === _variable_name){
-							scope.save_variable_list.splice(k,1);
-							break;
-						}
+					else {
+						scope.save_variable_list.splice(index,1);
+						scope._variable_flag.splice(index,1);
 					}
 					
 					if (scope._variable_flag.length === 1) {
-						setTimeout(function(){
-							scope.save_variable_list[0].$index = true;
-							scope.current_checked = scope.save_variable_list[0];
-							scope.last_checked = scope.save_variable_list[0];
-						}, 500);
+						scope.save_variable_list[0].$index = true;
+						scope.current_checked = scope.save_variable_list[0];
+						scope.last_checked = scope.save_variable_list[0];
 						_demographyWKTRequest(scope.save_variable_list[0]._variable_id);
 					}
 
 				}
-
 			}
 		};
 	}
