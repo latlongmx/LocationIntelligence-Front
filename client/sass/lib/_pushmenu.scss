@@ -1,38 +1,44 @@
 .multilevelpushmenu_wrapper {
   //position: absolute;
-  z-index: 10;
   height: 100%;
-  padding: 0;
+  left: 0;
   margin: 0;
-  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  z-index: 10;
 }
 
 .multilevelpushmenu_wrapper .levelHolderClass {
+  background: #828189;
+  bottom: 50px;
+  font-size: 1em;
   position: absolute;
   top: 0;
-  width: auto;
-  min-height: 100%;
-  overflow-x: hidden;
+  zoom: 1;
   overflow-y: scroll;
-  font-size: 1em;
-  background: $gray;
-  overflow: visible;
   //@include linearGradient(#D5F7F6, #A0E4E1);
   //background: #336ca6;
-  zoom: 1;
+  &:not([level='level']) {
+    bottom: 0;
+    overflow-y: scroll;
+    position: absolute;
+    top: 0px;
+  }
 }
 
 .multilevelpushmenu_wrapper .multilevelpushmenu_inactive {
   background: #666470;
+  overflow-y: initial;
 }
 
-.multilevelpushmenu_wrapper h2 {
+.multilevelpushmenu_wrapper h3 {
   padding: 0 .4em 0 .4em;
-  font-size: 1.5em;
+  // font-size: 1.5em;
   line-height: 1em;
   //color: #1f4164;
   color: #C3EE97;
-  margin-top: 60px;
 }
 
 .multilevelpushmenu_wrapper .menu-icon {
@@ -42,7 +48,7 @@
   padding: 0 .4em 0 .4em;
   position: absolute;
   right: 0;
-  top: 10px;
+  top: 16px;
 }
 
 .multilevelpushmenu_wrapper ul {
@@ -103,8 +109,8 @@
 
 .multilevelpushmenu_wrapper .cursorPointer {
   cursor: pointer;
-  position: absolute;
-  right: -40px;
+  // position: absolute;
+  // right: -40px;
 }
 
 .multilevelpushmenu_wrapper.ltr .levelHolderClass {

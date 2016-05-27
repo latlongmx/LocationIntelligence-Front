@@ -8,7 +8,7 @@
 	width: 400px;
 	opacity: 0;
 	overflow:hidden;
-	z-index:9999;
+	z-index:20;
 	-webkit-transition: -webkit-clip-path,-webkit-clip-path,opacity;
 	transition: -webkit-clip-path,clip-path,opacity;
 	-webkit-transition-duration: .5s,.5s,.25s;
@@ -27,8 +27,10 @@
 }
 
 .m-side-panel__title {
+	border-bottom: 2px solid #f3f3f3;
 	color: #82c341;
 	font-weight: 100;
-	margin: 10px;
+	margin: 0;
+	padding: 14px 10px;
 	text-align: left;
 }

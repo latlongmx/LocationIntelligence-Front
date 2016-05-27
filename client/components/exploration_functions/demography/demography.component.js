@@ -7,9 +7,7 @@
 	function demographyDirective(DemographyJsonService, BaseMapService, BaseMapFactory, $mdToast, $document){
 		var _$js_demography_side_panel = null,
 		_$js_demography_item = null,
-		_last_checked = null,
-		_current_checked = null,
-		_column_request = null
+		_column_request = null;
 
 		return {
 			restrict: 'E',
@@ -23,7 +21,7 @@
 					'</li>',
 					'<div class="m-side-panel js-demography-side-panel">',
 						'<div class="m-modal__demography-variables">',
-							'<h3 class="m-side-panel__title">Seleccionar variables</h3>',
+							'<h3 class="m-side-panel__title">Demografía</h3>',
 							'<ul class="m-modal__demography-variables__list js-variables-list">',
 								'<li ng-repeat="variable in save_variable_list" class="m-modal__demography-variables__list-item">',
 								'<a>{{variable._variable_name}}',
@@ -36,9 +34,8 @@
 					'<div class="m-modal__demography-list" ng-if="list === true">',
 						'<div class="m-catalog-filter js-filter-demography-catalog">',
 							'<md-content class="md-primary" layout-gt-sm="row">',
-								'<md-input-container class="md-block">',
-								  '<label>Filtro rápido</label>',
-								  '<input ng-model="search" ng-change="quickFilter()">',
+								'<md-input-container class="md-block flex-gt-sm">',
+								  '<input ng-model="search" ng-change="quickFilter()" placeholder=" rápido">',
 								'</md-input-container>',
 								'</md-content>',
 						'</div>',
@@ -65,6 +62,10 @@
 				_last_variable_list = null,
 				_last_list = null,
 				_last_flag = null;
+				scope.last_checked = null;
+				scope.current_checked = null;
+				scope.last_on = null;
+				scope.current_on = null;
 				
 				if (!scope.save_variable_list) {
 					scope.save_variable_list = [];
@@ -88,7 +89,7 @@
 					scope.currentVariables = {
 						"title":"Demografía",
 						"idCatalog": 1,
-						"icon": "fa fa-search",
+						"icon": "fa fa-bars",
 						"items": scope.currentItems
 					};
 					scope.menu = scope.currentVariables;
@@ -105,16 +106,7 @@
 					onExpandMenuStart: function() {
 						setTimeout(function(){
 							angular.element(document.getElementsByClassName('js-filter-demography-catalog')).addClass('is-filter-demography-active');
-							
 						}, 500);
-						var search = angular.element(document.getElementsByClassName('testing'));
-						angular.element(search[0]).removeClass('fa-search').addClass('fa-times').css({
-							"-webkit-transition": "all linear 0.25s",
-							"-moz-transition": "all linear 0.25s",
-							"-o-transition": "all linear 0.25s",
-							"-ms-transition": "all linear 0.25s",
-							"transition": "all linear 0.25s"
-						});
 					},
 					onExpandMenuEnd: function() {
 					},
@@ -122,12 +114,20 @@
 						angular.element(document.getElementsByClassName('js-filter-demography-catalog')).removeClass('is-filter-demography-active').val("");
 					},
 					onCollapseMenuEnd: function(event, item) {
-						var hide = angular.element(document.getElementsByClassName('testing'));
-						angular.element(hide[0]).removeClass('fa-times').addClass('fa-search');
+						
 					},
 					onItemClick: function(event, item) {
 						_variable_id = item.id;
 						_variable_name = item.name;
+						scope.$watchGroup(['_variable_flag','save_variable_list','current_checked'], function(s){
+							var found = _.filter(s[0],function(item){
+								return item.indexOf( s[2]._variable_name ) !== -1;
+							});
+							if (found.length === 0) {
+								BaseMapFactory.cleanColorPletMap();
+							}
+						}, true);
+						
 
 						if(scope._variable_flag.indexOf(_variable_name) === -1){
 							scope._variable_flag.push(_variable_name);
@@ -142,6 +142,12 @@
 									autoWrap: true
 								})
 							);
+							
+							if (scope._variable_flag.length === 1) {
+								scope.current_checked = scope.save_variable_list[0];
+								scope.last_checked = scope.save_variable_list[0];
+								_demographyWKTRequest(scope.save_variable_list[0]._variable_id);
+							}
 						}
 
 						else {
@@ -150,6 +156,18 @@
 									scope._variable_flag.splice(i,1);
 									break;
 								}
+							}
+							if (scope._variable_flag.length === 1) {
+								setTimeout(function(){
+									scope.save_variable_list[0].$index = true;
+									scope.current_checked = scope.save_variable_list[0];
+									scope.last_checked = scope.save_variable_list[0];
+								}, 500)
+								_demographyWKTRequest(scope.save_variable_list[0]._variable_id);
+							}
+							
+							else if (scope._variable_flag.length === 0) {
+								BaseMapFactory.cleanColorPletMap();
 							}
 							$mdToast.show(
 								$mdToast.simple({
@@ -176,6 +194,7 @@
 					}
 				};
 				
+
 				/**
 				 * [variableShowed Get or change variable that will be shown on the map]
 				 * @param  {[type]} list  [list of all variables]
@@ -183,22 +202,23 @@
 				 */
 				scope.variableShowed = function(list, index){
 					_column_request = this.variable._variable_id;
-					_last_checked = _current_checked;
-					_current_checked = list.save_variable_list[index];
+					scope.last_checked = scope.current_checked;
+					scope.current_checked = list.save_variable_list[index];
 					
 					for (var i = 0; i < list.save_variable_list.length; i++) {
 						list.save_variable_list[i].$index = false;
 					}
 					
-					if (_current_checked === _last_checked) {
-						_current_checked = false;
+					if (scope.current_checked === scope.last_checked) {
+						scope.current_checked = false;
 						BaseMapFactory.cleanColorPletMap();
 					}
 					else {
-						_current_checked.$index = true;
+						scope.current_checked.$index = true;
 						_demographyWKTRequest(_column_request);
 					}
 				}
+
 				/**
 				 * [quickFilter Function to get filter values from catalog]
 				 */
@@ -280,7 +300,6 @@
 								wkt: demographyWKT,
 								mts: 0
 							}).then(function(result){
-								console.log(result)
 								if(result && result.data){
 									var info = result.data.info;
 									var geojson = result.data.geojson;
@@ -292,6 +311,10 @@
 						}
 					});
 				}
+				
+				// var _checkLast = function(last){
+				// 	last = true;
+				// }
 
 			}
 		};

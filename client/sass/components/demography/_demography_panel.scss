@@ -15,6 +15,7 @@
 	background: $gray75;
 	height: 50px;
 	left: 0;
+	top: -5px;
 	overflow: auto;
 	position: absolute;
 	right: 0;
@@ -39,7 +40,7 @@
 	left: 0;
 	overflow-x: hidden;
 	overflow-y: scroll;
-	padding: 00px 20px 0px 40px;
+	padding: 0px 0px 0px 40px;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -52,33 +53,20 @@
 
 .m-modal__demography-variables__list-item {
 	position:relative;
+	padding: 0 5px 0 0;
+	border-bottom: 1px solid #f5f5f5;
+	@include transition(all 0.25s linear);
+	&:hover {
+		background: #f5f5f5;
+	}
 	a {
 		color: $gray75;
 		display: block;
 		font-weight: 400;
+		margin: 0 50px 0 10px;
 		padding: 8px 0px;
-		text-decoration: none;
 		text-align: left;
-		@include transition(all 0.25s linear);
-		&:before {
-			@include transition(all 0.25s linear);
-			border: 2px solid transparent;
-			content:'';
-			left:2px;
-			margin-right: 5px;
-			padding-bottom: 5px;
-			padding-top: 5px;
-		}
-		&:hover {
-			background: #f5f5f5;
-			&:before {
-				@include transition(all 0.25s linear);
-				border-color: $green-lsmooth;
-			}
-		}
-		&.is-not-visible-in-map {
-			text-decoration: line-through;
-		}
+		text-decoration: none;
 	}
 }
 
@@ -90,10 +78,10 @@
 	right:0px;
 	top:2px;
 }
-.fa-search,
-.fa-times {
-	color: $gray !important;
-}
+// .fa-search,
+// .fa-times {
+// 	color: $gray !important;
+// }
 
 md-toast.md-info-toast-theme {
 	.md-toast-content {
@@ -114,5 +102,9 @@ md-toast.md-success-toast-theme {
 md-toast.md-error-toast-theme {
 	.md-toast-content {
 		background-color: #ff5252;
+		span {
+			color: $white;
+			font-weight: bold;
+		}
 	}
 }
