@@ -190,7 +190,7 @@
 
 		factory.cleanColorPletMap = function(){
 			this.LAYERS.heatMap.clearLayers();
-		}
+		};
 
 		factory.addColorPletMap = function(GeoJSON, column){
 			var self = this;
@@ -228,7 +228,7 @@
 		return factory;
 	}
 
-	BaseMapFactory.$inject = ['BaseMapService', 'chroma'];
+	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_'];
 	angular.module('basemap.factory',[])
 		.factory('BaseMapFactory', BaseMapFactory);
 

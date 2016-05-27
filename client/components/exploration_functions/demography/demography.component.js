@@ -108,20 +108,15 @@
 							angular.element(document.getElementsByClassName('js-filter-demography-catalog')).addClass('is-filter-demography-active');
 						}, 500);
 					},
-					onExpandMenuEnd: function() {
-					},
 					onCollapseMenuStart: function() {
 						angular.element(document.getElementsByClassName('js-filter-demography-catalog')).removeClass('is-filter-demography-active').val("");
-					},
-					onCollapseMenuEnd: function(event, item) {
-						
 					},
 					onItemClick: function(event, item) {
 						_variable_id = item.id;
 						_variable_name = item.name;
 						scope.$watchGroup(['_variable_flag','save_variable_list','current_checked'], function(s){
 							var found = _.filter(s[0],function(item){
-								return item.indexOf( s[2]._variable_name ) !== -1;
+								return item.indexOf(s[2]._variable_name) !== -1;
 							});
 							if (found.length === 0) {
 								BaseMapFactory.cleanColorPletMap();
@@ -131,7 +126,7 @@
 
 						if(scope._variable_flag.indexOf(_variable_name) === -1){
 							scope._variable_flag.push(_variable_name);
-							scope.save_variable_list.push({_variable_name, _variable_id});
+							scope.save_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
 							$mdToast.show(
 								$mdToast.simple({
 									textContent: 'Se agregó ' + _variable_name,
@@ -157,16 +152,24 @@
 									break;
 								}
 							}
+							
+							for (var k = 0; k < scope.save_variable_list.length; k++){
+								if (scope.save_variable_list[k]._variable_name === _variable_name){
+									scope.save_variable_list.splice(k,1);
+									break;
+								}
+							}
+
 							if (scope._variable_flag.length === 1) {
 								setTimeout(function(){
 									scope.save_variable_list[0].$index = true;
 									scope.current_checked = scope.save_variable_list[0];
 									scope.last_checked = scope.save_variable_list[0];
-								}, 500)
+								}, 500);
 								_demographyWKTRequest(scope.save_variable_list[0]._variable_id);
 							}
 							
-							else if (scope._variable_flag.length === 0) {
+							if (scope._variable_flag.length === 0) {
 								BaseMapFactory.cleanColorPletMap();
 							}
 							$mdToast.show(
@@ -175,17 +178,10 @@
 									position: 'top right',
 									hideDelay: 2500,
 									parent: $document[0].querySelector('.m-side-panel'),
-									theme: 'error-toast',
-									autoWrap: true
+									theme: 'error-toast'
 								})
 							);
 
-							for (var i = 0; i < scope.save_variable_list.length; i++){
-								if (scope.save_variable_list[i]._variable_name === _variable_name){
-									scope.save_variable_list.splice(i,1);
-									break;
-								}
-							}
 						}
 
 						angular.element(event.currentTarget.children).toggleClass('fa fa-check').css(
@@ -217,7 +213,7 @@
 						scope.current_checked.$index = true;
 						_demographyWKTRequest(_column_request);
 					}
-				}
+				};
 
 				/**
 				 * [quickFilter Function to get filter values from catalog]
@@ -310,11 +306,7 @@
 							});
 						}
 					});
-				}
-				
-				// var _checkLast = function(last){
-				// 	last = true;
-				// }
+				};
 
 			}
 		};

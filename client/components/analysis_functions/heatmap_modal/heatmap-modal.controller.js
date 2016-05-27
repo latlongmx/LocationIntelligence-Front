@@ -30,7 +30,7 @@
 						wkt: polygonWKT,
 						mts: 0
 					}).then(function(result){
-						console.log(result)
+						console.log(result);
 						if(result && result.data){
 							var info = result.data.info;
 							var geojson = result.data.geojson;
