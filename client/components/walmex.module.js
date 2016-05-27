@@ -11,8 +11,6 @@
 			'basemap.service',
 			'basemap.factory',
 			'routes',
-			'mapswitcher.directive',
-			'maptools',
 			'menu.directive',
 			'exploration.directive',
 			'location.modal.controller',
@@ -85,4 +83,4 @@
 		return $rootScope;
 	}]);
 	//prueba push dandelion deploy
-}());
+})();

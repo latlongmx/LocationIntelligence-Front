@@ -51,4 +51,4 @@
 	angular.module('login.service', []).
 		service('LoginService', LoginService);
 
-}());
+})();

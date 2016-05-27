@@ -187,4 +187,4 @@
 	angular.module('basemap', []).
 	controller('BaseMapController', BaseMapController);
 
-}());
+})();

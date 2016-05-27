@@ -83,4 +83,4 @@
 
 	angular.module('search.directive', [])
 		.directive('search', Search);
-}());
+})();

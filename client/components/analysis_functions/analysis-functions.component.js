@@ -50,4 +50,4 @@
 
 	angular.module('analysis.directive', [])
 		.directive('analysisFunctions', AnalysisFunctions);
-}());
+})();

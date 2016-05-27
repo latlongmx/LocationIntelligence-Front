@@ -83,13 +83,12 @@
           };
           if (scope.level === 0) {
             scope.collasped = false;
-            marginCollapsed = options.overlapWidth - ctrl.GetBaseWidth() - 40;
+            marginCollapsed = options.overlapWidth - ctrl.GetBaseWidth();
             if (options.collapsed) {
               scope.collapsed = true;
               scope.inactive = true;
               element.css({
-                marginLeft: "-265px",
-                overflow: "visible"
+                marginLeft: marginCollapsed
               });
             }
             collapse = function() {

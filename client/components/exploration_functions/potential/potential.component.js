@@ -47,4 +47,4 @@
 
 	angular.module('potential.directive', [])
 		.directive('potential', potentialDirective);
-}());
+})();

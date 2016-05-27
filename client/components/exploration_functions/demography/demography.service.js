@@ -30,4 +30,4 @@
 	angular.module('demograhpy.service', []).
 		service('DemographyJsonService', DemographyJsonService);
 
-}());
+})();

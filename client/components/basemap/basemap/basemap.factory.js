@@ -232,4 +232,4 @@
 	angular.module('basemap.factory',[])
 		.factory('BaseMapFactory', BaseMapFactory);
 
-}());
+})();

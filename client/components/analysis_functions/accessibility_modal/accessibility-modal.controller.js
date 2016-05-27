@@ -27,4 +27,4 @@
 	angular.module('accessibility.modal.controller', [])
 		.controller('accessibilityModalController', accessibilityModalController);
 
-}());
+})();

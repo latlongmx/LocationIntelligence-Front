@@ -58,4 +58,4 @@
 	angular.module('heatmap.modal.controller', [])
 		.controller('heatmapModalController', heatmapModalController);
 
-}());
+})();

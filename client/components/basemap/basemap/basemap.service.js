@@ -132,4 +132,4 @@
 	angular.module('basemap.service', []).
 		service('BaseMapService', BaseMapService);
 
-}());
+})();

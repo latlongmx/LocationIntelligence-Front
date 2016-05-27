@@ -38,4 +38,4 @@
 
 	angular.module('basemap.directive', [])
 		.directive('basemap', BaseMap);
-}());
+})();

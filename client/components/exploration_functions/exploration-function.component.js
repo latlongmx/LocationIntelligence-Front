@@ -61,4 +61,4 @@
 
 	angular.module('exploration.directive', [])
 		.directive('explorationFunctions', explorationFunctions);
-}());
+})();
