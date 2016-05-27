@@ -206,9 +206,10 @@
 				var SCALE = 10;
 				var vals = GeoJSON.features.map(function(o){return parseInt(o.properties[column]) || 0;});
 				var dmax = window._.max(vals);
-				//var dmin = _.min(vals)
-				var scaleColor = chroma.chroma.bezier(['lightyellow', 'orange', 'deeppink', 'darkred']);
-				scaleColor = chroma.chroma.scale(scaleColor).domain([1,SCALE], 1 ).correctLightness(true);
+			  //var dmin = _.min(vals)
+			  //var scaleColor = chroma.chroma.bezier(['lightyellow', 'orange', 'deeppink', 'darkred']);
+			  var scaleColor = chroma.chroma.bezier(['Aqua', 'Blue']);
+			  scaleColor = chroma.chroma.scale(scaleColor).domain([1,SCALE], 1 ).correctLightness(true);
 				var opts = {
 					onEachFeature: self.eachFeature,
 					style: function(feature){
@@ -225,8 +226,38 @@
 			});
 		};
 
-		return factory;
-	}
+		factory.reloadWMSColor = function(e, self){
+			BaseMapService.map.then(function (map) {
+				var WKT = self.bounds2polygonWKT(map.getBounds());
+				self.LAYERS.layerWMS = L.tileLayer.wms("http://52.8.211.37/test/wms.php?WKT="+WKT, {
+						layers: 'Manzanas',
+						format: 'image/png',
+						minZoom: 13,
+						transparent: true
+				});
+				self.LAYERS.layerWMS.options.crs = L.CRS.EPSG4326;
+				self.LAYERS.layerWMS.addTo(map);
+				self.LAYERS.layerWMS.setZIndex(9);
+			});
+		};
+		factory.addWMSColor = function(){
+			var self = this;
+			BaseMapService.map.then(function (map) {
+				if(self.LAYERS.layerWMS===undefined){
+					self.reloadWMSColor(undefined, self);
+					map.on('moveend', function(e){
+						self.reloadWMSColor(e,self);
+					});
+					map.on('zoomend', function(e){
+						self.reloadWMSColor(e,self);
+					});
+				}
+			});
+		};
+
+    return factory;
+  }
+
 
 	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_'];
 	angular.module('basemap.factory',[])
