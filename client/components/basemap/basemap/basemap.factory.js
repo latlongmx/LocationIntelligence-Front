@@ -1,4 +1,25 @@
 (function(){
+	L.TileLayer.DynamicWMS = L.TileLayer.WMS.extend({
+		dinamicWmsParams: {
+		},
+		setDynamicParam: function(params){
+			L.extend(this.dinamicWmsParams, params);
+		},
+		getTileUrl: function (coords) {
+			var params = L.TileLayer.WMS.prototype.getTileUrl.call(this, coords);
+			for(var o in this.dinamicWmsParams){
+				if(typeof this.dinamicWmsParams[o] === 'function'){
+					params += "&"+o+"="+this.dinamicWmsParams[o]();
+				}
+			}
+			return params;
+		}
+	});
+	L.tileLayer.dynamicWms = function (url, options) {
+  return new L.TileLayer.DynamicWMS(url, options);
+};
+}());
+(function(){
 	/*
 	* BaseMap Factory
   * factory para leer
@@ -222,6 +243,7 @@
       });
     };
 
+		factory._curVar = '';
 		factory.reloadWMSColor = function(e, self){
 			BaseMapService.map.then(function (map) {
 				var WKT = self.bounds2polygonWKT(map.getBounds());
@@ -236,18 +258,34 @@
 				self.LAYERS.layerWMS.setZIndex(9);
 			});
 		};
-		factory.addWMSColor = function(){
+		factory.addWMSColor = function(variable){
 			var self = this;
+			self._curVar = variable;
 			BaseMapService.map.then(function (map) {
-				if(self.LAYERS.layerWMS===undefined){
-					self.reloadWMSColor(undefined, self);
+				//if(self.LAYERS.layerWMS===undefined){
+					/*self.reloadWMSColor(undefined, self);
 					map.on('moveend', function(e){
 						self.reloadWMSColor(e,self);
 					});
 					map.on('zoomend', function(e){
 						self.reloadWMSColor(e,self);
+					});*/
+					self.LAYERS.layerWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
+					//self.LAYERS.layerWMS = L.tileLayer.dynamicWms("http://52.8.211.37/test/wms.php?", {
+							layers: 'Manzanas',
+							format: 'image/png',
+							minZoom: 13,
+							transparent: true
 					});
-				}
+					self.LAYERS.layerWMS.setDynamicParam({
+						col: function(){
+							return self._curVar;
+						}
+					});
+					self.LAYERS.layerWMS.options.crs = L.CRS.EPSG4326;
+					self.LAYERS.layerWMS.addTo(map);
+					self.LAYERS.layerWMS.setZIndex(9);
+				//}
 			});
 		};
 
