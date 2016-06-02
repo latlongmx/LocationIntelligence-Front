@@ -248,48 +248,24 @@
 		};
 
 		factory._curVar = '';
-		factory.reloadWMSColor = function(e, self){
-			BaseMapService.map.then(function (map) {
-				var WKT = self.bounds2polygonWKT(map.getBounds());
-				self.LAYERS.layerWMS = L.tileLayer.wms("http://52.8.211.37/test/wms.php?WKT="+WKT, {
-						layers: 'Manzanas',
-						format: 'image/png',
-						minZoom: 13,
-						transparent: true
-				});
-				self.LAYERS.layerWMS.options.crs = L.CRS.EPSG4326;
-				self.LAYERS.layerWMS.addTo(map);
-				self.LAYERS.layerWMS.setZIndex(9);
-			});
-		};
-		factory.addWMSColor = function(variable){
+		factory.setPobVivVar = function(variable){
 			var self = this;
 			self._curVar = variable;
 			BaseMapService.map.then(function (map) {
-				//if(self.LAYERS.layerWMS===undefined){
-					/*self.reloadWMSColor(undefined, self);
-					map.on('moveend', function(e){
-						self.reloadWMSColor(e,self);
-					});
-					map.on('zoomend', function(e){
-						self.reloadWMSColor(e,self);
-					});*/
-					self.LAYERS.layerWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
-					//self.LAYERS.layerWMS = L.tileLayer.dynamicWms("http://52.8.211.37/test/wms.php?", {
+					self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
 							layers: 'Manzanas',
 							format: 'image/png',
 							minZoom: 13,
 							transparent: true
 					});
-					self.LAYERS.layerWMS.setDynamicParam({
+					self.LAYERS.pobvivWMS.setDynamicParam({
 						col: function(){
 							return self._curVar;
 						}
 					});
-					self.LAYERS.layerWMS.options.crs = L.CRS.EPSG4326;
-					self.LAYERS.layerWMS.addTo(map);
-					self.LAYERS.layerWMS.setZIndex(9);
-				//}
+					self.LAYERS.pobvivWMS.options.crs = L.CRS.EPSG4326;
+					self.LAYERS.pobvivWMS.addTo(map);
+					self.LAYERS.pobvivWMS.setZIndex(9);
 			});
 		};
 
