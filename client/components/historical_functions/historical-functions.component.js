@@ -21,4 +21,4 @@
 
 	angular.module('historical.directive', [])
 		.directive('historicalFunctions', HistoricalFunctions);
-}());
+})();

@@ -1,11 +1,7 @@
-{
-	"title":"Demografía",
-	"idCatalog": 1,
-	"icon": "fa fa-bars",
-	"items": [
+	[
 		{
 			"name": "Población",
-			"id": "pob",
+			"id": "",
 			"icon": "fa fa-male",
 			"link": "",
 			"menu": {
@@ -13,115 +9,912 @@
 				"icon": "fa fa-male",
 				"items": [
 					{
-						"name": "Población",
-						"id": "pob",
-						"icon": "",
-						"link": ""
+						"name": "Población total",
+						"id": "pobtot"
+					},
+					{
+						"name": "Población masculina",
+						"id": "pobmas"
+					},
+					{
+						"name": "Población femenina",
+						"id": "pobfem"
 					},
 					{
 						"name": "Población de 0 a 2 años",
-						"id": "P_0A2",
-						"icon": "",
-						"link": ""
+						"id": "p_0a2"
+					},
+					{
+						"name": "Población masculina de 0 a 2 años",
+						"id": "p_0a2_m"
+					},
+					{
+						"name": "Población femenina de 0 a 2 años",
+						"id": "p_0a2_f"
 					},
 					{
 						"name": "Población de 3 años y más",
-						"id": "P_3YMAS",
-						"icon": "",
-						"link": ""
+						"id": "p_3ymas"
+					},
+					{
+						"name": "Población masculina de 3 años y más",
+						"id": "p_3ymas_m"
+					},
+					{
+						"name": "Población femenina de 3 años y más",
+						"id": "p_3ymas_f"
 					},
 					{
 						"name": "Población de 5 años y más",
-						"id": "P_5YMAS",
-						"icon": "",
-						"link": ""
+						"id": "p_5ymas"
+					},
+					{
+						"name": "Población masculina de 5 años y más",
+						"id": "p_5ymas_m"
+					},
+					{
+						"name": "Población femenina de 5 años y más",
+						"id": "p_5ymas_f"
 					},
 					{
 						"name": "Población de 12 años y más",
-						"id": "P_12YMAS",
-						"icon": "",
-						"link": ""
+						"id": "p_12ymas"
+					},
+					{
+						"name": "Población masculina de 12 años y más",
+						"id": "p_12ymas_m"
+					},
+					{
+						"name": "Población femenina de 12 años y más",
+						"id": "p_12ymas_f"
 					},
 					{
 						"name": "Población de 15 años y más",
-						"id": "P_15YMAS",
-						"icon": "",
-						"link": ""
+						"id": "p_15ymas"
+					},
+					{
+						"name": "Población masculina de 15 años y más",
+						"id": "p_15ymas_m"
+					},
+					{
+						"name": "Población femenina de 15 años y más",
+						"id": "p_15ymas_f"
 					},
 					{
 						"name": "Población de 18 años y más",
-						"id": "P_18YMAS",
-						"icon": "",
-						"link": ""
+						"id": "p_18ymas"
+					},
+					{
+						"name": "Población masculina de 18 años y más",
+						"id": "p_18ymas_m"
+					},
+					{
+						"name": "Población femenina de 18 años y más",
+						"id": "p_18ymas_f"
 					},
 					{
 						"name": "Población de 3 a 5 años",
-						"id": "P_3A5",
-						"icon": "",
-						"link": ""
+						"id": "p_3a5"
+					},
+					{
+						"name": "Población masculina de 3 a 5 años",
+						"id": "p_3a5_m"
+					},
+					{
+						"name": "Población femenina de 3 a 5 años",
+						"id": "p_3a5_f"
 					},
 					{
 						"name": "Población de 6 a 11 años",
-						"id": "P_6A11",
-						"icon": "",
-						"link": ""
+						"id": "p_6a11"
+					},
+					{
+						"name": "Población masculina de 6 a 11 años",
+						"id": "p_6a11_m"
+					},
+					{
+						"name": "Población femenina de 6 a 11 años",
+						"id": "p_6a11_f"
 					},
 					{
 						"name": "Población de 8 a 14 años",
-						"id": "P_8A14",
-						"icon": "",
-						"link": ""
+						"id": "p_8a14"
+					},
+					{
+						"name": "Población masculina de 8 a 14 años",
+						"id": "p_8a14_m"
+					},
+					{
+						"name": "Población femenina de 8 a 14 años",
+						"id": "p_8a14_f"
 					},
 					{
 						"name": "Población de 12 a 14 años",
-						"id": "P_12A14",
-						"icon": "",
-						"link": ""
+						"id": "p_12a14"
+					},
+					{
+						"name": "Población masculina de 12 a 14 años",
+						"id": "p_12a14_m"
+					},
+					{
+						"name": "Población femenina de 12 a 14 años",
+						"id": "p_12a14_f"
 					},
 					{
 						"name": "Población de 15 a 17 años",
-						"id": "P_15A17",
-						"icon": "",
-						"link": ""
+						"id": "p_15a17"
+					},
+					{
+						"name": "Población masculina de 15 a 17 años",
+						"id": "p_15a17_m"
+					},
+					{
+						"name": "Población femenina de 15 a 17 años",
+						"id": "p_15a17_f"
 					},
 					{
 						"name": "Población de 18 a 24 años",
-						"id": "P_18A24",
-						"icon": "",
-						"link": ""
+						"id": "p_18a24"
+					},
+					{
+						"name": "Población masculina de 18 a 24 años",
+						"id": "p_18a24_m"
+					},
+					{
+						"name": "Población femenina de 18 a 24 años",
+						"id": "p_18a24_f"
+					},
+					{
+						"name": "Población femenina de 15 a 49 años",
+						"id": "p_15a49_f"
 					},
 					{
 						"name": "Población de 60 años y más",
-						"id": "P_60YMAS",
-						"icon": "",
-						"link": ""
+						"id": "p_60ymas"
+					},
+					{
+						"name": "Población masculina de 60 años y más",
+						"id": "p_60ymas_m"
+					},
+					{
+						"name": "Población femenina de 60 años y más",
+						"id": "p_60ymas_f"
 					},
 					{
 						"name": "Relación hombres-mujeres",
-						"id": "REL_H_M",
-						"icon": "",
-						"link": ""
+						"id": "rel_h_m"
 					},
 					{
 						"name": "Población de cero a 14 años",
-						"id": "POB0_14",
-						"icon": "",
-						"link": ""
+						"id": "pob0_14"
 					},
 					{
 						"name": "Población de 15 a 64 años",
-						"id": "POB15_64",
-						"icon": "",
-						"link": ""
+						"id": "pob15_64"
 					},
 					{
 						"name": "Población de 65 años y más",
-						"id": "POB65_MAS",
+						"id": "pob65_mas"
+					}
+				]
+			}
+		},
+		{
+			"name": "Fecundidad",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Fecundidad",
+				"icon": "fa fa-male",
+				"items": [
+					{
+						"name": "Promedio de hijos nacidos vivos",
+						"id": "prom_hnv",
 						"icon": "",
 						"link": ""
 					}
 				]
 			}
+		},
+		{
+			"name": "Migración",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Migración",
+				"icon": "fa fa-male",
+				"items": [
+					{
+						"name": "Población nacida en la entidad",
+						"id": "pnacent"
+					},
+					{
+						"name": "Población masculina nacida en la entidad",
+						"id": "pnacent_m"
+					},
+					{
+						"name": "Población femenina nacida en la entidad",
+						"id": "pnacent_f"
+					},
+					{
+						"name": "Población nacida en otra entidad",
+						"id": "pnacoe"
+					},
+					{
+						"name": "Población masculina nacida en otra entidad",
+						"id": "pnacoe_m"
+					},
+					{
+						"name": "Población femenina nacida en otra entidad",
+						"id": "pnacoe_f"
+					},
+					{
+						"name": "Población de 5 años y más residente en la entidad en junio de 2005",
+						"id": "pres2005"
+					},
+					{
+						"name": "Población masculina de 5 años y más residente en la entidad en junio de 2005",
+						"id": "pres2005_m"
+					},
+					{
+						"name": "Población femenina de 5 años y más residente en la entidad en junio de 2005",
+						"id": "pres2005_f"
+					},
+					{
+						"name": "Población de 5 años y más residente en otra entidad en junio de 2005",
+						"id": "presoe05"
+					},
+					{
+						"name": "Población masculina de 5 años y más residente en otra entidad en junio de 2005",
+						"id": "presoe05_m"
+					},
+					{
+						"name": "Población femenina de 5 años y más residente en otra entidad en junio de 2005",
+						"id": "presoe05_f"
+					}
+				]
+			}
+		},
+		{
+			"name": "Población indígena",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Población indígena",
+				"icon": "fa fa-male",
+				"items": [
+					{
+						"name": "Población de 3 años y más que habla alguna lengua indígena",
+						"id": "p3ym_hli"
+					},
+					{
+						"name": "Población masculina de 3 años y más que habla alguna lengua indígena",
+						"id": "p3ym_hli_m"
+					},
+					{
+						"name": "Población femenina de 3 años y más que habla alguna lengua indígena",
+						"id": "p3ym_hli_f"
+					},
+					{
+						"name": "Población de 3 años y más que habla alguna lengua indígena y no habla español",
+						"id": "p3hlinhe"
+					},
+					{
+						"name": "Población masculina de 3 años y más que habla alguna lengua indígena y no habla español",
+						"id": "p3hlinhe_m"
+					},
+					{
+						"name": "Población femenina de 3 años y más que habla alguna lengua indígena y no habla español",
+						"id": "p3hlinhe_f"
+					},
+					{
+						"name": "Población de 3 años y más que habla alguna lengua indígena y habla español",
+						"id": "p3hli_he"
+					},
+					{
+						"name": "Población masculina de 3 años y más que habla alguna lengua indígena y habla español",
+						"id": "p3hli_he_m"
+					},
+					{
+						"name": "Población femenina de 3 años y más que habla alguna lengua indígena y habla español",
+						"id": "p3hli_he_f"
+					},
+					{
+						"name": "Población de 5 años y más que habla alguna lengua indígena",
+						"id": "p5_hli"
+					},
+					{
+						"name": "Población de 5 años y más que habla alguna lengua indígena y no habla español",
+						"id": "p5_hli_nhe"
+					},
+					{
+						"name": "Población de 5 años y más que habla alguna lengua indígena y habla español",
+						"id": "p5_hli_he"
+					},
+					{
+						"name": "Población en hogares censales indígenas",
+						"id": "phog_ind"
+					}
+				]
+			}
+		},
+		{
+			"name": "Discapacidad",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Discapacidad",
+				"icon": "fa fa-male",
+				"items": [
+					{
+						"name": "Población con limitación en la actividad/1",
+						"id": "pcon_lim"
+					},
+					{
+						"name": "Población con limitación para caminar o moverse, subir o bajar",
+						"id": "pclim_mot"
+					},
+					{
+						"name": "Población con limitación para ver, aún usando lentes",
+						"id": "pclim_vis"
+					},
+					{
+						"name": "Población con limitación para hablar, comunicarse o conversar",
+						"id": "pclim_leng"
+					},
+					{
+						"name": "Población con limitación para escuchar",
+						"id": "pclim_aud"
+					},
+					{
+						"name": "Población con limitación para vestirse, bañarse o comer",
+						"id": "pclim_mot2"
+					},
+					{
+						"name": "Población con limitación para poner atención o aprender cosas sencillas",
+						"id": "pclim_men"
+					},
+					{
+						"name": "Población con limitación mental",
+						"id": "pclim_men2"
+					},
+					{
+						"name": "Población sin limitación en la actividad",
+						"id": "psin_lim"
+					}
+				]
+			}
+		},
+		{
+			"name": "Educación",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Educación",
+				"icon": "fa fa-male",
+				"items": [
+					{
+						"name": "Población de 3 a 5 años que no asiste a la escuela",
+						"id": "p3a5_noa"
+					},
+					{
+						"name": "Población masculina de 3 a 5 años que no asiste a la escuela",
+						"id": "p3a5_noa_m"
+					},
+					{
+						"name": "Población femenina de 3 a 5 años que no asiste a la escuela",
+						"id": "p3a5_noa_f"
+					},
+					{
+						"name": "Población de 6 a 11 años que no asiste a la escuela",
+						"id": "p6a11_noa"
+					},
+					{
+						"name": "Población masculina de 6 a 11 años que no asiste a la escuela",
+						"id": "p6a11_noam"
+					},
+					{
+						"name": "Población femenina de 6 a 11 años que no asiste a la escuela",
+						"id": "p6a11_noaf"
+					},
+					{
+						"name": "Población de 12 a 14 años que no asiste a la escuela",
+						"id": "p12a14noa"
+					},
+					{
+						"name": "Población masculina de 12 a 14 años que no asiste a la escuela",
+						"id": "p12a14noam"
+					},
+					{
+						"name": "Población femenina de 12 a 14 años que no asiste a la escuela",
+						"id": "p12a14noaf"
+					},
+					{
+						"name": "Población de 15 a 17 años que asiste a la escuela",
+						"id": "p15a17a"
+					},
+					{
+						"name": "Población masculina de 15 a 17 años que asiste a la escuela",
+						"id": "p15a17a_m"
+					},
+					{
+						"name": "Población femenina de 15 a 17 años que asiste a la escuela",
+						"id": "p15a17a_f"
+					},
+					{
+						"name": "Población de 18 a 24 años que asiste a la escuela",
+						"id": "p18a24a"
+					},
+					{
+						"name": "Población masculina de 18 a 24 años que asiste a la escuela",
+						"id": "p18a24a_m"
+					},
+					{
+						"name": "Población femenina de 18 a 24 años que asiste a la escuela",
+						"id": "p18a24a_f"
+					},
+					{
+						"name": "Población de 8 a 14 años que no saben leer y escribir",
+						"id": "p8a14an"
+					},
+					{
+						"name": "Población masculina de 8 a 14 años que no saben leer y escribir",
+						"id": "p8a14an_m"
+					},
+					{
+						"name": "Población femenina de 8 a 14 años que no saben leer y escribir",
+						"id": "p8a14an_f"
+					},
+					{
+						"name": "Población de 15 años y más analfabeta",
+						"id": "p15ym_an"
+					},
+					{
+						"name": "Población masculina de 15 años y más analfabeta",
+						"id": "p15ym_an_m"
+					},
+					{
+						"name": "Población femenina de 15 años y más analfabeta",
+						"id": "p15ym_an_f"
+					},
+					{
+						"name": "Población de 15 años y más sin escolaridad",
+						"id": "p15ym_se"
+					},
+					{
+						"name": "Población masculina de 15 años y más sin escolaridad",
+						"id": "p15ym_se_m"
+					},
+					{
+						"name": "Población femenina de 15 años y más sin escolaridad",
+						"id": "p15ym_se_f"
+					},
+					{
+						"name": "Población de 15 años y más con primaria incompleta",
+						"id": "p15pri_in"
+					},
+					{
+						"name": "Población masculina de 15 años y más con primaria incompleta",
+						"id": "p15pri_inm"
+					},
+					{
+						"name": "Población femenina de 15 años y más con primaria incompleta",
+						"id": "p15pri_inf"
+					},
+					{
+						"name": "Población de 15 años y más con primaria completa",
+						"id": "p15pri_co"
+					},
+					{
+						"name": "Población masculina de 15 años y más con primaria completa",
+						"id": "p15pri_com"
+					},
+					{
+						"name": "Población femenina de 15 años y más con primaria completa",
+						"id": "p15pri_cof"
+					},
+					{
+						"name": "Población de 15 años y más con secundaria incompleta",
+						"id": "p15sec_in"
+					},
+					{
+						"name": "Población masculina de 15 años y más con secundaria incompleta",
+						"id": "p15sec_inm"
+					},
+					{
+						"name": "Población femenina de 15 años y más con secundaria incompleta",
+						"id": "p15sec_inf"
+					},
+					{
+						"name": "Población de 15 años y más con secundaria completa",
+						"id": "p15sec_co"
+					},
+					{
+						"name": "Población masculina de 15 años y más con secundaria completa",
+						"id": "p15sec_com"
+					},
+					{
+						"name": "Población femenina de 15 años y más con secundaria completa",
+						"id": "p15sec_cof"
+					},
+					{
+						"name": "Población de 18 años y más con educación pos-básica",
+						"id": "p18ym_pb"
+					},
+					{
+						"name": "Población masculina de 18 años y más con educación pos-básica",
+						"id": "p18ym_pb_m"
+					},
+					{
+						"name": "Población femenina de 18 años y más con educación pos-básica",
+						"id": "p18ym_pb_f"
+					},
+					{
+						"name": "Grado promedio de escolaridad",
+						"id": "graproes"
+					},
+					{
+						"name": "Grado promedio de escolaridad de la población masculina",
+						"id": "graproes_m"
+					},
+					{
+						"name": "Grado promedio de escolaridad de la población femenina",
+						"id": "graproes_f"
+					},
+					{
+						"name": "Población económicamente activa",
+						"id": "pea"
+					},
+					{
+						"name": "Población masculina económicamente activa",
+						"id": "pea_m"
+					},
+					{
+						"name": "Población femenina económicamente activa",
+						"id": "pea_f"
+					},
+					{
+						"name": "Población no económicamente activa",
+						"id": "pe_inac"
+					},
+					{
+						"name": "Población masculina no económicamente activa",
+						"id": "pe_inac_m"
+					},
+					{
+						"name": "Población femenina no económicamente activa",
+						"id": "pe_inac_f"
+					},
+					{
+						"name": "Población ocupada",
+						"id": "pocupada"
+					},
+					{
+						"name": "Población masculina ocupada",
+						"id": "pocupada_m"
+					},
+					{
+						"name": "Población femenina ocupada",
+						"id": "pocupada_f"
+					},
+					{
+						"name": "Población desocupada",
+						"id": "pdesocup"
+					},
+					{
+						"name": "Población masculina desocupada",
+						"id": "pdesocup_m"
+					},
+					{
+						"name": "Población femenina desocupada",
+						"id": "pdesocup_f"
+					}
+				]
+			}
+		},
+		{
+			"name": "Servicios de salud",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Servicios de salud",
+				"icon": "fa fa-male",
+				"items": [
+					{
+						"name": "Población sin derechohabiencia a servicios de salud",
+						"id": "psinder"
+					},
+					{
+						"name": "Población derechohabiente a servicios de salud/2",
+						"id": "pder_ss"
+					},
+					{
+						"name": "Población derechohabiente del IMSS",
+						"id": "pder_imss"
+					},
+					{
+						"name": "Población derechohabiente del ISSSTE",
+						"id": "pder_iste"
+					},
+					{
+						"name": "Población derechohabiente del ISSSTE estatal",
+						"id": "pder_istee"
+					},
+					{
+						"name": "Población derechohabiente del seguro popular o Seguro Médico para una Nueva Generación",
+						"id": "pder_segp"
+					}
+				]
+			}
+		},
+		{
+			"name": "Religión",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Religión",
+				"icon": "fa fa-male",
+				"items": [
+					{
+						"name": "Población con religión católica",
+						"id": "pcatolica"
+					},
+					{
+						"name": "Protestantes, Evangélicas y Bíblicas diferentes de evangélicas",
+						"id": "pncatolica"
+					},
+					{
+						"name": "Población con otras religiones diferentes a las anteriores",
+						"id": "potras_rel"
+					},
+					{
+						"name": "Población sin religión",
+						"id": "psin_relig"
+					}
+				]
+			}
+		},
+		{
+			"name": "Hogares censales",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Hogares censales",
+				"icon": "fa fa-male",
+				"items":[
+					{
+						"name": "Total de hogares censales",
+						"id": "tothog"
+					},
+					{
+						"name": "Hogares censales con jefatura masculina",
+						"id": "hogjef_m"
+					},
+					{
+						"name": "Hogares censales con jefatura femenina",
+						"id": "hogjef_f"
+					},
+					{
+						"name": "Población en hogares censales",
+						"id": "pobhog"
+					},
+					{
+						"name": "Población en hogares censales con jefatura masculina",
+						"id": "phogjef_m"
+					},
+					{
+						"name": "Población en hogares censales con jefatura femenina",
+						"id": "phogjef_f"
+					}
+				]
+			}
+		},
+		{
+			"name": "Vivienda",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Vivienda",
+				"icon": "fa fa-male",
+				"items":[
+					{
+						"name": "Total de viviendas",
+						"id": "vivtot"
+					},
+					{
+						"name": "Total de viviendas habitadas",
+						"id": "tvivhab"
+					},
+					{
+						"name": "Total de viviendas particulares",
+						"id": "tvivpar"
+					},
+					{
+						"name": "Viviendas particulares habitadas",
+						"id": "vivpar_hab"
+					},
+					{
+						"name": "Total de viviendas particulares habitadas",
+						"id": "tvivparhab"
+					},
+					{
+						"name": "Viviendas particulares deshabitadas",
+						"id": "vivpar_des"
+					},
+					{
+						"name": "Viviendas particulares de uso temporal",
+						"id": "vivpar_ut"
+					},
+					{
+						"name": "Ocupantes en viviendas particulares habitadas",
+						"id": "ocupvivpar"
+					},
+					{
+						"name": "Promedio de ocupantes en viviendas particulares habitadas",
+						"id": "prom_ocup"
+					},
+					{
+						"name": "Promedio de ocupantes por cuarto en viviendas particulares habitadas",
+						"id": "pro_ocup_c"
+					}
+				]
+			}
+		},
+		{
+			"name": "Características Constructivas",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Características Constructivas",
+				"icon": "fa fa-male",
+				"items":[
+					{
+						"name": "Viviendas particulares habitadas con piso de material diferente de tierra",
+						"id": "vph_pisodt"
+					},
+					{
+						"name": "Viviendas particulares habitadas con piso de tierra",
+						"id": "vph_pisoti"
+					}
+				]
+			}
+		},
+		{
+			"name": "Tamaño y uso del espacio",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Tamaño y uso del espacio",
+				"icon": "fa fa-male",
+				"items":[
+					{
+						"name": "Viviendas particulares habitadas con un dormitorio",
+						"id": "vph_1dor"
+					},
+					{
+						"name": "Viviendas particulares habitadas con dos dormitorios y más",
+						"id": "vph_2ymasd"
+					},
+					{
+						"name": "Viviendas particulares habitadas con un solo cuarto",
+						"id": "vph_1cuart"
+					},
+					{
+						"name": "Viviendas particulares habitadas con dos cuartos",
+						"id": "vph_2cuart"
+					},
+					{
+						"name": "Viviendas particulares habitadas con 3 cuartos y más",
+						"id": "vph_3ymasc"
+					}
+				]
+			}
+		},
+		{
+			"name": "Servicios e instalaciones",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Servicios e instalaciones",
+				"icon": "fa fa-male",
+				"items":[
+					{
+						"name": "Viviendas particulares habitadas que disponen de luz eléctrica",
+						"id": "vph_c_elec"
+					},
+					{
+						"name": "Viviendas particulares habitadas que no disponen de luz eléctrica",
+						"id": "vph_s_elec"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de agua entubada en el ámbito de la vivienda",
+						"id": "vph_aguadv"
+					},
+					{
+						"name": "Viviendas particulares habitadas que no disponen de agua entubada en el ámbito de la vivienda",
+						"id": "vph_aguafv"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de excusado o sanitario",
+						"id": "vph_excsa"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de drenaje",
+						"id": "vph_drenaj"
+					},
+					{
+						"name": "Viviendas particulares habitadas que no disponen de drenaje",
+						"id": "vph_nodren"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de luz eléctrica, agua entubada de la red pública y drenaje",
+						"id": "vph_c_serv"
+					}
+				]
+			}
+		},
+		{
+			"name": "Bienes y TICs",
+			"id": "",
+			"icon": "fa fa-male",
+			"link": "",
+			"menu": {
+				"title": "Bienes y TICs",
+				"icon": "fa fa-male",
+				"items":[
+					{
+						"name": "Viviendas particulares habitadas sin ningún bien",
+						"id": "vph_snbien"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de radio",
+						"id": "vph_radio"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de televisor",
+						"id": "vph_tv"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de refrigerador",
+						"id": "vph_refri"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de lavadora",
+						"id": "vph_lavad"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de automóvil o camioneta",
+						"id": "vph_autom"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de computadora",
+						"id": "vph_pc"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de línea telefónica fija",
+						"id": "vph_telef"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de teléfono celular",
+						"id": "vph_cel"
+					},
+					{
+						"name": "Viviendas particulares habitadas que disponen de internet",
+						"id": "vph_inter"
+					}
+				]
+			}
 		}
 	]
-}

@@ -85,12 +85,9 @@
 
 .m-input--in-demography__catalog {
 	border-bottom: 1px solid $white !important;
-	display:none;
-	visibility:hidden;
 	height: 30px;
 	left: 10px;
-	margin: 20px auto !important;
-	opacity:0;
+	margin: 10px auto !important;
 	position: absolute;
 	width: initial;
 	z-index: 10;
@@ -98,8 +95,6 @@
 	color: $white;
 	font-weight: 400;
 	font-size: 18px;
-	@include transform(translateX(-100%));
-	@include transition(opacity linear 0.25s, transform linear 0.25s);
 	&::-webkit-input-placeholder {
 		color: $gray0;
 	}
@@ -116,13 +111,6 @@
 	  border-bottom: 1px solid #C3EE97 !important;
 	  @include box-shadow(none !important);
 	  @include transition(box-shadow linear 5s);
-	}
-	&.is-filter-demography-active {
-		opacity:1;
-		display:block;
-		visibility:visible;
-		@include transform(translateX(0%));
-		@include transition(opacity linear 0.25s, transform linear 0.25s);
 	}
 }
 

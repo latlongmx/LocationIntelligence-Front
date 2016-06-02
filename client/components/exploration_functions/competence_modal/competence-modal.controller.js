@@ -51,4 +51,4 @@
 	angular.module('competence.modal.controller', [])
 		.controller('competenceModalController', competenceModalController);
 
-}());
+})();

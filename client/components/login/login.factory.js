@@ -13,31 +13,26 @@
 			login: function(session) {
 				_session = JSON.stringify(session);
 				sessionStorage.setItem('access_token', _session);
-				$location.path("/mapa");
+				$location.path("/mapa").replace();
 			},
 			getToken : function() {
 				return JSON.parse(sessionStorage.getItem('access_token'));
 			},
 			logout: function() {
 				sessionStorage.removeItem('access_token');
-				// setTimeout(function() {
-				// window.location.href = "http://52.8.211.37/walmex.latlong.mx";
-				// }, 0);
-				$location.path("/login");
+				$location.path("/login").replace();
 			},
 			checkStatus : function() {
 				var token = this.getToken();
 				_privateRoutes = ["/mapa"];
-				$location.replace();
 
 				if(this.in_array($location.path(), _privateRoutes) && token === null){
-					$location.path("/login");
-					$location.replace();
+					$location.path("/login").replace();
 					return false;
 				}
 
 				if($location.path("/login") && token !== null){
-					$location.path("/mapa");
+					$location.path("/mapa").replace();
 					return true;
 				}
 
@@ -58,4 +53,4 @@
 	AuthFactory.$inject = ['$location','$window', '$rootScope'];
 	angular.module('login.factory', []).
 		factory('Auth', AuthFactory);
-}());
+})();

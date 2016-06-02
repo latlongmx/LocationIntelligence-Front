@@ -27,4 +27,4 @@
 	angular.module('location.modal.controller', [])
 		.controller('locationModalController', locationModalController);
 
-}());
+})();

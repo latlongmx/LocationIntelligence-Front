@@ -11,15 +11,13 @@
 			'basemap.service',
 			'basemap.factory',
 			'routes',
-			'mapswitcher.directive',
-			'maptools',
 			'menu.directive',
 			'exploration.directive',
 			'location.modal.controller',
 			'competence.modal.controller',
-			'demography.modal.controller',
-			'demograhpy.json.service',
-			'potential.modal.controller',
+			'demograhpy.service',
+			'demography.directive',
+			'potential.directive',
 			'analysis.directive',
 			'accessibility.modal.controller',
 			'heatmap.modal.controller',
@@ -30,7 +28,8 @@
 			'ui.router',
 			'ui.bootstrap',
 			'wxy.pushmenu',
-			'chroma.angularChroma'
+			'chroma.angularChroma',
+			'ngMaterial'
 		]
 	)
 	.constant('_',
@@ -84,4 +83,4 @@
 		return $rootScope;
 	}]);
 	//prueba push dandelion deploy
-}());
+})();

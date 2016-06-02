@@ -27,4 +27,4 @@
 	angular.module('od.modal.controller', [])
 		.controller('odModalController', odModalController);
 
-}());
+})();

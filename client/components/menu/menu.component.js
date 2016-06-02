@@ -65,4 +65,4 @@
 
 	angular.module('menu.directive', [])
 		.directive('menu', MenuController);
-}());
+})();

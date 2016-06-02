@@ -27,7 +27,7 @@
 
 	}
 	DemographyJsonService.$inject = ['$q', '$http'];
-	angular.module('demograhpy.json.service', []).
+	angular.module('demograhpy.service', []).
 		service('DemographyJsonService', DemographyJsonService);
 
-}());
+})();
