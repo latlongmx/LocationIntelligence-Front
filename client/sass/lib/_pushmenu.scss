@@ -6,13 +6,13 @@
   padding: 0;
   position: absolute;
   right: 0;
-  top: 50px;
+  top: 45px;
   z-index: 10;
 }
 
 .multilevelpushmenu_wrapper .levelHolderClass {
   background: #828189;
-  bottom: 50px;
+  bottom: 45px;
   font-size: 1em;
   position: absolute;
   top: 0;
@@ -111,6 +111,7 @@
   cursor: pointer;
   // position: absolute;
   // right: -40px;
+  // top: -40px;
 }
 
 .multilevelpushmenu_wrapper.ltr .levelHolderClass {

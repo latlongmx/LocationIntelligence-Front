@@ -21,7 +21,7 @@
 					'</li>',
 					'<div class="m-side-panel js-demography-side-panel">',
 						'<div class="m-modal__demography-variables">',
-							'<h3 class="m-side-panel__title">Demografía</h3>',
+							'<h3 class="m-side-panel__title">Exploración Demográfica</h3>',
 							'<ul class="m-modal__demography-variables__list js-variables-list">',
 								'<li ng-repeat="variable in save_variable_list" class="m-modal__demography-variables__list-item">',
 								'<a>{{variable._variable_name}}',
@@ -36,11 +36,7 @@
 					'<div>',
 					'<div class="m-modal__demography-list" ng-if="list === true">',
 						'<div class="m-catalog-filter js-filter-demography-catalog">',
-							'<md-content class="md-primary" layout-gt-sm="row">',
-								'<md-input-container class="md-block flex-gt-sm">',
-								  '<input ng-model="search" ng-change="quickFilter()" placeholder=" rápido">',
-								'</md-input-container>',
-								'</md-content>',
+							'<input type="text" class="m-input m-input--in-demography__catalog" ng-model="search" ng-change="quickFilter()" placeholder="Filtro rápido">',
 						'</div>',
 						'<wxy-push-menu menu="menu" options="options"></wxy-push-menu>',
 					'</div>',
@@ -100,7 +96,7 @@
 					scope.currentVariables = {
 						"title":"Demografía",
 						"idCatalog": 1,
-						"icon": "fa fa-bars",
+						"icon": "fa fa-search",
 						"items": scope.currentItems
 					};
 					scope.menu = scope.currentVariables;
@@ -118,9 +114,23 @@
 						setTimeout(function(){
 							angular.element(document.getElementsByClassName('js-filter-demography-catalog')).addClass('is-filter-demography-active');
 						}, 500);
+						var search = angular.element(document.getElementsByClassName('testing'));
+						angular.element(search[0]).removeClass('fa-search').addClass('fa-times').css({
+							"-webkit-transition": "all linear 0.25s",
+							"-moz-transition": "all linear 0.25s",
+							"-o-transition": "all linear 0.25s",
+							"-ms-transition": "all linear 0.25s",
+							"transition": "all linear 0.25s"
+						});
+					},
+					onCollapseMenuEnd: function(event, item) {
+						//angular.element(document.getElementsByClassName('current-category')).removeClass('visible').addClass('invisible');
+						var hide = angular.element(document.getElementsByClassName('testing'));
+						angular.element(hide[0]).removeClass('fa-times').addClass('fa-search');
 					},
 					onCollapseMenuStart: function() {
 						angular.element(document.getElementsByClassName('js-filter-demography-catalog')).removeClass('is-filter-demography-active').val("");
+						//angular.element(document.getElementsByClassName('current-category')).addClass('visible').removeClass('invisible');
 					},
 					onItemClick: function(event, item) {
 						_variable_id = item.id;
@@ -152,13 +162,8 @@
 							for (var i=0; i<scope._variable_flag.length; i++){
 								if (scope._variable_flag[i] === _variable_name){
 									scope._variable_flag.splice(i,1);
-									break;
-								}
-							}
-							
-							for (var k = 0; k < scope.save_variable_list.length; k++){
-								if (scope.save_variable_list[k]._variable_name === _variable_name){
-									scope.save_variable_list.splice(k,1);
+									scope.save_variable_list.splice(i,1);
+									BaseMapFactory.cleanColorPletMap();
 									break;
 								}
 							}
