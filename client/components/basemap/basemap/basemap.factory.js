@@ -248,7 +248,7 @@
 		};
 
 		factory._curVar = '';
-		factory.setPobVivVar = function(variable){
+		factory.setPobVivWMS = function(variable){
 			var self = this;
 			self._curVar = variable;
 			BaseMapService.map.then(function (map) {
@@ -267,6 +267,12 @@
 					self.LAYERS.pobvivWMS.addTo(map);
 					self.LAYERS.pobvivWMS.setZIndex(9);
 			});
+		};
+
+		factory.delPobVivWMS = function(){
+			if(this.LAYERS.pobvivWMS){
+				this.LAYERS.pobvivWMS.addTo(null);
+			}
 		};
 
     return factory;

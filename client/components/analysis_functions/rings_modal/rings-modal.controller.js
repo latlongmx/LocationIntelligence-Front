@@ -18,7 +18,7 @@
 					console.log('zoom mayor');
 					return;
 				}
-				BaseMapFactory.setPobVivVar('pea');
+				BaseMapFactory.setPobVivWMS('pea');
 			});
 		}
 
