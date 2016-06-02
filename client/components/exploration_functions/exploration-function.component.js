@@ -21,7 +21,7 @@
 						'<i class="m-list-functions__item-icon demo demo-locations"></i>',
 					'</li>',
 					'<li class="m-list-functions__item js-exploration-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Competencia" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-competence"></i>',
+						'<i class="m-list-functions__item-icon icon icon-competence"></i>',
 					'</li>',
 					'<demography></demography>',
 					'<potential></potential>',

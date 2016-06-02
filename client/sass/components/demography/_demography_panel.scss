@@ -13,9 +13,9 @@
 
 .m-catalog-filter {
 	background: $gray75;
-	height: 50px;
+	height: 45px;
 	left: 0;
-	top: -5px;
+	top: 0px;
 	overflow: auto;
 	position: absolute;
 	right: 0;
@@ -78,12 +78,21 @@
 	right:40px;
 	top:2px;
 }
+
 .m-modal__demography-variables__close {
 	bottom: 0px;
 	margin: 0px;
 	position: absolute;
 	right: 3px;
 	top: -4px;
+}
+
+.m-modal__demography-variables__search {
+	height: 45px;
+	left: 0px;
+	margin: 0;
+	position: absolute;
+	width: 45px;
 }
 
 // .fa-search,
