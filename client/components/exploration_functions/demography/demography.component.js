@@ -163,7 +163,7 @@
 								if (scope._variable_flag[i] === _variable_name){
 									scope._variable_flag.splice(i,1);
 									scope.save_variable_list.splice(i,1);
-									BaseMapFactory.cleanColorPletMap();
+									BaseMapFactory.delPobVivWMS();
 									break;
 								}
 							}
@@ -178,7 +178,7 @@
 							}
 							
 							if (scope._variable_flag.length === 0) {
-								BaseMapFactory.cleanColorPletMap();
+								BaseMapFactory.delPobVivWMS();
 							}
 							$mdToast.show(
 								$mdToast.simple({
@@ -214,7 +214,7 @@
 					
 					if (scope.current_checked === scope.last_checked) {
 						scope.current_checked = false;
-						BaseMapFactory.cleanColorPletMap();
+						BaseMapFactory.delPobVivWMS();
 					}
 					else {
 						scope.current_checked.$index = true;
@@ -287,31 +287,36 @@
 				 */
 				var _demographyWKTRequest = function(param) {
 					BaseMapService.map.then(function (map) {
-
-						if(map.getZoom()<15){
+						if(map.getZoom()<13){
 							console.log('zoom mayor');
 							return;
 						}
+						BaseMapFactory.setPobVivWMS(param);
 
-						var demographyWKT = BaseMapFactory.bounds2polygonWKT(map.getBounds());
-						if(demographyWKT){
-							BaseMapService.intersect({
-								s:'inegi',
-								t: 'pobviv2010',
-								c: param,
-								w:'',
-								wkt: demographyWKT,
-								mts: 0
-							}).then(function(result){
-								if(result && result.data){
-									var info = result.data.info;
-									var geojson = result.data.geojson;
-									BaseMapFactory.addColorPletMap(geojson,param);
-								}
-							}, function(error){
-								console.log(error);
-							});
-						}
+						// if(map.getZoom()<15){
+						// 	console.log('zoom mayor');
+						// 	return;
+						// }
+
+						// var demographyWKT = BaseMapFactory.bounds2polygonWKT(map.getBounds());
+						// if(demographyWKT){
+						// 	BaseMapService.intersect({
+						// 		s:'inegi',
+						// 		t: 'pobviv2010',
+						// 		c: param,
+						// 		w:'',
+						// 		wkt: demographyWKT,
+						// 		mts: 0
+						// 	}).then(function(result){
+						// 		if(result && result.data){
+						// 			var info = result.data.info;
+						// 			var geojson = result.data.geojson;
+						// 			BaseMapFactory.addColorPletMap(geojson,param);
+						// 		}
+						// 	}, function(error){
+						// 		console.log(error);
+						// 	});
+						// }
 					});
 				};
 				
@@ -322,7 +327,7 @@
 						);
 
 					if (scope.save_variable_list[index].$index === true){
-						BaseMapFactory.cleanColorPletMap();
+						BaseMapFactory.delPobVivWMS();
 						scope.save_variable_list.splice(index,1);
 						scope._variable_flag.splice(index,1);
 					}
