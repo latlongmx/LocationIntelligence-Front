@@ -271,7 +271,10 @@
 
 		factory.delPobVivWMS = function(){
 			if(this.LAYERS.pobvivWMS){
-				this.LAYERS.pobvivWMS.addTo(null);
+			    var self = this;
+				BaseMapService.map.then(function (map) {
+				  map.removeLayer( self.LAYERS.pobvivWMS );
+				});
 			}
 		};
 
