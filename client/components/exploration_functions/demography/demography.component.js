@@ -78,11 +78,10 @@
 					scope.arreglo = [];
 				}
 				scope.$watchGroup(['_variable_flag','save_variable_list','current_checked'], function(s){
-					console.log(s)
 					var found = _.filter(s[0],function(item){
 						return item.indexOf(s[2]._variable_name) !== -1;
 					});
-					if (found.length === 0 && found.length === "") {
+					if (found.length === 0 || found.length === "") {
 						BaseMapFactory.delPobVivWMS();
 					}
 				}, true);
@@ -211,13 +210,14 @@
 					for (var i = 0; i < list.save_variable_list.length; i++) {
 						list.save_variable_list[i].$index = false;
 					}
-					
 					if (scope.current_checked === scope.last_checked) {
 						scope.current_checked = false;
 						BaseMapFactory.delPobVivWMS();
 					}
 					else {
 						scope.current_checked.$index = true;
+						BaseMapFactory.delPobVivWMS();
+						scope.last_checked = false;
 						_demographyWKTRequest(_column_request);
 					}
 				};
