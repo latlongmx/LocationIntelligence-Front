@@ -10,7 +10,7 @@
 			template: [
 				'<ul class="m-list-functions">',
 					'<li class="m-list-functions__item js-analysis-item" data-af="accessibility" tooltip-placement="right" uib-tooltip="Accessibilidad" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-accessibility1"></i>',
+						'<i class="m-list-functions__item-icon demo demo-accessibility"></i>',
 					'</li>',
 					'<li class="m-list-functions__item js-analysis-item" data-af="od" tooltip-placement="right" uib-tooltip="Origen Destino" tooltip-animation="true">',
 						'<i class="m-list-functions__item-icon demo demo-origin-destiny"></i>',

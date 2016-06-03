@@ -80,21 +80,7 @@
 
 .line-tool,
 .polygon-tool,
-.area-tool {
-	display:block;
-	&:before {
-		color: $gray;
-		display:block;
-		font-size: 22px;
-		padding: 8px 0px;
-	}
-	&:hover {
-		&:before {
-			color: $green-sdark;
-		}
-	}
-}
-
+.area-tool,
 .edit-tool,
 .delete-tool {
 	display:block;
@@ -102,7 +88,7 @@
 		color: $gray;
 		display:block;
 		font-size: 22px;
-		padding: 8px 0px;
+		padding: 7px 0px;
 	}
 	&:hover {
 		&:before {

@@ -34,7 +34,7 @@
 .m-list-functions__item {
 	cursor:pointer;
 	display:block;
-	padding: 3px 10px;
+	padding: 7px 10px;
 	position:relative;
 	@include transition(all linear 0.25s);
 	&:before {
@@ -61,7 +61,7 @@
 .m-list-functions__item-icon {
 	color: $gray;
 	display:block;
-	font-size: 30px;
+	font-size: 35px;
 	vertical-align:middle;
 }
 

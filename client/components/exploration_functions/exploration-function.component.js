@@ -18,10 +18,10 @@
 			template: [
 				'<ul class="m-list-functions">',
 					'<li class="m-list-functions__item js-exploration-item" tooltip-placement="right" uib-tooltip="Mis ubicaciones" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-locations"></i>',
+						'<i class="m-list-functions__item-icon demo demo-location"></i>',
 					'</li>',
 					'<li class="m-list-functions__item js-exploration-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Competencia" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon icon icon-competence"></i>',
+						'<i class="m-list-functions__item-icon demo demo-competence"></i>',
 					'</li>',
 					'<demography></demography>',
 					'<potential></potential>',
