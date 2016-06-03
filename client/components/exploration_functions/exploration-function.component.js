@@ -17,9 +17,7 @@
 			restrict: 'E',
 			template: [
 				'<ul class="m-list-functions">',
-					'<li class="m-list-functions__item js-exploration-item" tooltip-placement="right" uib-tooltip="Mis ubicaciones" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-location"></i>',
-					'</li>',
+					'<location></location>',
 					'<li class="m-list-functions__item js-exploration-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Competencia" tooltip-animation="true">',
 						'<i class="m-list-functions__item-icon demo demo-competence"></i>',
 					'</li>',

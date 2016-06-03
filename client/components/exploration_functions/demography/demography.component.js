@@ -83,7 +83,7 @@
 						return item.indexOf(s[2]._variable_name) !== -1;
 					});
 					if (found.length === 0 && found.length === "") {
-						BaseMapFactory.cleanColorPletMap();
+						BaseMapFactory.delPobVivWMS();
 					}
 				}, true);
 				/**

@@ -13,7 +13,7 @@
 			'routes',
 			'menu.directive',
 			'exploration.directive',
-			'location.modal.controller',
+			'location.directive',
 			'competence.modal.controller',
 			'demograhpy.service',
 			'demography.directive',
