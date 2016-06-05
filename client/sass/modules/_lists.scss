@@ -95,3 +95,29 @@
 		}
 	}
 }
+
+.m-side-panel__locations-list__container {
+	padding: 0;
+	margin: 0;
+}
+
+.m-side-panel__locations-list__list {
+	padding: 0;
+	margin: 0;
+	display: inline-flex;
+	display: -webkit-inline-flex;
+	align-items: flex-start;
+	-webkit-align-items: flex-start;
+	justify-content: space-between;
+	-webkit-justify-content: space-between;
+	width: 100%;
+}
+
+.m-side-panel__locations-list__item {
+	margin:0 !important;
+	align-self: center;
+	-webkit-align-self: center;
+}
+button.m-side-panel__locations-list__item {
+	margin: 6px 0px !important;
+}

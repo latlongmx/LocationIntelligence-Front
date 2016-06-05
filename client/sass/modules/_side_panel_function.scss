@@ -5,7 +5,7 @@
 	left: 69px;
 	position: absolute;
 	top: 55px;
-	width: 400px;
+	width: 500px;
 	opacity: 0;
 	overflow:hidden;
 	visibility:hidden;
@@ -30,9 +30,42 @@
 
 .m-side-panel__title {
 	border-bottom: 1px solid #f3f3f3;
-	color: #82c341;
+	color: $white;
+	background: $gray75;
 	font-weight: 100;
 	margin: 0;
 	padding:10px;
 	text-align: left;
+}
+
+.m-side-panel__subtitle {
+	color: $gray50;
+	display: inline-block;
+	margin: 0;
+	text-align: left;
+}
+
+.m-side-panel__actions {
+	padding: 15px;
+	text-align: left;
+}
+
+.m-side-panel__switch {
+	position:absolute;
+	top:26px;
+	right:15px;
+	md-switch {
+		margin:0;
+	}
+}
+
+.m-side-panel__search {
+	md-input-container {
+		width: 100%;
+		margin-bottom:0;
+	}
+}
+
+.m-side-panel__locations {
+	
 }

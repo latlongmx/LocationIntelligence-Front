@@ -21,8 +21,8 @@
 					'</li>',
 					'<div class="m-side-panel js-potential-side-panel">',
 						'<h3 class="m-side-panel__title">Seleccionar variables</h3>',
-					'<div>',
-				'<div>'
+					'</div>',
+				'</div>'
 			].join(''),
 			link: function(scope, element, attr, potencialCtrl){
 				// _$js_potential_item = angular.element(document.getElementsByClassName('js-potential-item'));
