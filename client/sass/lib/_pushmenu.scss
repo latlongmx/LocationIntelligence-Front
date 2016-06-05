@@ -15,7 +15,7 @@
   bottom: 45px;
   font-size: 1em;
   position: absolute;
-  top: 0;
+  top: -2px;
   zoom: 1;
   overflow-y: scroll;
   //@include linearGradient(#D5F7F6, #A0E4E1);
@@ -39,6 +39,8 @@
   line-height: 1em;
   //color: #1f4164;
   color: #C3EE97;
+  text-align: left;
+  max-width: 75%;
 }
 
 .multilevelpushmenu_wrapper .menu-icon {

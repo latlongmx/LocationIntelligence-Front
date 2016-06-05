@@ -22,7 +22,7 @@
 					'<div class="m-side-panel js-demography-side-panel">',
 						'<div class="m-modal__demography-variables">',
 							'<h3 class="m-side-panel__title">Exploración Demográfica</h3>',
-							'<md-list class="js-variables-list">',
+							'<md-list class="m-modal__demography-variables__list js-variables-list">',
 								'<md-list-item ng-repeat="variable in save_variable_list">',
 									'<p class="align-left">{{variable._variable_name}}</p>',
 									'<md-switch ng-model="variable.$index" ng-change="variableShowed($parent, $index)" ng-init="variable.$index = $index === 0" aria-label="variable._variable_id" data-variable= "variable._variable_id" class="m-modal__demography-variables__switch md-primary md-mode-A200" ></md-switch>',
