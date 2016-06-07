@@ -50,13 +50,20 @@
 									'</ul>',
 								'</div>',
 							'</div>',
+
+							'<div class="ejemplo-locations">',
+							  '<input type="file" id="inpFileUp" ng-model="fileObj" ng-change="onFileChange()">',
+							'</div>',
+
 						'</div>',
 					'</div>',
 				'</div>'
 			].join(''),
 			link: function(scope, element, attr){
 				var _this = null;
-				
+
+				scope.fileObj = {};
+
 				scope.addLocation = function(ev){
 					$mdDialog.show({
 						controller: 'AddLocationController',
@@ -66,15 +73,24 @@
 						clickOutsideToClose:true
 					})
 					.then(function(newLocation) {
-						console.log(newLocation)
+						console.log(newLocation);
 					}, function(failAdding) {
-						console.log(failAdding)
+						console.log(failAdding);
 					});
-				}
+				};
+
+				scope.onFileChange = function(evt){
+					console.log(evt);
+				};
+
+				/*element.on('change', function(evt){
+					console.log('locationCtrl');
+					console.log(evt);
+				});*/
 			}
 		};
 	}
-	
+
 	locationDirective.$inject = ['$mdDialog'];
 
 	angular.module('location.directive', [])
