@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function locationDirective(){
+	function locationDirective($mdDialog){
 
 		return {
 			restrict: 'E',
@@ -20,7 +20,7 @@
 						'<div class="m-side-panel__actions pos-relative">',
 							'<div>',
 								'<h4 class="m-side-panel__subtitle">Agregar ubicación</h4>',
-								'<md-button class="md-fab md-mini md-primary">',
+								'<md-button class="md-fab md-mini md-primary" ng-click="addLocation()">',
 									'<md-icon>add</md-icon>',
 								'</md-button>',
 								'<div class="m-side-panel__switch">',
@@ -56,12 +56,26 @@
 			].join(''),
 			link: function(scope, element, attr){
 				var _this = null;
-				console.log("location");
+				
+				scope.addLocation = function(ev){
+					$mdDialog.show({
+						controller: 'AddLocationController',
+						templateUrl: './components/exploration_functions/location/add-locations.tpl.html',
+						parent: angular.element(document.body),
+						targetEvent: ev,
+						clickOutsideToClose:true
+					})
+					.then(function(newLocation) {
+						console.log(newLocation)
+					}, function(failAdding) {
+						console.log(failAdding)
+					});
+				}
 			}
 		};
 	}
 	
-	locationDirective.$inject = [];
+	locationDirective.$inject = ['$mdDialog'];
 
 	angular.module('location.directive', [])
 		.directive('location', locationDirective);

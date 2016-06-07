@@ -14,6 +14,7 @@
 			'menu.directive',
 			'exploration.directive',
 			'location.directive',
+			'add.location.controller',
 			'competence.modal.controller',
 			'demograhpy.service',
 			'demography.directive',
@@ -29,7 +30,8 @@
 			'ui.bootstrap',
 			'wxy.pushmenu',
 			'chroma.angularChroma',
-			'ngMaterial'
+			'ngMaterial',
+			'angularFileUpload'
 		]
 	)
 	.constant('_',
