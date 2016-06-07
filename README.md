@@ -34,8 +34,8 @@ Folder Structure
 |   _ catalog
 |   _ components
 |      |_ ...          # html and js components (angular)
-|      |_ emus.module  # Main angular module
-|      |_ emus.routes  # Routes
+|      |_ walmex.module  # Main angular module
+|      |_ walmex.routes  # Routes
 |   _ css
 |   _ fonts
 |   _ images
