@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function locationDirective($mdDialog){
+	function locationDirective($mdDialog, LocationFactory, LocationService){
 
 		return {
 			restrict: 'E',
@@ -52,7 +52,9 @@
 							'</div>',
 
 							'<div class="ejemplo-locations">',
-							  '<input type="file" id="inpFileUp" ng-model="fileObj" ng-change="onFileChange()">',
+							  '<input type="file" id="inpFileUp">',
+								'<div class="cont-file-columns"></div>',
+								'<button id="btn-send-csv">Enviar</button>',
 							'</div>',
 
 						'</div>',
@@ -79,19 +81,29 @@
 					});
 				};
 
-				scope.onFileChange = function(evt){
-					console.log(evt);
-				};
+				element.on('change', function(evt){
 
-				/*element.on('change', function(evt){
-					console.log('locationCtrl');
-					console.log(evt);
-				});*/
+					if(evt.target.id === 'inpFileUp'){
+						LocationFactory.processCSV(evt.target.files[0],function(columns){
+							var ops = '';
+							for(var i=0; i<columns.length;i++){
+								ops += '<option value="'+columns[i]+'">'+columns[i]+'</option>';
+							}
+							var div = angular.element(document.getElementsByClassName('cont-file-columns'));
+							div.html('');
+							div.append('<div>X:<select name="selColX">'+ops+'</select></div>');
+							div.append('<div>Y:<select name="selColY">'+ops+'</select></div>');
+							console.log(div);
+						});
+					} else if(evt.target.id === 'btn-send-csv'){
+						
+					}
+				});
 			}
 		};
 	}
 
-	locationDirective.$inject = ['$mdDialog'];
+	locationDirective.$inject = ['$mdDialog','LocationFactory', 'LocationService'];
 
 	angular.module('location.directive', [])
 		.directive('location', locationDirective);
