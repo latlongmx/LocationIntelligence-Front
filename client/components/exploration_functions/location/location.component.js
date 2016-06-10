@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function locationDirective($mdDialog, LocationFactory, LocationService){
+	function locationDirective($mdDialog, LocationFactory, LocationService, BaseMapFactory){
 
 		return {
 			restrict: 'E',
@@ -52,9 +52,16 @@
 							'</div>',
 
 							'<div class="ejemplo-locations">',
-							  '<input type="file" id="inpFileUp">',
-								'<div class="cont-file-columns"></div>',
+							  '<label for="inpFileNom">Nombre:</label><input type="text" id="inpFileNom"><br>',
+							  '<label for="inpFileIco">Icono:</label><input type="text" id="inpFileIco" value="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Map_pin_icon.svg/2000px-Map_pin_icon.svg.png"><br>',
+							  '<label for="inpFileUp">CSV:</label><input type="file" id="inpFileUp"><br>',
+								'<div class="cont-file-columns"></div><br>',
 								'<button id="btn-send-csv">Enviar</button>',
+							'</div>',
+
+							'<br>',
+							'<button id="btn-get-locs">Obtener mis locaciones</button><br>',
+							'<div class="ejemplo-my-locations">',
 							'</div>',
 
 						'</div>',
@@ -91,19 +98,59 @@
 							}
 							var div = angular.element(document.getElementsByClassName('cont-file-columns'));
 							div.html('');
-							div.append('<div>X:<select name="selColX">'+ops+'</select></div>');
-							div.append('<div>Y:<select name="selColY">'+ops+'</select></div>');
+							div.append('<div>X(lng):<select id="selLocLng" name="selColX">'+ops+'</select></div>');
+							div.append('<div>Y(lat):<select id="selLocLat" name="selColY">'+ops+'</select></div>');
 							console.log(div);
 						});
-					} else if(evt.target.id === 'btn-send-csv'){
-						
+					}
+				});
+
+				element.on('click', function(evt){
+					if(evt.target.className === 'zoomLocation'){
+						BaseMapFactory.zoomLocation( evt.target.getAttribute('data-idlayer') );
+					}else if(evt.target.className === 'ShowHideLocation'){
+						if(evt.target.checked){
+							BaseMapFactory.showLocation(evt.target.value);
+						}else{
+							BaseMapFactory.hideLocation(evt.target.value);
+						}
+					}else if(evt.target.id === 'btn-get-locs'){
+						LocationService.getLocations().then(function(res){
+							if(res.data && res.data.places){
+								var div = angular.element(document.getElementsByClassName('ejemplo-my-locations'));
+								div.html('');
+								_.each(res.data.places,function(o){
+									var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
+									div.append('<div data-idlayer="'+id+'">'+o.id_layer+' - '+o.name_layer+' ('+o.data.length+')'+
+										'<input type="checkbox" class="ShowHideLocation" value="'+id+'">'+
+										'<button class="zoomLocation" data-idlayer="'+id+'">zoom</button>'+
+										'</div><br>');
+									BaseMapFactory.addLocation({
+										name: id,
+										data: o.data
+									});
+								});
+							}
+						});
+
+					}else if(evt.target.id === 'btn-send-csv'){
+						var file = document.getElementById('inpFileUp');
+						var formData = new FormData();
+						formData.append('nm', $('#inpFileNom').val() );
+						formData.append('lat', $('#selLocLat option:selected').val() );
+						formData.append('lng', $('#selLocLng option:selected').val() );
+						formData.append('pin', $('#inpFileIco').val() );
+						formData.append('file', file.files[0] );
+
+
+						LocationService.addNewLocation( formData );
 					}
 				});
 			}
 		};
 	}
 
-	locationDirective.$inject = ['$mdDialog','LocationFactory', 'LocationService'];
+	locationDirective.$inject = ['$mdDialog','LocationFactory', 'LocationService', 'BaseMapFactory'];
 
 	angular.module('location.directive', [])
 		.directive('location', locationDirective);
