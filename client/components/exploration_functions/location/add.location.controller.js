@@ -4,11 +4,20 @@
 	*/
 	'use strict';
 
-	var AddLocationController = function($scope, $mdDialog, FileUploader){
-		var _this = this;
+	function AddLocationController($scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document){
+		
+		var j= 0, counter = 0;
+		$scope.mode = 'query';
+		$scope.activated = true;
+		$scope.determinateValue = 30;
+		$scope.determinateValue2 = 30;
+		$scope.showList = [ ];
+		
 		
 		var uploader = $scope.uploader = new FileUploader({
-			url: 'upload.php'
+			url: 'upload.php',
+			queueLimit: 1,
+			isUploading: true
 		});
 		
 		uploader.filters.push({
@@ -17,55 +26,80 @@
 				return this.queue.length <= 1;
 			}
 		});
+
+
+
+		uploader.onAfterAddingFile = function(item) {
+			_validateFile(item);
+		}
 		
-    uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
-    };
-    uploader.onAfterAddingFile = function(fileItem) {
-        console.info('onAfterAddingFile', fileItem);
-    };
-    uploader.onAfterAddingAll = function(addedFileItems) {
-        console.info('onAfterAddingAll', addedFileItems);
-    };
-    uploader.onBeforeUploadItem = function(item) {
-        console.info('onBeforeUploadItem', item);
-    };
-    uploader.onProgressItem = function(fileItem, progress) {
-        console.info('onProgressItem', fileItem, progress);
-    };
-    uploader.onProgressAll = function(progress) {
-        console.info('onProgressAll', progress);
-    };
-    uploader.onSuccessItem = function(fileItem, response, status, headers) {
-        console.info('onSuccessItem', fileItem, response, status, headers);
-    };
-    uploader.onErrorItem = function(fileItem, response, status, headers) {
-        console.info('onErrorItem', fileItem, response, status, headers);
-    };
-    uploader.onCancelItem = function(fileItem, response, status, headers) {
-        console.info('onCancelItem', fileItem, response, status, headers);
-    };
-    uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        console.info('onCompleteItem', fileItem, response, status, headers);
-    };
-    uploader.onCompleteAll = function() {
-        console.info('onCompleteAll');
-    };
-		_this.hide = function() {
+		uploader.onSuccessItem = function(item, response, status, headers) {
+			console.log(response);
+		}
+		uploader.onErrorItem = function(item, response, status, headers) {
+			console.log(response);
+			console.log(status)
+		}
+		
+
+		$scope.hide = function() {
 			$mdDialog.hide();
 		};
 
-		_this.cancel = function() {
+		$scope.cancel = function() {
 			$mdDialog.cancel();
 		};
+		
+		uploader.loadFile = function() {
 
-		_this.answer = function(answer) {
-			$mdDialog.hide(answer);
-		};
+			console.log("subiendo");
+			/**
+			 * [arreglo Example of array with all locations, from response $http]
+			 */
+			var arreglo = [
+				{"categoria": "oxxo", "sucursales": 10, "id_ubicacion": "oxxo_01"},
+				{"categoria": "soriana", "sucursales": 5, "id_ubicacion": "soriana_01"},
+				{"categoria": "aurrera", "sucursales": 23, "id_ubicacion": "aurrera_01"}
+			];
+			$mdDialog.hide(arreglo);
+
+		}
+		
+		var _validateFile = function(file) {
+			$scope.validateFile = true;
+			
+				$timeout(function(){
+					
+					if (file.file.type !== "text/csv") {
+						uploader.clearQueue();
+						_showDialog('Archivo removido por que no es válido');
+					}
+					else {
+						_showDialog('Archivo válido');
+					}
+					$scope.validateFile = false;
+				}, 2500);
+			
+			
+			/**
+			 * [_showDialog Function to open $mdDialog]
+			 * @param  {[type]} message [Message to show in $mdDialog]
+			 */
+			var _showDialog = function(message) {
+				$mdToast.show(
+					$mdToast.simple({
+						textContent: message,
+						position: 'top right',
+						hideDelay: 2500,
+						parent: $document[0].querySelector('.m-dialog__content')
+					})
+				);
+			}
+		}
 
 	};
 
-	AddLocationController.$inject = ['$scope', '$mdDialog', 'FileUploader'];
+	AddLocationController.$inject = ['$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document'];
 
 	angular.module('add.location.controller', []).
 	controller('AddLocationController', AddLocationController);

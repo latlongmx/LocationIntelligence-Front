@@ -1,35 +1,26 @@
-<md-dialog aria-label="Mango" filters="customFilter">
+<md-dialog aria-label="csv">
 	<form>
 		<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Mango (Fruit)</h2>
+				<h2>Añadir mis ubicaciones</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="cancel()">
 					<md-icon aria-label="Close dialog">close</md-icon>
 				</md-button>
 			</div>
 		</md-toolbar>
-		<md-dialog-content>
-			<div class="md-dialog-content">
-				<h2>Añadir mis ubicaciones</h2>
-					<div class="well my-drop-zone" nv-file-drop nv-file-over uploader="uploader">
-						Base drop zone
-						
-					</div>
-				<p ng-repeat="item in uploader.queue">{{ item.file.name }}</p>
+		<md-dialog-content class="m-dialog__content">
+			<div layout-padding="5" class="md-dialog-content" layout-fill filters="customFilter" nv-file-drop nv-file-over uploader="uploader">
+				<div class="well my-drop-zone">Arrastre y suelte su archivo aquí</div>
+				<p class="m-dialog__content-file" ng-repeat="item in uploader.queue">{{ item.file.name }}</p>
+			</div>
+			<div layout-padding="10" ng-if="validateFile">
+				<md-progress-linear md-mode="indeterminate" ></md-progress-linear>
 			</div>
 		</md-dialog-content>
-		<md-dialog-actions layout="row">
-			<md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
-				More on Wikipedia
-			</md-button>
-			<span flex></span>
-			<md-button ng-click="answer('not useful')">
-			 Not Useful
-			</md-button>
-			<md-button ng-click="answer('useful')">
-				Useful
-			</md-button>
+		<md-dialog-actions>
+			<button class="md-primary md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="uploader.loadFile()">Subir archivo</button>
+			<button class="md-warn md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="cancel()">Cancelar</button>
 		</md-dialog-actions>
 	</form>
 </md-dialog>

@@ -15,6 +15,7 @@
 			'exploration.directive',
 			'location.directive',
 			'add.location.controller',
+			'add.icon.location.controller',
 			'competence.modal.controller',
 			'demograhpy.service',
 			'demography.directive',

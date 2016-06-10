@@ -1,0 +1,36 @@
+<md-dialog aria-label="icon">
+	<form>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Añadir Icono</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon aria-label="Close dialog">close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content class="m-dialog__content">
+			<md-list flex layout="row" layout-align="center center">
+				<md-button class="md-grid-item-content">
+					<md-icon aria-label="account_balance" ng-click="chooseIcon('account_balance');">account_balance</md-icon>
+				</md-button>
+				<md-button class="md-grid-item-content">
+					<md-icon aria-label="home" ng-click="chooseIcon('home');">home</md-icon>
+				</md-button>
+				<md-button class="md-grid-item-content">
+					<md-icon aria-label="business" ng-click="chooseIcon('business');">business</md-icon>
+				</md-button>
+				<md-button class="md-grid-item-content">
+					<md-icon aria-label="weekend" ng-click="chooseIcon('weekend');">weekend</md-icon>
+				</md-button>
+			</md-list>
+			<div layout-padding="10" ng-if="validatingIcon">
+				<md-progress-linear md-mode="indeterminate" ></md-progress-linear>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions>
+			<!-- <button class="md-primary md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="changeIcon()">Usar Icono</button> -->
+			<button class="md-warn md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="cancel()">Cancelar</button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>
