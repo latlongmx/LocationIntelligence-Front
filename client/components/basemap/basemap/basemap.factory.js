@@ -28,8 +28,11 @@
 
 	function BaseMapFactory(BaseMapService, chroma, _) { //_, chroma, $http
 		var factory = {};
+		var _factory = factory;
 
-		factory.LAYERS = {};
+		factory.LAYERS = {
+			USER: {}
+		};
 
 		/**
 		 * [getCoords: Lee las coordenas de una geometria y regresa un arreglo]
@@ -276,6 +279,35 @@
 				  map.removeLayer( self.LAYERS.pobvivWMS );
 				});
 			}
+		};
+
+		factory.addLocation = function(obj){
+			BaseMapService.map.then(function (map) {
+				var points = [];
+				_.each(obj.data,function(p){
+					var icon = new L.icon({
+						iconUrl: p.pin_url,
+						iconSize:[30, 40]
+					});
+					points.push( L.marker([p.y, p.x], {icon: icon}).bindPopup(p.data_values) );
+				});
+				_factory.LAYERS.USER[obj.name] = L.featureGroup(points);
+			});
+		};
+		factory.hideLocation = function(name){
+			BaseMapService.map.then(function (map) {
+				map.removeLayer( _factory.LAYERS.USER[name] );
+			});
+		};
+		factory.showLocation = function(name){
+			BaseMapService.map.then(function (map) {
+				map.addLayer( _factory.LAYERS.USER[name] );
+			});
+		};
+		factory.zoomLocation = function(name){
+			BaseMapService.map.then(function (map) {
+				map.fitBounds( _factory.LAYERS.USER[name].getBounds() );
+			});
 		};
 
     return factory;
