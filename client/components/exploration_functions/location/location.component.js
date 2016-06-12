@@ -53,7 +53,7 @@
 
 							'<div class="ejemplo-locations">',
 							  '<label for="inpFileNom">Nombre:</label><input type="text" id="inpFileNom"><br>',
-							  '<label for="inpFileIco">Icono:</label><input type="text" id="inpFileIco" value="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Map_pin_icon.svg/2000px-Map_pin_icon.svg.png"><br>',
+							  '<label for="inpFileIco">Icono:</label><input type="file" id="inpFileIco"><br>',
 							  '<label for="inpFileUp">CSV:</label><input type="file" id="inpFileUp"><br>',
 								'<div class="cont-file-columns"></div><br>',
 								'<button id="btn-send-csv">Enviar</button>',
@@ -141,11 +141,12 @@
 
 					}else if(evt.target.id === 'btn-send-csv'){
 						var file = document.getElementById('inpFileUp');
+						var ficon = document.getElementById('inpFileIco');
 						var formData = new FormData();
 						formData.append('nm', $('#inpFileNom').val() );
 						formData.append('lat', $('#selLocLat option:selected').val() );
 						formData.append('lng', $('#selLocLng option:selected').val() );
-						formData.append('pin', $('#inpFileIco').val() );
+						formData.append('pin', ficon.files[0] );
 						formData.append('file', file.files[0] );
 
 
