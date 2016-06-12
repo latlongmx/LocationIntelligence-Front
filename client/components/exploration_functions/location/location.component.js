@@ -106,7 +106,12 @@
 				});
 
 				element.on('click', function(evt){
-					if(evt.target.className === 'zoomLocation'){
+					if(evt.target.className === 'delLoc'){
+						LocationService.delLocation( evt.target.getAttribute('data-idlayer') )
+						.then(function(res){
+							console.log(res);
+						});
+					}else if(evt.target.className === 'zoomLocation'){
 						BaseMapFactory.zoomLocation( evt.target.getAttribute('data-idlayer') );
 					}else if(evt.target.className === 'ShowHideLocation'){
 						if(evt.target.checked){
@@ -124,6 +129,7 @@
 									div.append('<div data-idlayer="'+id+'">'+o.id_layer+' - '+o.name_layer+' ('+o.data.length+')'+
 										'<input type="checkbox" class="ShowHideLocation" value="'+id+'">'+
 										'<button class="zoomLocation" data-idlayer="'+id+'">zoom</button>'+
+										'  <button class="delLoc" data-idlayer="'+o.id_layer+'">eliminar</button>'+
 										'</div><br>');
 									BaseMapFactory.addLocation({
 										name: id,

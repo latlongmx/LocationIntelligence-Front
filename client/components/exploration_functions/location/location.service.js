@@ -48,12 +48,34 @@
 				});*/
       },
 
-			getLocations: function(callback){
+			getLocations: function(){
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
 				var _locations = $http({
 					url: this.apiBaseURL+'/ws/places',
 					method: "GET",
+          headers: {
+						'Content-Type': undefined,
+						'Authorization': 'Bearer '+access_token.access_token
+					}
+        });
+				_locations.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+			delLocation: function(id){
+				deferred = $q.defer();
+				var access_token = Auth.getToken();
+				var _locations = $http({
+					url: this.apiBaseURL+'/ws/places/'+id,
+					method: "DELETE",
           headers: {
 						'Content-Type': undefined,
 						'Authorization': 'Bearer '+access_token.access_token
