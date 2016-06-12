@@ -19,9 +19,13 @@
 						'<h3 class="m-side-panel__title">Mis ubicaciones</h3>',
 						'<div class="m-side-panel__actions pos-relative">',
 							'<div>',
-								'<h4 class="m-side-panel__subtitle">Agregar ubicación</h4>',
+								'<h5 class="m-side-panel__subtitle">Agregar ubicación</h5>',
 								'<md-button class="md-fab md-mini md-primary" ng-click="addLocation()">',
 									'<md-icon>add</md-icon>',
+								'</md-button>',
+								'<h5 class="m-side-panel__subtitle">Listar ubicaciones</h5>',
+								'<md-button class="md-fab md-mini md-primary" ng-click="getListLocations()">',
+									'<md-icon>get_app</md-icon>',
 								'</md-button>',
 								'<div class="m-side-panel__switch">',
 									'<md-switch class="md-primary md-mode-A200" aria-label="all-locations"></md-switch>',
@@ -47,32 +51,22 @@
 									'</ul>',
 									'<ul class="m-side-panel__locations-list__container">',
 										'<li class="m-side-panel__locations-list__list js-location-item" ng-repeat="location in locations | filter: search_location">',
-											'<md-icon flex="10" class="m-side-panel__locations-list__item m-side-panel__locations-list__item__add js-add-icon-location" id="{{location.id_ubicacion}}" ng-click="addIconLocation(location.id_ubicacion)">{{new_icon}}</md-icon>',
-											'<p flex="45" class="m-side-panel__locations-list__item">{{location.categoria}}</p>',
-											'<p flex="20" class="m-side-panel__locations-list__item">{{location.sucursales}}</p>',
-											'<md-switch flex="10" md-no-ink aria-label="location.id_ubicacion" data-id-location="{{location.id_ubicacion}}" class="md-primary m-side-panel__locations-list__item" aria-label=""></md-switch>',
-											'<md-button data-id-location="location.id_ubicacion" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeLocation(location)">',
-												'<md-icon>close</md-icon>',
+											'<md-icon flex="10" class="m-side-panel__locations-list__item m-side-panel__locations-list__item__add js-add-icon-location" id="{{location.id_layer}}" ng-click="addIconLocation(location.id_ubicacion)">{{new_icon}}</md-icon>',
+											'<p flex="45" class="m-side-panel__locations-list__item">{{location.name_layer}}</p>',
+											'<p flex="20" class="m-side-panel__locations-list__item">{{location.data.length}}</p>',
+											'<md-switch ng-model="layer" flex="10" md-no-ink aria-label="location.id_layer" ng-change="turnOnOffLayer(layer, location.id_layer, location.name_layer)" class="md-primary m-side-panel__locations-list__item" aria-label=""></md-switch>',
+											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
+												'<md-icon>zoom_in</md-icon>',
 											'</md-button>',
+											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeLocation(location, location.id_layer, location.name_layer)">',
+												'<md-icon>delete</md-icon>',
+											'</md-button>',
+											'<md-divider></md-divider>',
 										'</li>',
-										'<md-divider></md-divider>',
+										
 									'</ul>',
 								'</div>',
 							'</div>',
-
-							'<div class="ejemplo-locations">',
-							  '<label for="inpFileNom">Nombre:</label><input type="text" id="inpFileNom"><br>',
-							  '<label for="inpFileIco">Icono:</label><input type="text" id="inpFileIco" value="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Map_pin_icon.svg/2000px-Map_pin_icon.svg.png"><br>',
-							  '<label for="inpFileUp">CSV:</label><input type="file" id="inpFileUp"><br>',
-								'<div class="cont-file-columns"></div><br>',
-								'<button id="btn-send-csv">Enviar</button>',
-							'</div>',
-
-							'<br>',
-							'<button id="btn-get-locs">Obtener mis locaciones</button><br>',
-							'<div class="ejemplo-my-locations">',
-							'</div>',
-
 						'</div>',
 					'</div>',
 				'</div>'
@@ -83,6 +77,7 @@
 				_changeLocationIcon = null;
 				scope.fileObj = {};
 				scope.new_icon = "add";
+				scope.layer = false;
 
 				scope.addLocation = function(ev){
 					$mdDialog.show({
@@ -93,9 +88,38 @@
 						clickOutsideToClose:true
 					})
 					.then(function(newLocations) {
-						scope.locations = newLocations;
+						if (newLocations === true) {
+							
+							LocationService.getLocations().then(function(res){
+								if(res.data && res.data.places){
+									scope.locations = res.data.places;
+									_.each(res.data.places,function(o){
+										var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
+										BaseMapFactory.addLocation({
+											name: id,
+											data: o.data
+										});
+									});
+								}
+							});
+						}
 					}, function(failAdding) {
 						console.log(failAdding);
+					});
+				}
+				
+				scope.getListLocations = function() {
+					LocationService.getLocations().then(function(res){
+						if(res.data && res.data.places){
+							scope.locations = res.data.places;
+							_.each(res.data.places,function(o){
+								var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
+								BaseMapFactory.addLocation({
+									name: id,
+									data: o.data
+								});
+							});
+						}
 					});
 				}
 				
@@ -117,72 +141,27 @@
 					});
 				}
 				
-				scope.removeLocation = function(indexItem) {
+				scope.zoomToLayer = function(id_layer, name_layer) {
+					var id = id_layer +'-'+ name_layer.replace(' ','_');
+					BaseMapFactory.zoomLocation(id);
+				}
+				
+				scope.turnOnOffLayer = function(layer, id_layer, name_layer) {
+					var id = id_layer +'-'+ name_layer.replace(' ','_');
+					layer === true ? BaseMapFactory.showLocation(id) : BaseMapFactory.hideLocation(id);
+				}
+				
+				scope.removeLocation = function(indexItem, id_layer, name_layer) {
+					var id = id_layer +'-'+ name_layer.replace(' ','_');
 					_removeLocationItem = scope.locations.indexOf(indexItem);
 					if (_removeLocationItem !== -1) {
 						scope.locations.splice(_removeLocationItem, 1);
+						LocationService.delLocation( id )
+						.then(function(res){
+							console.log(res);
+						});
 					}
 				}
-
-
-				element.on('change', function(evt){
-
-					if(evt.target.id === 'inpFileUp'){
-						LocationFactory.processCSV(evt.target.files[0],function(columns){
-							var ops = '';
-							for(var i=0; i<columns.length;i++){
-								ops += '<option value="'+columns[i]+'">'+columns[i]+'</option>';
-							}
-							var div = angular.element(document.getElementsByClassName('cont-file-columns'));
-							div.html('');
-							div.append('<div>X(lng):<select id="selLocLng" name="selColX">'+ops+'</select></div>');
-							div.append('<div>Y(lat):<select id="selLocLat" name="selColY">'+ops+'</select></div>');
-							console.log(div);
-						});
-					}
-				});
-
-				element.on('click', function(evt){
-					if(evt.target.className === 'zoomLocation'){
-						BaseMapFactory.zoomLocation( evt.target.getAttribute('data-idlayer') );
-					}else if(evt.target.className === 'ShowHideLocation'){
-						if(evt.target.checked){
-							BaseMapFactory.showLocation(evt.target.value);
-						}else{
-							BaseMapFactory.hideLocation(evt.target.value);
-						}
-					}else if(evt.target.id === 'btn-get-locs'){
-						LocationService.getLocations().then(function(res){
-							if(res.data && res.data.places){
-								var div = angular.element(document.getElementsByClassName('ejemplo-my-locations'));
-								div.html('');
-								_.each(res.data.places,function(o){
-									var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-									div.append('<div data-idlayer="'+id+'">'+o.id_layer+' - '+o.name_layer+' ('+o.data.length+')'+
-										'<input type="checkbox" class="ShowHideLocation" value="'+id+'">'+
-										'<button class="zoomLocation" data-idlayer="'+id+'">zoom</button>'+
-										'</div><br>');
-									BaseMapFactory.addLocation({
-										name: id,
-										data: o.data
-									});
-								});
-							}
-						});
-
-					}else if(evt.target.id === 'btn-send-csv'){
-						var file = document.getElementById('inpFileUp');
-						var formData = new FormData();
-						formData.append('nm', $('#inpFileNom').val() );
-						formData.append('lat', $('#selLocLat option:selected').val() );
-						formData.append('lng', $('#selLocLng option:selected').val() );
-						formData.append('pin', $('#inpFileIco').val() );
-						formData.append('file', file.files[0] );
-
-
-						LocationService.addNewLocation( formData );
-					}
-				});
 			}
 		};
 	}

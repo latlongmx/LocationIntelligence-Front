@@ -305,6 +305,7 @@
 			});
 		};
 		factory.zoomLocation = function(name){
+			console.log(name)
 			BaseMapService.map.then(function (map) {
 				map.fitBounds( _factory.LAYERS.USER[name].getBounds() );
 			});

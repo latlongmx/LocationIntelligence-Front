@@ -1,5 +1,4 @@
 <md-dialog aria-label="csv">
-	<form>
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<h2>Añadir mis ubicaciones</h2>
@@ -10,17 +9,48 @@
 			</div>
 		</md-toolbar>
 		<md-dialog-content class="m-dialog__content">
-			<div layout-padding="5" class="md-dialog-content" layout-fill filters="customFilter" nv-file-drop nv-file-over uploader="uploader">
+			<div class="md-dialog-content" layout-fill filters="customFilter" nv-file-drop nv-file-over uploader="uploader">
 				<div class="well my-drop-zone">Arrastre y suelte su archivo aquí</div>
-				<p class="m-dialog__content-file" ng-repeat="item in uploader.queue">{{ item.file.name }}</p>
+
+				<form name="newLocationForm">
+					<div layout="row">
+						<md-input-container class="md-block">
+							<p class="m-dialog__content-file" ng-repeat="item in uploader.queue">{{ item.file.name }}</p>
+						</md-input-container>
+					</div>
+					<div ng-if="set_columns">
+						<div layout="row">
+							<md-input-container flex="100">
+							<label>Nombre de la categoría</label>
+							<input type="text" ng-model="location.nm" class="md-block" required>
+							</md-input-container>
+						</div>
+						<div layout="row">
+							<md-input-container flex="50">
+								<label>Longitud (X)</label>
+								<md-select ng-model="location.lng" required>
+									<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
+								</md-select>
+							</md-input-container>
+							<md-input-container flex="50">
+								<label>Latitud (Y)</label>
+								<md-select ng-model="location.lat" required>
+									<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
+								</md-select>
+							</md-input-container>
+						</div>
+						<div layout="row">
+							<input type="text" id="inpFileIco" ng-model="location.pin" value="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Map_pin_icon.svg/2000px-Map_pin_icon.svg.png">
+						</div>
+						<div layout="row">
+							<button class="md-primary md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="uploader.loadFile(newLocationForm, location)">Subir archivo</button>
+							<button class="md-warn md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="cancel()">Cancelar</button>
+						</div>
+					</div>
+				</form>
 			</div>
 			<div layout-padding="10" ng-if="validateFile">
 				<md-progress-linear md-mode="indeterminate" ></md-progress-linear>
 			</div>
 		</md-dialog-content>
-		<md-dialog-actions>
-			<button class="md-primary md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="uploader.loadFile()">Subir archivo</button>
-			<button class="md-warn md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="cancel()">Cancelar</button>
-		</md-dialog-actions>
-	</form>
 </md-dialog>
