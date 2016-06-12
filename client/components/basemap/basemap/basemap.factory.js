@@ -26,13 +26,15 @@
 	*/
 	'use strict';
 
-	function BaseMapFactory(BaseMapService, chroma, _) { //_, chroma, $http
+	function BaseMapFactory(BaseMapService, chroma, _, Auth) { //_, chroma, $http
 		var factory = {};
 		var _factory = factory;
 
 		factory.LAYERS = {
 			USER: {}
 		};
+
+		factory.API_URL = 'http://52.8.211.37/api.walmex.latlong.mx';
 
 		/**
 		 * [getCoords: Lee las coordenas de una geometria y regresa un arreglo]
@@ -283,10 +285,11 @@
 
 		factory.addLocation = function(obj){
 			BaseMapService.map.then(function (map) {
+				var access_token = Auth.getToken();
 				var points = [];
 				_.each(obj.data,function(p){
 					var icon = new L.icon({
-						iconUrl: p.pin_url,
+						iconUrl: factory.API_URL+ '/ws/icon?nm=' +p.pin_url+'&access_token='+access_token.access_token,
 						iconSize:[30, 40]
 					});
 					points.push( L.marker([p.y, p.x], {icon: icon}).bindPopup(p.data_values) );
@@ -315,7 +318,7 @@
   }
 
 
-	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_'];
+	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_', 'Auth'];
 	angular.module('basemap.factory',[])
 		.factory('BaseMapFactory', BaseMapFactory);
 

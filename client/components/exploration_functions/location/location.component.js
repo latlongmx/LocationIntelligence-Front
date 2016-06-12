@@ -61,9 +61,7 @@
 											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeLocation(location, location.id_layer, location.name_layer)">',
 												'<md-icon>delete</md-icon>',
 											'</md-button>',
-											'<md-divider></md-divider>',
 										'</li>',
-										
 									'</ul>',
 								'</div>',
 							'</div>',
@@ -121,8 +119,8 @@
 							});
 						}
 					});
-				}
-				
+				};
+
 				scope.addIconLocation = function(ev) {
 					$mdDialog.show({
 						controller: 'AddIconLocationController',
