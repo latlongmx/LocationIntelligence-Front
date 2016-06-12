@@ -111,6 +111,10 @@
 	justify-content: space-between;
 	-webkit-justify-content: space-between;
 	width: 100%;
+	border-bottom: 1px solid $gray0;
+	&:hover {
+		background: $gray0;
+	}
 }
 
 .m-side-panel__locations-list__item {
