@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function locationDirective($mdDialog, $mdToast, $document, $timeout,  LocationFactory, LocationService, BaseMapFactory){
+	function locationDirective(_, $mdDialog, $mdToast, $document, $timeout,  LocationFactory, LocationService, BaseMapFactory){
 
 		return {
 			restrict: 'E',
@@ -28,7 +28,7 @@
 									'<md-icon>list</md-icon>',
 								'</md-button>',
 								'<div class="m-side-panel__switch">',
-									'<md-switch class="md-primary md-mode-A200" aria-label="all-locations" ng-model="all" ng-change="toggleGral(locations)"></md-switch>',
+									'<md-switch class="md-primary md-mode-A200" aria-label="all-locations" ng-model="all" ng-change="toggleGral(location)"></md-switch>',
 								'</div>',
 							'</div>',
 							'<div class="m-side-panel__search">',
@@ -57,7 +57,7 @@
 											'<md-icon flex="10" class="m-side-panel__locations-list__item m-side-panel__locations-list__item__add js-add-icon-location" id="{{location.id_layer}}" ng-click="addIconLocation(location.id_ubicacion)">{{new_icon}}</md-icon>',
 											'<p flex="45" class="m-side-panel__locations-list__item">{{location.name_layer}}</p>',
 											'<p flex="20" class="m-side-panel__locations-list__item">{{location.data.length}}</p>',
-											'<md-switch ng-model="layer" flex="10" md-no-ink aria-label="location.id_layer" ng-change="turnOnOffLayer(layer, location.id_layer, location.name_layer, $parent)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
+											'<md-switch ng-disabled="is_toggle_gral" ng-model="layer" flex="10" md-no-ink aria-label="location.id_layer" ng-change="turnOnOffLayer(layer, location)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
 											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 												'<md-icon>zoom_in</md-icon>',
 											'</md-button>',
@@ -75,10 +75,15 @@
 			link: function(scope, element, attr){
 				var _this = null,
 				_removeLocationItem = null,
-				_changeLocationIcon = null;
+				_changeLocationIcon = null,
+				_thisLocationIsTrue = null;
 				scope.fileObj = {};
 				scope.new_icon = "add";
 				scope.layer = false;
+				
+				if (!scope.toggleLocations) {
+					scope.toggleLocations = [];
+				}
 
 				scope.addLocation = function(ev){
 					$mdDialog.show({
@@ -149,11 +154,23 @@
 					BaseMapFactory.zoomLocation(id);
 				}
 				
-				scope.turnOnOffLayer = function(layer, id_layer, name_layer) {
-					var id = id_layer +'-'+ name_layer.replace(' ','_');
+				scope.turnOnOffLayer = function(layer, loc) {
+					_thisLocationIsTrue = this;
+					if(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true){
+						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue});
+					}
+					else{
+						for (var i=0; i<scope.toggleLocations.length; i++){
+							if (scope.toggleLocations[i].index === _thisLocationIsTrue.$index){
+								scope.toggleLocations.splice(i,1);
+								break;
+							}
+						}
+					}
+					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
 					layer === true ? BaseMapFactory.showLocation(id) : BaseMapFactory.hideLocation(id);
 				}
-				
+
 				scope.removeLocation = function(indexItem, id_layer, name) {
 					var id = id_layer +'-'+ name.replace(' ','_');
 					_removeLocationItem = scope.locations.indexOf(indexItem);
@@ -173,8 +190,19 @@
 					}
 				}
 				
-				scope.toggleGral = function(gral) {
-					console.log(gral)
+				scope.toggleGral = function() {
+					if(this.all === true) {
+						_.each(scope.toggleLocations, function(loc){
+							loc.location.layer = false;
+							scope.is_toggle_gral = true;
+						});
+					}
+					else {
+						_.each(scope.toggleLocations, function(loc){
+							loc.location.layer = true;
+							scope.is_toggle_gral = false;
+						});
+					}
 				}
 				
 				var _deleteMessage = function(msg) {
@@ -192,7 +220,7 @@
 		};
 	}
 
-	locationDirective.$inject = ['$mdDialog', '$mdToast', '$document', '$timeout', 'LocationFactory', 'LocationService', 'BaseMapFactory'];
+	locationDirective.$inject = ['_', '$mdDialog', '$mdToast', '$document', '$timeout', 'LocationFactory', 'LocationService', 'BaseMapFactory'];
 
 	angular.module('location.directive', [])
 		.directive('location', locationDirective);
