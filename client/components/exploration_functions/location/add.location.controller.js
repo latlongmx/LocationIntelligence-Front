@@ -14,9 +14,9 @@
 		
 		
 		var uploader = $scope.uploader = new FileUploader({
-			url: 'upload.php',
 			queueLimit: 1,
-			isUploading: true
+			isUploading: true,
+			scope: $scope
 		});
 		
 		uploader.filters.push({
@@ -26,20 +26,30 @@
 			}
 		});
 
-
+		uploader.filters.push({
+			name: 'imageFilter',
+				fn: function(item /*{File|FileLikeObject}*/, options) {
+					var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+					return '|jpg|png|jpeg|'.indexOf(type) !== -1;
+				}
+		});
 
 		uploader.onAfterAddingFile = function(item) {
-			_validateFile(item);
+			console.log(item.uploader.queue.length)
+			if (item.uploader.queue.length === 1) {
+				_validateFile(item);
+			}
+			else {
+				_validateIcon(item);
+			}
 		}
 		
 		uploader.onSuccessItem = function(item, response, status, headers) {
-			console.log(response);
 		}
 		uploader.onErrorItem = function(item, response, status, headers) {
 			console.log(response);
 			console.log(status)
 		}
-		
 
 		$scope.hide = function() {
 			$mdDialog.hide();
@@ -51,86 +61,74 @@
 		
 		uploader.loadFile = function(validForm, locationData) {
 			if (validForm.$valid === true) {
-				console.log(locationData);
 				var formData = new FormData();
 				formData.append('nm', locationData.nm );
 				formData.append('lat', locationData.lat );
 				formData.append('lng', locationData.lng );
-				formData.append('pin', $('#inpFileIco').val() );
+				formData.append('pin', uploader.queue[1]._file );
 				formData.append('file', uploader.queue[0]._file );
 				LocationService.addNewLocation( formData );
 				$mdDialog.hide(true);
 			}
-			
-			// var file = document.getElementById('inpFileUp');
-			// var formData = new FormData();
-			// formData.append('nm', $('#inpFileNom').val() );
-			// formData.append('lat', $('#selLocLat option:selected').val() );
-			// formData.append('lng', $('#selLocLng option:selected').val() );
-			// formData.append('pin', $('#inpFileIco').val() );
-			// formData.append('file', file.files[0] );
-			// LocationService.addNewLocation( formData );
-			//LocationService.getLocations().then(function(res){
-				//console.log(res)
-				// if(res.data && res.data.places){
-				// 	var div = angular.element(document.getElementsByClassName('ejemplo-my-locations'));
-				// 	div.html('');
-				// 	_.each(res.data.places,function(o){
-				// 		var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-				// 		div.append('<div data-idlayer="'+id+'">'+o.id_layer+' - '+o.name_layer+' ('+o.data.length+')'+
-				// 			'<input type="checkbox" class="ShowHideLocation" value="'+id+'">'+
-				// 			'<button class="zoomLocation" data-idlayer="'+id+'">zoom</button>'+
-				// 			'</div><br>');
-				// 		BaseMapFactory.addLocation({
-				// 			name: id,
-				// 			data: o.data
-				// 		});
-				// 	});
-				// }
-			//});
-			//$mdDialog.hide();
 
 		}
 		
 		var _validateFile = function(file) {
 			$scope.validateFile = true;
-
 			$timeout(function(){
-				if (file.file.type !== "text/csv") {
-					uploader.clearQueue();
-					_showDialog('Archivo removido por que no es válido');
+				if (file.file.type === "text/csv") {
+					_chooseLatLng(file._file);
 				}
 				else {
-					_showDialog('Archivo válido');
-					_chooseLatLng(file._file);
+					uploader.clearQueue();
+					_showToastMessage('Archivo removido porque no es válido');
 				}
 				$scope.validateFile = false;
 			}, 2500);
-			
+
 			var _chooseLatLng = function(evt) {
 				LocationFactory.processCSV(evt,function(columns){
-					console.log(columns)
-					if (columns) {
+					if (columns && columns.length === 3) {
+						_showToastMessage('Archivo válido');
 						$scope.set_columns = true;
 						$scope.items = columns;
 					}
+					else {
+						uploader.clearQueue();
+						_showToastMessage('Archivo removido porque no cumple con el número de columnas (3)');
+					}
 				});
 			}
+		}
+		
+		var _validateIcon = function(file) {
+			$scope.validateFile = true;
+			$timeout(function(){
+				if(file.file.type === "image/png" || file.file.type === "image/jpg" || file.file.type === "image/jpeg"){
+					_showToastMessage('Icono válido');
+				}
+				else {
+					uploader.removeFromQueue(1);
+					_showToastMessage('Icono removido porque no es válido');
+				}
+				$scope.validateFile = false;
+			}, 2000);
+		}
 
-			/**
-			 * [_showDialog Function to open $mdDialog]
-			 * @param  {[type]} message [Message to show in $mdDialog]
-			 */
-			var _showDialog = function(message) {
-				$mdToast.show(
-					$mdToast.simple({
-						textContent: message,
-						position: 'top right',
-						hideDelay: 2500,
-						parent: $document[0].querySelector('.m-dialog__content')
-					})
-				);
-			}
+		
+		/**
+		 * [_showToastMessage Function to open $mdDialog]
+		 * @param  {[type]} message [Message to show in $mdDialog]
+		 */
+		var _showToastMessage = function(message) {
+			$mdToast.show(
+				$mdToast.simple({
+					textContent: message,
+					position: 'top right',
+					hideDelay: 2500,
+					parent: $document[0].querySelector('.m-dialog__content')
+				})
+			);
 		}
 
 	};

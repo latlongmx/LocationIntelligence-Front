@@ -290,7 +290,7 @@
 				_.each(obj.data,function(p){
 					var icon = new L.icon({
 						iconUrl: factory.API_URL+ '/ws/icon?nm=' +p.pin_url+'&access_token='+access_token.access_token,
-						iconSize:[30, 40]
+						iconSize:[32, 32]
 					});
 					points.push( L.marker([p.y, p.x], {icon: icon}).bindPopup(p.data_values) );
 				});
@@ -308,7 +308,6 @@
 			});
 		};
 		factory.zoomLocation = function(name){
-			console.log(name)
 			BaseMapService.map.then(function (map) {
 				map.fitBounds( _factory.LAYERS.USER[name].getBounds() );
 			});

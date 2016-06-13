@@ -11,7 +11,7 @@
 	-ms-box-sizing: border-box;
 	outline:0;
 	font-family: 'Source Sans Pro', sans-serif;
-	font-weight: 300;
+	// font-weight: 300;
 }
 html {
 	-moz-osx-font-smoothing: grayscale;
@@ -68,6 +68,8 @@ h4,
 h5,
 h6 {
 	font-family: 'Montserrat', sans-serif !important;
+	margin-top: 15px;
+	margin-bottom:15px;
 }
 
 hr {

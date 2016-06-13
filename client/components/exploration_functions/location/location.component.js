@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function locationDirective($mdDialog, LocationFactory, LocationService, BaseMapFactory){
+	function locationDirective($mdDialog, $mdToast, $document, $timeout,  LocationFactory, LocationService, BaseMapFactory){
 
 		return {
 			restrict: 'E',
@@ -25,10 +25,10 @@
 								'</md-button>',
 								'<h5 class="m-side-panel__subtitle">Listar ubicaciones</h5>',
 								'<md-button class="md-fab md-mini md-primary" ng-click="getListLocations()">',
-									'<md-icon>get_app</md-icon>',
+									'<md-icon>list</md-icon>',
 								'</md-button>',
 								'<div class="m-side-panel__switch">',
-									'<md-switch class="md-primary md-mode-A200" aria-label="all-locations"></md-switch>',
+									'<md-switch class="md-primary md-mode-A200" aria-label="all-locations" ng-model="all" ng-change="toggleGral(locations)"></md-switch>',
 								'</div>',
 							'</div>',
 							'<div class="m-side-panel__search">',
@@ -41,20 +41,23 @@
 								'<h4 class="m-side-panel__subtitle">Mis ubicaciones</h4>',
 								'<div class="m-side-panel__locations-container">',
 									'<ul class="m-side-panel__locations-list__container-titles">',
-										'<li class="m-side-panel__locations-list__list">',
-											'<p flex="10" class="m-side-panel__locations-list__item bold">Icono</p>',
-											'<p flex="45" class="m-side-panel__locations-list__item bold">Categoría</p>',
-											'<p flex="20" class="m-side-panel__locations-list__item bold"># Sucursales</p>',
-											'<p flex="10" class="m-side-panel__locations-list__item bold">Visualizar</p>',
-											'<p flex="10" class="m-side-panel__locations-list__item bold"></p>',
-										'</li>',
-									'</ul>',
+									'<div layout="row">',
+										'<p flex="10" class="bold">Icono</p>',
+										'<p flex="45" class="bold">Categoría</p>',
+										'<p flex="20" class="bold"># Sucursales</p>',
+										'<p flex="10" class="bold">Visualizar</p>',
+										'<p flex="10" class="bold"></p>',
+										'<p flex="10" class="bold"></p>',
+									'</div>',
+									'<div layout="row" layout-sm="column" layout-align="space-around" ng-if="location_list">',
+										'<md-progress-circular md-mode="indeterminate"></md-progress-circular>',
+									'</div>',
 									'<ul class="m-side-panel__locations-list__container">',
 										'<li class="m-side-panel__locations-list__list js-location-item" ng-repeat="location in locations | filter: search_location">',
 											'<md-icon flex="10" class="m-side-panel__locations-list__item m-side-panel__locations-list__item__add js-add-icon-location" id="{{location.id_layer}}" ng-click="addIconLocation(location.id_ubicacion)">{{new_icon}}</md-icon>',
 											'<p flex="45" class="m-side-panel__locations-list__item">{{location.name_layer}}</p>',
 											'<p flex="20" class="m-side-panel__locations-list__item">{{location.data.length}}</p>',
-											'<md-switch ng-model="layer" flex="10" md-no-ink aria-label="location.id_layer" ng-change="turnOnOffLayer(layer, location.id_layer, location.name_layer)" class="md-primary m-side-panel__locations-list__item" aria-label=""></md-switch>',
+											'<md-switch ng-model="layer" flex="10" md-no-ink aria-label="location.id_layer" ng-change="turnOnOffLayer(layer, location.id_layer, location.name_layer, $parent)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
 											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 												'<md-icon>zoom_in</md-icon>',
 											'</md-button>',
@@ -107,8 +110,10 @@
 				}
 				
 				scope.getListLocations = function() {
+					scope.location_list = true;
 					LocationService.getLocations().then(function(res){
 						if(res.data && res.data.places){
+							scope.location_list = false;
 							scope.locations = res.data.places;
 							_.each(res.data.places,function(o){
 								var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
@@ -149,22 +154,45 @@
 					layer === true ? BaseMapFactory.showLocation(id) : BaseMapFactory.hideLocation(id);
 				}
 				
-				scope.removeLocation = function(indexItem, id_layer, name_layer) {
-					var id = id_layer +'-'+ name_layer.replace(' ','_');
+				scope.removeLocation = function(indexItem, id_layer, name) {
+					var id = id_layer +'-'+ name.replace(' ','_');
 					_removeLocationItem = scope.locations.indexOf(indexItem);
 					if (_removeLocationItem !== -1) {
-						scope.locations.splice(_removeLocationItem, 1);
-						LocationService.delLocation( id )
-						.then(function(res){
-							console.log(res);
-						});
+						BaseMapFactory.hideLocation(id);
+						
+						//$timeout(function(){
+							scope.locations.splice(_removeLocationItem, 1);
+							LocationService.delLocation( id_layer )
+							.then(function(res){
+								_deleteMessage("Se eliminó " + name);
+							}, function(){
+								_deleteMessage("Error al eliminar " + name + ", intente nuevamente");
+							});
+						//}, 1500);
+
 					}
+				}
+				
+				scope.toggleGral = function(gral) {
+					console.log(gral)
+				}
+				
+				var _deleteMessage = function(msg) {
+					$mdToast.show(
+						$mdToast.simple({
+							textContent: msg,
+							position: 'top right',
+							hideDelay: 1500,
+							parent: $document[0].querySelector('.m-side-panel__locations'),
+							autoWrap: true
+						})
+					);
 				}
 			}
 		};
 	}
 
-	locationDirective.$inject = ['$mdDialog','LocationFactory', 'LocationService', 'BaseMapFactory'];
+	locationDirective.$inject = ['$mdDialog', '$mdToast', '$document', '$timeout', 'LocationFactory', 'LocationService', 'BaseMapFactory'];
 
 	angular.module('location.directive', [])
 		.directive('location', locationDirective);
