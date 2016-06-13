@@ -156,8 +156,9 @@
 				
 				scope.turnOnOffLayer = function(layer, loc) {
 					_thisLocationIsTrue = this;
+					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
 					if(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true){
-						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue});
+						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue, id_layer: id});
 					}
 					else{
 						for (var i=0; i<scope.toggleLocations.length; i++){
@@ -167,7 +168,6 @@
 							}
 						}
 					}
-					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
 					layer === true ? BaseMapFactory.showLocation(id) : BaseMapFactory.hideLocation(id);
 				}
 
@@ -195,12 +195,14 @@
 						_.each(scope.toggleLocations, function(loc){
 							loc.location.layer = false;
 							scope.is_toggle_gral = true;
+							BaseMapFactory.hideLocation(loc.id_layer);
 						});
 					}
 					else {
 						_.each(scope.toggleLocations, function(loc){
 							loc.location.layer = true;
 							scope.is_toggle_gral = false;
+							BaseMapFactory.showLocation(loc.id_layer);
 						});
 					}
 				}
