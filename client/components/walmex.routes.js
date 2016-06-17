@@ -7,16 +7,24 @@
 		$stateProvider
 			.state('login', {
 				url: '/login',
-				templateUrl: './components/login/login.html',
-				controller: 'LoginController',
-				controllerAs: 'lg',
-				reload: true
+				reload: true,
+				views: {
+					"login": { 
+						templateUrl: './components/login/login.html',
+						controller: 'LoginController',
+						controllerAs: 'lg'
+					}
+				}
 			})
 			.state('mapa', {
 				url: '/mapa',
-				templateUrl: './components/basemap/basemap/basemap.component.html',
-				controller: 'BaseMapController',
-				reload: true
+				reload: true,
+				views: {
+					"main": { 
+						templateUrl: './components/basemap/basemap/basemap.component.html',
+						controller: 'BaseMapController'
+					}
+				}
 			});
 	}]);
 

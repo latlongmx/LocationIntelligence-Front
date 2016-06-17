@@ -1,4 +1,4 @@
-<md-dialog aria-label="csv">
+<md-dialog aria-label="csv" flex="40">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<h2>Añadir mis ubicaciones</h2>
@@ -9,54 +9,44 @@
 			</div>
 		</md-toolbar>
 		<md-dialog-content class="m-dialog__content">
-			<h5 class="normal color-gray75">Escoga como subir su archivo</h5>
 			<div layout="row">
-				<div layout="row" layout-align="center center" class="well my-drop-zone" filters="customFilter" nv-file-drop nv-file-over uploader="uploader">Arrastre y suelte aquí</div>
-				<div layout="row" layout-align="center center">
-						<input class="ng-hide" id="input-file-id" type="file" nv-file-select uploader="uploader" filters="customFilter"/>
-						<label layout-align="center center" for="input-file-id" class="md-button md-raised md-primary">escoger archivo</label>
+				<div layout="column" flex="50" layout-padding="2">
+					<h5 class="normal color-gray75" style="margin:0;">Subir archivo .csv</h5>
+					<label layout-align="center center" for="input-file-id" class="well my-drop-zone" filters="customFilter" nv-file-drop nv-file-over uploader="uploader">Arrastre y suelte o haga click</label>
+					<input class="ng-hide" id="input-file-id" type="file" nv-file-select uploader="uploader" filters="customFilter"/>
+					<p class="m-dialog__content-file color-gray50">{{ csv }}</p>
 				</div>
+				<div layout="column" flex="50" layout-padding="2">
+					<h5 class="normal color-gray75" style="margin:0;">Subir icono</h5>
+					<label layout-align="center center" for="input-icon-id" class="well my-drop-zone" filters="imageFilter" nv-file-drop nv-file-over uploader="uploader">Arrastre y suelte o haga click</label>
+					<input class="ng-hide" id="input-icon-id" type="file" nv-file-select uploader="uploader" filters="imageFilter"/>
+					<p class="m-dialog__content-file color-gray50">{{ icon }}</p>
+				</div>
+
 			</div>
 			<div ng-if="set_columns">
-				<div layout="row">
-					<md-input-container class="md-block">
-						<p class="m-dialog__content-file color-gray50">{{ uploader.queue[0].file.name }}</p>
-					</md-input-container>
-				</div>
 				<form name="newLocationForm">
-					<h5 class="normal color-gray75">Nombre de la categoría</h5>
-					<div layout="row">
+					<h5 class="normal color-gray75" layout-padding="2" style="margin:0;">Nombre de la categoría</h5>
+					<div layout="row" layout-padding="2">
 						<md-input-container flex="100" class="md-block">
 						<label>Categoría</label>
-						<input type="text" ng-model="location.nm"  required>
+						<input type="text" ng-model="location.nm" required>
 						</md-input-container>
 					</div>
 					<div layout="row">
-						<md-input-container flex="50">
-							<h5 class="normal color-gray75">Coord. X (Longitud)</h5>
+						<md-input-container flex="50" layout-padding="2">
+							<h5 class="normal color-gray75" style="margin:0;">Coord. X (Longitud)</h5>
 							<label>Longitud (X)</label>
 							<md-select ng-model="location.lng" required>
 								<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
 							</md-select>
 						</md-input-container>
-						<md-input-container flex="50">
-							<h5 class="normal color-gray75">Coord. Y (Latitud)</h5>
+						<md-input-container flex="50" layout-padding="2">
+							<h5 class="normal color-gray75" style="margin:0;">Coord. Y (Latitud)</h5>
 							<label>Latitud (Y)</label>
 							<md-select ng-model="location.lat" required>
 								<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
 							</md-select>
-						</md-input-container>
-					</div>
-					<div layout="row" class="m-dialog__content-icon">
-						<div layout="row" layout-align="center center" class="well my-drop-zone" filters="imageFilter" nv-file-drop nv-file-over uploader="uploader">Arrastre y suelte aquí</div>
-						<div layout="row" layout-align="center center">
-								<input class="ng-hide" id="input-icon-id" type="file" nv-file-select uploader="uploader" filters="imageFilter"/>
-								<label layout-align="center center" for="input-icon-id" class="md-button md-raised md-primary">escoger icono</label>
-						</div>
-					</div>
-					<div layout="row">
-						<md-input-container class="md-block">
-							<p class="m-dialog__content-file color-gray50">{{ uploader.queue[1].file.name }}</p>
 						</md-input-container>
 					</div>
 					<div layout="row">

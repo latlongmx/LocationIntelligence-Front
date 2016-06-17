@@ -27,13 +27,13 @@
 			].join(''),
 			controller: function($scope){
 				var dm = this;
-
 				_$js_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
 
 				_$js_exploration_item.on('click', function(e){
 					e.preventDefault();
-
+					
 					_data_ep = this.getAttribute('data-ep');
+					console.log(_data_ep);
 					_previousPanelActive = _currentPanelActive;
 					_previous_data_side_panel = _current_data_side_panel;
 					
@@ -44,13 +44,15 @@
 					if(_previousPanelActive){
 						!_currentPanelActive ? [_currentPanelActive.removeClass('is-item-panel-active'), _previousPanelActive = ""] : _previousPanelActive.removeClass('is-item-panel-active');
 					}
-					
+
 					angular.equals(_previous_data_side_panel, _current_data_side_panel) ? [_previous_data_side_panel = "", _current_data_side_panel.removeClass('is-panel-open'),  _current_data_side_panel = ""] : _current_data_side_panel.addClass('is-panel-open');
 					if(_previous_data_side_panel){
 						!_current_data_side_panel ? [_current_data_side_panel.removeClass('is-panel-open'), _previous_data_side_panel = ""] : _previous_data_side_panel.removeClass('is-panel-open');
 					}
 				});
-
+				this.itemActive = function(){
+					console.log("hola");
+				};
 			}
 		};
 	}

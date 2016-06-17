@@ -47,6 +47,7 @@
 	     * @return {Object} http promise
 	     */
 			intersect: function(opts){
+				
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
 				var _intersect = $http({

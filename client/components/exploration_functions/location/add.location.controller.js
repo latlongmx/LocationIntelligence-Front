@@ -11,37 +11,38 @@
 		$scope.determinateValue = 30;
 		$scope.determinateValue2 = 30;
 		$scope.showList = [ ];
-		
-		
+
 		var uploader = $scope.uploader = new FileUploader({
 			queueLimit: 1,
-			isUploading: true,
-			scope: $scope
+			isUploading: true
 		});
 		
 		uploader.filters.push({
 			name: 'customFilter',
 			fn: function(item, options) {
-				return this.queue.length <= 1;
+				if (item.type === "text/csv" || item.type === "application/vnd.ms-excel") {
+					return true;
+				}
+				else {
+					return _showToastMessage('Archivo csv no válido');
+				}
 			}
 		});
 
 		uploader.filters.push({
 			name: 'imageFilter',
-				fn: function(item /*{File|FileLikeObject}*/, options) {
-					var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-					return '|jpg|png|jpeg|'.indexOf(type) !== -1;
+			fn: function(item, options) {
+				if (item.type === "image/png" || item.type === "image/jpeg" || item.type === "image/jpg") {
+					return true;
 				}
+				else {
+					return _showToastMessage('Icono o marker no válido');
+				}
+			}
 		});
 
 		uploader.onAfterAddingFile = function(item) {
-			console.log(item.uploader.queue.length)
-			if (item.uploader.queue.length === 1) {
-				_validateFile(item);
-			}
-			else {
-				_validateIcon(item);
-			}
+			_validateFile(item);
 		}
 		
 		uploader.onSuccessItem = function(item, response, status, headers) {
@@ -62,11 +63,16 @@
 		uploader.loadFile = function(validForm, locationData) {
 			if (validForm.$valid === true) {
 				var formData = new FormData();
+				var pin = uploader.queue;
+				var icon = null;
+				var csv = null;
+				pin[0]._file.type === "text/csv" || pin[0]._file.type === "application/vnd.ms-excel" ? csv = pin[0]._file : csv = pin[1]._file;
+				pin[0]._file.type === "image/png" || pin[0]._file.type === "image/jpeg" || pin[0]._file.type === "image/jpg" ? icon = pin[0]._file : icon = pin[1]._file;
 				formData.append('nm', locationData.nm );
 				formData.append('lat', locationData.lat );
 				formData.append('lng', locationData.lng );
-				formData.append('pin', uploader.queue[1]._file );
-				formData.append('file', uploader.queue[0]._file );
+				formData.append('pin', icon);
+				formData.append('file', csv );
 				LocationService.addNewLocation( formData );
 				$mdDialog.hide(true);
 			}
@@ -75,13 +81,15 @@
 		
 		var _validateFile = function(file) {
 			$scope.validateFile = true;
+			var fileType = file._file.type;
 			$timeout(function(){
-				if (file.file.type === "text/csv") {
+				if (fileType === "text/csv" || fileType === "application/vnd.ms-excel") {
 					_chooseLatLng(file._file);
+					uploader.queue[0].file.type === fileType ? $scope.csv = uploader.queue[0].file.name : $scope.csv = uploader.queue[1].file.name;
 				}
 				else {
-					uploader.clearQueue();
-					_showToastMessage('Archivo removido porque no es válido');
+					_showToastMessage('Icono válido');
+					uploader.queue[0].file.type === fileType ? $scope.icon = uploader.queue[0].file.name : $scope.icon = uploader.queue[1].file.name;
 				}
 				$scope.validateFile = false;
 			}, 2500);
@@ -96,24 +104,12 @@
 					else {
 						uploader.clearQueue();
 						_showToastMessage('Archivo removido porque no cumple con el número de columnas (3)');
+						$scope.csv = "";
 					}
 				});
 			}
 		}
 		
-		var _validateIcon = function(file) {
-			$scope.validateFile = true;
-			$timeout(function(){
-				if(file.file.type === "image/png" || file.file.type === "image/jpg" || file.file.type === "image/jpeg"){
-					_showToastMessage('Icono válido');
-				}
-				else {
-					uploader.removeFromQueue(1);
-					_showToastMessage('Icono removido porque no es válido');
-				}
-				$scope.validateFile = false;
-			}, 2000);
-		}
 
 		
 		/**
