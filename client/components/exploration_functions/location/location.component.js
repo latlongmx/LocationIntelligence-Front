@@ -77,23 +77,6 @@
 				scope.new_icon = "add";
 				scope.layer = false;
 				
-				$timeout(function(){
-					scope.location_list = true;
-					LocationService.getLocations().then(function(res){
-						if(res.data && res.data.places){
-							scope.location_list = false;
-							scope.locations = res.data.places;
-							_.each(res.data.places,function(o){
-								var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-								BaseMapFactory.addLocation({
-									name: id,
-									data: o.data
-								});
-							});
-						}
-					});
-				}, 2000);
-				
 				if (!scope.toggleLocations) {
 					scope.toggleLocations = [];
 				}

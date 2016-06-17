@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function explorationFunctions(){
+	function explorationFunctions(LocationService, BaseMapFactory, $timeout){
 		var _$js_exploration_item = null,
 		_data_ep = null,
 		_currentPanelActive = null,
@@ -27,16 +27,15 @@
 			].join(''),
 			controller: function($scope){
 				var dm = this;
+				$scope.location_list = false;
 				_$js_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
 
 				_$js_exploration_item.on('click', function(e){
 					e.preventDefault();
-					
 					_data_ep = this.getAttribute('data-ep');
-					console.log(_data_ep);
 					_previousPanelActive = _currentPanelActive;
 					_previous_data_side_panel = _current_data_side_panel;
-					
+					$scope.valor = _data_ep;
 					_currentPanelActive = angular.element(document.querySelector('[data-ep="'+_data_ep+'"]'));
 					_current_data_side_panel = angular.element(document.getElementsByClassName('js-'+_data_ep+'-side-panel'));
 
@@ -49,15 +48,31 @@
 					if(_previous_data_side_panel){
 						!_current_data_side_panel ? [_current_data_side_panel.removeClass('is-panel-open'), _previous_data_side_panel = ""] : _previous_data_side_panel.removeClass('is-panel-open');
 					}
+					if (_data_ep === "location"){
+						if (!$scope.locations){
+							$scope.location_list = true;
+							LocationService.getLocations().then(function(res){
+								if(res.data && res.data.places){
+									$scope.location_list = false;
+									$scope.locations = res.data.places;
+									_.each(res.data.places,function(o){
+										var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
+										BaseMapFactory.addLocation({
+											name: id,
+											data: o.data
+										});
+									});
+								}
+							});
+						}
+					}
 				});
-				this.itemActive = function(){
-					console.log("hola");
-				};
+
 			}
 		};
 	}
 
-	explorationFunctions.$inject = [];
+	explorationFunctions.$inject = ['LocationService', 'BaseMapFactory', '$timeout'];
 
 	angular.module('exploration.directive', [])
 		.directive('explorationFunctions', explorationFunctions);
