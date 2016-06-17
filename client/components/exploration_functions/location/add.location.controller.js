@@ -17,6 +17,7 @@
 			isUploading: true
 		});
 		
+		
 		uploader.filters.push({
 			name: 'customFilter',
 			fn: function(item, options) {
@@ -53,10 +54,12 @@
 		}
 
 		$scope.hide = function() {
+			uploader.clearQueue();
 			$mdDialog.hide();
 		};
 
 		$scope.cancel = function() {
+			uploader.clearQueue();
 			$mdDialog.cancel();
 		};
 		
@@ -66,20 +69,31 @@
 				var pin = uploader.queue;
 				var icon = null;
 				var csv = null;
+				var idLayer = null;
 				pin[0]._file.type === "text/csv" || pin[0]._file.type === "application/vnd.ms-excel" ? csv = pin[0]._file : csv = pin[1]._file;
-				pin[0]._file.type === "image/png" || pin[0]._file.type === "image/jpeg" || pin[0]._file.type === "image/jpg" ? icon = pin[0]._file : icon = pin[1]._file;
+				pin[0]._file.type === "image/png" || pin[0]._file.type === "image/jpeg" || pin[0]._file.type === "image/jpg" ? icon = pin[0]._file: icon = pin[1]._file;
+				
 				formData.append('nm', locationData.nm );
 				formData.append('lat', locationData.lat );
 				formData.append('lng', locationData.lng );
 				formData.append('pin', icon);
 				formData.append('file', csv );
-				LocationService.addNewLocation( formData );
-				$mdDialog.hide(true);
+				LocationService.addNewLocation( formData )
+				.then(function(data){
+					if (data.status === 200) {
+						idLayer = data.data.id_layer;
+						$mdDialog.hide(idLayer);
+					}
+				}, function(error){
+					console.log(error)
+				});
+				
 			}
 
 		}
 		
 		var _validateFile = function(file) {
+			
 			$scope.validateFile = true;
 			var fileType = file._file.type;
 			$timeout(function(){
@@ -96,7 +110,7 @@
 
 			var _chooseLatLng = function(evt) {
 				LocationFactory.processCSV(evt,function(columns){
-					if (columns && columns.length === 3) {
+					if (columns && columns.length >= 3) {
 						_showToastMessage('Archivo válido');
 						$scope.set_columns = true;
 						$scope.items = columns;

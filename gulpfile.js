@@ -24,8 +24,13 @@ gulp.task('lib3', function() {
 	return gulp.src('./md5/*.js')
 		.pipe(gulp.dest('./bower_components/md5/'));
 });
+gulp.task('lib4', function() {
+	log('Copying external resources');
+	return gulp.src('./jslibs/*.js')
+		.pipe(gulp.dest('./bower_components/jslibs/'));
+});
 
-gulp.task('inject', ['lib1', 'lib2', 'lib3'], function(){
+gulp.task('inject', ['lib1', 'lib2', 'lib3', 'lib4'], function(){
 	return gulp.src('./client/index.html')
 		.pipe(wiredep({
 			bowerJson: require('./bower.json'),
@@ -36,7 +41,8 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3'], function(){
 			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-1.3.2.js',
 			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-tpls-1.3.2.js',
 			'bower_components/angular-multilevelpushmenu/pushmenu.js',
-			'bower_components/md5/md5.js'
+			'bower_components/md5/md5.js',
+			'bower_components/jslibs/Leaflet.heat.js'
 			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:js -->'}))
 		.pipe($.inject(gulp.src([
 			'./client/styles/styles.css'

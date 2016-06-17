@@ -16,7 +16,7 @@
 		}
 	});
 	L.tileLayer.dynamicWms = function (url, options) {
-  return new L.TileLayer.DynamicWMS(url, options);
+	return new L.TileLayer.DynamicWMS(url, options);
 };
 }());
 (function(){
@@ -232,10 +232,10 @@
 				var SCALE = 10;
 				var vals = GeoJSON.features.map(function(o){return parseInt(o.properties[column]) || 0;});
 				var dmax = window._.max(vals);
-			  //var dmin = _.min(vals)
-			  //var scaleColor = chroma.chroma.bezier(['lightyellow', 'orange', 'deeppink', 'darkred']);
-			  var scaleColor = chroma.chroma.bezier(['Aqua', 'Blue']);
-			  scaleColor = chroma.chroma.scale(scaleColor).domain([1,SCALE], 1 ).correctLightness(true);
+				//var dmin = _.min(vals)
+				//var scaleColor = chroma.chroma.bezier(['lightyellow', 'orange', 'deeppink', 'darkred']);
+				var scaleColor = chroma.chroma.bezier(['Aqua', 'Blue']);
+				scaleColor = chroma.chroma.scale(scaleColor).domain([1,SCALE], 1 ).correctLightness(true);
 				var opts = {
 					onEachFeature: self.eachFeature,
 					style: function(feature){
@@ -274,11 +274,32 @@
 			});
 		};
 
+		factory.setHeatWMS = function(variable){
+			var self = this;
+			self._curVar = variable;
+			BaseMapService.map.then(function (map) {
+				self.LAYERS.heatWMS = L.tileLayer.dynamicWms("http://52.8.211.37/cgi-bin/mapserv?map=/var/www/laravel-storage/ms_file_heat.map", {
+					layers: 'heatmap',
+					format: 'image/png',
+					minZoom: 13,
+					transparent: true
+				});
+				self.LAYERS.heatWMS.setDynamicParam({
+					col: function(){
+						return self._curVar;
+					}
+				});
+				self.LAYERS.heatWMS.options.crs = L.CRS.EPSG4326;
+				self.LAYERS.heatWMS.addTo(map);
+				self.LAYERS.heatWMS.setZIndex(10);
+			});
+		};
+		
 		factory.delPobVivWMS = function(){
 			if(this.LAYERS.pobvivWMS){
-			    var self = this;
+					var self = this;
 				BaseMapService.map.then(function (map) {
-				  map.removeLayer( self.LAYERS.pobvivWMS );
+					map.removeLayer( self.LAYERS.pobvivWMS );
 				});
 			}
 		};
@@ -292,7 +313,14 @@
 						iconUrl: factory.API_URL+ '/ws/icon?nm=' +p.pin_url+'&access_token='+access_token.access_token,
 						iconSize:[32, 32]
 					});
-					points.push( L.marker([p.y, p.x], {icon: icon}).bindPopup(p.data_values) );
+					var data = JSON.parse( p.data_values );
+					var html = '';
+					for(var o in data){
+					  for(var r in data[o]){
+							html += '<strong>'+r+'</strong>: '+data[o][r]+'<br>';
+					  }
+					}
+					points.push( L.marker([p.y, p.x], {icon: icon}).bindPopup(html) );
 				});
 				_factory.LAYERS.USER[obj.name] = L.featureGroup(points);
 			});
@@ -312,9 +340,27 @@
 				map.fitBounds( _factory.LAYERS.USER[name].getBounds() );
 			});
 		};
+		factory.addHeatMap = function(options){
+			BaseMapService.map.then(function (map) {
+				options.wkt = _factory.bounds2polygonWKT(map.getBounds());
+				BaseMapService.getHeatMapData(options).then(function(res){
+					if(res.data){
+						if(_factory.LAYERS.USER['heatmap']===undefined){
+							_factory.LAYERS.USER['heatmap'] =
+									L.heatLayer(res.data.data, {
+										radius: 55
+									}).addTo(map);
+						}else{
+							_factory.LAYERS.USER['heatmap'].setLatLngs(res.data.data);
+						}
 
-    return factory;
-  }
+					}
+				});
+			});
+		};
+
+		return factory;
+	}
 
 
 	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_', 'Auth'];

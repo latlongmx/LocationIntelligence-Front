@@ -90,17 +90,15 @@
 						clickOutsideToClose:true
 					})
 					.then(function(newLocations) {
-						if (newLocations === true) {
-							
+						if (newLocations) {
 							LocationService.getLocations().then(function(res){
 								if(res.data && res.data.places){
-									scope.locations = res.data.places;
-									_.each(res.data.places,function(o){
-										var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-										BaseMapFactory.addLocation({
-											name: id,
-											data: o.data
-										});
+									var lastLayer = res.data.places[res.data.places.length -1];
+									var idLayer = lastLayer.id_layer+'-'+lastLayer.name_layer.replace(' ','_');
+									scope.locations.push(lastLayer);
+									BaseMapFactory.addLocation({
+										name: idLayer,
+										data: lastLayer.data
 									});
 								}
 							});
@@ -109,23 +107,6 @@
 						console.log(failAdding);
 					});
 				}
-				
-				scope.getListLocations = function() {
-					scope.location_list = true;
-					LocationService.getLocations().then(function(res){
-						if(res.data && res.data.places){
-							scope.location_list = false;
-							scope.locations = res.data.places;
-							_.each(res.data.places,function(o){
-								var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-								BaseMapFactory.addLocation({
-									name: id,
-									data: o.data
-								});
-							});
-						}
-					});
-				};
 
 				scope.addIconLocation = function(ev) {
 					$mdDialog.show({
