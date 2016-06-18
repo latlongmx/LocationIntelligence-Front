@@ -45,8 +45,8 @@
 										'<p flex="10" class="bold"></p>',
 										'<p flex="10" class="bold"></p>',
 									'</div>',
-									'<div layout="row" layout-sm="column" layout-align="space-around" ng-if="location_list">',
-										'<md-progress-circular md-mode="indeterminate"></md-progress-circular>',
+									'<div layout="row" class="layout-align-space-around-stretch layout-row" ng-if="location_list">',
+										'<md-progress-circular md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
 									'</div>',
 									'<ul class="m-side-panel__locations-list__container">',
 										'<li class="m-side-panel__locations-list__list js-location-item" ng-repeat="location in locations | filter: search_location">',
@@ -134,6 +134,7 @@
 				scope.turnOnOffLayer = function(layer, loc) {
 					_thisLocationIsTrue = this;
 					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
+					console.log(id)
 					if(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true){
 						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue, id_layer: id});
 					}
@@ -168,15 +169,40 @@
 				}
 				
 				scope.toggleGral = function() {
+					var existLayer = null;
 					if(this.all === true) {
+						var existLayer = null;
 						_.each(scope.toggleLocations, function(loc){
+							existLayer = _.filter(scope.locations, function(layer){
+								return layer.id_layer !== loc.id_layer.split('-')[0];
+							});
+							if (!existLayer) {
+								LocationService.delLocation( loc.id_layer.split('-')[0] )
+								.then(function(res){
+									_deleteMessage("Se eliminó " + name);
+								}, function(){
+									_deleteMessage("Error al eliminar " + name + ", intente nuevamente");
+								});
+							}
 							loc.location.layer = false;
 							scope.is_toggle_gral = true;
 							BaseMapFactory.hideLocation(loc.id_layer);
 						});
 					}
 					else {
+						var existLayer = null;
 						_.each(scope.toggleLocations, function(loc){
+							existLayer = _.filter(scope.locations, function(layer){
+								return layer.id_layer !== loc.id_layer.split('-')[0];
+							});
+							if (!existLayer) {
+								LocationService.delLocation( loc.id_layer.split('-')[0] )
+								.then(function(res){
+									_deleteMessage("Se eliminó " + name);
+								}, function(){
+									_deleteMessage("Error al eliminar " + name + ", intente nuevamente");
+								});
+							}
 							loc.location.layer = true;
 							scope.is_toggle_gral = false;
 							BaseMapFactory.showLocation(loc.id_layer);
@@ -190,7 +216,7 @@
 							textContent: msg,
 							position: 'top right',
 							hideDelay: 1500,
-							parent: $document[0].querySelector('.m-side-panel__locations'),
+							parent: $document[0].querySelector('.js-location-side-panel'),
 							autoWrap: true
 						})
 					);
