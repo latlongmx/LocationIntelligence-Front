@@ -38,14 +38,14 @@
 						<md-input-container flex="50" layout-padding="2">
 						<h5 class="normal color-gray75" style="margin:0;"><span><strong>*</strong></span>Coord. X (Longitud)</h5>
 						<label>Longitud (X)</label>
-						<md-select ng-model="location.lat" required>
+						<md-select ng-model="location.lng" required>
 							<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
 						</md-select>
 						</md-input-container>
 						<md-input-container flex="50" layout-padding="2">
 							<h5 class="normal color-gray75" style="margin:0;"><span><strong>*</strong></span>Coord. Y (Latitud)</h5>
 							<label>Latitud (Y)</label>
-							<md-select ng-model="location.lng" required>
+							<md-select ng-model="location.lat" required>
 								<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
 							</md-select>
 						</md-input-container>

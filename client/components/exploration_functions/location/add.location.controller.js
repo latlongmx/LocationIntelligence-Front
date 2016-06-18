@@ -21,7 +21,6 @@
 		uploader.filters.push({
 			name: 'customFilter',
 			fn: function(item, options) {
-				console.log(uploader.queue)
 				if (item.type === "text/csv" || item.type === "application/vnd.ms-excel") {
 					if (uploader.queue.length === 1) {
 						if (uploader.queue[0]){
@@ -139,13 +138,6 @@
 		uploader.onAfterAddingFile = function(item) {
 			_validateFile(item);
 		}
-		
-		uploader.onSuccessItem = function(item, response, status, headers) {
-		}
-		uploader.onErrorItem = function(item, response, status, headers) {
-			console.log(response);
-			console.log(status)
-		}
 
 		$scope.hide = function() {
 			uploader.clearQueue();
@@ -158,16 +150,16 @@
 		};
 		
 		uploader.loadFile = function(validForm, locationData) {
-
 			if (validForm.$valid === true) {
-				var formData = new FormData();
 				var pin = uploader.queue;
 				var icon = null;
 				var csv = null;
 				var idLayer = null;
-			
+
 				pin[0]._file.type === "text/csv" || pin[0]._file.type === "application/vnd.ms-excel" ? csv = pin[0]._file : csv = pin[1]._file;
 				pin[0]._file.type === "image/png" || pin[0]._file.type === "image/jpeg" || pin[0]._file.type === "image/jpg" ? icon = pin[0]._file: icon = pin[1]._file;
+
+				var formData = new FormData();
 				formData.append('nm', locationData.nm );
 				formData.append('lat', locationData.lat );
 				formData.append('lng', locationData.lng );
@@ -218,7 +210,6 @@
 					}
 				});
 			}
-			console.log(uploader.getReadyItems());
 		}
 		
 
