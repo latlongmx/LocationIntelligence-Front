@@ -19,12 +19,10 @@
 			});
 
 			BaseMapService.map.then(function (map) {
-
 				var bounds = map.getBounds();
 				var nw = bounds.getNorthWest();
 				var se = bounds.getSouthEast();
 				var bbox = [nw.lng, se.lat, se.lng, nw.lat].join(',');
-
 
 				BaseMapService.addCompetenciaQuery({
 					qf: 'oxxo',
