@@ -47,7 +47,7 @@
 	     * @return {Object} http promise
 	     */
 			intersect: function(opts){
-				
+
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
 				var _intersect = $http({
@@ -114,6 +114,30 @@
 					}
 				});
 				_getPlaces.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+
+			addCompetenciaQuery: function(opts){
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _addCompetenciaQuery = $http({
+					url: this.apiBaseURL + '/ws/places',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					},
+					params: opts
+				});
+				_addCompetenciaQuery.then(function(result){
 					deferred.resolve(result);
 				}, function(error){
 					if(error.status===401 && error.statusText==='Unauthorized'){

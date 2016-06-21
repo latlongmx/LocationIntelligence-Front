@@ -15,7 +15,7 @@
         deferred = $q.defer();
 
 				$http({
-					url: this.apiBaseURL+'/ws/places', 
+					url: this.apiBaseURL+'/ws/places',
 					method: "POST",
 					data: formData,
           transformRequest: angular.identity,
@@ -32,7 +32,7 @@
         return deferred.promise;
       },
 
-			getLocations: function(){
+			getLocations: function(opts){
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
 				var _locations = $http({
@@ -41,7 +41,8 @@
           headers: {
 						'Content-Type': undefined,
 						'Authorization': 'Bearer '+access_token.access_token
-					}
+					},
+					params: opts?opts:''
         });
 				_locations.then(function(result){
 					deferred.resolve(result);

@@ -294,7 +294,7 @@
 				self.LAYERS.heatWMS.setZIndex(10);
 			});
 		};
-		
+
 		factory.delPobVivWMS = function(){
 			if(this.LAYERS.pobvivWMS){
 					var self = this;
@@ -309,8 +309,12 @@
 				var access_token = Auth.getToken();
 				var points = [];
 				_.each(obj.data,function(p){
+					var url = factory.API_URL+'/icons/supermarket.png';
+					if(p.pin_url && p.pin_url !== ''){
+						url = factory.API_URL+ '/ws/icon?nm=' +p.pin_url+'&access_token='+access_token.access_token;
+					}
 					var icon = new L.icon({
-						iconUrl: factory.API_URL+ '/ws/icon?nm=' +p.pin_url+'&access_token='+access_token.access_token,
+						iconUrl: url,
 						iconSize:[32, 32]
 					});
 					var data = p.data_values;

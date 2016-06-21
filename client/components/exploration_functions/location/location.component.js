@@ -76,7 +76,7 @@
 				scope.fileObj = {};
 				scope.new_icon = "add";
 				scope.layer = false;
-				
+
 				if (!scope.toggleLocations) {
 					scope.toggleLocations = [];
 				}
@@ -120,17 +120,17 @@
 						_changeLocationIcon = angular.element(document.getElementById(ev));
 						console.log(_changeLocationIcon)
 						_changeLocationIcon[0].textContent = newIcon;
-						
+
 					}, function(failAddingIcon) {
 						console.log(failAddingIcon)
 					});
 				}
-				
+
 				scope.zoomToLayer = function(id_layer, name_layer) {
 					var id = id_layer +'-'+ name_layer.replace(' ','_');
 					BaseMapFactory.zoomLocation(id);
 				}
-				
+
 				scope.turnOnOffLayer = function(layer, loc) {
 					_thisLocationIsTrue = this;
 					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
@@ -154,7 +154,7 @@
 					_removeLocationItem = scope.locations.indexOf(indexItem);
 					if (_removeLocationItem !== -1) {
 						BaseMapFactory.hideLocation(id);
-						
+
 						//$timeout(function(){
 							scope.locations.splice(_removeLocationItem, 1);
 							LocationService.delLocation( id_layer )
@@ -167,7 +167,7 @@
 
 					}
 				}
-				
+
 				scope.toggleGral = function() {
 					var existLayer = null;
 					if(this.all === true) {
@@ -209,7 +209,7 @@
 						});
 					}
 				}
-				
+
 				var _deleteMessage = function(msg) {
 					$mdToast.show(
 						$mdToast.simple({
