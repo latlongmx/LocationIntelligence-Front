@@ -53,7 +53,6 @@
 							$scope.location_list = true;
 							LocationService.getLocations().then(function(res){
 								if(res.data && res.data.places){
-									console.log(res.data.places)
 									$scope.location_list = false;
 									$scope.locations = res.data.places;
 									_.each(res.data.places,function(o){

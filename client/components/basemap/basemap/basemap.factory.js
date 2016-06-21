@@ -313,7 +313,7 @@
 						iconUrl: factory.API_URL+ '/ws/icon?nm=' +p.pin_url+'&access_token='+access_token.access_token,
 						iconSize:[32, 32]
 					});
-					var data = JSON.parse( p.data_values );
+					var data = p.data_values;
 					var html = '';
 					for(var o in data){
 					  for(var r in data[o]){
