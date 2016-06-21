@@ -3,6 +3,7 @@ bower_components
 !angular-multilevelpushmenu/
 !angular-ui-bootstrap/
 !md5/
+!jslibs/
 node_modules
 public/*
 staging
