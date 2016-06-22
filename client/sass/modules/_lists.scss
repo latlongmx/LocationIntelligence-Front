@@ -104,16 +104,35 @@
 .m-side-panel__locations-list__list {
 	padding: 0;
 	margin: 0;
-	display: inline-flex;
-	display: -webkit-inline-flex;
+	display: flex;
+	display: -webkit-flex;
 	align-items: flex-start;
 	-webkit-align-items: flex-start;
 	justify-content: space-between;
 	-webkit-justify-content: space-between;
 	width: 100%;
-	border-bottom: 1px solid $gray0;
+	cursor:pointer;
+	position:relative;
+	@include transition(background 0.25s ease-in-out);
+	&:before {
+		background:$gray0;
+		bottom:0;
+		content:"";
+		height: 1px;
+		left: 0;
+		position:absolute;
+		right: 0;
+	}
 	&:hover {
-		background: $gray0;
+		background: rgba($gray0,0.25);
+	}
+	img {
+		-webkit-flex: none;
+		-ms-flex: none;
+		flex: none;
+		width: 20px;
+		height: 20px;
+		margin: 16px 10%;
 	}
 }
 

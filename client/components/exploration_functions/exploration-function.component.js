@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function explorationFunctions(LocationService, BaseMapFactory, $timeout){
+	function explorationFunctions(LocationService, BaseMapFactory, $timeout, Auth){
 		var _$js_exploration_item = null,
 		_data_ep = null,
 		_currentPanelActive = null,
@@ -28,6 +28,7 @@
 			controller: function($scope){
 				var dm = this;
 				$scope.location_list = false;
+				
 				_$js_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
 
 				_$js_exploration_item.on('click', function(e){
@@ -53,6 +54,7 @@
 							$scope.location_list = true;
 							LocationService.getLocations().then(function(res){
 								if(res.data && res.data.places){
+									console.log(res.data.places)
 									$scope.location_list = false;
 									$scope.locations = res.data.places;
 									_.each(res.data.places,function(o){
@@ -72,7 +74,7 @@
 		};
 	}
 
-	explorationFunctions.$inject = ['LocationService', 'BaseMapFactory', '$timeout'];
+	explorationFunctions.$inject = ['LocationService', 'BaseMapFactory', '$timeout', 'Auth'];
 
 	angular.module('exploration.directive', [])
 		.directive('explorationFunctions', explorationFunctions);

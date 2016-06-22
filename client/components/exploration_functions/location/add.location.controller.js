@@ -69,7 +69,6 @@
 					else{
 						return true;
 					}
-					
 				}
 				else {
 					return _showToastMessage('Archivo csv no válido');
@@ -155,16 +154,23 @@
 				var icon = null;
 				var csv = null;
 				var idLayer = null;
-
-				pin[0]._file.type === "text/csv" || pin[0]._file.type === "application/vnd.ms-excel" ? csv = pin[0]._file : csv = pin[1]._file;
-				pin[0]._file.type === "image/png" || pin[0]._file.type === "image/jpeg" || pin[0]._file.type === "image/jpg" ? icon = pin[0]._file: icon = pin[1]._file;
-
 				var formData = new FormData();
 				formData.append('nm', locationData.nm );
 				formData.append('lat', locationData.lat );
 				formData.append('lng', locationData.lng );
-				formData.append('pin', icon);
-				formData.append('file', csv );
+
+				if (uploader.queue.length === 1 && uploader.queue[0]._file.type === "text/csv" || uploader.queue[0]._file.type === "application/vnd.ms-excel") {
+					csv = pin[0]._file;
+					formData.append('file', csv );
+				}
+				else {
+					pin[0]._file.type === "text/csv" || pin[0]._file.type === "application/vnd.ms-excel" ? csv = pin[0]._file : csv = pin[1]._file;
+					pin[0]._file.type === "image/png" || pin[0]._file.type === "image/jpeg" || pin[0]._file.type === "image/jpg" ? icon = pin[0]._file: icon = pin[1]._file;
+					formData.append('pin', icon);
+					formData.append('file', csv );
+				}
+
+				
 				LocationService.addNewLocation( formData )
 				.then(function(data){
 					if (data.status === 200) {

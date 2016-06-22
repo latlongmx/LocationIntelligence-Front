@@ -18,6 +18,7 @@
 			'location.factory',
 			'add.location.controller',
 			'add.icon.location.controller',
+			'edit.layer.location.controller',
 			'competence.modal.controller',
 			'demograhpy.service',
 			'demography.directive',
