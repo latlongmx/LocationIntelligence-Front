@@ -349,13 +349,17 @@
 				options.wkt = _factory.bounds2polygonWKT(map.getBounds());
 				BaseMapService.getHeatMapData(options).then(function(res){
 					if(res.data){
+						var data = res.data.data.map(function (p) {
+							 return [p[0], p[1]];
+						});
 						if(_factory.LAYERS.USER['heatmap']===undefined){
 							_factory.LAYERS.USER['heatmap'] =
-									L.heatLayer(res.data.data, {
+									/*L.heatLayer(res.data.data, {
 										radius: 55
-									}).addTo(map);
+									}).addTo(map);*/
+									L.heatLayer(data).addTo(map);
 						}else{
-							_factory.LAYERS.USER['heatmap'].setLatLngs(res.data.data);
+							_factory.LAYERS.USER['heatmap'].setLatLngs(data);
 						}
 
 					}

@@ -153,9 +153,9 @@
 	     * @return {Object} http promise
 	     */
 			getHeatMapData: function(opts){
-				deferred = $q.defer();
+				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
-				var _getPlaces = $http({
+				var _heatMap = $http({
 					url: this.apiBaseURL + '/dyn/heat',
 					method: 'GET',
 					headers: {
@@ -164,7 +164,7 @@
 					},
 					params: opts
 				});
-				_getPlaces.then(function(result){
+				_heatMap.then(function(result){
 					deferred.resolve(result);
 				}, function(error){
 					if(error.status===401 && error.statusText==='Unauthorized'){

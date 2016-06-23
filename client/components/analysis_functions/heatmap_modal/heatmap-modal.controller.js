@@ -14,11 +14,12 @@
 
       BaseMapService.map.then(function (map) {
 				BaseMapFactory.addHeatMap({
-					filter:'oxxo'
+					//filter:'oxxo'
+					cod:'722'
 				});
 			});
 
-			BaseMapService.map.then(function (map) {
+			/*BaseMapService.map.then(function (map) {
 				var bounds = map.getBounds();
 				var nw = bounds.getNorthWest();
 				var se = bounds.getSouthEast();
@@ -30,7 +31,7 @@
 					competence:"1",
 					nm: 'Competencia - oxxo'
 				});
-			});
+			});*/
 
 		}
 
