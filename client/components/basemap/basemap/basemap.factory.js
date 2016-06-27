@@ -294,7 +294,7 @@
 				self.LAYERS.heatWMS.setZIndex(10);
 			});
 		};
-		
+
 		factory.delPobVivWMS = function(){
 			if(this.LAYERS.pobvivWMS){
 					var self = this;
@@ -309,8 +309,12 @@
 				var access_token = Auth.getToken();
 				var points = [];
 				_.each(obj.data,function(p){
+					var url = factory.API_URL+'/icons/supermarket.png';
+					if(p.pin_url && p.pin_url !== ''){
+						url = factory.API_URL+ '/ws/icon?nm=' +p.pin_url+'&access_token='+access_token.access_token;
+					}
 					var icon = new L.icon({
-						iconUrl: factory.API_URL+ '/ws/icon?nm=' +p.pin_url+'&access_token='+access_token.access_token,
+						iconUrl: url,
 						iconSize:[32, 32]
 					});
 					var data = p.data_values;
@@ -345,18 +349,90 @@
 				options.wkt = _factory.bounds2polygonWKT(map.getBounds());
 				BaseMapService.getHeatMapData(options).then(function(res){
 					if(res.data){
+						var data = res.data.data.map(function (p) {
+							 return [p[0], p[1]];
+						});
 						if(_factory.LAYERS.USER['heatmap']===undefined){
 							_factory.LAYERS.USER['heatmap'] =
-									L.heatLayer(res.data.data, {
+									/*L.heatLayer(res.data.data, {
 										radius: 55
-									}).addTo(map);
+									}).addTo(map);*/
+									L.heatLayer(data).addTo(map);
 						}else{
-							_factory.LAYERS.USER['heatmap'].setLatLngs(res.data.data);
+							_factory.LAYERS.USER['heatmap'].setLatLngs(data);
 						}
 
 					}
 				});
 			});
+		};
+
+
+		factory.addHeatMap2Layer = function(layer, cods, reload){
+			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
+				BaseMapService.map.then(function (map) {
+					var wkt = _factory.bounds2polygonWKT(map.getBounds());
+					var options = {
+						cod: cods,
+						wkt: wkt
+					};
+					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
+						_factory.LAYERS.USER[layer].addTo(map);
+					}else{
+						_factory.addHeatMap2Data(options,function(data){
+							if(_factory.LAYERS.USER[layer] === undefined){
+								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
+							}else{
+								_factory.LAYERS.USER[layer].setLatLngs(data);
+							}
+						});
+					}
+				});
+			}
+		};
+		factory.addHeatMap2Data = function(options, callback){
+			BaseMapService.getHeatMapData(options).then(function(res){
+				if(res.data){
+					var data = res.data.data.map(function (p) {
+						 return [p[0], p[1]];
+					});
+					callback(data);
+				}
+			});
+		};
+
+		factory.hideHeatMapCategory = function(category){
+			var categ = category.toLowerCase();
+			BaseMapService.map.then(function (map) {
+				var layer = '';
+				switch (categ) {
+					case 'food':
+						layer = 'heatmapFood';
+						break;
+					case 'tourims':
+						layer = 'heatmapTourims';
+						break;
+					case 'shop':
+						layer = 'heatmapShop';
+						break;
+				}
+				map.removeLayer( _factory.LAYERS.USER[layer] );
+			});
+
+		};
+		factory.addHeatMapCategory = function(category, reload){
+			var categ = category.toLowerCase();
+			switch (categ) {
+				case 'food':
+					_factory.addHeatMap2Layer('heatmapFood','722',reload);
+					break;
+				case 'tourims':
+					_factory.addHeatMap2Layer('heatmapTourims','721,712',reload);
+					break;
+				case 'shop':
+					_factory.addHeatMap2Layer('heatmapShop','46',reload);
+					break;
+			}
 		};
 
 		return factory;

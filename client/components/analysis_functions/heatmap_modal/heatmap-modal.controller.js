@@ -12,11 +12,43 @@
 		function init(){
 			console.log("modal");
 
-      BaseMapService.map.then(function (map) {
-				BaseMapFactory.addHeatMap({
-					filter:'oxxo'
+			//HEAT MAP por CAtegoria
+			//HEAT MAP por CAtegoria
+			/*
+			donde category puede ser food, tourims o shop
+			si reload = true volvera a realizar a peticion de datos del servidor
+			*/
+			var reload = false;
+			var category = 'tourims';
+			BaseMapFactory.addHeatMapCategory(category, reload);
+			//BaseMapFactory.hideHeatMapCategory('food');
+
+
+
+
+
+      //BaseMapService.map.then(function (map) {
+				/*BaseMapFactory.addHeatMap({
+					//filter:'oxxo'
+					cod:'4312,3112'
+				});*/
+
+
+			//});
+
+			/*BaseMapService.map.then(function (map) {
+				var bounds = map.getBounds();
+				var nw = bounds.getNorthWest();
+				var se = bounds.getSouthEast();
+				var bbox = [nw.lng, se.lat, se.lng, nw.lat].join(',');
+
+				BaseMapService.addCompetenciaQuery({
+					qf: 'oxxo',
+					qb: bbox,
+					competence:"1",
+					nm: 'Competencia - oxxo'
 				});
-			});
+			});*/
 
 		}
 

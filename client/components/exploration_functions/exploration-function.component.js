@@ -52,7 +52,9 @@
 					if (_data_ep === "location"){
 						if (!$scope.locations){
 							$scope.location_list = true;
-							LocationService.getLocations().then(function(res){
+							LocationService.getLocations({
+								competence: '1'
+							}).then(function(res){
 								if(res.data && res.data.places){
 									console.log(res.data.places)
 									$scope.location_list = false;

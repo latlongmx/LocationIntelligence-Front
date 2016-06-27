@@ -47,7 +47,7 @@
 	     * @return {Object} http promise
 	     */
 			intersect: function(opts){
-				
+
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
 				var _intersect = $http({
@@ -123,15 +123,39 @@
 				});
 				return deferred.promise;
 			},
+
+
+			addCompetenciaQuery: function(opts){
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _addCompetenciaQuery = $http({
+					url: this.apiBaseURL + '/ws/places',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					},
+					params: opts
+				});
+				_addCompetenciaQuery.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
 			/**
 	     * [setHeatMap: Solicita los datos para crear el heatmap]
 			 * @param {[type]} object [element drawed]
 	     * @return {Object} http promise
 	     */
 			getHeatMapData: function(opts){
-				deferred = $q.defer();
+				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
-				var _getPlaces = $http({
+				var _heatMap = $http({
 					url: this.apiBaseURL + '/dyn/heat',
 					method: 'GET',
 					headers: {
@@ -140,7 +164,7 @@
 					},
 					params: opts
 				});
-				_getPlaces.then(function(result){
+				_heatMap.then(function(result){
 					deferred.resolve(result);
 				}, function(error){
 					if(error.status===401 && error.statusText==='Unauthorized'){
