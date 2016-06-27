@@ -64,7 +64,7 @@
 											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerLocation(location.id_layer)">',
 												'<md-icon>create</md-icon>',
 											'</md-button>',
-											'<md-button data-id-layer="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeLocation(location, location.id_layer, location.name_layer)">',
+											'<md-button data-id-layer="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeLocation(location, location.id_layer, location.name_layer, $index)">',
 												'<md-icon>delete</md-icon>',
 											'</md-button>',
 										'</li>',
@@ -171,20 +171,15 @@
 				}
 
 				scope.turnOnOffLayer = function(layer, loc) {
-					_thisLocationIsTrue = this;
-					console.log(_thisLocationIsTrue)
+				_thisLocationIsTrue = this;
 					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
 					if(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true){
-						console.log(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true)
 						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue, id_layer: id});
-						console.log(scope.toggleLocations)
 					}
 					else{
-						console.log(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true)
 						for (var i=0; i<scope.toggleLocations.length; i++){
 							if (scope.toggleLocations[i].index === _thisLocationIsTrue.$index){
 								scope.toggleLocations.splice(i,1);
-								console.log(scope.toggleLocations)
 								break;
 							}
 						}
@@ -192,33 +187,32 @@
 					layer === true ? BaseMapFactory.showLocation(id) : BaseMapFactory.hideLocation(id);
 				}
 
-				scope.removeLocation = function(indexItem, id_layer, name) {
+				scope.removeLocation = function(indexItem, id_layer, name, index) {
 					var id = id_layer +'-'+ name.replace(' ','_');
 					_removeLocationItem = scope.locations.indexOf(indexItem);
 					if (_removeLocationItem !== -1) {
-						// var existLayer = _.filter(scope.locations, function(layer){
-						// 	console.log(layer.id_layer)
-						// 	console.log(loc.id_layer.split('-')[0])
-						// 	return layer.id_layer === loc.id_layer.split('-')[0];
-						// });
 						BaseMapFactory.hideLocation(id);
+						scope.locations.splice(_removeLocationItem, 1);
+						LocationService.delLocation( id_layer )
+						.then(function(res){
+							_deleteMessage("Se eliminó " + name);
+						}, function(){
+							_deleteMessage("Error al eliminar " + name + ", intente nuevamente");
+						});
 
-						//$timeout(function(){
-							scope.locations.splice(_removeLocationItem, 1);
-							LocationService.delLocation( id_layer )
-							.then(function(res){
-								_deleteMessage("Se eliminó " + name);
-							}, function(){
-								_deleteMessage("Error al eliminar " + name + ", intente nuevamente");
-							});
-						//}, 1500);
-
+						for (var i=0; i<scope.toggleLocations.length; i++){
+							if (scope.toggleLocations[i].index === index){
+								scope.toggleLocations.splice(i,1);
+								break;
+							}
+						}
 					}
-					console.log(scope.toggleLocations)
 				}
 
 				scope.toggleGral = function() {
-					var existLayer = null;
+					if (scope.toggleLocations.length === 0) {
+						scope.is_toggle_gral = false;
+					}
 					if(this.all === true) {
 						_.each(scope.toggleLocations, function(loc){
 							loc.location.layer = false;
@@ -227,7 +221,6 @@
 						});
 					}
 					else {
-						var existHidenLayer = null;
 						_.each(scope.toggleLocations, function(loc){
 							loc.location.layer = true;
 							scope.is_toggle_gral = false;
@@ -235,7 +228,12 @@
 						});
 					}
 				}
+<<<<<<< HEAD
 
+=======
+				
+				
+>>>>>>> dev
 				var _deleteMessage = function(msg) {
 					$mdToast.show(
 						$mdToast.simple({

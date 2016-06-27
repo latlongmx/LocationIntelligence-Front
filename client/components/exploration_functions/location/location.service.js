@@ -8,29 +8,29 @@
 		var deferred = null,
 		_testRequest = null;
 		return {
-      apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
+			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
 
-      addNewLocation:  function(formData){
-        var access_token = Auth.getToken();
-        deferred = $q.defer();
+			addNewLocation:  function(formData){
+				var access_token = Auth.getToken();
+				deferred = $q.defer();
 
 				$http({
 					url: this.apiBaseURL+'/ws/places',
 					method: "POST",
 					data: formData,
-          transformRequest: angular.identity,
-          headers: {
+					transformRequest: angular.identity,
+					headers: {
 						'Content-Type': undefined,
 						'Authorization': 'Bearer '+access_token.access_token
 					}
-        })
-        .then(function(dat){
+				})
+				.then(function(dat){
 					deferred.resolve(dat);
-        }, function(err){
+				}, function(err){
 					deferred.reject(err);
-        });
-        return deferred.promise;
-      },
+				});
+				return deferred.promise;
+			},
 
 			getLocations: function(opts){
 				deferred = $q.defer();
@@ -38,7 +38,7 @@
 				var _locations = $http({
 					url: this.apiBaseURL+'/ws/places',
 					method: "GET",
-          headers: {
+					headers: {
 						'Content-Type': undefined,
 						'Authorization': 'Bearer '+access_token.access_token
 					},
@@ -61,11 +61,11 @@
 				var _locations = $http({
 					url: this.apiBaseURL+'/ws/places/'+id,
 					method: "DELETE",
-          headers: {
+					headers: {
 						'Content-Type': undefined,
 						'Authorization': 'Bearer '+access_token.access_token
 					}
-        });
+				});
 				_locations.then(function(result){
 					deferred.resolve(result);
 				}, function(error){
@@ -77,31 +77,31 @@
 				return deferred.promise;
 			},
 
-      updateLocationVar:  function(formData, id_layer){
-        var access_token = Auth.getToken();
-        deferred = $q.defer();
+			updateLocationVar:  function(formData, id_layer){
+				var access_token = Auth.getToken();
+				deferred = $q.defer();
 
 				$http({
 					url: this.apiBaseURL+'/ws/places/'+id_layer, 
 					method: "PUT",
 					data: formData,
-          transformRequest: angular.identity,
-          headers: {
+					transformRequest: angular.identity,
+					headers: {
 						'Content-Type': undefined,
 						'Authorization': 'Bearer '+access_token.access_token
 					}
-        })
-        .then(function(dat){
+				})
+				.then(function(dat){
 					deferred.resolve(dat);
-        }, function(err){
+				}, function(err){
 					deferred.reject(err);
-        });
-        return deferred.promise;
-      }
-    };
-  }
-  LocationService.$inject = ['$q', '$http', 'Auth'];
-  angular.module('location.service', []).
-    service('LocationService', LocationService);
+				});
+				return deferred.promise;
+			}
+		};
+	}
+	LocationService.$inject = ['$q', '$http', 'Auth'];
+	angular.module('location.service', []).
+		service('LocationService', LocationService);
 
 })();
