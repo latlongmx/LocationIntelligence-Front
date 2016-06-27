@@ -367,6 +367,70 @@
 			});
 		};
 
+
+		factory.addHeatMap2Layer = function(layer, cods, reload){
+			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
+				BaseMapService.map.then(function (map) {
+					var wkt = _factory.bounds2polygonWKT(map.getBounds());
+					var options = {
+						cod: cods,
+						wkt: wkt
+					};
+					_factory.addHeatMap2Data(options,function(data){
+						if(_factory.LAYERS.USER[layer] === undefined){
+							_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
+						}else{
+							_factory.LAYERS.USER[layer].setLatLngs(data);
+						}
+					});
+				});
+			}
+		};
+		factory.addHeatMap2Data = function(options, callback){
+			BaseMapService.getHeatMapData(options).then(function(res){
+				if(res.data){
+					var data = res.data.data.map(function (p) {
+						 return [p[0], p[1]];
+					});
+					callback(data);
+				}
+			});
+		};
+
+		factory.hideHeatMapCategory = function(category){
+			var categ = category.toLowerCase();
+			BaseMapService.map.then(function (map) {
+				var layer = '';
+				switch (categ) {
+					case 'food':
+						layer = 'heatmapFood';
+						break;
+					case 'tourims':
+						layer = 'heatmapTourims';
+						break;
+					case 'shop':
+						layer = 'heatmapShop';
+						break;
+				}
+				map.removeLayer( _factory.LAYERS.USER[layer] );
+			});
+
+		};
+		factory.addHeatMapCategory = function(category, reload){
+			var categ = category.toLowerCase();
+			switch (categ) {
+				case 'food':
+					_factory.addHeatMap2Layer('heatmapFood','722',reload);
+					break;
+				case 'tourims':
+					_factory.addHeatMap2Layer('heatmapTourims','721,712',reload);
+					break;
+				case 'shop':
+					_factory.addHeatMap2Layer('heatmapShop','46',reload);
+					break;
+			}
+		};
+
 		return factory;
 	}
 

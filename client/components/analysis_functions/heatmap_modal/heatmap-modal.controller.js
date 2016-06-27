@@ -12,12 +12,29 @@
 		function init(){
 			console.log("modal");
 
-      BaseMapService.map.then(function (map) {
-				BaseMapFactory.addHeatMap({
+			//HEAT MAP por CAtegoria
+			//HEAT MAP por CAtegoria
+			/*
+			donde category puede ser food, tourims o shop
+			si reload = true volvera a realizar a peticion de datos del servidor
+			*/
+			var reload = false;
+			var category = 'tourims';
+			BaseMapFactory.addHeatMapCategory(category, reload);
+			//BaseMapFactory.hideHeatMapCategory('food');
+
+
+
+
+
+      //BaseMapService.map.then(function (map) {
+				/*BaseMapFactory.addHeatMap({
 					//filter:'oxxo'
-					cod:'722'
-				});
-			});
+					cod:'4312,3112'
+				});*/
+
+
+			//});
 
 			/*BaseMapService.map.then(function (map) {
 				var bounds = map.getBounds();
