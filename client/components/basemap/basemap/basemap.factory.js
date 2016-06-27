@@ -376,13 +376,17 @@
 						cod: cods,
 						wkt: wkt
 					};
-					_factory.addHeatMap2Data(options,function(data){
-						if(_factory.LAYERS.USER[layer] === undefined){
-							_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
-						}else{
-							_factory.LAYERS.USER[layer].setLatLngs(data);
-						}
-					});
+					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
+						_factory.LAYERS.USER[layer].addTo(map);
+					}else{
+						_factory.addHeatMap2Data(options,function(data){
+							if(_factory.LAYERS.USER[layer] === undefined){
+								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
+							}else{
+								_factory.LAYERS.USER[layer].setLatLngs(data);
+							}
+						});
+					}
 				});
 			}
 		};
