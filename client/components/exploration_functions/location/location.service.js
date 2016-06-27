@@ -74,7 +74,29 @@
 					deferred.reject(error);
 				});
 				return deferred.promise;
-			}
+			},
+
+      updateLocationVar:  function(formData, id_layer){
+        var access_token = Auth.getToken();
+        deferred = $q.defer();
+
+				$http({
+					url: this.apiBaseURL+'/ws/places/'+id_layer, 
+					method: "PUT",
+					data: formData,
+          transformRequest: angular.identity,
+          headers: {
+						'Content-Type': undefined,
+						'Authorization': 'Bearer '+access_token.access_token
+					}
+        })
+        .then(function(dat){
+					deferred.resolve(dat);
+        }, function(err){
+					deferred.reject(err);
+        });
+        return deferred.promise;
+      }
     };
   }
   LocationService.$inject = ['$q', '$http', 'Auth'];

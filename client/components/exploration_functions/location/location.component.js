@@ -92,7 +92,7 @@
 				scope.addLocation = function(ev){
 					$mdDialog.show({
 						controller: 'AddLocationController',
-						templateUrl: './components/exploration_functions/location/add-locations.tpl.html',
+						templateUrl: './components/exploration_functions/location/add_locations/add-locations.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: ev,
 						clickOutsideToClose:true
@@ -119,25 +119,29 @@
 				scope.editLayerLocation = function(layer){
 					$mdDialog.show({
 						controller: 'EditLayerLocationController',
-						templateUrl: './components/exploration_functions/location/edit-layer.locations.tpl.html',
+						templateUrl: './components/exploration_functions/location/edit_layer/edit-layer.location.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: layer,
-						clickOutsideToClose:true
+						clickOutsideToClose:true,
+						locals: {
+							layer_id: layer
+						},
 					})
 					.then(function(newLocations) {
-						if (newLocations) {
-							LocationService.getLocations().then(function(res){
-								if(res.data && res.data.places){
-									var lastLayer = res.data.places[res.data.places.length -1];
-									var idLayer = lastLayer.id_layer+'-'+lastLayer.name_layer.replace(' ','_');
-									scope.locations.push(lastLayer);
-									BaseMapFactory.addLocation({
-										name: idLayer,
-										data: lastLayer.data
-									});
-								}
-							});
-						}
+						console.log(newLocations)
+						// if (newLocations) {
+						// 	LocationService.getLocations().then(function(res){
+						// 		if(res.data && res.data.places){
+						// 			var lastLayer = res.data.places[res.data.places.length -1];
+						// 			var idLayer = lastLayer.id_layer+'-'+lastLayer.name_layer.replace(' ','_');
+						// 			scope.locations.push(lastLayer);
+						// 			BaseMapFactory.addLocation({
+						// 				name: idLayer,
+						// 				data: lastLayer.data
+						// 			});
+						// 		}
+						// 	});
+						//}
 					}, function(failAdding) {
 						console.log(failAdding);
 					});
