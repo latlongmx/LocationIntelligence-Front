@@ -228,12 +228,6 @@
 						});
 					}
 				}
-<<<<<<< HEAD
-
-=======
-				
-				
->>>>>>> dev
 				var _deleteMessage = function(msg) {
 					$mdToast.show(
 						$mdToast.simple({
