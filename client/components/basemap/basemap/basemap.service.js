@@ -138,7 +138,8 @@
 					params: opts
 				});
 				_addCompetenciaQuery.then(function(result){
-					deferred.resolve(result);
+					console.log(result)
+					//deferred.resolve(result);
 				}, function(error){
 					if(error.status===401 && error.statusText==='Unauthorized'){
 						//Actualizar token

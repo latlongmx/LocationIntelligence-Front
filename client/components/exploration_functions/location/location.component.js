@@ -100,12 +100,12 @@
 						if (newLocations) {
 							LocationService.getLocations().then(function(res){
 								if(res.data && res.data.places){
-									var lastLayer = res.data.places[res.data.places.length -1];
-									var idLayer = lastLayer.id_layer+'-'+lastLayer.name_layer.replace(' ','_');
-									scope.locations.push(lastLayer);
+									var lastLocationLayer = res.data.places[res.data.places.length -1];
+									var idLocationLayer = lastLocationLayer.id_layer+'-'+lastLocationLayer.name_layer.replace(' ','_');
+									scope.locations.push(lastLocationLayer);
 									BaseMapFactory.addLocation({
-										name: idLayer,
-										data: lastLayer.data
+										name: idLocationLayer,
+										data: lastLocationLayer.data
 									});
 								}
 							});
@@ -146,24 +146,22 @@
 					});
 				}
 
-				scope.addIconLocation = function(ev) {
-					console.log(ev)
-					$mdDialog.show({
-						controller: 'AddIconLocationController',
-						templateUrl: './components/exploration_functions/location/add_icon/add-icon-location.tpl.html',
-						parent: angular.element(document.body),
-						targetEvent: ev,
-						clickOutsideToClose:true
-					})
-					.then(function(newIcon) {
-						_changeLocationIcon = angular.element(document.getElementById(ev));
-						console.log(_changeLocationIcon)
-						_changeLocationIcon[0].textContent = newIcon;
+				// scope.addIconLocation = function(ev) {
+				// 	$mdDialog.show({
+				// 		controller: 'AddIconLocationController',
+				// 		templateUrl: './components/exploration_functions/location/add_icon/add-icon-location.tpl.html',
+				// 		parent: angular.element(document.body),
+				// 		targetEvent: ev,
+				// 		clickOutsideToClose:true
+				// 	})
+				// 	.then(function(newIcon) {
+				// 		_changeLocationIcon = angular.element(document.getElementById(ev));
+				// 		_changeLocationIcon[0].textContent = newIcon;
 
-					}, function(failAddingIcon) {
-						console.log(failAddingIcon)
-					});
-				}
+				// 	}, function(failAddingIcon) {
+				// 		console.log(failAddingIcon)
+				// 	});
+				// }
 
 				scope.zoomToLayer = function(id_layer, name_layer) {
 					var id = id_layer +'-'+ name_layer.replace(' ','_');
@@ -171,7 +169,7 @@
 				}
 
 				scope.turnOnOffLayer = function(layer, loc) {
-				_thisLocationIsTrue = this;
+					_thisLocationIsTrue = this;
 					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
 					if(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true){
 						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue, id_layer: id});
@@ -228,6 +226,7 @@
 						});
 					}
 				}
+
 				var _deleteMessage = function(msg) {
 					$mdToast.show(
 						$mdToast.simple({

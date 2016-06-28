@@ -10,7 +10,7 @@
 		return {
 			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
 
-			addNewLocation:  function(formData){
+			addNewLocation: function(formData){
 				var access_token = Auth.getToken();
 				deferred = $q.defer();
 
@@ -77,7 +77,7 @@
 				return deferred.promise;
 			},
 
-			updateLocationVar:  function(formData, id_layer){
+			updateLocationVar: function(formData, id_layer){
 				var access_token = Auth.getToken();
 				deferred = $q.defer();
 

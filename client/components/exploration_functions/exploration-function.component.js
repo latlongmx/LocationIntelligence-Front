@@ -18,9 +18,7 @@
 			template: [
 				'<ul class="m-list-functions">',
 					'<location></location>',
-					'<li class="m-list-functions__item js-exploration-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Competencia" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-competence"></i>',
-					'</li>',
+					'<competence></competence>',
 					'<demography></demography>',
 					'<potential></potential>',
 				'</ul>',
@@ -28,6 +26,7 @@
 			controller: function($scope){
 				var dm = this;
 				$scope.location_list = false;
+				$scope.competence_list = false;
 				
 				_$js_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
 
@@ -52,12 +51,32 @@
 					if (_data_ep === "location"){
 						if (!$scope.locations){
 							$scope.location_list = true;
-							LocationService.getLocations({
-								competence: '1'
-							}).then(function(res){
+							LocationService.getLocations()
+							.then(function(res){
 								if(res.data && res.data.places){
 									$scope.location_list = false;
 									$scope.locations = res.data.places;
+									_.each(res.data.places,function(o){
+										var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
+										BaseMapFactory.addLocation({
+											name: id,
+											data: o.data
+										});
+									});
+								}
+							});
+						}
+					}
+					if (_data_ep === "competence"){
+						if (!$scope.competences){
+							$scope.competence_list = true;
+							LocationService.getLocations({
+								competence: '1'
+							})
+							.then(function(res){
+								if(res.data && res.data.places){
+									$scope.competence_list = false;
+									$scope.competences = res.data.places;
 									_.each(res.data.places,function(o){
 										var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
 										BaseMapFactory.addLocation({
