@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function AddCompetenceController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService){
+	function AddCompetenceByCsvController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService){
 		
 		var j= 0, counter = 0;
 		$scope.activated = true;
@@ -236,9 +236,9 @@
 
 	};
 
-	AddCompetenceController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService'];
+	AddCompetenceByCsvController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService'];
 
-	angular.module('add.competence.controller', []).
-	controller('AddCompetenceController', AddCompetenceController);
+	angular.module('add.competence.csv.controller', []).
+	controller('AddCompetenceByCsvController', AddCompetenceByCsvController);
 
 })();

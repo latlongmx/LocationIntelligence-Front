@@ -19,26 +19,42 @@
 					'<div class="m-side-panel js-competence-side-panel">',
 						'<h3 class="m-side-panel__title">Competencia</h3>',
 						'<div class="m-side-panel__actions pos-relative">',
-							'<h4 class="m-side-panel__subtitle">Ubicaciones de mi competencia:</h4>',
+							'<h4 class="m-side-panel__subtitle">Agregar ubicaciones de mi competencia:</h4>',
 							'<div layout="row">',
-								'<div layout="column" layout-align="start start" flex="20">',
-									'<h6 class="m-side-panel__subtitle">Agregar por variable</h6>',
-									'<md-button class="md-icon-button md-primary" ng-click="addCompetence()" layout-align="center center">',
-						        '<md-icon>format_list_bulleted</md-icon>',
-						      '</md-button>',
+								'<div layout="column" flex="50">',
+									'<div layout="row">',
+										'<div layout="column" flex="50">',
+											'<h6 class="m-side-panel__subtitle" style="margin:auto;">Por variable</h6>',
+										'</div>',
+										'<div layout="column" flex="50">',
+											'<md-button class="md-fab md-mini md-primary" ng-click="addCompetenceByVariable()">',
+								        '<md-icon>format_list_bulleted</md-icon>',
+								      '</md-button>',
+										'</div>',
+									'</div>',
 								'</div>',
-								'<div layout="column" layout-align="start start" flex="20">',
-									'<h6 class="m-side-panel__subtitle">Agregar por capa csv</h6>',
-									'<md-button class="md-icon-button md-primary" ng-click="addCompetence()"  layout-align="center center">',
-						        '<md-icon>add</md-icon>',
-						      '</md-button>',
+								'<div layout="column" flex="50">',
+									'<div layout="row">',
+										'<div layout="column" flex="50">',
+											'<h6 class="m-side-panel__subtitle" style="margin:auto;">Por capa csv</h6>',
+										'</div>',
+										'<div layout="column" flex="50">',
+											'<md-button class="md-fab md-mini md-primary" ng-click="addCompetenceByCsv()">',
+								        '<md-icon>add</md-icon>',
+								      '</md-button>',
+										'</div>',
+									'</div>',
 								'</div>',
-								'<div layout="column" layout-align="start start" flex="66">',
-									'<h6 class="m-side-panel__subtitle">Agregar por búsqueda de nombre exacto</h6>',
-									'<md-input-container  class="md-input-container--in-competence">',
-										'<input ng-model="search_competence">',
+							'</div>',
+							'<div class="m-side-panel__content">',
+								'<h6 class="m-side-panel__subtitle m-side-panel__subtitle--in-competence-by-name">Por búsqueda de nombre exacto</h6>',
+								'<div layout="row">',
+									'<md-input-container class="md-input-container--in-competence" flex="195">',
+										'<input ng-model="add_competence_by_search">',
 									'</md-input-container>',
-									
+									'<md-button class="md-fab md-mini" ng-click="addCompetenceByCsv()">',
+						        '<md-icon>zoom_in</md-icon>',
+						      '</md-button>',
 								'</div>',
 							'</div>',
 							'<div class="m-side-panel__list">',
@@ -78,13 +94,13 @@
 										'<md-progress-circular md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
 									'</div>',
 									'<ul class="m-side-panel__locations-list__container">',
-										'<li class="m-side-panel__locations-list__list js-location-item" ng-repeat="competence in competences | filter: search_location">',
+										'<li class="m-side-panel__locations-list__list js-competence-item" ng-repeat="competence in competences | filter: search_location">',
 											'<div flex="10">',
 												'<img ng-src="'+BaseMapFactory.API_URL+'/ws/icon?nm={{competence.data[0].pin_url}}&access_token='+_access_token.access_token+'" width="25"/>',
 											'</div>',
 											'<p flex="35" class="m-side-panel__locations-list__item">{{competence.name_layer}}</p>',
 											'<p flex="20" class="m-side-panel__locations-list__item">{{competence.data.length}}</p>',
-											'<md-switch ng-disabled="is_toggle_gral" ng-model="layer" flex="10" md-no-ink aria-label="competence.id_layer" ng-change="turnOnOffLayer(layer, competence)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
+											'<md-switch ng-disabled="is_toggle_gral" ng-model="layer" flex="10" md-no-ink aria-label="competence.id_layer" ng-change="turnOnOffLayerCompetence(layer, competence)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
 											'<md-button data-id-competence="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(competence.id_layer, competence.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 												'<md-icon>zoom_in</md-icon>',
 											'</md-button>',
@@ -146,10 +162,10 @@
 					scope.toggleCompetence = [];
 				}
 
-				scope.addCompetence = function(ev){
+				scope.addCompetenceByVariable = function(ev){
 					$mdDialog.show({
-						controller: 'AddCompetenceController',
-						templateUrl: './components/exploration_functions/competence/add_competence/add-competence.tpl.html',
+						controller: 'AddCompetenceByVarController',
+						templateUrl: './components/exploration_functions/competence/add_competence_by_var/add-competence-by-var.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: ev,
 						clickOutsideToClose:true
@@ -172,44 +188,72 @@
 						console.log(failAdding);
 					});
 				}
-				
-				scope.editLayerCompetence = function(layer){
+
+				scope.addCompetenceByCsv = function(ev){
 					$mdDialog.show({
-						controller: 'EditLayerCompetenceController',
-						templateUrl: './components/exploration_functions/location/edit_layer/edit-layer.competence.tpl.html',
+						controller: 'AddCompetenceByCsvController',
+						templateUrl: './components/exploration_functions/competence/add_competence_by_csv/add-competence-by-csv.tpl.html',
 						parent: angular.element(document.body),
-						targetEvent: layer,
-						clickOutsideToClose:true,
-						locals: {
-							layer_id: layer
-						},
+						targetEvent: ev,
+						clickOutsideToClose:true
 					})
-					.then(function(newLocations) {
-						console.log(newLocations)
-						// if (newLocations) {
-						// 	LocationService.getLocations().then(function(res){
+					.then(function(newCompetence) {
+						console.log(newCompetence)
+						// if (newCompetence) {
+						// 	LocationService.getLocations({competence: '1'}).then(function(res){
 						// 		if(res.data && res.data.places){
-						// 			var lastLayer = res.data.places[res.data.places.length -1];
-						// 			var idLayer = lastLayer.id_layer+'-'+lastLayer.name_layer.replace(' ','_');
-						// 			scope.competences.push(lastLayer);
+						// 			var lastCompetenceLayer = res.data.places[res.data.places.length -1];
+						// 			var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
+						// 			scope.competences.push(lastCompetenceLayer);
 						// 			BaseMapFactory.addLocation({
-						// 				name: idLayer,
-						// 				data: lastLayer.data
+						// 				name: idCompetenceLayer,
+						// 				data: lastCompetenceLayer.data
 						// 			});
 						// 		}
 						// 	});
-						//}
+						// }
 					}, function(failAdding) {
 						console.log(failAdding);
 					});
 				}
+				
+				// scope.editLayerCompetence = function(layer){
+				// 	$mdDialog.show({
+				// 		controller: 'EditLayerCompetenceController',
+				// 		templateUrl: './components/exploration_functions/location/edit_layer/edit-layer.competence.tpl.html',
+				// 		parent: angular.element(document.body),
+				// 		targetEvent: layer,
+				// 		clickOutsideToClose:true,
+				// 		locals: {
+				// 			layer_id: layer
+				// 		},
+				// 	})
+				// 	.then(function(newLocations) {
+				// 		console.log(newLocations)
+				// 		// if (newLocations) {
+				// 		// 	LocationService.getLocations().then(function(res){
+				// 		// 		if(res.data && res.data.places){
+				// 		// 			var lastLayer = res.data.places[res.data.places.length -1];
+				// 		// 			var idLayer = lastLayer.id_layer+'-'+lastLayer.name_layer.replace(' ','_');
+				// 		// 			scope.competences.push(lastLayer);
+				// 		// 			BaseMapFactory.addLocation({
+				// 		// 				name: idLayer,
+				// 		// 				data: lastLayer.data
+				// 		// 			});
+				// 		// 		}
+				// 		// 	});
+				// 		//}
+				// 	}, function(failAdding) {
+				// 		console.log(failAdding);
+				// 	});
+				// }
 
 				scope.zoomToLayer = function(id_layer, name_layer) {
 					var id = id_layer +'-'+ name_layer.replace(' ','_');
 					BaseMapFactory.zoomLocation(id);
 				}
 
-				scope.turnOnOffLayer = function(layer, loc) {
+				scope.turnOnOffLayerCompetence = function(layer, loc) {
 					_thisCompetenceIsTrue = this;
 					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
 					if(scope.toggleCompetence.indexOf(_thisCompetenceIsTrue.$index) === -1 && _thisCompetenceIsTrue.layer === true){

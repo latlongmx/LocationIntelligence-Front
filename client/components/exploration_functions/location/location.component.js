@@ -171,6 +171,7 @@
 
 				scope.turnOnOffLayer = function(layer, loc) {
 					_thisLocationIsTrue = this;
+					console.log(loc)
 					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
 					if(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true){
 						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue, id_layer: id});
@@ -209,10 +210,8 @@
 				}
 
 				scope.toggleGral = function() {
-					if (scope.toggleLocations.length === 0) {
-						scope.is_toggle_gral = false;
-					}
 					if(this.all === true) {
+						console.log(scope.toggleLocations)
 						_.each(scope.toggleLocations, function(loc){
 							loc.location.layer = false;
 							scope.is_toggle_gral = true;
@@ -225,6 +224,9 @@
 							scope.is_toggle_gral = false;
 							BaseMapFactory.showLocation(loc.id_layer);
 						});
+					}
+					if (scope.toggleLocations.length === 0) {
+						scope.is_toggle_gral = false;
 					}
 				}
 
