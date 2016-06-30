@@ -95,39 +95,40 @@
 
 			map.on('draw:created', function (e) {
 					//_drawType = e.layerType;
-					var geo_wkt = BaseMapFactory.geom2wkt(e);
-					if(geo_wkt){
-						//Servicio que obtiene las geometrias del area seleccionada
-						var servType = 'denue_2016';
-						var cols = '';
-						if(e.layerType==='circle'){
-							servType = 'inter15_vias';
-							cols = 'tipovial';
-						}else if(e.layerType==='polyline'){
-							servType = 'pobviv2010';
-							cols = 'pea';
-						}
-						var opts = {
-							s:'inegi',
-							t: servType,
-							c: cols,
-							w:'',
-							wkt: geo_wkt.wkt,
-							mts: geo_wkt.mts
-						};
-						BaseMapService.intersect(opts).then(function(result){
-							if(result && result.data){
-								var info = result.data.info;
-								var geojson = result.data.geojson;
-								BaseMapFactory.addGeoJSON2Map(geojson, servType);
-							}
-						}, function(error){
-							console.log(error);
-						});
-					}
+					// var geo_wkt = BaseMapFactory.geom2wkt(e);
+					// if(geo_wkt){
+					// 	//Servicio que obtiene las geometrias del area seleccionada
+					// 	var servType = 'denue_2016';
+					// 	var cols = '';
+					// 	if(e.layerType==='circle'){
+					// 		servType = 'inter15_vias';
+					// 		cols = 'tipovial';
+					// 	}else if(e.layerType==='polyline'){
+					// 		servType = 'pobviv2010';
+					// 		cols = 'pea';
+					// 	}
+					// 	var opts = {
+					// 		s:'inegi',
+					// 		t: servType,
+					// 		c: cols,
+					// 		w:'',
+					// 		wkt: geo_wkt.wkt,
+					// 		mts: geo_wkt.mts
+					// 	};
+					// 	BaseMapService.intersect(opts).then(function(result){
+					// 		if(result && result.data){
+					// 			var info = result.data.info;
+					// 			var geojson = result.data.geojson;
+					// 			BaseMapFactory.addGeoJSON2Map(geojson, servType);
+					// 		}
+					// 	}, function(error){
+					// 		console.log(error);
+					// 	});
+					// }
 
 					//     layer = e.layer;
 					// Do whatever else you need to. (save to db, add to map etc)
+
 					_featureGroup.addLayer(e.layer);
 			});
 
