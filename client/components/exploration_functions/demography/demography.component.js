@@ -110,6 +110,7 @@
 				scope.options = {
 					collapsed: true,
 					fullCollapse: true,
+					wrapperClass: 'multilevelpushmenu_wrapper',
 					onExpandMenuStart: function() {
 						setTimeout(function(){
 							angular.element(document.getElementsByClassName('js-filter-demography-catalog')).addClass('is-filter-demography-active');
@@ -322,10 +323,10 @@
 				};
 				
 				scope.removeVariable = function(parent,index) {
-						_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+scope.save_variable_list[index]._variable_id+'"]'));
-						_icon_data_id.removeClass('fa fa-check').css(
-							{ "transition": "all linear 0.25s"}
-						);
+					_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+scope.save_variable_list[index]._variable_id+'"]'));
+					_icon_data_id.removeClass('fa fa-check').css(
+						{ "transition": "all linear 0.25s"}
+					);
 
 					if (scope.save_variable_list[index].$index === true){
 						BaseMapFactory.delPobVivWMS();

@@ -21,6 +21,7 @@
 			'competence.directive',
 			'add.competence.csv.controller',
 			'add.competence.var.controller',
+			'add.competence.var.service',
 			'edit.layer.competence.controller',
 			'demograhpy.service',
 			'demography.directive',
