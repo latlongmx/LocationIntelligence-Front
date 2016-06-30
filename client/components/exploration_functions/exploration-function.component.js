@@ -76,7 +76,7 @@
 							.then(function(res){
 								if(res.data && res.data.places){
 									$scope.competence_list = false;
-									$scope.competences = res.data.places;
+									$scope.save_competence_variable_list = res.data.places;
 									_.each(res.data.places,function(o){
 										var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
 										BaseMapFactory.addLocation({

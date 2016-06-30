@@ -19,34 +19,39 @@
 	@include transition(opacity linear 0.25s, transform linear 0.25s);
 	display:block;
 	opacity:1;
+	position:initial;
 	visibility:visible;
 	width: 100%;
 }
 .multilevelpushmenu_wrapper--in-competence {
 	//position: absolute;
-	height: 100%;
-	left: 0;
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	right: 0;
-	top: 45px;
-	z-index: 10;
+	// height: 100%;
+  bottom: 55px;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 109px;
+  z-index: 10;
+  width: 315px !important;
+  overflow: hidden;
 }
 
 .multilevelpushmenu_wrapper--in-competence .levelHolderClass {
 	background: #828189;
-	bottom: 45px;
+	// bottom: 45px;
 	font-size: 1em;
 	position: absolute;
 	top: -2px;
 	zoom: 1;
 	overflow-y: overlay;
+	bottom:0;
 	//@include linearGradient(#D5F7F6, #A0E4E1);
 	//background: #336ca6;
 	&:not([level='level']) {
-		bottom: 0;
-		overflow-y: auto;
+		 bottom: 0;
+		overflow-x: hidden;
 		position: absolute;
 		top: 0px;
 		&::-webkit-scrollbar {
@@ -156,7 +161,7 @@
 	.visible {
 		visibility: visible;
 		width: 315px !important;
-		overflow-x: hidden;
+		// overflow-x: auto;
 	}
 }
 

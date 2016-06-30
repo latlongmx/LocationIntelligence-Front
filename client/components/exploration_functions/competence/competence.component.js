@@ -52,7 +52,7 @@
 									'<md-input-container class="md-input-container--in-competence" flex="195">',
 										'<input ng-model="add_competence_by_search" aria-label="add_competence_by_search">',
 									'</md-input-container>',
-									'<md-button class="md-fab md-mini" ng-click="addCompetenceByCsv()">',
+									'<md-button class="md-fab md-mini" ng-click="querySearch(add_competence_by_search)">',
 						        '<md-icon>zoom_in</md-icon>',
 						      '</md-button>',
 								'</div>',
@@ -94,7 +94,7 @@
 										'<md-progress-circular md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
 									'</div>',
 									'<ul class="m-side-panel__locations-list__container">',
-										'<li class="m-side-panel__locations-list__list js-competence-item" ng-repeat="competence in competences | filter: search_location">',
+										'<li class="m-side-panel__locations-list__list js-competence-item" ng-repeat="competence in save_competence_variable_list | filter: search_location">',
 											'<div flex="10">',
 												'<img ng-src="'+BaseMapFactory.API_URL+'/ws/icon?nm={{competence.data[0].pin_url}}&access_token='+_access_token.access_token+'" width="25"/>',
 											'</div>',
@@ -161,21 +161,28 @@
 				if (!scope.toggleCompetence) {
 					scope.toggleCompetence = [];
 				}
-
 				scope.addCompetenceByVariable = function(ev){
 					$mdDialog.show({
 						controller: 'AddCompetenceByVarController',
 						templateUrl: './components/exploration_functions/competence/add_competence_by_var/add-competence-by-var.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: ev,
-						clickOutsideToClose:true
+						clickOutsideToClose:true,
 					})
 					.then(function(newCompetence) {
+						console.log(newCompetence)
 						if (newCompetence) {
+							scope.bounds = null;
+							scope.nw = null;
+							scope.se = null;
+							scope.bbox = null;
 							LocationService.getLocations({competence: '1'}).then(function(res){
 								if(res.data && res.data.places){
 									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
-									var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
+									if(lastCompetenceLayer) {
+										var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
+									}
+									
 									scope.competences.push(lastCompetenceLayer);
 									BaseMapFactory.addLocation({
 										name: idCompetenceLayer,
@@ -185,7 +192,9 @@
 							});
 						}
 					}, function(failAdding) {
-						console.log(failAdding);
+						if (failAdding === undefined) {
+							
+						}
 					});
 				}
 

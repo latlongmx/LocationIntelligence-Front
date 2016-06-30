@@ -1,24 +1,36 @@
 <md-dialog aria-label="var" class="m-dialog--in-competence__var">
-<!-- 		<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>Selector de Variables</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click="cancel()">
-					<md-icon aria-label="Close dialog">close</md-icon>
-				</md-button>
-			</div>
-		</md-toolbar> -->
-		<md-dialog-content class="m-dialog__content m-side-panel--in-competence-modal">
-		<div class="m-modal__competence-list">
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Selector de Variables</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="cancel()">
+				<md-icon aria-label="Close dialog">close</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+		<md-dialog-content>
 			<div class="m-catalog-filter m-catalog-filter--in-competence js-filter-competence-catalog">
 				<input type="text" class="m-input m-input--in-demography__catalog m-input--in-competence__catalog" ng-model="search" ng-change="quickCompetenceFilter()" placeholder="Filtro rápido">
 			</div>
-			<div style="overflow:hidden;">
+			<div layout="column" style="    overflow: hidden;display: block;bottom: 0;left: 0;right: 0;top: 0;width:100% !important;">
 				<wxy-push-menu menu="menu" options="_competence_options"></wxy-push-menu>
 			</div>
-		</div>
-		<!-- <div layout-padding="10" ng-if="validateVariable">
-			<md-progress-linear md-mode="indeterminate" ></md-progress-linear>
-		</div> -->
 		</md-dialog-content>
+
+<!-- 		<div layout="row" class="m-modal__competence-list">
+			<div class="m-catalog-filter m-catalog-filter--in-competence js-filter-competence-catalog">
+				<input type="text" class="m-input m-input--in-demography__catalog m-input--in-competence__catalog" ng-model="search" ng-change="quickCompetenceFilter()" placeholder="Filtro rápido">
+			</div>
+			<div layout="row">
+				<wxy-push-menu menu="menu" options="_competence_options"></wxy-push-menu>
+			</div>
+		</div> -->
+	<div style="position:absolute;left:0;right:0;bottom: 0;">
+	<md-dialog-actions>
+		<md-button ng-click="cancel()" flex="50">Cancelar</md-button>
+		<md-button ng-click="ok(save_competence_variable_list)" flex="50">Listo</md-button>
+	</md-dialog-actions>
+	</div>
+	
+	
 </md-dialog>

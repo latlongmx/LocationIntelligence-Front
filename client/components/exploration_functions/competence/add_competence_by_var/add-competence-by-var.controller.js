@@ -4,8 +4,17 @@
 	*/
 	'use strict';
 
-	function AddCompetenceByVarController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, CompetenceVarJsonService){
-		
+	function AddCompetenceByVarController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, CompetenceVarJsonService, BaseMapService){
+		$scope.bounds = null;
+		$scope.nw = null;
+		$scope.se = null;
+		$scope.bbox = null;
+		BaseMapService.map.then(function (map) {
+			$scope.bounds = map.getBounds();
+			$scope.nw = $scope.bounds.getNorthWest();
+			$scope.se = $scope.bounds.getSouthEast();
+			$scope.bbox = [$scope.nw.lng, $scope.se.lat, $scope.se.lng, $scope.nw.lat].join(',');
+		});
 		var _newCompetenceVariables = null,
 		_resultProcess = null,
 		_matchWord = null,
@@ -26,7 +35,7 @@
 		_last_flag = null;
 		$scope.last_competence_checked = null;
 		$scope.current_competence_checked = null;
-		
+	
 		if (!$scope.save_competence_variable_list) {
 			$scope.save_competence_variable_list = [];
 		}
@@ -54,9 +63,9 @@
 			$scope.currentCompetenceItems = result.data;
 			$scope.list = true;
 			$scope.currentCompetenceVariables = {
-				"title":"DENUE",
-				"idCatalog": 1,
-				"icon": "fa fa-search",
+				"title":"WORD",
+				"idCatalog": 2,
+				"icon": "",
 				"items": $scope.currentCompetenceItems
 			};
 			$scope.menu = $scope.currentCompetenceVariables;
@@ -71,42 +80,42 @@
 			collapsed: false,
 			fullCollapse: true,
 			overlapWidth: 0,
+			mode: 'cover',
 			wrapperClass: 'multilevelpushmenu_wrapper--in-competence',
-			onExpandMenuStart: function() {
-				setTimeout(function(){
-					angular.element(document.getElementsByClassName('js-filter-competence-catalog')).addClass('is-filter-competence-active');
-				}, 500);
-				var search = angular.element(document.getElementsByClassName('testing'));
-				angular.element(search[0]).removeClass('fa-search').addClass('fa-times').css({
-					"-webkit-transition": "all linear 0.25s",
-					"-moz-transition": "all linear 0.25s",
-					"-o-transition": "all linear 0.25s",
-					"-ms-transition": "all linear 0.25s",
-					"transition": "all linear 0.25s"
-				});
-			},
-			onCollapseMenuEnd: function(event, item) {
-				var hide = angular.element(document.getElementsByClassName('testing'));
-				angular.element(hide[0]).removeClass('fa-times').addClass('fa-search');
-			},
-			onCollapseMenuStart: function() {
-				angular.element(document.getElementsByClassName('js-filter-competence-catalog')).removeClass('is-filter-competence-active').val("");
-			},
+			// onExpandMenuStart: function() {
+			// 	setTimeout(function(){
+			// 		angular.element(document.getElementsByClassName('js-filter-competence-catalog')).addClass('is-filter-competence-active');
+			// 	}, 500);
+			// 	var search = angular.element(document.getElementsByClassName('testing'));
+			// 	angular.element(search[0]).removeClass('fa-search').addClass('fa-times').css({
+			// 		"-webkit-transition": "all linear 0.25s",
+			// 		"-moz-transition": "all linear 0.25s",
+			// 		"-o-transition": "all linear 0.25s",
+			// 		"-ms-transition": "all linear 0.25s",
+			// 		"transition": "all linear 0.25s"
+			// 	});
+			// },
+			// onCollapseMenuEnd: function(event, item) {
+			// 	var hide = angular.element(document.getElementsByClassName('testing'));
+			// 	angular.element(hide[0]).removeClass('fa-times').addClass('fa-search');
+			// },
+			// onCollapseMenuStart: function() {
+			// 	angular.element(document.getElementsByClassName('js-filter-competence-catalog')).removeClass('is-filter-competence-active').val("");
+			// },
 			onItemClick: function(event, item) {
 				_variable_id = item.id;
 				_variable_name = item.name;
-				
 
 				if($scope._competence_variable_flag.indexOf(_variable_name) === -1){
 					$scope._competence_variable_flag.push(_variable_name);
 					$scope.save_competence_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
+					console.log($scope.save_competence_variable_list)
 					$mdToast.show(
 						$mdToast.simple({
 							textContent: 'Se agregó ' + _variable_name,
 							position: 'top right',
 							hideDelay: 1500,
-							parent: $document[0].querySelector('.m-side-panel--in-competence-modal'),
-							theme: 'info-toast',
+							parent: $document[0].querySelector('.md-dialog-container'),
 							autoWrap: true
 						})
 					);
@@ -114,7 +123,7 @@
 					if ($scope._competence_variable_flag.length === 1) {
 						$scope.current_competence_checked = $scope.save_competence_variable_list[0];
 						$scope.last_competence_checked = $scope.save_competence_variable_list[0];
-						_demographyWKTRequest($scope.save_competence_variable_list[0]._variable_id);
+						_addCompetenceToList($scope.save_competence_variable_list[0]._variable_id);
 					}
 				}
 
@@ -123,7 +132,7 @@
 						if ($scope._competence_variable_flag[i] === _variable_name){
 							$scope._competence_variable_flag.splice(i,1);
 							$scope.save_competence_variable_list.splice(i,1);
-							BaseMapFactory.delPobVivWMS();
+							//BaseMapFactory.delPobVivWMS();
 							break;
 						}
 					}
@@ -134,19 +143,18 @@
 							$scope.current_competence_checked = $scope.save_competence_variable_list[0];
 							$scope.last_competence_checked = $scope.save_competence_variable_list[0];
 						}, 500);
-						_demographyWKTRequest($scope.save_competence_variable_list[0]._variable_id);
+						_addCompetenceToList($scope.save_competence_variable_list[0]._variable_id);
 					}
 					
 					if ($scope._competence_variable_flag.length === 0) {
-						BaseMapFactory.delPobVivWMS();
+						//BaseMapFactory.delPobVivWMS();
 					}
 					$mdToast.show(
 						$mdToast.simple({
 							textContent: 'Se removió ' + _variable_name,
 							position: 'top right',
 							hideDelay: 2500,
-							parent: $document[0].querySelector('.m-side-panel--in-competence-modal'),
-							theme: 'error-toast'
+							parent: $document[0].querySelector('.md-dialog-container'),
 						})
 					);
 
@@ -163,30 +171,30 @@
 		 * @param  {[type]} list  [list of all variables]
 		 * @param  {[type]} index [currend variable index ]
 		 */
-		$scope.variableShowed = function(list, index){
-			_column_request = this.variable._variable_id;
-			$scope.last_competence_checked = $scope.current_competence_checked;
-			$scope.current_competence_checked = list.save_variable_list[index];
+		// $scope.variableShowed = function(list, index){
+		// 	_column_request = this.variable._variable_id;
+		// 	$scope.last_competence_checked = $scope.current_competence_checked;
+		// 	$scope.current_competence_checked = list.save_variable_list[index];
 			
-			for (var i = 0; i < list.save_variable_list.length; i++) {
-				list.save_variable_list[i].$index = false;
-			}
-			if ($scope.current_competence_checked === $scope.last_competence_checked) {
-				$scope.current_competence_checked = false;
-				BaseMapFactory.delPobVivWMS();
-			}
-			else {
-				$scope.current_competence_checked.$index = true;
-				BaseMapFactory.delPobVivWMS();
-				$scope.last_competence_checked = false;
-				_demographyWKTRequest(_column_request);
-			}
-		};
+		// 	for (var i = 0; i < list.save_variable_list.length; i++) {
+		// 		list.save_variable_list[i].$index = false;
+		// 	}
+		// 	if ($scope.current_competence_checked === $scope.last_competence_checked) {
+		// 		$scope.current_competence_checked = false;
+		// 		BaseMapFactory.delPobVivWMS();
+		// 	}
+		// 	else {
+		// 		$scope.current_competence_checked.$index = true;
+		// 		BaseMapFactory.delPobVivWMS();
+		// 		$scope.last_competence_checked = false;
+		// 		_addCompetenceToList(_column_request);
+		// 	}
+		// };
 
 		/**
 		 * [quickFilter Function to get filter values from catalog]
 		 */
-		$scope.quickFilter = function(){
+		$scope.quickCompetenceFilter = function(){
 			$scope._competence_array = [];
 			_resultProcess = null;
 			_matchWord = this.search;
@@ -199,7 +207,7 @@
 				$scope.menu = {
 					title: 'Resultados',
 					id: 'menuId',
-					icon: 'fa fa-search',
+					icon: '',
 					items: _newCompetenceVariables
 				};
 				angular.forEach($scope.save_competence_variable_list, function(item){
@@ -243,42 +251,17 @@
 		};
 		
 		/**
-		 * [_demographyWKTRequest Create Heatmap]
+		 * [_addCompetenceToList Create Heatmap]
 		 * @param  {[type]} param [description]
 		 */
-		var _demographyWKTRequest = function(param) {
-			BaseMapService.map.then(function (map) {
-				if(map.getZoom()<13){
-					console.log('zoom mayor');
-					return;
-				}
-				BaseMapFactory.setPobVivWMS(param);
-
-				// if(map.getZoom()<15){
-				// 	console.log('zoom mayor');
-				// 	return;
-				// }
-
-				// var demographyWKT = BaseMapFactory.bounds2polygonWKT(map.getBounds());
-				// if(demographyWKT){
-				// 	BaseMapService.intersect({
-				// 		s:'inegi',
-				// 		t: 'pobviv2010',
-				// 		c: param,
-				// 		w:'',
-				// 		wkt: demographyWKT,
-				// 		mts: 0
-				// 	}).then(function(result){
-				// 		if(result && result.data){
-				// 			var info = result.data.info;
-				// 			var geojson = result.data.geojson;
-				// 			BaseMapFactory.addColorPletMap(geojson,param);
-				// 		}
-				// 	}, function(error){
-				// 		console.log(error);
-				// 	});
-				// }
-			});
+		var _addCompetenceToList = function(param) {
+			console.log($scope.bbox)
+				BaseMapService.addCompetenciaQuery({
+					qf:"cod:"+param,  /* <--- query a buscar  */
+					qb: $scope.bbox,  /* <--- bbox del mapa para sacar la entidad que esta visualizando*/
+					competence:"1",
+					nm: 'Competencia - oxxo'  // Nombre del layer
+				});
 		};
 		
 		$scope.removeVariable = function(parent,index) {
@@ -301,7 +284,7 @@
 				$scope.save_competence_variable_list[0].$index = true;
 				$scope.current_competence_checked = $scope.save_competence_variable_list[0];
 				$scope.last_competence_checked = $scope.save_competence_variable_list[0];
-				_demographyWKTRequest($scope.save_competence_variable_list[0]._variable_id);
+				_addCompetenceToList($scope.save_competence_variable_list[0]._variable_id);
 			}
 
 		}
@@ -320,10 +303,22 @@
 				})
 			);
 		}
+		
+		$scope.hide = function() {
+			$mdDialog.hide();
+		};
+
+		$scope.cancel = function() {
+			$mdDialog.cancel();
+		};
+		
+		$scope.ok = function() {
+			$mdDialog.hide($scope.save_competence_variable_list);
+		};
 
 	};
 
-	AddCompetenceByVarController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'CompetenceVarJsonService'];
+	AddCompetenceByVarController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'CompetenceVarJsonService', 'BaseMapService'];
 
 	angular.module('add.competence.var.controller', []).
 	controller('AddCompetenceByVarController', AddCompetenceByVarController);
