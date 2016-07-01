@@ -30,9 +30,8 @@
 		var factory = {};
 		var _factory = factory;
 
-		factory.LAYERS = {
-			USER: {}
-		};
+		factory.LAYERS = {};
+		factory.LAYERS.USER = {};
 
 		factory.API_URL = 'http://52.8.211.37/api.walmex.latlong.mx';
 
@@ -193,7 +192,8 @@
 				};
 			}else if(layer==='other_table'){
 			}
-			var myLayer = L.geoJson(GeoJSON, opts).addTo(map);
+			factory.LAYERS.USER[layer] = new L.geoJson(GeoJSON, opts);
+			factory.LAYERS.USER[layer].addTo(map);
 		};
 		/**
 		 * [addGeoJSON: Lee la geometria dibujada y regresa WKT]

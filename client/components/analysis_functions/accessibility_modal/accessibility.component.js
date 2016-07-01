@@ -17,6 +17,11 @@
 			'circle':null
 		};
 
+		var _$contentCount = {
+			vehi:undefined,
+			trns:undefined
+		};
+
 		return {
 			restrict: 'E',
 			replace: true,
@@ -42,12 +47,21 @@
 								'</button>',
 							'</div>',
 						'</span>',
+						'<div>',
+						'<p>Vías de acceso vehicular</p>',
+						'<div id="access_car_content"></div>',
+						'<p>Vías de acceso en transporte</p>',
+						'<div id="access_trans_content"></div>',
+						'</div>',
 					'</div>',
 				'</div>'
 			].join(''),
 			link: function(scope, element, attr, potencialCtrl){
 
-
+				_$contentCount = {
+					vehi : angular.element(document.getElementById('access_car_content')),
+					trns : angular.element(document.getElementById('access_trans_content'))
+				};
 
 				BaseMapService.map.then(function (map) {
 					_map = map;
@@ -86,6 +100,10 @@
 						scope.isDrawAccessibility = false;
 						console.log(e.target);
 						_currentFeature = e;
+						_editableLayers.clearLayers();
+						if(BaseMapFactory.LAYERS.USER.inter15_vias !== undefined){
+							BaseMapFactory.LAYERS.USER.inter15_vias.clearLayers();
+						}
 						_editableLayers.addLayer( _currentFeature.layer );
 					}
 				};
@@ -107,6 +125,17 @@
 						if(res && res.data){
 							var info = res.data.info;
 							var geojson = res.data.geojson;
+
+							//Count tipo de features
+							var tips = _.map(geojson.features,function(o){
+								return o.properties;
+							});
+							var cnts = _.countBy(tips,'tipovial');
+							_$contentCount.vehi.html('');
+							_.each(cnts,function(v, i){
+								_$contentCount.vehi.append('<br/>'+i+':'+v);
+							});
+							
 							BaseMapFactory.addGeoJSON2Map(geojson, 'inter15_vias');
 						}
 					}, function(error){
