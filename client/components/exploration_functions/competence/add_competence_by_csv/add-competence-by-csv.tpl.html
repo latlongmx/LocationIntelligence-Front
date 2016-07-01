@@ -8,15 +8,15 @@
 				</md-button>
 			</div>
 		</md-toolbar>
-		<md-dialog-content class="m-dialog__content">
+		<md-dialog-content layout-padding="1">
 			<div layout="row">
-				<div layout="column" flex="50" layout-padding="2">
+				<div layout="column" flex="50" layout-padding="1">
 					<h5 class="normal color-gray75" style="margin:0;"><span><strong>*</strong></span>Subir archivo .csv</h5>
 					<label layout-align="center center" for="input-file-id" class="well my-drop-zone" filters="customFilter" nv-file-drop nv-file-over uploader="uploader">Arrastre y suelte o haga click</label>
 					<input class="ng-hide" id="input-file-id" type="file" nv-file-select uploader="uploader" filters="customFilter"/>
 					<p class="m-dialog__content-file color-gray50">{{ csv }}</p>
 				</div>
-				<div layout="column" flex="50" layout-padding="2">
+				<div layout="column" flex="50" layout-padding="1">
 					<h5 class="normal color-gray75" style="margin:0;">Subir icono</h5>
 					<label layout-align="center center" for="input-icon-id" class="well my-drop-zone" filters="imageFilter" nv-file-drop nv-file-over uploader="uploader">Arrastre y suelte o haga click</label>
 					<input class="ng-hide" id="input-icon-id" type="file" nv-file-select uploader="uploader" filters="imageFilter"/>
@@ -25,33 +25,32 @@
 
 			</div>
 			<div ng-if="set_columns">
-				<form name="newLocationForm">
-					<h5 class="normal color-gray75" layout-padding="2" style="margin:0;"><span style="padding:0;"><strong>*</strong></span>Nombre de la categoría</h5>
-					<div layout="row" layout-padding="2">
-						<md-input-container flex="100" class="md-block">
-						<label>Categoría</label>
-						<input type="text" ng-model="location.nm" name="category" autocomplete="off" required>
-						<span class="error-input" ng-show="newLocationForm.category.$invalid && submitted">Error</span>
+				<form name="newCompetenceCsvForm">
+					<h5 class="normal color-gray75" style="margin:0;"><span style="padding:0 8px;"><strong>*</strong></span>Nombre de la competencia</h5>
+					<div layout="row">
+						<md-input-container flex="100" class="md-block" layout-padding="1" style="margin:0;">
+						<input type="text" ng-model="competence_csv.nm" name="competence" autocomplete="off" required>
+						<span class="error-input" ng-show="newCompetenceCsvForm.competence.$invalid && submitted">Error</span>
 						</md-input-container>
 					</div>
 					<div layout="row">
-						<md-input-container flex="50" layout-padding="2">
+						<md-input-container flex="50" layout-padding="1">
 							<h5 class="normal color-gray75" style="margin:0;"><span><strong>*</strong></span>Latitud</h5>
 							<label>Latitud</label>
-							<md-select ng-model="location.lat" required>
+							<md-select ng-model="competence_csv.lat" required>
 								<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
 							</md-select>
 						</md-input-container>
-						<md-input-container flex="50" layout-padding="2">
+						<md-input-container flex="50" layout-padding="1">
 							<h5 class="normal color-gray75" style="margin:0;"><span><strong>*</strong></span>Longitud</h5>
 							<label>Longitud</label>
-							<md-select ng-model="location.lng" required>
+							<md-select ng-model="competence_csv.lng" required>
 								<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
 							</md-select>
 						</md-input-container>
 					</div>
 					<div layout="row">
-						<button class="md-primary md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="uploader.loadFile(newLocationForm, location)" ng-disabled="newLocationForm.$invalid">Subir archivo</button>
+						<button class="md-primary md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="uploader.loadCompetenceCsv(newCompetenceCsvForm, competence_csv)" ng-disabled="newCompetenceCsvForm.$invalid">Subir archivo</button>
 						<button class="md-warn md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="cancel()">Cancelar</button>
 					</div>
 				</form>

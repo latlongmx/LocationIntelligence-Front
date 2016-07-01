@@ -67,8 +67,11 @@
 							});
 						}
 					}
+					
+					
 					if (_data_ep === "competence"){
-						if (!$scope.competences){
+						
+						if (!$scope.save_competence_variable_list){
 							$scope.competence_list = true;
 							LocationService.getLocations({
 								competence: '1'

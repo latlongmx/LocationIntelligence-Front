@@ -148,16 +148,16 @@
 			$mdDialog.cancel();
 		};
 		
-		uploader.loadFile = function(validForm, locationData) {
+		uploader.loadCompetenceCsv = function(validForm, competenceCsvData) {
 			if (validForm.$valid === true) {
 				var pin = uploader.queue;
 				var icon = null;
 				var csv = null;
 				var idLayer = null;
 				var formData = new FormData();
-				formData.append('nm', locationData.nm );
-				formData.append('lat', locationData.lat );
-				formData.append('lng', locationData.lng );
+				formData.append('nm', competenceCsvData.nm );
+				formData.append('lat', competenceCsvData.lat );
+				formData.append('lng', competenceCsvData.lng );
 
 				if (uploader.queue.length === 1 && uploader.queue[0]._file.type === "text/csv" || uploader.queue[0]._file.type === "application/vnd.ms-excel") {
 					csv = pin[0]._file;
@@ -169,6 +169,7 @@
 					formData.append('pin', icon);
 					formData.append('file', csv );
 				}
+				formData.append('competence', 1 );
 
 				
 				LocationService.addNewLocation( formData )
