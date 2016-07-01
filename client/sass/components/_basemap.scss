@@ -35,6 +35,13 @@
 // 	}
 // }
 
+.leaflet-top.leaflet-left{
+	z-index:1;
+}
+
+.leaflet-bottom.leaflet-right {
+	z-index:10;
+}
 
 .leaflet-left{
 	right: 0;
