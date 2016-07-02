@@ -17,16 +17,6 @@
 			$scope.name_bbox = [$scope.name_nw.lng, $scope.name_se.lat, $scope.name_se.lng, $scope.name_nw.lat].join(',');
 		});
 
-		$scope.hide = function() {
-			uploader.clearQueue();
-			$mdDialog.hide();
-		};
-
-		$scope.cancel = function() {
-			uploader.clearQueue();
-			$mdDialog.cancel();
-		};
-		
 		$scope.loadCompetenceName = function(validForm, competenceNameData) {
 			if (validForm.$valid === true) {
 				BaseMapService.addCompetenciaQuery({
@@ -56,37 +46,14 @@
 
 		}
 		
-		var _validateFile = function(file) {
-			
-			$scope.validateFile = true;
-			var fileType = file._file.type;
-			$timeout(function(){
-				if (fileType === "text/csv" || fileType === "application/vnd.ms-excel") {
-					_chooseLatLng(file._file);
-					uploader.queue[0].file.type === fileType ? $scope.csv = uploader.queue[0].file.name : $scope.csv = uploader.queue[1].file.name;
-				}
-				else {
-					_showToastMessage('Icono válido');
-					uploader.queue[0].file.type === fileType ? $scope.icon = uploader.queue[0].file.name : $scope.icon = uploader.queue[1].file.name;
-				}
-				$scope.validateFile = false;
-			}, 2500);
+		$scope.hide = function() {
+			uploader.clearQueue();
+			$mdDialog.hide();
+		};
 
-			var _chooseLatLng = function(evt) {
-				LocationFactory.processCSV(evt,function(columns){
-					if (columns && columns.length >= 3) {
-						_showToastMessage('Archivo válido');
-						$scope.set_columns = true;
-						$scope.items = columns;
-					}
-					else {
-						uploader.clearQueue();
-						_showToastMessage('Archivo removido porque no cumple con el número de columnas (3)');
-						$scope.csv = "";
-					}
-				});
-			}
-		}
+		$scope.cancel = function() {
+			$mdDialog.cancel();
+		};
 		
 
 		/**

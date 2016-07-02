@@ -117,6 +117,7 @@
 				}
 				
 				scope.editLayerLocation = function(layer){
+					var _this = this;
 					$mdDialog.show({
 						controller: 'EditLayerLocationController',
 						templateUrl: './components/exploration_functions/location/edit_layer/edit-layer.location.tpl.html',
@@ -127,21 +128,19 @@
 							layer_id: layer
 						},
 					})
-					.then(function(newLocations) {
-						console.log(newLocations)
-						// if (newLocations) {
-						// 	LocationService.getLocations().then(function(res){
-						// 		if(res.data && res.data.places){
-						// 			var lastLayer = res.data.places[res.data.places.length -1];
-						// 			var idLayer = lastLayer.id_layer+'-'+lastLayer.name_layer.replace(' ','_');
-						// 			scope.locations.push(lastLayer);
-						// 			BaseMapFactory.addLocation({
-						// 				name: idLayer,
-						// 				data: lastLayer.data
-						// 			});
-						// 		}
-						// 	});
-						//}
+					.then(function(newUpdate) {
+						if (newUpdate) {
+							if (newUpdate.icon) {
+								// _.each(scope.locations, function(loc, index){
+								// 	loc.data[index].pin_url = newUpdate.icon;
+								// });
+								
+							}
+							if (newUpdate.nom) {
+								_this.location.name_layer = newUpdate.nom;
+							}
+							_this.location.id_layer = newUpdate.id_l;
+						}
 					}, function(failAdding) {
 						console.log(failAdding);
 					});
@@ -165,14 +164,15 @@
 				// }
 
 				scope.zoomToLayer = function(id_layer, name_layer) {
-					var id = id_layer +'-'+ name_layer.replace(' ','_');
+					var n_l = name_layer.replace(' ','_');
+					var id = id_layer +'-'+ n_l;
 					BaseMapFactory.zoomLocation(id);
 				}
 
 				scope.turnOnOffLayer = function(layer, loc) {
 					_thisLocationIsTrue = this;
-					console.log(loc)
-					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
+					var n_l = loc.name_layer.replace(' ','_');
+					var id = loc.id_layer +'-'+ n_l;
 					if(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true){
 						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue, id_layer: id});
 					}
@@ -211,7 +211,6 @@
 
 				scope.toggleGral = function() {
 					if(this.all === true) {
-						console.log(scope.toggleLocations)
 						_.each(scope.toggleLocations, function(loc){
 							loc.location.layer = false;
 							scope.is_toggle_gral = true;

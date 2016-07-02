@@ -5,11 +5,14 @@
 	'use strict';
 
 	function LocationService($q, $http, Auth){
-		var deferred = null,
-		_testRequest = null;
+		var deferred = null;
 		return {
 			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
 
+			/**
+			 * [addNewLocation Add new locations to map]
+			 * @param {[type]} formData [Serialized data from form]
+			 */
 			addNewLocation: function(formData){
 				var access_token = Auth.getToken();
 				deferred = $q.defer();
@@ -31,10 +34,15 @@
 				});
 				return deferred.promise;
 			},
-
+			
+			/**
+			 * [getLocations Get all locations to map]
+			 * @param  {[type]} opts [Only for competence locations]
+			 */
 			getLocations: function(opts){
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
+
 				var _locations = $http({
 					url: this.apiBaseURL+'/ws/places',
 					method: "GET",
@@ -54,10 +62,15 @@
 				});
 				return deferred.promise;
 			},
-
+			
+			/**
+			 * [delLocation Remove a layer from Map and Database]
+			 * @param  {[type]} id [Id of layer to remove]
+			 */
 			delLocation: function(id){
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
+
 				var _locations = $http({
 					url: this.apiBaseURL+'/ws/places/'+id,
 					method: "DELETE",
@@ -77,6 +90,11 @@
 				return deferred.promise;
 			},
 
+			/**
+			 * [updateLocationVar Update name and/or icon from an item list]
+			 * @param  {[type]} formData [Serialized data from form]
+			 * @param  {[type]} id_layer [description]
+			 */
 			updateLocationVar: function(formData, id_layer){
 				var access_token = Auth.getToken();
 				deferred = $q.defer();
@@ -88,7 +106,6 @@
 					transformRequest: angular.identity,
 					headers: {
 						'Content-Type': undefined,
-						//'Content-Type': 'multipart/form-data', //'application/x-www-form-urlencoded',
 						'Authorization': 'Bearer '+access_token.access_token
 					}
 				})
