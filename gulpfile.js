@@ -26,7 +26,7 @@ gulp.task('lib3', function() {
 });
 gulp.task('lib4', function() {
 	log('Copying external resources');
-	return gulp.src('./jslibs/*.js')
+	return gulp.src('./jslibs/**/*')
 		.pipe(gulp.dest('./bower_components/jslibs/'));
 });
 
@@ -58,7 +58,7 @@ gulp.task('js', function(){
 	log('Analizyng components...');
 	gulp.src(['./client/components/**/*.js'])
 	.pipe($.jshint())
-	.pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
+	.pipe($.jshint.reporter('jshint-stylish', {verbose: true}));
 });
 
 gulp.task('sass', ['cleaning-styles'], function () {
@@ -75,7 +75,7 @@ gulp.task('template', ['clean-templatecache'], function(){
 	var options = {
 		module: 'walmex',
 		root: './components/'
-	}
+	};
 	return gulp.src('./client/components/**/*.html')
 		.pipe($.minifyHtml({empty: true}))
 		.pipe($.angularTemplatecache(
@@ -157,6 +157,7 @@ gulp.task('dev-server', function(){
 gulp.task('watch', ['sass'], function(){
 	log('Watching files!');
 	gulp.watch('client/components/**/*.js', ['js']);
+	gulp.watch('jslibs/**/*.js', ['js']);
 	gulp.watch('client/components/**/**/*.scss', ['sass']);
 	gulp.watch('client/sass/**/*.scss', ['sass']);
 	gulp.watch('client/sass/config.scss', ['sass']);

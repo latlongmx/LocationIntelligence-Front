@@ -3,6 +3,7 @@
 	position:absolute;
 	top:0;
 	width:100%;
+	z-index:0;
 }
 
 .leaflet-bar,
@@ -187,7 +188,7 @@
 			display: block;
 			margin: 0 auto;
 			text-align: center;
-			
+
 		}
 	}
 }
@@ -229,4 +230,3 @@
 		background-image: none;
 	}
 }
-
