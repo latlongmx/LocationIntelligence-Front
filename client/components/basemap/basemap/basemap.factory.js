@@ -1,25 +1,4 @@
 (function(){
-	L.TileLayer.DynamicWMS = L.TileLayer.WMS.extend({
-		dinamicWmsParams: {
-		},
-		setDynamicParam: function(params){
-			L.extend(this.dinamicWmsParams, params);
-		},
-		getTileUrl: function (coords) {
-			var params = L.TileLayer.WMS.prototype.getTileUrl.call(this, coords);
-			for(var o in this.dinamicWmsParams){
-				if(typeof this.dinamicWmsParams[o] === 'function'){
-					params += "&"+o+"="+this.dinamicWmsParams[o]();
-				}
-			}
-			return params;
-		}
-	});
-	L.tileLayer.dynamicWms = function (url, options) {
-	return new L.TileLayer.DynamicWMS(url, options);
-};
-}());
-(function(){
 	/*
 	* BaseMap Factory
 	* factory para leer
@@ -30,11 +9,16 @@
 		var factory = {};
 		var _factory = factory;
 
-		factory.LAYERS = {
-			USER: {}
-		};
+		factory.LAYERS = {};
+		factory.LAYERS.USER = {};
 
 		factory.API_URL = 'http://52.8.211.37/api.walmex.latlong.mx';
+
+		factory._map = undefined;
+
+		BaseMapService.map.then(function (map) {
+			factory._map = map;
+		});
 
 		/**
 		 * [getCoords: Lee las coordenas de una geometria y regresa un arreglo]
@@ -193,7 +177,8 @@
 				};
 			}else if(layer==='other_table'){
 			}
-			var myLayer = L.geoJson(GeoJSON, opts).addTo(map);
+			factory.LAYERS.USER[layer] = new L.geoJson(GeoJSON, opts);
+			factory.LAYERS.USER[layer].addTo(map);
 		};
 		/**
 		 * [addGeoJSON: Lee la geometria dibujada y regresa WKT]
@@ -211,6 +196,12 @@
 			var self = this;
 			BaseMapService.map.then(function (map) {
 				self.addLayer(map, 'competencia', GeoJSON);
+			});
+		};
+
+		factory.refreshLayer = function(idLayer, name, url_icon){
+			BaseMapService.map.then(function (map) {
+				//factory.LAYERS.USER[idLayer]
 			});
 		};
 
@@ -305,7 +296,22 @@
 		};
 
 		factory.addLocation = function(obj){
-			BaseMapService.map.then(function (map) {
+			var access_token = Auth.getToken().access_token;
+			var id = obj.name.split('-')[0];
+
+			factory.LAYERS.USER['u'+id] = new L.nonTiledLayer.wms(
+				"http://52.8.211.37/api.walmex.latlong.mx/ws/ws_wms?access_token="+access_token+"&",
+			{
+				layers: 'U'+id,
+				format: 'image/png',
+				minZoom: 10,
+				transparent: true
+			});
+			factory.LAYERS.USER['u'+id].options.crs = L.CRS.EPSG4326;
+			factory.LAYERS.USER['u'+id].addTo(factory._map);
+			//factory.LAYERS.USER['u'+id].setZIndex(9);
+
+			/*BaseMapService.map.then(function (map) {
 				var access_token = Auth.getToken();
 				var points = [];
 				_.each(obj.data,function(p){
@@ -327,17 +333,21 @@
 					points.push( L.marker([p.y, p.x], {icon: icon}).bindPopup(html) );
 				});
 				_factory.LAYERS.USER[obj.name] = L.featureGroup(points);
-			});
+			});*/
 		};
 		factory.hideLocation = function(name){
-			BaseMapService.map.then(function (map) {
+			var id = name.split('-')[0];
+			factory._map.removeLayer( factory.LAYERS.USER['u'+id] );
+			/*BaseMapService.map.then(function (map) {
 				map.removeLayer( _factory.LAYERS.USER[name] );
-			});
+			});*/
 		};
 		factory.showLocation = function(name){
-			BaseMapService.map.then(function (map) {
+			var id = name.split('-')[0];
+			factory._map.addLayer( factory.LAYERS.USER['u'+id] );
+			/*BaseMapService.map.then(function (map) {
 				map.addLayer( _factory.LAYERS.USER[name] );
-			});
+			});*/
 		};
 		factory.zoomLocation = function(name){
 			BaseMapService.map.then(function (map) {

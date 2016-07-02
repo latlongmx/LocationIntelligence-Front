@@ -28,7 +28,7 @@
 			'demography.directive',
 			'potential.directive',
 			'analysis.directive',
-			'accessibility.modal.controller',
+			'accessibility.directive',
 			'heatmap.modal.controller',
 			'od.modal.controller',
 			'rings.modal.controller',
