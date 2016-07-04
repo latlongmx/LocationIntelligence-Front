@@ -306,9 +306,9 @@
 		factory.addLocationID = function(id){
 			var access_token = Auth.getToken().access_token;
 			factory.LAYERS.USER['u'+id] = new L.nonTiledLayer.wms(
-				"http://52.8.211.37/api.walmex.latlong.mx/ws/ws_wms?access_token="+access_token+"&t=" + (new Date().getTime()),
+				"http://52.8.211.37/api.walmex.latlong.mx/ws/ws_wms?LID="+id+"&access_token="+access_token+"&t=" + (new Date().getTime()),
 			{
-				layers: 'U'+id,
+				layers: 'usermap',
 				format: 'image/png',
 				minZoom: 10,
 				transparent: true
