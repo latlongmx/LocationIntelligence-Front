@@ -4,14 +4,14 @@
 	*/
 	'use strict';
 
-	function EditLayerLocationController($scope, $mdDialog, $mdToast, $interval, $timeout, $document, FileUploader, layer_id, LocationService){
-	
-		
+	function EditLayerLocationController($scope, $mdDialog, $mdToast, $interval, $timeout, $document, FileUploader, layer_id, LocationService, BaseMapFactory){
+
+
 		var uploader = $scope.uploader = new FileUploader({
 			queueLimit: 1,
 			isUploading: true
 		});
-		
+
 		uploader.filters.push({
 			name: 'updateImageFilter',
 			fn: function(item, options) {
@@ -32,11 +32,11 @@
 				}
 			}
 		});
-		
+
 		uploader.onAfterAddingFile = function(item) {
 			_validateImage(item);
 		}
-		
+
 		var _validateImage = function(file) {
 			$scope.validatingImage = true;
 			var fileType = file._file.type;
@@ -49,7 +49,7 @@
 				$scope.validatingImage = false;
 			}, 2500);
 		}
-		
+
 		uploader.updateFields = function(validForm, updateData) {
 			var pin = uploader.queue;
 			var icon = null;
@@ -69,6 +69,7 @@
 
 			LocationService.updateLocationVar( formData, idLayer )
 			.then(function(data){
+				BaseMapFactory.updateLocationID(idLayer);
 				console.log(data)
 				// if (data.status === 200) {
 				// 	idLayer = data.data.id_layer;
@@ -94,7 +95,7 @@
 				})
 			);
 		}
-		
+
 		$scope.hide = function() {
 			$mdDialog.hide();
 		};
@@ -105,7 +106,7 @@
 
 	};
 
-	EditLayerLocationController.$inject = ['$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', '$document', 'FileUploader', 'layer_id', 'LocationService'];
+	EditLayerLocationController.$inject = ['$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', '$document', 'FileUploader', 'layer_id', 'LocationService', 'BaseMapFactory'];
 
 	angular.module('edit.layer.location.controller', []).
 	controller('EditLayerLocationController', EditLayerLocationController);
