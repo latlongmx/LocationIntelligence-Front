@@ -35,8 +35,12 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3', 'lib4'], function(){
 		.pipe(wiredep({
 			bowerJson: require('./bower.json'),
 			directory: 'bower_components',
-			ignorePath: '../../'
+			ignorePath: '../../',
+			exclude: 'bower_components/jquery/dist/jquery.js'
 		}))
+		.pipe($.inject(gulp.src([
+			'bower_components/jquery/dist/jquery.js',
+			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:jq -->'}))
 		.pipe($.inject(gulp.src([
 			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-1.3.2.js',
 			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-tpls-1.3.2.js',
