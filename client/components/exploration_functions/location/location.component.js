@@ -146,23 +146,6 @@
 					});
 				}
 
-				// scope.addIconLocation = function(ev) {
-				// 	$mdDialog.show({
-				// 		controller: 'AddIconLocationController',
-				// 		templateUrl: './components/exploration_functions/location/add_icon/add-icon-location.tpl.html',
-				// 		parent: angular.element(document.body),
-				// 		targetEvent: ev,
-				// 		clickOutsideToClose:true
-				// 	})
-				// 	.then(function(newIcon) {
-				// 		_changeLocationIcon = angular.element(document.getElementById(ev));
-				// 		_changeLocationIcon[0].textContent = newIcon;
-
-				// 	}, function(failAddingIcon) {
-				// 		console.log(failAddingIcon)
-				// 	});
-				// }
-
 				scope.zoomToLayer = function(id_layer, name_layer) {
 					var n_l = name_layer.replace(' ','_');
 					var id = id_layer +'-'+ n_l;

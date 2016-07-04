@@ -1,5 +1,5 @@
 .m-search {
-	left: 10px;
+	left: 80px;
 	position: absolute;
 	top:10px;
 	z-index:1;
@@ -10,7 +10,7 @@
 	border: 0;
 	color: $gray;
 	font-weight: 400;
-	height: 35px;
+	height:40px;
 	outline: 0;
 	padding: 0px 24px 0px 10px;
 	width: 250px;
@@ -19,7 +19,7 @@
 .m-search__icon {
 	background: $white;
 	cursor:pointer;
-	padding: 7.5px 14.5px;
+	padding: 12px 14.5px;
 	position: absolute;
 	right: 0px;
 	top: 0px;
