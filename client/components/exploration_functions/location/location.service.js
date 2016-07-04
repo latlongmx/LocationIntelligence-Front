@@ -82,8 +82,8 @@
 				deferred = $q.defer();
 
 				$http({
-					url: this.apiBaseURL+'/ws/places/'+id_layer, 
-					method: "PUT",
+					url: this.apiBaseURL+'/ws/places_u/'+id_layer,
+					method: "POST",
 					data: formData,
 					transformRequest: angular.identity,
 					headers: {
