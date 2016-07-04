@@ -295,65 +295,64 @@
 			}
 		};
 
+		/********************************************/
+		/********************************************/
+		/********************************************/
+		//Inicio Mis Ubicaciones y competencias
 		factory.addLocation = function(obj){
-			var access_token = Auth.getToken().access_token;
 			var id = obj.name.split('-')[0];
-
+			factory.addLocationID(id);
+		};
+		factory.addLocationID = function(id){
+			var access_token = Auth.getToken().access_token;
 			factory.LAYERS.USER['u'+id] = new L.nonTiledLayer.wms(
-				"http://52.8.211.37/api.walmex.latlong.mx/ws/ws_wms?access_token="+access_token+"&",
+				"http://52.8.211.37/api.walmex.latlong.mx/ws/ws_wms?LID="+id+"&access_token="+access_token+"&t=" + (new Date().getTime()),
 			{
-				layers: 'U'+id,
+				layers: 'usermap',
 				format: 'image/png',
 				minZoom: 10,
 				transparent: true
 			});
 			factory.LAYERS.USER['u'+id].options.crs = L.CRS.EPSG4326;
+			//factory.LAYERS.USER['u'+id].addTo(factory._map);
+		};
+		factory.updateLocation = function(name){
+			var id = name.split('-')[0];
+			factory.updateLocationID(id);
+		};
+		factory.updateLocationID = function(id){
+			factory._map.removeLayer( factory.LAYERS.USER['u'+id] );
+			factory.addLocationID(id);
 			factory.LAYERS.USER['u'+id].addTo(factory._map);
-			//factory.LAYERS.USER['u'+id].setZIndex(9);
-
-			/*BaseMapService.map.then(function (map) {
-				var access_token = Auth.getToken();
-				var points = [];
-				_.each(obj.data,function(p){
-					var url = factory.API_URL+'/icons/supermarket.png';
-					if(p.pin_url && p.pin_url !== ''){
-						url = factory.API_URL+ '/ws/icon?nm=' +p.pin_url+'&access_token='+access_token.access_token;
-					}
-					var icon = new L.icon({
-						iconUrl: url,
-						iconSize:[32, 32]
-					});
-					var data = p.data_values;
-					var html = '';
-					for(var o in data){
-					  for(var r in data[o]){
-							html += '<strong>'+r+'</strong>: '+data[o][r]+'<br>';
-					  }
-					}
-					points.push( L.marker([p.y, p.x], {icon: icon}).bindPopup(html) );
-				});
-				_factory.LAYERS.USER[obj.name] = L.featureGroup(points);
-			});*/
 		};
 		factory.hideLocation = function(name){
 			var id = name.split('-')[0];
-			factory._map.removeLayer( factory.LAYERS.USER['u'+id] );
-			/*BaseMapService.map.then(function (map) {
-				map.removeLayer( _factory.LAYERS.USER[name] );
-			});*/
+			factory.hideLocationID(id);
 		};
+		factory.hideLocationID = function(id){
+			factory._map.removeLayer( factory.LAYERS.USER['u'+id] );
+		};
+
 		factory.showLocation = function(name){
 			var id = name.split('-')[0];
-			factory._map.addLayer( factory.LAYERS.USER['u'+id] );
-			/*BaseMapService.map.then(function (map) {
-				map.addLayer( _factory.LAYERS.USER[name] );
-			});*/
+			factory.showLocationID(id);
 		};
+		factory.showLocationID = function(id){
+			factory._map.addLayer( factory.LAYERS.USER['u'+id] );
+		};
+
 		factory.zoomLocation = function(name){
 			BaseMapService.map.then(function (map) {
 				map.fitBounds( _factory.LAYERS.USER[name].getBounds() );
 			});
 		};
+		//Fin Mis Ubicaciones y competencias
+		/********************************************/
+		/********************************************/
+		/********************************************/
+
+
+
 		factory.addHeatMap = function(options){
 			BaseMapService.map.then(function (map) {
 				options.wkt = _factory.bounds2polygonWKT(map.getBounds());

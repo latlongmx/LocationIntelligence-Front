@@ -35,15 +35,27 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3', 'lib4'], function(){
 		.pipe(wiredep({
 			bowerJson: require('./bower.json'),
 			directory: 'bower_components',
-			ignorePath: '../../'
+			ignorePath: '../../',
+			exclude: 'bower_components/jquery/dist/jquery.js'
 		}))
+		.pipe($.inject(gulp.src([
+			'bower_components/jquery/dist/jquery.js',
+			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:jq -->'}))
 		.pipe($.inject(gulp.src([
 			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-1.3.2.js',
 			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-tpls-1.3.2.js',
 			'bower_components/angular-multilevelpushmenu/pushmenu.js',
 			'bower_components/md5/md5.js',
-			'bower_components/jslibs/Leaflet.heat.js'
+			'bower_components/jslibs/leaflet/leaflet.js',
+			'bower_components/jslibs/leaflet-draw/leaflet.draw.js',
+			'bower_components/jslibs/leaflet-heat/Leaflet.heat.js',
+			'bower_components/jslibs/NonTiledLayer.js',
+			'bower_components/jslibs/NonTiledLayer.WMS.js',
 			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:js -->'}))
+		.pipe($.inject(gulp.src([
+			'bower_components/jslibs/leaflet/leaflet.css',
+			'bower_components/jslibs/leaflet-draw/leaflet.draw.css',
+			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:css -->'}))
 		.pipe($.inject(gulp.src([
 			'./client/styles/styles.css'
 		]), {ignorePath: '../../', relative: true}))
