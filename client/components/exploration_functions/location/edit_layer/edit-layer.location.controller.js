@@ -42,7 +42,7 @@
 			var fileType = file._file.type;
 
 			$timeout(function(){
-				if (fileType === "image/png" || fileType === "image/jpeg" || fileType === "image/jpg") {
+				if (fileType === "image/png") {
 					_showToastMessage('Icono válido');
 					$scope.iconName = uploader.queue[0].file.name;
 				}
@@ -89,11 +89,9 @@
 				}
 				BaseMapFactory.updateLocationID(idLayer);
 				console.log(data)
-				// if (data.status === 200) {
-				// 	idLayer = data.data.id_layer;
-				// 	uploader.clearQueue();
-				// 	$mdDialog.hide(idLayer);
-				// }
+				if (data.status === 200) {
+					$mdDialog.hide(true);
+				}
 			}, function(error){
 				console.log(error)
 			});

@@ -62,7 +62,7 @@
 											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 												'<md-icon>zoom_in</md-icon>',
 											'</md-button>',
-											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerLocation(location.id_layer)">',
+											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerLocation($parent, location)">',
 												'<md-icon>create</md-icon>',
 											'</md-button>',
 											'<md-button data-id-layer="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeLocation(location, location.id_layer, location.name_layer, $index)">',
@@ -115,31 +115,31 @@
 						console.log(failAdding);
 					});
 				}
-				
-				scope.editLayerLocation = function(layer){
-					var _this = this;
+
+				scope.editLayerLocation = function(this_item, location_item){
+					var id = location_item.id_layer +'-'+ location_item.name_layer.replace(' ','_');
 					$mdDialog.show({
 						controller: 'EditLayerLocationController',
 						templateUrl: './components/exploration_functions/location/edit_layer/edit-layer.location.tpl.html',
 						parent: angular.element(document.body),
-						targetEvent: layer,
+						targetEvent: location_item.id_layer,
 						clickOutsideToClose:true,
 						locals: {
-							layer_id: layer
+							layer_id: location_item.id_layer
 						},
 					})
-					.then(function(newUpdate) {
-						if (newUpdate) {
-							if (newUpdate.icon) {
-								// _.each(scope.locations, function(loc, index){
-								// 	loc.data[index].pin_url = newUpdate.icon;
-								// });
-								
-							}
-							if (newUpdate.nom) {
-								_this.location.name_layer = newUpdate.nom;
-							}
-							_this.location.id_layer = newUpdate.id_l;
+					.then(function(updateLayer) {
+						if (updateLayer == true) {
+							_.map(scope.toggleLocations, function(layerOn){
+								if (layerOn.location.location.id_layer === location_item.id_layer && layerOn.location.layer === true) {
+									BaseMapFactory.updateLocationID(location_item.id_layer);
+								}
+								if (layerOn.location.location.id_layer === location_item.id_layer && !layerOn.location.layer) {
+									BaseMapFactory.updateLocationID(location_item.id_layer);
+									BaseMapFactory.hideLocation(id)
+								}
+
+							});
 						}
 					}, function(failAdding) {
 						console.log(failAdding);
@@ -154,8 +154,7 @@
 
 				scope.turnOnOffLayer = function(layer, loc) {
 					_thisLocationIsTrue = this;
-					var n_l = loc.name_layer.replace(' ','_');
-					var id = loc.id_layer +'-'+ n_l;
+					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
 					if(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true){
 						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue, id_layer: id});
 					}
