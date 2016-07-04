@@ -32,17 +32,50 @@
 				return deferred.promise;
 			},
 
-			getLocations: function(opts){
-				deferred = $q.defer();
+			getLocations: function(opts, id){
 				var access_token = Auth.getToken();
+				deferred = $q.defer();
+				var custom_url = "";
+				
+				if (id) {
+					custom_url = this.apiBaseURL+'/ws/places/' + id
+				}
+				else{
+					custom_url = this.apiBaseURL+'/ws/places'
+				}
+				
+				console.log(custom_url)
 				var _locations = $http({
-					url: this.apiBaseURL+'/ws/places',
+					url: custom_url,
 					method: "GET",
 					headers: {
 						'Content-Type': undefined,
 						'Authorization': 'Bearer '+access_token.access_token
 					},
 					params: opts?opts:''
+        });
+				_locations.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+			updateLocationLayer: function(id){
+				var access_token = Auth.getToken();
+				deferred = $q.defer();
+
+				var _locations = $http({
+					url: this.apiBaseURL+'/ws/places/' + id,
+					method: "GET",
+					headers: {
+						'Content-Type': undefined,
+						'Authorization': 'Bearer '+access_token.access_token
+					}
         });
 				_locations.then(function(result){
 					deferred.resolve(result);

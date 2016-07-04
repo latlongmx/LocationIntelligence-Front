@@ -42,7 +42,7 @@
 			var fileType = file._file.type;
 
 			$timeout(function(){
-				if (fileType === "image/png" || fileType === "image/jpeg" || fileType === "image/jpg") {
+				if (fileType === "image/png") {
 					_showToastMessage('Icono válido');
 					$scope.iconName = uploader.queue[0].file.name;
 				}
@@ -57,7 +57,7 @@
 			var categoryName = null;
 			var formData = new FormData();
 			if (uploader.queue.length !== 0) {
-				if (uploader.queue.length === 1 && uploader.queue[0]._file.type === "image/png" || uploader.queue[0]._file.type === "image/jpeg" || uploader.queue[0]._file.type === "image/jpg") {
+				if (uploader.queue.length === 1 && uploader.queue[0]._file.type === "image/png") {
 					icon = pin[0]._file
 					formData.append('pin', icon);
 				}
@@ -69,13 +69,10 @@
 
 			LocationService.updateLocationVar( formData, idLayer )
 			.then(function(data){
-				BaseMapFactory.updateLocationID(idLayer);
 				console.log(data)
-				// if (data.status === 200) {
-				// 	idLayer = data.data.id_layer;
-				// 	uploader.clearQueue();
-				// 	$mdDialog.hide(idLayer);
-				// }
+				if (data.status === 200) {
+					$mdDialog.hide(true);
+				}
 			}, function(error){
 				console.log(error)
 			});

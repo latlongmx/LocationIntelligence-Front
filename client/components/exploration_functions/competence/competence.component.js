@@ -50,7 +50,7 @@
 								'<h6 class="m-side-panel__subtitle m-side-panel__subtitle--in-competence-by-name">Por búsqueda de nombre exacto</h6>',
 								'<div layout="row">',
 									'<md-input-container class="md-input-container--in-competence" flex="195">',
-										'<input ng-model="add_competence_by_search">',
+										'<input ng-model="add_competence_by_search" aria-label="add_competence_by_search">',
 									'</md-input-container>',
 									'<md-button class="md-fab md-mini" ng-click="addCompetenceByCsv()">',
 						        '<md-icon>zoom_in</md-icon>',

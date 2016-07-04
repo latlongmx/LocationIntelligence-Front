@@ -62,7 +62,7 @@
 											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 												'<md-icon>zoom_in</md-icon>',
 											'</md-button>',
-											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerLocation(location.id_layer)">',
+											'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerLocation($parent, location)">',
 												'<md-icon>create</md-icon>',
 											'</md-button>',
 											'<md-button data-id-layer="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeLocation(location, location.id_layer, location.name_layer, $index)">',
@@ -116,53 +116,35 @@
 					});
 				}
 				
-				scope.editLayerLocation = function(layer){
+				scope.editLayerLocation = function(this_item, location_item){
+					var id = location_item.id_layer +'-'+ location_item.name_layer.replace(' ','_');
 					$mdDialog.show({
 						controller: 'EditLayerLocationController',
 						templateUrl: './components/exploration_functions/location/edit_layer/edit-layer.location.tpl.html',
 						parent: angular.element(document.body),
-						targetEvent: layer,
+						targetEvent: location_item.id_layer,
 						clickOutsideToClose:true,
 						locals: {
-							layer_id: layer
+							layer_id: location_item.id_layer
 						},
 					})
-					.then(function(newLocations) {
-						console.log(newLocations)
-						// if (newLocations) {
-						// 	LocationService.getLocations().then(function(res){
-						// 		if(res.data && res.data.places){
-						// 			var lastLayer = res.data.places[res.data.places.length -1];
-						// 			var idLayer = lastLayer.id_layer+'-'+lastLayer.name_layer.replace(' ','_');
-						// 			scope.locations.push(lastLayer);
-						// 			BaseMapFactory.addLocation({
-						// 				name: idLayer,
-						// 				data: lastLayer.data
-						// 			});
-						// 		}
-						// 	});
-						//}
+					.then(function(updateLayer) {
+						if (updateLayer == true) {
+							_.map(scope.toggleLocations, function(layerOn){
+								if (layerOn.location.location.id_layer === location_item.id_layer && layerOn.location.layer === true) {
+									BaseMapFactory.updateLocationID(location_item.id_layer);
+								}
+								if (layerOn.location.location.id_layer === location_item.id_layer && !layerOn.location.layer) {
+									BaseMapFactory.updateLocationID(location_item.id_layer);
+									BaseMapFactory.hideLocation(id)
+								}
+
+							});
+						}
 					}, function(failAdding) {
 						console.log(failAdding);
 					});
 				}
-
-				// scope.addIconLocation = function(ev) {
-				// 	$mdDialog.show({
-				// 		controller: 'AddIconLocationController',
-				// 		templateUrl: './components/exploration_functions/location/add_icon/add-icon-location.tpl.html',
-				// 		parent: angular.element(document.body),
-				// 		targetEvent: ev,
-				// 		clickOutsideToClose:true
-				// 	})
-				// 	.then(function(newIcon) {
-				// 		_changeLocationIcon = angular.element(document.getElementById(ev));
-				// 		_changeLocationIcon[0].textContent = newIcon;
-
-				// 	}, function(failAddingIcon) {
-				// 		console.log(failAddingIcon)
-				// 	});
-				// }
 
 				scope.zoomToLayer = function(id_layer, name_layer) {
 					var id = id_layer +'-'+ name_layer.replace(' ','_');
@@ -171,7 +153,6 @@
 
 				scope.turnOnOffLayer = function(layer, loc) {
 					_thisLocationIsTrue = this;
-					console.log(loc)
 					var id = loc.id_layer +'-'+ loc.name_layer.replace(' ','_');
 					if(scope.toggleLocations.indexOf(_thisLocationIsTrue.$index) === -1 && _thisLocationIsTrue.layer === true){
 						scope.toggleLocations.push({index: _thisLocationIsTrue.$index, location: _thisLocationIsTrue, id_layer: id});
