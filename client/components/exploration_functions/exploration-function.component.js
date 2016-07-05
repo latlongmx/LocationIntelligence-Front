@@ -57,9 +57,6 @@
 									console.log(res.data.places)
 									$scope.location_list = false;
 									$scope.locations = res.data.places;
-									// _.each(res.data.places,function(icn, index){
-									// 	$scope.locations[index].icn = icn.data[index].pin_url;
-									// });
 									_.each(res.data.places,function(o){
 										var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
 										BaseMapFactory.addLocation({
