@@ -79,7 +79,7 @@ LocationService.delLocation( 393 )
 							'</div>',
 						'</div>',
 						'<div>',
-							'<div class="m-side-panel__body">',
+							'<div class="m-side-panel__body" style="height: 300px;">',
 								'<ul class="m-side-panel__locations-list__container">',
 									'<li class="m-side-panel__locations-list__list js-competence-item" ng-repeat="competence in save_competence_variable_list | filter: search_location">',
 										'<div flex="10">',
