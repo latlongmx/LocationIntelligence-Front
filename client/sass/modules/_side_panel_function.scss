@@ -27,14 +27,6 @@
 		transition-delay: 0s;
 	}
 }
-.m-side-panel__body {
-	bottom: 0;
-	left: 10px;
-	overflow-y: auto;
-	position: absolute;
-	right: 0px;
-	top: 300px;
-}
 
 .m-side-panel__title {
 	border-bottom: 1px solid #f3f3f3;
@@ -48,10 +40,19 @@
 
 .m-side-panel__subtitle {
 	color: $gray50;
-	display: block;
+	display: inline-block;
 	font-weight: normal;
 	margin: 0 0 10px 0;
 	text-align: left;
+}
+
+.m-side-panel__body {
+	bottom: 0;
+	left: 10px;
+	overflow-y: auto;
+	position: absolute;
+	right: 0px;
+	top: 300px;
 }
 
 .m-side-panel__actions {
