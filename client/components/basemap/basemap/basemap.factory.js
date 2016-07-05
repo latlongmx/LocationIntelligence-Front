@@ -302,6 +302,7 @@
 		factory.addLocation = function(obj){
 			var id = obj.name.split('-')[0];
 			factory.addLocationID(id);
+			factory.LAYERS.USER['u'+id+'-extend'] = obj.extend;
 		};
 		factory.addLocationID = function(id){
 			var access_token = Auth.getToken().access_token;
@@ -342,9 +343,21 @@
 		};
 
 		factory.zoomLocation = function(name){
-			BaseMapService.map.then(function (map) {
+			var id = name.split('-')[0];
+			var extend = factory.LAYERS.USER['u'+id+'-extend'];
+			if(extend !== null && extend.indexOf('BOX') !== -1){
+				extend = extend.replace('BOX(','').replace(')','');
+				var bnd = extend.split(',');
+				var bnd1 = bnd[0].split(' ');
+				var bnd2 = bnd[1].split(' ');
+				factory._map.fitBounds([
+					[parseFloat(bnd1[1]), parseFloat(bnd1[0])],
+					[parseFloat(bnd2[1]), parseFloat(bnd2[0])]
+				] );
+			}
+			/*BaseMapService.map.then(function (map) {
 				map.fitBounds( _factory.LAYERS.USER[name].getBounds() );
-			});
+			});*/
 		};
 		//Fin Mis Ubicaciones y competencias
 		/********************************************/

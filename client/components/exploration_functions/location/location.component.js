@@ -106,7 +106,8 @@
 									scope.locations.push(lastLocationLayer);
 									BaseMapFactory.addLocation({
 										name: idLocationLayer,
-										data: lastLocationLayer.data
+										data: lastLocationLayer.data,
+										extend: lastLocationLayer.extend
 									});
 								}
 							});
@@ -114,7 +115,7 @@
 					}, function(failAdding) {
 						console.log(failAdding);
 					});
-				}
+				};
 
 				scope.editLayerLocation = function(this_item, location_item){
 					var id = location_item.id_layer +'-'+ location_item.name_layer.replace(' ','_');

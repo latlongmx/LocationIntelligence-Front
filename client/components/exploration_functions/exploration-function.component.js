@@ -27,7 +27,7 @@
 				var dm = this;
 				$scope.location_list = false;
 				$scope.competence_list = false;
-				
+
 				_$js_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
 
 				_$js_exploration_item.on('click', function(e){
@@ -61,17 +61,18 @@
 										var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
 										BaseMapFactory.addLocation({
 											name: id,
-											data: o.data
+											data: o.data,
+											extend: o.extend
 										});
 									});
 								}
 							});
 						}
 					}
-					
-					
+
+
 					if (_data_ep === "competence"){
-						
+
 						if (!$scope.save_competence_variable_list){
 							$scope.competence_list = true;
 							LocationService.getLocations({
@@ -85,7 +86,8 @@
 										var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
 										BaseMapFactory.addLocation({
 											name: id,
-											data: o.data
+											data: o.data,
+											extend: o.extend
 										});
 									});
 								}
