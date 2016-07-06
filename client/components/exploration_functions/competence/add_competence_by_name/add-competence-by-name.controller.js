@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function AddCompetenceByNameController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, BaseMapService){
+	function AddCompetenceByNameController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, CompetenceService, BaseMapService){
 
 		$scope.name_bounds = null;
 		$scope.name_nw = null;
@@ -26,12 +26,12 @@
 					nm: competenceNameData.nm
 				})
 				.then(function(result){
-					if (result) {
-						LocationService.getLocations({competence: '1'}).then(function(res){
+					if (result.statusText === 'OK') {
+						CompetenceService.getCompetences({competence: '1'}).then(function(res){
 							if(res.data && res.data.places){
 								var lastCompetenceLayer = res.data.places[res.data.places.length -1];
 								var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
-								scope.save_competence_variable_list.push(lastCompetenceLayer);
+								$scope.save_competence_variable_list.push(lastCompetenceLayer);
 								BaseMapFactory.addLocation({
 									name: idCompetenceLayer,
 									data: lastCompetenceLayer.data
@@ -73,7 +73,7 @@
 
 	};
 
-	AddCompetenceByNameController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'BaseMapService'];
+	AddCompetenceByNameController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'CompetenceService', 'BaseMapService'];
 
 	angular.module('add.competence.name.controller', []).
 	controller('AddCompetenceByNameController', AddCompetenceByNameController);

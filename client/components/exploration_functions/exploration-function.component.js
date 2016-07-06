@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function explorationFunctions(LocationService, BaseMapFactory, $timeout, Auth){
+	function explorationFunctions(LocationService, BaseMapFactory, $timeout, Auth, CompetenceService){
 		var _$js_exploration_item = null,
 		_data_ep = null,
 		_currentPanelActive = null,
@@ -73,7 +73,7 @@
 					if (_data_ep === "competence"){
 						if (!$scope.save_competence_variable_list){
 							$scope.competence_list = true;
-							LocationService.getLocations({
+							CompetenceService.getCompetences({
 								competence: '1'
 							})
 							.then(function(res){
@@ -97,7 +97,7 @@
 		};
 	}
 
-	explorationFunctions.$inject = ['LocationService', 'BaseMapFactory', '$timeout', 'Auth'];
+	explorationFunctions.$inject = ['LocationService', 'BaseMapFactory', '$timeout', 'Auth', 'CompetenceService'];
 
 	angular.module('exploration.directive', [])
 		.directive('explorationFunctions', explorationFunctions);

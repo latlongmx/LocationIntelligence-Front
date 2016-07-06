@@ -130,19 +130,18 @@
 							scope.se = null;
 							scope.bbox = null;
 							CompetenceService.getCompetences({competence: '1'}).then(function(res){
-								console.log(res)
-								// if(res.data && res.data.places){
-								// 	var lastCompetenceLayer = res.data.places[res.data.places.length -1];
-								// 	if(lastCompetenceLayer) {
-								// 		var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
-								// 	}
+								if(res.data && res.data.places){
+									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
+									if(lastCompetenceLayer) {
+										var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
+									}
 									
-								// 	scope.save_competence_variable_list.push(lastCompetenceLayer);
-								// 	BaseMapFactory.addLocation({
-								// 		name: idCompetenceLayer,
-								// 		data: lastCompetenceLayer.data
-								// 	});
-								// }
+									scope.save_competence_variable_list.push(lastCompetenceLayer);
+									BaseMapFactory.addLocation({
+										name: idCompetenceLayer,
+										data: lastCompetenceLayer.data
+									});
+								}
 							});
 						}
 					}, function(failAdding) {
@@ -191,6 +190,7 @@
 						if (newCompetence) {
 							LocationService.getLocations({competence: '1'}).then(function(res){
 								if(res.data && res.data.places){
+									console.log(res.data.places)
 									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
 									var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
 									scope.save_competence_variable_list.push(lastCompetenceLayer);
