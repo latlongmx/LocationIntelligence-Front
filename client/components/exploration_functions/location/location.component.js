@@ -53,14 +53,14 @@
 							'<div class="m-side-panel__locations-container">',
 								'<ul class="m-side-panel__list-titles">',
 									'<div layout="row">',
-										'<p flex="10" class="bold m-side-panel__list-titles__column-name">Icono</p>',
-										'<p flex="35" class="bold m-side-panel__list-titles__column-name">Nombre Ubicación</p>',
-										'<p flex="20" class="bold m-side-panel__list-titles__column-name"># Sucursales</p>',
-										'<p flex="10" class="bold m-side-panel__list-titles__column-name">Acciones</p>',
-										'<p flex="10" class="bold m-side-panel__list-titles__column-name"></p>',
-										'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
-										'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
-										'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
+										'<p flex="10" class="m-side-panel__list-titles__column-name">Icono</p>',
+										'<p flex="35" class="m-side-panel__list-titles__column-name">Nombre Ubicación</p>',
+										'<p flex="20" class="m-side-panel__list-titles__column-name"># Sucursales</p>',
+										'<p flex="10" class="m-side-panel__list-titles__column-name">Acciones</p>',
+										'<p flex="10" class="m-side-panel__list-titles__column-name"></p>',
+										'<p flex="5" class="m-side-panel__list-titles__column-name"></p>',
+										'<p flex="5" class="m-side-panel__list-titles__column-name"></p>',
+										'<p flex="5" class="m-side-panel__list-titles__column-name"></p>',
 									'</div>',
 								'</ul>',
 								'<div layout="row" class="layout-align-space-around-stretch layout-row" ng-if="location_list">',
@@ -77,7 +77,7 @@
 										'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 											'<md-icon>zoom_in</md-icon>',
 										'</md-button>',
-										'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerLocation($parent, location)">',
+										'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerLocation($parent, location, $index)">',
 											'<md-icon>create</md-icon>',
 										'</md-button>',
 										'<md-button data-id-layer="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeLocation(location, location.id_layer, location.name_layer, $index)">',
@@ -95,9 +95,6 @@
 				_removeLocationItem = null,
 				_changeLocationIcon = null,
 				_thisLocationIsTrue = null;
-				scope.fileObj = {};
-				scope.new_icon = "add";
-				scope.layer = false;
 
 				if (!scope.toggleLocations) {
 					scope.toggleLocations = [];
@@ -131,7 +128,7 @@
 					});
 				};
 
-				scope.editLayerLocation = function(this_item, location_item){
+				scope.editLayerLocation = function(this_item, location_item, index){
 					var id = location_item.id_layer +'-'+ location_item.name_layer.replace(' ','_');
 					$mdDialog.show({
 						controller: 'EditLayerLocationController',
@@ -144,12 +141,21 @@
 						},
 					})
 					.then(function(updateLayer) {
-						if (updateLayer == true) {
+						if (updateLayer.success === true) {
+							if (updateLayer.icon) {
+								scope.locations[index].pin_url = updateLayer.icon;
+							}
+							if (updateLayer.nom) {
+								scope.locations[index].name_layer = updateLayer.nom;
+							}
 							_.map(scope.toggleLocations, function(layerOn){
-								if (layerOn.location.location.id_layer === location_item.id_layer && layerOn.location.layer === true) {
-									BaseMapFactory.updateLocationID(location_item.id_layer);
+								if (layerOn) {
+									if (layerOn.location.location.id_layer === location_item.id_layer && layerOn.location.layer === true) {
+										BaseMapFactory.updateLocationID(location_item.id_layer);
+										BaseMapFactory.addLayerIfTurnedOn(location_item.id_layer);
+									}
 								}
-								if (layerOn.location.location.id_layer === location_item.id_layer && !layerOn.location.layer) {
+								else {
 									BaseMapFactory.updateLocationID(location_item.id_layer);
 									BaseMapFactory.hideLocation(id)
 								}

@@ -61,6 +61,28 @@
 				});
 				return deferred.promise;
 			},
+			getSingleLocation: function(id){
+				console.log(id)
+				deferred = $q.defer();
+				var access_token = Auth.getToken();
+				var _locations = $http({
+					url: this.apiBaseURL+'/ws/places/' + id,
+					method: "GET",
+					headers: {
+						'Content-Type': undefined,
+						'Authorization': 'Bearer '+access_token.access_token
+					}
+        });
+				_locations.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
 			
 			/**
 			 * [updateLayer Update a layer from Map and Database]

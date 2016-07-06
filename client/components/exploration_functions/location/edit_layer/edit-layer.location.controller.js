@@ -72,23 +72,22 @@
 				if (data.status === 200) {
 					var updated_values = "";
 					if (uploader.queue.length !== 0 && !updateData) {
-						updated_values = {icon: pin[0].file.name, id_l: idLayer}
+						updated_values = {icon: pin[0].file.name, id_l: idLayer, success: true}
 					}
 					else if(uploader.queue.length !== 0 && updateData) {
-						updated_values = {icon: pin[0].file.name, nom: updateData.nm, id_l: idLayer}
+						updated_values = {icon: pin[0].file.name, nom: updateData.nm, id_l: idLayer, success: true}
 					}
 					else if(uploader.queue.length === 0 && updateData) {
-						updated_values = {nom: updateData.nm, id_l: idLayer}
+						updated_values = {nom: updateData.nm, id_l: idLayer, success: true}
 					}
 					else {
-						updated_values = {nom: "", icon: ""}
+						updated_values = {nom: "", icon: "", success: false}
 					}
 					
 					$mdDialog.hide(updated_values);
 					uploader.clearQueue();
 				}
 				BaseMapFactory.updateLocationID(idLayer);
-				console.log(data)
 				if (data.status === 200) {
 					$mdDialog.hide(true);
 				}

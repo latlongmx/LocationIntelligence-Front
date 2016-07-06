@@ -37,9 +37,9 @@
 }
 
 .m-side-panel__subtitle {
-	color: $gray;
+	color: $gray75;
 	display: inline-block;
-	font-weight: normal;
+	font-weight: 500;
 	margin: 0 0 10px 0;
 	text-align: left;
 }
@@ -86,9 +86,12 @@
 }
 .m-side-panel__list-titles__column-name {
 	border-bottom: 1px solid $gray0;
+	color: $gray75;
 	font-size: 14px;
+	font-weight: normal;
 	margin:0;
 	padding: 5px 0px;
+	text-align:left;
 }
 
 .m-side-panel__list--in-competence {
