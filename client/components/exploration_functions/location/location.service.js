@@ -34,7 +34,7 @@
 				});
 				return deferred.promise;
 			},
-			
+
 			/**
 			 * [getLocations Get all locations to map]
 			 * @param  {[type]} opts [Only for competence locations]

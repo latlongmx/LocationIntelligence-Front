@@ -4,9 +4,8 @@
 	*/
 	'use strict';
 
-	function componentDirective(_, $mdDialog, $mdToast, $document, $timeout,  LocationFactory, LocationService, BaseMapFactory, BaseMapService, Auth, $log){
+	function componentDirective(_, $mdDialog, $mdToast, $document, $timeout, CompetenceService, BaseMapFactory, BaseMapService, Auth, $log){
 		var _access_token = Auth.getToken();
-LocationService.delLocation( 393 )
 		return {
 			restrict: 'E',
 			require: '^explorationFunctions',
@@ -18,8 +17,7 @@ LocationService.delLocation( 393 )
 					'</li>',
 					'<div class="m-side-panel js-competence-side-panel">',
 						'<h3 class="m-side-panel__title">Competencia</h3>',
-						'<div>',
-							'<div class="m-side-panel__actions pos-relative">',
+						'<div class="m-side-panel__actions pos-relative">',
 							'<h4 class="m-side-panel__subtitle">Agregar ubicaciones de mi competencia:</h4>',
 							'<div layout="row">',
 								'<div layout="column" flex="50" layout-align="center center">',
@@ -39,30 +37,37 @@ LocationService.delLocation( 393 )
 									'<md-button class="md-fab md-mini md-primary" ng-click="addCompetenceByName()">',
 									  '<md-icon>zoom_in</md-icon>',
 									'</md-button>',
+								'</div>',
 							'</div>',
 						'</div>',
-						'<div>',
-							'<div class="m-side-panel__list" style="padding: 0px 15px 15px;">',
-								'<h4 class="m-side-panel__subtitle">Competencias</h4>',
-								'<div class="m-side-panel__locations-container">',
+						'<div class="m-side-panel__search m-side-panel__search--in-competence">',
+							'<div layout="row">',
+								'<div flex="50" layout-align="center center">',
+									'<form ng-submit="$event.preventDefault()">',
+										'<md-input-container>',
+											'<label>Buscar competencia</label>',
+											'<input ng-model="search_competence">',
+										'</md-input-container>',
+									'</form>',
+								'</div>',
+								'<div flex="50" layout="row" layout-align="center center" class="m-side-panel__actions-columns">',
 									'<div layout="row" layout-align="center center">',
-										'<div layout="row" layout-align="start center" flex="75">',
-											'<div class="m-side-panel__search m-side-panel__search--in-competence">',
-												'<form ng-submit="$event.preventDefault()">',
-													'<md-input-container>',
-														'<label>Buscar competencia</label>',
-														'<input ng-model="search_competence">',
-													'</md-input-container>',
-												'</form>',
-											'</div>',
+										'<div flex="75">',
+											'<h5 class="m-side-panel__subtitle m-side-panel__subtitle--in-locations-actions">Mostrar/ocultar Capas activas</h5>',
 										'</div>',
-										'<div layout="row" layout-align="end center" flex="25">',
-											'<div>',
-												'<md-switch class="md-primary md-mode-A200" aria-label="all_competences" ng-model="all_competences" ng-change="competenceToggleGral(competence)"></md-switch>',
-											'</div>',
+										'<div flex="25">',
+												'<md-switch class="md-primary md-mode-A200" aria-label="all-locations" ng-model="all" ng-change="toggleGralCompetences(competence)"></md-switch>',
 										'</div>',
 									'</div>',
-									'<div layout="row" class="m-side-panel__list-titles">',
+									
+								'</div>',
+							'</div>',
+						'</div>',
+						'<div class="m-side-panel__list">',
+							'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">Mis ubicaciones</h4>',
+							'<div class="m-side-panel__locations-container">',
+								'<ul class="m-side-panel__list-titles">',
+									'<div layout="row">',
 										'<p flex="10" class="bold m-side-panel__list-titles__column-name">Icono</p>',
 										'<p flex="35" class="bold m-side-panel__list-titles__column-name">Categoría</p>',
 										'<p flex="20" class="bold m-side-panel__list-titles__column-name"># Negocios</p>',
@@ -72,26 +77,22 @@ LocationService.delLocation( 393 )
 										'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
 										'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
 									'</div>',
-								'</div>',
+								'</ul>',
 								'<div layout="row" class="layout-align-space-around-stretch layout-row" ng-if="competence_list">',
 									'<md-progress-circular md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
 								'</div>',
-							'</div>',
-						'</div>',
-						'<div>',
-							'<div class="m-side-panel__body" style="height: 300px;">',
 								'<ul class="m-side-panel__locations-list__container">',
-									'<li class="m-side-panel__locations-list__list js-competence-item" ng-repeat="competence in save_competence_variable_list | filter: search_location">',
+									'<li class="m-side-panel__locations-list__list js-competence-item" ng-repeat="competence in save_competence_variable_list | filter: search_competence">',
 										'<div flex="10">',
-											'<img ng-src="'+BaseMapFactory.API_URL+'/ws/icon?nm={{competence.data[0].pin_url}}&access_token='+_access_token.access_token+'" width="25"/>',
+											'<img ng-src="'+BaseMapFactory.API_URL+'/ws/icon?nm={{competence.pin_url}}&access_token='+_access_token.access_token+'" width="25"/>',
 										'</div>',
 										'<p flex="35" class="m-side-panel__locations-list__item">{{competence.name_layer}}</p>',
-										'<p flex="20" class="m-side-panel__locations-list__item">{{competence.data.length}}</p>',
+										'<p flex="20" class="m-side-panel__locations-list__item">{{competence.num_features}}</p>',
 										'<md-switch ng-disabled="is_toggle_gral" ng-model="layer" flex="10" md-no-ink aria-label="competence.id_layer" ng-change="turnOnOffLayerCompetence(layer, competence)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
 										'<md-button data-id-competence="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(competence.id_layer, competence.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 											'<md-icon>zoom_in</md-icon>',
 										'</md-button>',
-										'<md-button data-id-competence="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerLocation(competence.id_layer)">',
+										'<md-button data-id-competence="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerCompetence($parent, competence)">',
 											'<md-icon>create</md-icon>',
 										'</md-button>',
 										'<md-button data-id-layer="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeCompetence(competence, competence.id_layer, competence.name_layer, $index)">',
@@ -113,6 +114,7 @@ LocationService.delLocation( 393 )
 				if (!scope.toggleCompetence) {
 					scope.toggleCompetence = [];
 				}
+
 				scope.addCompetenceByVariable = function(ev){
 					$mdDialog.show({
 						controller: 'AddCompetenceByVarController',
@@ -122,25 +124,25 @@ LocationService.delLocation( 393 )
 						clickOutsideToClose:true,
 					})
 					.then(function(newCompetence) {
-						console.log(newCompetence)
 						if (newCompetence) {
 							scope.bounds = null;
 							scope.nw = null;
 							scope.se = null;
 							scope.bbox = null;
-							LocationService.getLocations({competence: '1'}).then(function(res){
-								if(res.data && res.data.places){
-									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
-									if(lastCompetenceLayer) {
-										var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
-									}
+							CompetenceService.getCompetences({competence: '1'}).then(function(res){
+								console.log(res)
+								// if(res.data && res.data.places){
+								// 	var lastCompetenceLayer = res.data.places[res.data.places.length -1];
+								// 	if(lastCompetenceLayer) {
+								// 		var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
+								// 	}
 									
-									scope.save_competence_variable_list.push(lastCompetenceLayer);
-									BaseMapFactory.addLocation({
-										name: idCompetenceLayer,
-										data: lastCompetenceLayer.data
-									});
-								}
+								// 	scope.save_competence_variable_list.push(lastCompetenceLayer);
+								// 	BaseMapFactory.addLocation({
+								// 		name: idCompetenceLayer,
+								// 		data: lastCompetenceLayer.data
+								// 	});
+								// }
 							});
 						}
 					}, function(failAdding) {
@@ -159,9 +161,8 @@ LocationService.delLocation( 393 )
 						clickOutsideToClose:true
 					})
 					.then(function(newCompetence) {
-						console.log(newCompetence)
 						if (newCompetence) {
-							LocationService.getLocations({competence: '1'}).then(function(res){
+							CompetenceService.getCompetences({competence: '1'}).then(function(res){
 								if(res.data && res.data.places){
 									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
 									var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
@@ -187,7 +188,6 @@ LocationService.delLocation( 393 )
 						clickOutsideToClose:true
 					})
 					.then(function(newCompetence) {
-						console.log(newCompetence)
 						if (newCompetence) {
 							LocationService.getLocations({competence: '1'}).then(function(res){
 								if(res.data && res.data.places){
@@ -206,36 +206,35 @@ LocationService.delLocation( 393 )
 					});
 				}
 				
-				// scope.editLayerCompetence = function(layer){
-				// 	$mdDialog.show({
-				// 		controller: 'EditLayerCompetenceController',
-				// 		templateUrl: './components/exploration_functions/location/edit_layer/edit-layer.competence.tpl.html',
-				// 		parent: angular.element(document.body),
-				// 		targetEvent: layer,
-				// 		clickOutsideToClose:true,
-				// 		locals: {
-				// 			layer_id: layer
-				// 		},
-				// 	})
-				// 	.then(function(newLocations) {
-				// 		console.log(newLocations)
-				// 		// if (newLocations) {
-				// 		// 	LocationService.getLocations().then(function(res){
-				// 		// 		if(res.data && res.data.places){
-				// 		// 			var lastLayer = res.data.places[res.data.places.length -1];
-				// 		// 			var idLayer = lastLayer.id_layer+'-'+lastLayer.name_layer.replace(' ','_');
-				// 		// 			scope.competences.push(lastLayer);
-				// 		// 			BaseMapFactory.addLocation({
-				// 		// 				name: idLayer,
-				// 		// 				data: lastLayer.data
-				// 		// 			});
-				// 		// 		}
-				// 		// 	});
-				// 		//}
-				// 	}, function(failAdding) {
-				// 		console.log(failAdding);
-				// 	});
-				// }
+				scope.editLayerCompetence = function(this_item, competence_item){
+					var id = competence_item.id_layer +'-'+ competence_item.name_layer.replace(' ','_');
+					$mdDialog.show({
+						controller: 'EditLayerCompetenceController',
+						templateUrl: './components/exploration_functions/competence/edit_competence/edit-competence.tpl.html',
+						parent: angular.element(document.body),
+						targetEvent: competence_item.id_layer,
+						clickOutsideToClose:true,
+						locals: {
+							layer_id: competence_item.id_layer
+						},
+					})
+					.then(function(updateLayer) {
+						if (updateLayer == true) {
+							_.map(scope.toggleCompetence, function(layerOn){
+								if (layerOn.location.location.id_layer === competence_item.id_layer && layerOn.location.layer === true) {
+									BaseMapFactory.updateLocationID(competence_item.id_layer);
+								}
+								if (layerOn.location.location.id_layer === competence_item.id_layer && !layerOn.location.layer) {
+									BaseMapFactory.updateLocationID(competence_item.id_layer);
+									BaseMapFactory.hideLocation(id)
+								}
+
+							});
+						}
+					}, function(failAdding) {
+						console.log(failAdding);
+					});
+				}
 
 				scope.zoomToLayer = function(id_layer, name_layer) {
 					var id = id_layer +'-'+ name_layer.replace(' ','_');
@@ -265,7 +264,7 @@ LocationService.delLocation( 393 )
 					if (_removeCompetenceItem !== -1) {
 						BaseMapFactory.hideLocation(id);
 						scope.save_competence_variable_list.splice(_removeCompetenceItem, 1);
-						LocationService.delLocation( id_layer )
+						CompetenceService.delCompetence( id_layer )
 						.then(function(res){
 							_deleteMessage("Se eliminó " + name);
 						}, function(){
@@ -282,7 +281,6 @@ LocationService.delLocation( 393 )
 				}
 
 				scope.competenceToggleGral = function() {
-					console.log(scope.toggleCompetence)
 					if (scope.toggleCompetence.length === 0) {
 						scope.is_toggle_gral = false;
 					}
@@ -317,7 +315,7 @@ LocationService.delLocation( 393 )
 		};
 	}
 
-	componentDirective.$inject = ['_', '$mdDialog', '$mdToast', '$document', '$timeout', 'LocationFactory', 'LocationService', 'BaseMapFactory','BaseMapService', 'Auth', '$log'];
+	componentDirective.$inject = ['_', '$mdDialog', '$mdToast', '$document', '$timeout', 'CompetenceService', 'BaseMapFactory','BaseMapService', 'Auth', '$log'];
 
 	angular.module('competence.directive', [])
 		.directive('competence', componentDirective);

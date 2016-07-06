@@ -85,7 +85,7 @@
 					}
 					
 					$mdDialog.hide(updated_values);
-					// 	uploader.clearQueue();
+					uploader.clearQueue();
 				}
 				BaseMapFactory.updateLocationID(idLayer);
 				console.log(data)

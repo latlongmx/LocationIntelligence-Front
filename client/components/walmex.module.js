@@ -19,6 +19,7 @@
 			'add.location.controller',
 			'edit.layer.location.controller',
 			'competence.directive',
+			'competence.service',
 			'add.competence.csv.controller',
 			'add.competence.var.controller',
 			'add.competence.name.controller',

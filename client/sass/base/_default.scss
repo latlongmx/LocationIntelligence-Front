@@ -10,18 +10,19 @@
 	-o-box-sizing: border-box;
 	-ms-box-sizing: border-box;
 	outline:0;
-	font-family: 'Source Sans Pro', sans-serif;
-	// font-weight: 300;
+
 }
 html {
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
-	-ms-text-size-adjust: 100%; /* 2 */
-	-webkit-text-size-adjust: 100%; /* 2 */
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
   font-size: 16px !important;
   text-rendering: optimizeLegibility;
   margin:0;
 	padding:0;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
 }
 
 body {
@@ -67,9 +68,10 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: 'Montserrat', sans-serif !important;
+	font-family: 'Roboto', sans-serif !important;
 	margin-top: 15px;
 	margin-bottom:15px;
+	font-weight: 400;
 }
 
 hr {
