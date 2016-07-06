@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function EditLayerCompetenceController($scope, $mdDialog, $mdToast, $interval, $timeout, $document, FileUploader, layer_id, LocationService){
+	function EditLayerCompetenceController($scope, $mdDialog, $mdToast, $interval, $timeout, $document, FileUploader, layer_id, CompetenceService, BaseMapFactory){
 	
 		
 		var uploader = $scope.uploader = new FileUploader({
@@ -54,7 +54,7 @@
 			var pin = uploader.queue;
 			var icon = null;
 			var idLayer = layer_id;
-			var categoryName = null;
+			var competenceName = null;
 			var formData = new FormData();
 			if (uploader.queue.length !== 0) {
 				if (uploader.queue.length === 1 && uploader.queue[0]._file.type === "image/png") {
@@ -63,18 +63,35 @@
 				}
 			}
 			if (updateData) {
-				categoryName = updateData.nm;
-				formData.append('nom', categoryName);
+				competenceName = updateData.nm;
+				formData.append('nom', competenceName);
 			}
 
-			LocationService.updateLocationVar( formData, idLayer )
+			CompetenceService.updatCompetenceVar( formData, idLayer )
 			.then(function(data){
+				if (data.status === 200) {
+					var updated_values = "";
+					if (uploader.queue.length !== 0 && !updateData) {
+						updated_values = {icon: pin[0].file.name, id_l: idLayer}
+					}
+					else if(uploader.queue.length !== 0 && updateData) {
+						updated_values = {icon: pin[0].file.name, nom: updateData.nm, id_l: idLayer}
+					}
+					else if(uploader.queue.length === 0 && updateData) {
+						updated_values = {nom: updateData.nm, id_l: idLayer}
+					}
+					else {
+						updated_values = {nom: "", icon: ""}
+					}
+					
+					$mdDialog.hide(updated_values);
+					uploader.clearQueue();
+				}
+				BaseMapFactory.updateLocationID(idLayer);
 				console.log(data)
-				// if (data.status === 200) {
-				// 	idLayer = data.data.id_layer;
-				// 	uploader.clearQueue();
-				// 	$mdDialog.hide(idLayer);
-				// }
+				if (data.status === 200) {
+					$mdDialog.hide(true);
+				}
 			}, function(error){
 				console.log(error)
 			});
@@ -105,7 +122,7 @@
 
 	};
 
-	EditLayerCompetenceController.$inject = ['$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', '$document', 'FileUploader', 'layer_id', 'LocationService'];
+	EditLayerCompetenceController.$inject = ['$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', '$document', 'FileUploader', 'layer_id', 'CompetenceService', 'BaseMapFactory'];
 
 	angular.module('edit.layer.competence.controller', []).
 	controller('EditLayerCompetenceController', EditLayerCompetenceController);

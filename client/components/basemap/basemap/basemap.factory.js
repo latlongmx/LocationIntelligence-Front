@@ -324,6 +324,9 @@
 		factory.updateLocationID = function(id){
 			factory._map.removeLayer( factory.LAYERS.USER['u'+id] );
 			factory.addLocationID(id);
+			//factory.LAYERS.USER['u'+id].addTo(factory._map);
+		};
+		factory.addLayerIfTurnedOn = function(id){
 			factory.LAYERS.USER['u'+id].addTo(factory._map);
 		};
 		factory.hideLocation = function(name){

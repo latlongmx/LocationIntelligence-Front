@@ -1,0 +1,37 @@
+<md-dialog aria-label="icon">
+	<form name="updateFieldsForm">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Añadir Icono</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon aria-label="Close dialog">close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content class="m-dialog__content">
+			<h5 class="normal color-gray75" style="margin:0;">Subir icono</h5>
+			<div layout="row">
+				<label flex="100" layout-align="center center" for="input-icon-id" class="well my-drop-zone" filters="updateImageFilter" nv-file-drop nv-file-over uploader="uploader">Arrastre y suelte o haga click</label>
+				<input class="ng-hide" id="input-icon-id" type="file" nv-file-select uploader="uploader" filters="updateImageFilter"/>
+			</div>
+			<div layout="row">
+				<p class="m-dialog__content-file color-gray50">{{ iconName }}</p>
+			</div>
+			<div layout-padding="10" ng-if="validatingImage">
+				<md-progress-linear md-mode="indeterminate" ></md-progress-linear>
+			</div>
+			<br>
+			<div layout="row">
+				<md-input-container flex="100" class="md-block">
+				<label>Categoría</label>
+				<input type="text" ng-model="up.nm" name="category" autocomplete="off">
+				</md-input-container>
+			</div>
+			<div layout="row">
+				<button class="md-primary md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="uploader.updateFields(updateFieldsForm, up)">Actualizar</button>
+				<button class="md-warn md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="cancel()">Cancelar</button>
+			</div>
+		</md-dialog-content>
+	</form>
+</md-dialog>

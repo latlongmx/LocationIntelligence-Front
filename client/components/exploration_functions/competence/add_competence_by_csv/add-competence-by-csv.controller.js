@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function AddCompetenceByCsvController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService){
+	function AddCompetenceByCsvController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, CompetenceService){
 		
 		var j= 0, counter = 0;
 		$scope.activated = true;
@@ -172,8 +172,9 @@
 				formData.append('competence', 1 );
 
 				
-				LocationService.addNewLocation( formData )
+				CompetenceService.addNewCompetence( formData )
 				.then(function(data){
+					console.log(data);
 					if (data.status === 200) {
 						idLayer = data.data.id_layer;
 						uploader.clearQueue();
@@ -237,7 +238,7 @@
 
 	};
 
-	AddCompetenceByCsvController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService'];
+	AddCompetenceByCsvController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'CompetenceService'];
 
 	angular.module('add.competence.csv.controller', []).
 	controller('AddCompetenceByCsvController', AddCompetenceByCsvController);

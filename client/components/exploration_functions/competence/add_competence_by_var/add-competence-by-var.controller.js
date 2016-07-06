@@ -257,10 +257,10 @@
 		var _addCompetenceToList = function(param) {
 			console.log($scope.bbox)
 				BaseMapService.addCompetenciaQuery({
-					qf:"cod:"+param,  /* <--- query a buscar  */
-					qb: $scope.bbox,  /* <--- bbox del mapa para sacar la entidad que esta visualizando*/
+					qf:"cod:"+param,
+					qb: $scope.bbox,
 					competence:"1",
-					nm: 'Competencia - oxxo'  // Nombre del layer
+					nm: 'Competencia - oxxo'
 				});
 		};
 		
