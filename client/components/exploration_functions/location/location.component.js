@@ -74,7 +74,7 @@
 										'<p flex="35" class="m-side-panel__locations-list__item">{{location.name_layer}}</p>',
 										'<p flex="20" class="m-side-panel__locations-list__item">{{location.num_features}}</p>',
 										'<md-switch ng-disabled="is_toggle_gral" ng-model="layer" flex="10" md-no-ink aria-label="location.id_layer" ng-change="turnOnOffLayer(layer, location)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
-										'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
+										'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLocationLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 											'<md-icon>zoom_in</md-icon>',
 										'</md-button>',
 										'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerLocation($parent, location, $index)">',
@@ -91,6 +91,8 @@
 				'</div>'
 			].join(''),
 			link: function(scope, element, attr, parentCtrl){
+				var remove_panel = angular.element(document.getElementsByClassName('js-location-side-panel'));
+				var remove_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
 				var _this = null,
 				_removeLocationItem = null,
 				_changeLocationIcon = null,
@@ -159,7 +161,6 @@
 									BaseMapFactory.updateLocationID(location_item.id_layer);
 									BaseMapFactory.hideLocation(id)
 								}
-
 							});
 						}
 					}, function(failAdding) {
@@ -167,10 +168,13 @@
 					});
 				}
 
-				scope.zoomToLayer = function(id_layer, name_layer) {
+				scope.zoomToLocationLayer = function(id_layer, name_layer) {
+					
 					var n_l = name_layer.replace(' ','_');
 					var id = id_layer +'-'+ n_l;
 					BaseMapFactory.zoomLocation(id);
+					// remove_panel.removeClass('is-panel-open');
+					// remove_exploration_item.removeClass('is-item-panel-active');
 				}
 
 				scope.turnOnOffLayer = function(layer, loc) {
