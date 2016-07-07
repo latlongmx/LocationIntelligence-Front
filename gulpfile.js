@@ -26,7 +26,7 @@ gulp.task('lib3', function() {
 });
 gulp.task('lib4', function() {
 	log('Copying external resources');
-	return gulp.src('./jslibs/**/*')
+	return gulp.src('./jslibs/**/*.js')
 		.pipe(gulp.dest('./bower_components/jslibs/'));
 });
 
@@ -51,6 +51,8 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3', 'lib4'], function(){
 			'bower_components/jslibs/leaflet-heat/Leaflet.heat.js',
 			'bower_components/jslibs/NonTiledLayer.js',
 			'bower_components/jslibs/NonTiledLayer.WMS.js',
+			'bower_components/jslibs/leaflet.singletilewmslayer.js',
+			'bower_components/jslibs/leaflet.dynamicWMS.js',
 			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:js -->'}))
 		.pipe($.inject(gulp.src([
 			'bower_components/jslibs/leaflet/leaflet.css',

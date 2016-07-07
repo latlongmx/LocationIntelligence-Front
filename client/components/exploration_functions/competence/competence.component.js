@@ -170,9 +170,10 @@
 						clickOutsideToClose:true
 					})
 					.then(function(newCompetence) {
-						if (newCompetence) {
+						if (newCompetence.success === true) {
 							CompetenceService.getCompetences({competence: '1'}).then(function(res){
 								if(res.data && res.data.places){
+									console.log(res.data.places)
 									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
 									var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
 									scope.save_competence_variable_list.push(lastCompetenceLayer);
@@ -199,9 +200,9 @@
 					})
 					.then(function(newCompetence) {
 						if (newCompetence.success === true) {
-							console.log(newCompetence)
 							CompetenceService.getCompetences({competence: '1'}).then(function(res){
 								if(res.data && res.data.places){
+									console.log(res.data.places)
 									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
 									var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
 									scope.save_competence_variable_list.push(lastCompetenceLayer);
@@ -239,14 +240,15 @@
 								scope.save_competence_variable_list[index].name_layer = updateLayer.nom;
 							}
 							_.map(scope.toggleCompetence, function(layerOn){
+								console.log(layerOn)
 								if (layerOn) {
-									if (layerOn.location.location.id_layer === location_item.id_layer && layerOn.location.layer === true) {
-										BaseMapFactory.updateLocationID(location_item.id_layer);
-										BaseMapFactory.addLayerIfTurnedOn(location_item.id_layer);
+									if (layerOn.competence.competence.id_layer === competence_item.id_layer && layerOn.competence.layer === true) {
+										BaseMapFactory.updateLocationID(competence_item.id_layer);
+										BaseMapFactory.addLayerIfTurnedOn(competence_item.id_layer);
 									}
 								}
 								else {
-									BaseMapFactory.updateLocationID(location_item.id_layer);
+									BaseMapFactory.updateLocationID(competence_item.id_layer);
 									BaseMapFactory.hideLocation(id)
 								}
 							});
@@ -275,6 +277,7 @@
 							}
 						}
 					}
+					console.log(scope.toggleCompetence)
 					layer === true ? BaseMapFactory.showLocation(id) : BaseMapFactory.hideLocation(id);
 				}
 

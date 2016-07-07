@@ -173,13 +173,15 @@
 
 				
 				CompetenceService.addNewCompetence( formData )
-				.then(function(data){
-					console.log(data);
-					if (data.status === 200) {
-						idLayer = data.data.id_layer;
-						uploader.clearQueue();
-						$mdDialog.hide(idLayer);
+				.then(function(result){
+					if (result.statusText === 'OK') {
+						$mdDialog.hide({success: true});
 					}
+					// if (data.status === 200) {
+					// 	idLayer = data.data.id_layer;
+					// 	uploader.clearQueue();
+					// 	$mdDialog.hide(idLayer);
+					// }
 				}, function(error){
 					console.log(error)
 				});

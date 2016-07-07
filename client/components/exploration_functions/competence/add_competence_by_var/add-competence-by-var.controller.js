@@ -57,22 +57,16 @@
 		// 	}
 		// }, true);
 		/**
-		 * Get demography variables
+		 * Get competence variables
 		 */
-		 CompetenceVarJsonService.competenceVarJsonRequest()
-		 .then(function(result){
-		 	$scope.currentCompetenceItems = result.data;
 		 	$scope.list = true;
 		 	$scope.currentCompetenceVariables = {
 		 		"title":"WORD",
 		 		"idCatalog": 2,
 		 		"icon": "",
-		 		"items": $scope.currentCompetenceItems
+		 		"items": competence_variables
 		 	};
 		 	$scope.menu = $scope.currentCompetenceVariables;
-		 }, function(error){
-		 	console.log(error);
-		 });
 
 		/**
 		 * [ Methods and options for menu ]
@@ -86,11 +80,10 @@
 			onItemClick: function(event, item) {
 				_variable_id = item.id;
 				_variable_name = item.name;
-
+				
 				if($scope._competence_variable_flag.indexOf(_variable_name) === -1){
 					$scope._competence_variable_flag.push(_variable_name);
 					$scope.save_competence_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
-					console.log($scope.save_competence_variable_list)
 					$mdToast.show(
 						$mdToast.simple({
 							textContent: 'Se agregó ' + _variable_name,
@@ -104,7 +97,7 @@
 					if ($scope._competence_variable_flag.length === 1) {
 						$scope.current_competence_checked = $scope.save_competence_variable_list[0];
 						$scope.last_competence_checked = $scope.save_competence_variable_list[0];
-						_addCompetenceToList($scope.save_competence_variable_list[0]._variable_id);
+						_addCompetenceToList($scope.save_competence_variable_list[0]._variable_name, $scope.save_competence_variable_list[0]._variable_id);
 					}
 				}
 
@@ -124,7 +117,7 @@
 							$scope.current_competence_checked = $scope.save_competence_variable_list[0];
 							$scope.last_competence_checked = $scope.save_competence_variable_list[0];
 						}, 500);
-						_addCompetenceToList($scope.save_competence_variable_list[0]._variable_id);
+						_addCompetenceToList($scope.save_competence_variable_list[0]._variable_name, $scope.save_competence_variable_list[0]._variable_id);
 					}
 					
 					if ($scope._competence_variable_flag.length === 0) {
@@ -234,14 +227,24 @@
 		 * [_addCompetenceToList Create Heatmap]
 		 * @param  {[type]} param [description]
 		 */
-		var _addCompetenceToList = function(param) {
-			console.log($scope.bbox)
-				BaseMapService.addCompetenciaQuery({
-					qf:"cod:"+param,
-					qb: $scope.bbox,
-					competence:"1",
-					nm: 'Competencia - oxxo'
-				});
+		var _addCompetenceToList = function(param, id) {
+			var formData = new FormData();
+	    var pin = "";
+	    console.log($scope.bbox)
+	    formData.append('qf', "cod:"+id );
+	    formData.append('qb', $scope.bbox );
+	    formData.append('competence', "1" );
+	    formData.append('nm', param );
+	    formData.append('pin', pin );
+
+	    BaseMapService.addCompetenciaQuery(formData)
+	    .then(function(result){
+	     if (result.statusText === 'OK') {
+	      $mdDialog.hide({success: true});
+	     }
+	    }, function(error){
+	     console.log(error);
+	    });
 		};
 		
 		$scope.removeVariable = function(parent,index) {

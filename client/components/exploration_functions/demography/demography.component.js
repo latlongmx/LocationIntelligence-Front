@@ -23,7 +23,7 @@
 						'<div class="m-modal__demography-variables">',
 							'<h3 class="m-side-panel__title">Exploración Demográfica</h3>',
 							'<md-list class="m-modal__demography-variables__list js-variables-list">',
-								'<md-list-item ng-repeat="variable in save_variable_list">',
+								'<md-list-item ng-repeat="variable in demography_variable_list">',
 									'<p class="align-left">{{variable._variable_name}}</p>',
 									'<md-switch ng-model="variable.$index" ng-change="variableShowed($parent, $index)" ng-init="variable.$index = $index === 0" aria-label="variable._variable_id" data-variable= "variable._variable_id" class="m-modal__demography-variables__switch md-primary md-mode-A200" ></md-switch>',
 									'<md-button class="md-icon-button m-modal__demography-variables__close" ng-model="variable.$index" ng-click="removeVariable($parent, $index)">',
@@ -68,8 +68,8 @@
 				scope.current_on = null;
 				scope.options = {};
 				
-				if (!scope.save_variable_list) {
-					scope.save_variable_list = [];
+				if (!scope.demography_variable_list) {
+					scope.demography_variable_list = [];
 				}
 				
 				if (!scope._variable_flag) {
@@ -79,7 +79,7 @@
 				if (!scope.arreglo) {
 					scope.arreglo = [];
 				}
-				scope.$watchGroup(['_variable_flag','save_variable_list','current_checked'], function(s){
+				scope.$watchGroup(['_variable_flag','demography_variable_list','current_checked'], function(s){
 					var found = _.filter(s[0],function(item){
 						return item.indexOf(s[2]._variable_name) !== -1;
 					});
@@ -142,7 +142,7 @@
 
 						if(scope._variable_flag.indexOf(_variable_name) === -1){
 							scope._variable_flag.push(_variable_name);
-							scope.save_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
+							scope.demography_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
 							$mdToast.show(
 								$mdToast.simple({
 									textContent: 'Se agregó ' + _variable_name,
@@ -155,9 +155,9 @@
 							);
 							
 							if (scope._variable_flag.length === 1) {
-								scope.current_checked = scope.save_variable_list[0];
-								scope.last_checked = scope.save_variable_list[0];
-								_demographyWKTRequest(scope.save_variable_list[0]._variable_id);
+								scope.current_checked = scope.demography_variable_list[0];
+								scope.last_checked = scope.demography_variable_list[0];
+								_demographyWKTRequest(scope.demography_variable_list[0]._variable_id);
 							}
 						}
 
@@ -165,7 +165,7 @@
 							for (var i=0; i<scope._variable_flag.length; i++){
 								if (scope._variable_flag[i] === _variable_name){
 									scope._variable_flag.splice(i,1);
-									scope.save_variable_list.splice(i,1);
+									scope.demography_variable_list.splice(i,1);
 									BaseMapFactory.delPobVivWMS();
 									break;
 								}
@@ -173,11 +173,11 @@
 
 							if (scope._variable_flag.length === 1) {
 								setTimeout(function(){
-									scope.save_variable_list[0].$index = true;
-									scope.current_checked = scope.save_variable_list[0];
-									scope.last_checked = scope.save_variable_list[0];
+									scope.demography_variable_list[0].$index = true;
+									scope.current_checked = scope.demography_variable_list[0];
+									scope.last_checked = scope.demography_variable_list[0];
 								}, 500);
-								_demographyWKTRequest(scope.save_variable_list[0]._variable_id);
+								_demographyWKTRequest(scope.demography_variable_list[0]._variable_id);
 							}
 							
 							if (scope._variable_flag.length === 0) {
@@ -209,10 +209,10 @@
 				scope.variableShowed = function(list, index){
 					_column_request = this.variable._variable_id;
 					scope.last_checked = scope.current_checked;
-					scope.current_checked = list.save_variable_list[index];
+					scope.current_checked = list.demography_variable_list[index];
 					
-					for (var i = 0; i < list.save_variable_list.length; i++) {
-						list.save_variable_list[i].$index = false;
+					for (var i = 0; i < list.demography_variable_list.length; i++) {
+						list.demography_variable_list[i].$index = false;
 					}
 					if (scope.current_checked === scope.last_checked) {
 						scope.current_checked = false;
@@ -245,7 +245,7 @@
 							icon: 'fa fa-search',
 							items: _newVariables
 						};
-						angular.forEach(scope.save_variable_list, function(item){
+						angular.forEach(scope.demography_variable_list, function(item){
 							setTimeout(function(){
 								_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+item._variable_id+'"]'));
 								_icon_data_id.addClass('fa fa-check').css(
@@ -256,7 +256,7 @@
 					}
 					else {
 						scope.menu = scope.currentVariables;
-						angular.forEach(scope.save_variable_list, function(item){
+						angular.forEach(scope.demography_variable_list, function(item){
 							setTimeout(function(){
 								_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+item._variable_id+'"]'));
 								_icon_data_id.addClass('fa fa-check').css(
@@ -325,26 +325,26 @@
 				};
 				
 				scope.removeVariable = function(parent,index) {
-					_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+scope.save_variable_list[index]._variable_id+'"]'));
+					_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+scope.demography_variable_list[index]._variable_id+'"]'));
 					_icon_data_id.removeClass('fa fa-check').css(
 						{ "transition": "all linear 0.25s"}
 					);
 
-					if (scope.save_variable_list[index].$index === true){
+					if (scope.demography_variable_list[index].$index === true){
 						BaseMapFactory.delPobVivWMS();
-						scope.save_variable_list.splice(index,1);
+						scope.demography_variable_list.splice(index,1);
 						scope._variable_flag.splice(index,1);
 					}
 					else {
-						scope.save_variable_list.splice(index,1);
+						scope.demography_variable_list.splice(index,1);
 						scope._variable_flag.splice(index,1);
 					}
 					
 					if (scope._variable_flag.length === 1) {
-						scope.save_variable_list[0].$index = true;
-						scope.current_checked = scope.save_variable_list[0];
-						scope.last_checked = scope.save_variable_list[0];
-						_demographyWKTRequest(scope.save_variable_list[0]._variable_id);
+						scope.demography_variable_list[0].$index = true;
+						scope.current_checked = scope.demography_variable_list[0];
+						scope.last_checked = scope.demography_variable_list[0];
+						_demographyWKTRequest(scope.demography_variable_list[0]._variable_id);
 					}
 
 				}

@@ -24,7 +24,6 @@
 				'</ul>',
 			].join(''),
 			controller: function($scope){
-				console.log($scope.$parent)
 				var dm = this;
 				$scope.location_list = false;
 				$scope.competence_list = false;
