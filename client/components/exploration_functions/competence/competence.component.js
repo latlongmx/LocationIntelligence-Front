@@ -59,7 +59,7 @@
 												'<md-switch class="md-primary md-mode-A200" aria-label="all-competences" ng-model="all_competences" ng-change="toggleGralCompetences(competence)"></md-switch>',
 										'</div>',
 									'</div>',
-									
+
 								'</div>',
 							'</div>',
 						'</div>',
@@ -114,7 +114,7 @@
 				if (!scope.toggleCompetence) {
 					scope.toggleCompetence = [];
 				}
-				
+
 				CompetenceVarJsonService.competenceVarJsonRequest()
 				.then(function(result){
 					scope.currentCompetenceItems = result.data;
@@ -145,18 +145,19 @@
 									if(lastCompetenceLayer) {
 										var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
 									}
-									
+
 									scope.save_competence_variable_list.push(lastCompetenceLayer);
 									BaseMapFactory.addLocation({
 										name: idCompetenceLayer,
-										data: lastCompetenceLayer.data
+										data: lastCompetenceLayer.data,
+										extend: lastCompetenceLayer.extend
 									});
 								}
 							});
 						}
 					}, function(failAdding) {
 						if (failAdding === undefined) {
-							
+
 						}
 					});
 				}
@@ -178,7 +179,8 @@
 									scope.save_competence_variable_list.push(lastCompetenceLayer);
 									BaseMapFactory.addLocation({
 										name: idCompetenceLayer,
-										data: lastCompetenceLayer.data
+										data: lastCompetenceLayer.data,
+										extend: lastCompetenceLayer.extend
 									});
 								}
 							});
@@ -187,7 +189,7 @@
 						console.log(failAdding);
 					});
 				}
-				
+
 				scope.addCompetenceByName = function(ev){
 					$mdDialog.show({
 						controller: 'AddCompetenceByNameController',
@@ -206,7 +208,8 @@
 									scope.save_competence_variable_list.push(lastCompetenceLayer);
 									BaseMapFactory.addLocation({
 										name: idCompetenceLayer,
-										data: lastCompetenceLayer.data
+										data: lastCompetenceLayer.data,
+										extend: lastCompetenceLayer.extend
 									});
 								}
 							});
@@ -215,7 +218,7 @@
 						console.log(failAdding);
 					});
 				}
-				
+
 				scope.editLayerCompetence = function(this_item, competence_item, index){
 					var id = competence_item.id_layer +'-'+ competence_item.name_layer.replace(' ','_');
 					$mdDialog.show({
