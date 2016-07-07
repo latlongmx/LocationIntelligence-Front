@@ -89,10 +89,10 @@
 										'<p flex="35" class="m-side-panel__locations-list__item">{{competence.name_layer}}</p>',
 										'<p flex="20" class="m-side-panel__locations-list__item">{{competence.num_features}}</p>',
 										'<md-switch ng-disabled="is_toggle_gral" ng-model="layer" flex="10" md-no-ink aria-label="competence.id_layer" ng-change="turnOnOffLayerCompetence(layer, competence)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
-										'<md-button data-id-competence="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToLayer(competence.id_layer, competence.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
+										'<md-button data-id-competence="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToCompetenceLayer(competence.id_layer, competence.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 											'<md-icon>zoom_in</md-icon>',
 										'</md-button>',
-										'<md-button data-id-competence="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerCompetence($parent, competence)">',
+										'<md-button data-id-competence="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="editLayerCompetence($parent, competence, $index)">',
 											'<md-icon>create</md-icon>',
 										'</md-button>',
 										'<md-button data-id-layer="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="removeCompetence(competence, competence.id_layer, competence.name_layer, $index)">',
@@ -130,19 +130,18 @@
 							scope.se = null;
 							scope.bbox = null;
 							CompetenceService.getCompetences({competence: '1'}).then(function(res){
-								console.log(res)
-								// if(res.data && res.data.places){
-								// 	var lastCompetenceLayer = res.data.places[res.data.places.length -1];
-								// 	if(lastCompetenceLayer) {
-								// 		var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
-								// 	}
+								if(res.data && res.data.places){
+									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
+									if(lastCompetenceLayer) {
+										var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
+									}
 									
-								// 	scope.save_competence_variable_list.push(lastCompetenceLayer);
-								// 	BaseMapFactory.addLocation({
-								// 		name: idCompetenceLayer,
-								// 		data: lastCompetenceLayer.data
-								// 	});
-								// }
+									scope.save_competence_variable_list.push(lastCompetenceLayer);
+									BaseMapFactory.addLocation({
+										name: idCompetenceLayer,
+										data: lastCompetenceLayer.data
+									});
+								}
 							});
 						}
 					}, function(failAdding) {
@@ -191,6 +190,7 @@
 						if (newCompetence) {
 							LocationService.getLocations({competence: '1'}).then(function(res){
 								if(res.data && res.data.places){
+									console.log(res.data.places)
 									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
 									var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
 									scope.save_competence_variable_list.push(lastCompetenceLayer);
@@ -206,7 +206,7 @@
 					});
 				}
 				
-				scope.editLayerCompetence = function(this_item, competence_item){
+				scope.editLayerCompetence = function(this_item, competence_item, index){
 					var id = competence_item.id_layer +'-'+ competence_item.name_layer.replace(' ','_');
 					$mdDialog.show({
 						controller: 'EditLayerCompetenceController',
@@ -219,16 +219,25 @@
 						},
 					})
 					.then(function(updateLayer) {
-						if (updateLayer == true) {
+						if (updateLayer.success === true) {
+							console.log(scope.save_competence_variable_list[index].name_layer)
+							if (updateLayer.icon) {
+								scope.save_competence_variable_list[index].pin_url = updateLayer.icon;
+							}
+							if (updateLayer.nom) {
+								scope.save_competence_variable_list[index].name_layer = updateLayer.nom;
+							}
 							_.map(scope.toggleCompetence, function(layerOn){
-								if (layerOn.location.location.id_layer === competence_item.id_layer && layerOn.location.layer === true) {
-									BaseMapFactory.updateLocationID(competence_item.id_layer);
+								if (layerOn) {
+									if (layerOn.location.location.id_layer === location_item.id_layer && layerOn.location.layer === true) {
+										BaseMapFactory.updateLocationID(location_item.id_layer);
+										BaseMapFactory.addLayerIfTurnedOn(location_item.id_layer);
+									}
 								}
-								if (layerOn.location.location.id_layer === competence_item.id_layer && !layerOn.location.layer) {
-									BaseMapFactory.updateLocationID(competence_item.id_layer);
+								else {
+									BaseMapFactory.updateLocationID(location_item.id_layer);
 									BaseMapFactory.hideLocation(id)
 								}
-
 							});
 						}
 					}, function(failAdding) {
@@ -236,7 +245,7 @@
 					});
 				}
 
-				scope.zoomToLayer = function(id_layer, name_layer) {
+				scope.zoomToCompetenceLayer = function(id_layer, name_layer) {
 					var id = id_layer +'-'+ name_layer.replace(' ','_');
 					BaseMapFactory.zoomLocation(id);
 				}

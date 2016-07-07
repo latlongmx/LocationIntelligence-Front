@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function explorationFunctions(LocationService, BaseMapFactory, $timeout, Auth){
+	function explorationFunctions(LocationService, BaseMapFactory, $timeout, Auth, CompetenceService){
 		var _$js_exploration_item = null,
 		_data_ep = null,
 		_currentPanelActive = null,
@@ -48,6 +48,7 @@
 					if(_previous_data_side_panel){
 						!_current_data_side_panel ? [_current_data_side_panel.removeClass('is-panel-open'), _previous_data_side_panel = ""] : _previous_data_side_panel.removeClass('is-panel-open');
 					}
+
 					if (_data_ep === "location"){
 						if (!$scope.locations){
 							$scope.location_list = true;
@@ -72,16 +73,13 @@
 						}
 					}
 
-
 					if (_data_ep === "competence"){
-
 						if (!$scope.save_competence_variable_list){
 							$scope.competence_list = true;
-							LocationService.getLocations({
+							CompetenceService.getCompetences({
 								competence: '1'
 							})
 							.then(function(res){
-								console.log(res)
 								if(res.data && res.data.places){
 									$scope.competence_list = false;
 									$scope.save_competence_variable_list = res.data.places;
@@ -98,12 +96,11 @@
 						}
 					}
 				});
-
 			}
 		};
 	}
 
-	explorationFunctions.$inject = ['LocationService', 'BaseMapFactory', '$timeout', 'Auth'];
+	explorationFunctions.$inject = ['LocationService', 'BaseMapFactory', '$timeout', 'Auth', 'CompetenceService'];
 
 	angular.module('exploration.directive', [])
 		.directive('explorationFunctions', explorationFunctions);
