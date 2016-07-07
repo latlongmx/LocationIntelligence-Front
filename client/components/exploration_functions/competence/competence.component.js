@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function componentDirective(_, $mdDialog, $mdToast, $document, $timeout, CompetenceService, BaseMapFactory, BaseMapService, Auth, $log){
+	function componentDirective(_, $mdDialog, $mdToast, $mdMedia, $document, $timeout, CompetenceService, CompetenceVarJsonService, BaseMapFactory, BaseMapService, Auth, $log){
 		var _access_token = Auth.getToken();
 		return {
 			restrict: 'E',
@@ -56,7 +56,7 @@
 											'<h5 class="m-side-panel__subtitle m-side-panel__subtitle--in-locations-actions">Mostrar/ocultar Capas activas</h5>',
 										'</div>',
 										'<div flex="25">',
-												'<md-switch class="md-primary md-mode-A200" aria-label="all-locations" ng-model="all" ng-change="toggleGralCompetences(competence)"></md-switch>',
+												'<md-switch class="md-primary md-mode-A200" aria-label="all-competences" ng-model="all_competences" ng-change="toggleGralCompetences(competence)"></md-switch>',
 										'</div>',
 									'</div>',
 									
@@ -88,7 +88,7 @@
 										'</div>',
 										'<p flex="35" class="m-side-panel__locations-list__item">{{competence.name_layer}}</p>',
 										'<p flex="20" class="m-side-panel__locations-list__item">{{competence.num_features}}</p>',
-										'<md-switch ng-disabled="is_toggle_gral" ng-model="layer" flex="10" md-no-ink aria-label="competence.id_layer" ng-change="turnOnOffLayerCompetence(layer, competence)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
+										'<md-switch ng-disabled="is_toggle_gral_competence" ng-model="layer" flex="10" md-no-ink aria-label="competence.id_layer" ng-change="turnOnOffLayerCompetence(layer, competence)" class="md-primary m-side-panel__locations-list__item"></md-switch>',
 										'<md-button data-id-competence="competence.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__locations-list__item" ng-click="zoomToCompetenceLayer(competence.id_layer, competence.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
 											'<md-icon>zoom_in</md-icon>',
 										'</md-button>',
@@ -114,6 +114,13 @@
 				if (!scope.toggleCompetence) {
 					scope.toggleCompetence = [];
 				}
+				
+				CompetenceVarJsonService.competenceVarJsonRequest()
+				.then(function(result){
+					scope.currentCompetenceItems = result.data;
+				}, function(error){
+					console.log(error);
+				});
 
 				scope.addCompetenceByVariable = function(ev){
 					$mdDialog.show({
@@ -122,6 +129,9 @@
 						parent: angular.element(document.body),
 						targetEvent: ev,
 						clickOutsideToClose:true,
+						locals: {
+							competence_variables: scope.currentCompetenceItems
+						}
 					})
 					.then(function(newCompetence) {
 						if (newCompetence) {
@@ -187,10 +197,10 @@
 						clickOutsideToClose:true
 					})
 					.then(function(newCompetence) {
-						if (newCompetence) {
-							LocationService.getLocations({competence: '1'}).then(function(res){
+						if (newCompetence.success === true) {
+							console.log(newCompetence)
+							CompetenceService.getCompetences({competence: '1'}).then(function(res){
 								if(res.data && res.data.places){
-									console.log(res.data.places)
 									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
 									var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
 									scope.save_competence_variable_list.push(lastCompetenceLayer);
@@ -220,7 +230,6 @@
 					})
 					.then(function(updateLayer) {
 						if (updateLayer.success === true) {
-							console.log(scope.save_competence_variable_list[index].name_layer)
 							if (updateLayer.icon) {
 								scope.save_competence_variable_list[index].pin_url = updateLayer.icon;
 							}
@@ -289,23 +298,23 @@
 					}
 				}
 
-				scope.competenceToggleGral = function() {
-					if (scope.toggleCompetence.length === 0) {
-						scope.is_toggle_gral = false;
-					}
+				scope.toggleGralCompetences = function() {
 					if(this.all_competences === true) {
 						_.each(scope.toggleCompetence, function(com){
 							com.competence.layer = false;
-							scope.is_toggle_gral = true;
+							scope.is_toggle_gral_competence = true;
 							BaseMapFactory.hideLocation(com.id_layer);
 						});
 					}
 					else {
 						_.each(scope.toggleCompetence, function(com){
 							com.competence.layer = true;
-							scope.is_toggle_gral = false;
+							scope.is_toggle_gral_competence = false;
 							BaseMapFactory.showLocation(com.id_layer);
 						});
+					}
+					if (scope.toggleCompetence.length === 0) {
+						scope.is_toggle_gral_competence = false;
 					}
 				}
 
@@ -324,7 +333,7 @@
 		};
 	}
 
-	componentDirective.$inject = ['_', '$mdDialog', '$mdToast', '$document', '$timeout', 'CompetenceService', 'BaseMapFactory','BaseMapService', 'Auth', '$log'];
+	componentDirective.$inject = ['_', '$mdDialog', '$mdToast', '$mdMedia', '$document', '$timeout', 'CompetenceService', 'CompetenceVarJsonService', 'BaseMapFactory','BaseMapService', 'Auth', '$log'];
 
 	angular.module('competence.directive', [])
 		.directive('competence', componentDirective);

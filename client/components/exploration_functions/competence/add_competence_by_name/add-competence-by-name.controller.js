@@ -4,8 +4,13 @@
 	*/
 	'use strict';
 
-	function AddCompetenceByNameController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, CompetenceService, BaseMapService){
+	function AddCompetenceByNameController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, CompetenceService, BaseMapService, BaseMapFactory){
 
+		var uploader = $scope.uploader = new FileUploader({
+			queueLimit: 1,
+			isUploading: true
+		});
+		
 		$scope.name_bounds = null;
 		$scope.name_nw = null;
 		$scope.name_se = null;
@@ -16,34 +21,77 @@
 			$scope.name_se = $scope.name_bounds.getSouthEast();
 			$scope.name_bbox = [$scope.name_nw.lng, $scope.name_se.lat, $scope.name_se.lng, $scope.name_nw.lat].join(',');
 		});
+		
+		uploader.filters.push({
+			name: 'imageFilterByName',
+			fn: function(item, options) {
+				if (item.type === "image/png") {
+					if (uploader.queue.length === 1) {
+						if (uploader.queue[0]) {
+							if (uploader.queue[0]._file.type === item.type) {
+								_showToastMessage('Removiendo ' + uploader.queue[0]._file.name);
+								uploader.removeFromQueue(uploader.queue[0]);
+								return true;
+							}
+							else {
+								return true;
+							}
+						}
+					}
+					else{
+						return true;
+					}
+				}
+				else {
+					return _showToastMessage('Icono o marker no válido');
+				}
+			}
+		});
+
+		uploader.onAfterAddingFile = function(item) {
+			_validateFile(item);
+		}
 
 		$scope.loadCompetenceName = function(validForm, competenceNameData) {
 			if (validForm.$valid === true) {
+				var formData = new FormData();
+				var pin = "";
+				if (uploader.queue[0]) {
+					pin = uploader.queue[0]._file;
+				}
 				BaseMapService.addCompetenciaQuery({
 					qf: competenceNameData.query_find,
 					qb: $scope.name_bbox,
 					competence:"1",
-					nm: competenceNameData.nm
-				})
+					nm: competenceNameData.nm,
+					pin: pin?pin:''
+				}, formData)
 				.then(function(result){
 					if (result.statusText === 'OK') {
-						CompetenceService.getCompetences({competence: '1'}).then(function(res){
-							if(res.data && res.data.places){
-								var lastCompetenceLayer = res.data.places[res.data.places.length -1];
-								var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
-								$scope.save_competence_variable_list.push(lastCompetenceLayer);
-								BaseMapFactory.addLocation({
-									name: idCompetenceLayer,
-									data: lastCompetenceLayer.data
-								});
-							}
-						});
+						$mdDialog.hide({success: true});
 					}
 				}, function(error){
 					console.log(error);
 				});
 			}
 
+		}
+		
+		var _validateFile = function(file) {
+			
+			$scope.validateIcon = true;
+			var fileType = file._file.type;
+			$timeout(function(){
+				if (fileType === "image/png") {
+					_showToastMessage('Icono válido');
+					$scope.icon = uploader.queue[0].file.name;
+				}
+				else {
+					_showToastMessage('Icono o marker no válido');
+					uploader.clearQueue();
+				}
+				$scope.validateIcon = false;
+			}, 2500);
 		}
 		
 		$scope.hide = function() {
@@ -73,7 +121,7 @@
 
 	};
 
-	AddCompetenceByNameController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'CompetenceService', 'BaseMapService'];
+	AddCompetenceByNameController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'CompetenceService', 'BaseMapService', 'BaseMapFactory'];
 
 	angular.module('add.competence.name.controller', []).
 	controller('AddCompetenceByNameController', AddCompetenceByNameController);

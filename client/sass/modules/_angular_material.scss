@@ -1,5 +1,17 @@
-
 md-dialog,
 md-toolbar {
 	@include radius(0 !important);
+}
+
+.m-dialog--in-competence-by-name {
+	width: 350px;
+}
+
+.m-dialog-by-name__content {
+	md-input-container {
+		margin-bottom:0;
+	}
+}
+.m-dialog--in-competence-by-var {
+	width: 350px;
 }
