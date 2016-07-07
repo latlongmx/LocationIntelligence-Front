@@ -131,11 +131,12 @@
 				var _addCompetenciaQuery = $http({
 					url: this.apiBaseURL + '/ws/places',
 					method: 'POST',
+					transformRequest: angular.identity,
 					headers: {
-						'Content-Type': 'application/json',
+						'Content-Type': undefined,
 						'Authorization': 'Bearer '+access_token
 					},
-					params: opts
+					data: opts
 				});
 				_addCompetenciaQuery.then(function(result){
 					deferred.resolve(result);
