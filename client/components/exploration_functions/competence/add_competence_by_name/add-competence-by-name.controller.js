@@ -10,7 +10,7 @@
 			queueLimit: 1,
 			isUploading: true
 		});
-		
+
 		$scope.name_bounds = null;
 		$scope.name_nw = null;
 		$scope.name_se = null;
@@ -21,7 +21,7 @@
 			$scope.name_se = $scope.name_bounds.getSouthEast();
 			$scope.name_bbox = [$scope.name_nw.lng, $scope.name_se.lat, $scope.name_se.lng, $scope.name_nw.lat].join(',');
 		});
-		
+
 		uploader.filters.push({
 			name: 'imageFilterByName',
 			fn: function(item, options) {
@@ -59,13 +59,14 @@
 				if (uploader.queue[0]) {
 					pin = uploader.queue[0]._file;
 				}
-				BaseMapService.addCompetenciaQuery({
-					qf: competenceNameData.query_find,
-					qb: $scope.name_bbox,
-					competence:"1",
-					nm: competenceNameData.nm,
-					pin: pin?pin:''
-				}, formData)
+
+				formData.append('qf', competenceNameData.query_find );
+				formData.append('qb', $scope.name_bbox );
+				formData.append('competence', "1" );
+				formData.append('nm', competenceNameData.nm );
+				formData.append('pin', pin?pin:'' );
+
+				BaseMapService.addCompetenciaQuery(formData)
 				.then(function(result){
 					if (result.statusText === 'OK') {
 						$mdDialog.hide({success: true});
@@ -76,9 +77,9 @@
 			}
 
 		}
-		
+
 		var _validateFile = function(file) {
-			
+
 			$scope.validateIcon = true;
 			var fileType = file._file.type;
 			$timeout(function(){
@@ -93,7 +94,7 @@
 				$scope.validateIcon = false;
 			}, 2500);
 		}
-		
+
 		$scope.hide = function() {
 			uploader.clearQueue();
 			$mdDialog.hide();
@@ -102,7 +103,7 @@
 		$scope.cancel = function() {
 			$mdDialog.cancel();
 		};
-		
+
 
 		/**
 		 * [_showToastMessage Function to open $mdDialog]
