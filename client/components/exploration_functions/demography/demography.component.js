@@ -38,9 +38,7 @@
 							'<div class="m-catalog-filter js-filter-demography-catalog">',
 								'<input type="text" class="m-input m-input--in-demography__catalog" ng-model="search" ng-change="quickFilter()" placeholder="Filtro rápido">',
 							'</div>',
-							'<div>',
-							'</div>',
-							// '<wxy-push-menu menu="menu" options="options"></wxy-push-menu>',
+							'<wxy-push-menu menu="menu" options="options_one"></wxy-push-menu>',
 						'</div>',
 					'</div>',
 				'</div>'
@@ -68,6 +66,7 @@
 				scope.current_checked = null;
 				scope.last_on = null;
 				scope.current_on = null;
+				scope.options = {};
 				
 				if (!scope.save_variable_list) {
 					scope.save_variable_list = [];
@@ -109,10 +108,11 @@
 				/**
 				 * [ Methods and options for menu ]
 				 */
-				scope.options = {
+				scope.options_one = {
 					collapsed: true,
 					fullCollapse: true,
 					wrapperClass: 'multilevelpushmenu_wrapper',
+					direction: 'ltr',
 					onExpandMenuStart: function() {
 						setTimeout(function(){
 							angular.element(document.getElementsByClassName('js-filter-demography-catalog')).addClass('is-filter-demography-active');

@@ -24,6 +24,7 @@
 				'</ul>',
 			].join(''),
 			controller: function($scope){
+				console.log($scope.$parent)
 				var dm = this;
 				$scope.location_list = false;
 				$scope.competence_list = false;
@@ -52,6 +53,7 @@
 					if (_data_ep === "location"){
 						if (!$scope.locations){
 							$scope.location_list = true;
+							
 							LocationService.getLocations()
 							.then(function(res){
 								if(res.data && res.data.places){
@@ -94,6 +96,7 @@
 					}
 				});
 			}
+			
 		};
 	}
 

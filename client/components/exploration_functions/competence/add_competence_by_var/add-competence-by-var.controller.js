@@ -59,25 +59,30 @@
 		/**
 		 * Get demography variables
 		 */
-		$scope.currentCompetenceItems = competence_variables;
-		$scope.list = true;
-		$scope.currentCompetenceVariables = {
-			"title":"WORD",
-			"idCatalog": 2,
-			"icon": "",
-			"items": $scope.currentCompetenceItems
-		};
-		$scope.menu = $scope.currentCompetenceVariables;
+		 CompetenceVarJsonService.competenceVarJsonRequest()
+		 .then(function(result){
+		 	$scope.currentCompetenceItems = result.data;
+		 	$scope.list = true;
+		 	$scope.currentCompetenceVariables = {
+		 		"title":"WORD",
+		 		"idCatalog": 2,
+		 		"icon": "",
+		 		"items": $scope.currentCompetenceItems
+		 	};
+		 	$scope.menu = $scope.currentCompetenceVariables;
+		 }, function(error){
+		 	console.log(error);
+		 });
 
 		/**
 		 * [ Methods and options for menu ]
 		 */
-		$scope.opciones = {
+		$scope.options = {
 			collapsed: false,
 			fullCollapse: true,
-			overlapWidth: 0,
 			mode: 'cover',
 			wrapperClass: 'multilevelpushmenu_wrapper--in-competence',
+			direction: 'ltr',
 			onItemClick: function(event, item) {
 				_variable_id = item.id;
 				_variable_name = item.name;

@@ -114,13 +114,6 @@
 				if (!scope.toggleCompetence) {
 					scope.toggleCompetence = [];
 				}
-				
-				CompetenceVarJsonService.competenceVarJsonRequest()
-				.then(function(result){
-					scope.currentCompetenceItems = result.data;
-				}, function(error){
-					console.log(error);
-				});
 
 				scope.addCompetenceByVariable = function(ev){
 					$mdDialog.show({

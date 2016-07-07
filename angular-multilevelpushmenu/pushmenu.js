@@ -43,6 +43,10 @@
           var options, width;
           $scope.options = options = angular.extend(wxyOptions, $scope.options);
           $scope.level = 0;
+          $scope.options = {
+            wrapperClass: $scope.options.wrapperClass || 'no-class' ,
+            direction: $scope.options.direction || 'ltr'
+          };
           $scope.visible = true;
           width = options.menuWidth || 265;
           //$element.find('nav').width(width + options.overlapWidth * wxyUtils.DepthOf($scope.menu));
@@ -53,7 +57,7 @@
             return options;
           };
         }],
-        templateUrl: './components/exploration_functions/demography/MainMenu.html',
+        templateUrl: './components/multilevelmenu_template/MainMenu.html',
         restrict: 'E',
         replace: true
       };
@@ -188,7 +192,7 @@
             };
           })(this));
         },
-        templateUrl: './components/exploration_functions/demography/SubMenu.html',
+        templateUrl: './components/multilevelmenu_template/SubMenu.html',
         require: '^wxyPushMenu',
         restrict: 'EA',
         replace: true
