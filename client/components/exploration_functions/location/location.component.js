@@ -219,6 +219,7 @@
 				scope.toggleGral = function() {
 					if(this.all === true) {
 						_.each(scope.toggleLocations, function(loc){
+							console.log(loc)
 							loc.location.layer = false;
 							scope.is_toggle_gral = true;
 							BaseMapFactory.hideLocation(loc.id_layer);
@@ -226,6 +227,7 @@
 					}
 					else {
 						_.each(scope.toggleLocations, function(loc){
+							console.log(loc)
 							loc.location.layer = true;
 							scope.is_toggle_gral = false;
 							BaseMapFactory.showLocation(loc.id_layer);

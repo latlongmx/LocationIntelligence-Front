@@ -38,7 +38,9 @@
 							'<div class="m-catalog-filter js-filter-demography-catalog">',
 								'<input type="text" class="m-input m-input--in-demography__catalog" ng-model="search" ng-change="quickFilter()" placeholder="Filtro rápido">',
 							'</div>',
-							'<wxy-push-menu menu="menu" options="options"></wxy-push-menu>',
+							'<div>',
+							'</div>',
+							// '<wxy-push-menu menu="menu" options="options"></wxy-push-menu>',
 						'</div>',
 					'</div>',
 				'</div>'

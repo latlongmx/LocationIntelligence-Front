@@ -4,11 +4,12 @@
 	*/
 	'use strict';
 
-	function AddCompetenceByVarController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, CompetenceVarJsonService, BaseMapService){
+	function AddCompetenceByVarController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, CompetenceVarJsonService, BaseMapService, competence_variables){
 		$scope.bounds = null;
 		$scope.nw = null;
 		$scope.se = null;
 		$scope.bbox = null;
+
 		BaseMapService.map.then(function (map) {
 			$scope.bounds = map.getBounds();
 			$scope.nw = $scope.bounds.getNorthWest();
@@ -58,50 +59,25 @@
 		/**
 		 * Get demography variables
 		 */
-		CompetenceVarJsonService.competenceVarJsonRequest()
-		.then(function(result){
-			$scope.currentCompetenceItems = result.data;
-			$scope.list = true;
-			$scope.currentCompetenceVariables = {
-				"title":"WORD",
-				"idCatalog": 2,
-				"icon": "",
-				"items": $scope.currentCompetenceItems
-			};
-			$scope.menu = $scope.currentCompetenceVariables;
-		}, function(error){
-			console.log(error);
-		});
+		$scope.currentCompetenceItems = competence_variables;
+		$scope.list = true;
+		$scope.currentCompetenceVariables = {
+			"title":"WORD",
+			"idCatalog": 2,
+			"icon": "",
+			"items": $scope.currentCompetenceItems
+		};
+		$scope.menu = $scope.currentCompetenceVariables;
 
 		/**
 		 * [ Methods and options for menu ]
 		 */
-		$scope._competence_options = {
+		$scope.opciones = {
 			collapsed: false,
 			fullCollapse: true,
 			overlapWidth: 0,
 			mode: 'cover',
 			wrapperClass: 'multilevelpushmenu_wrapper--in-competence',
-			// onExpandMenuStart: function() {
-			// 	setTimeout(function(){
-			// 		angular.element(document.getElementsByClassName('js-filter-competence-catalog')).addClass('is-filter-competence-active');
-			// 	}, 500);
-			// 	var search = angular.element(document.getElementsByClassName('testing'));
-			// 	angular.element(search[0]).removeClass('fa-search').addClass('fa-times').css({
-			// 		"-webkit-transition": "all linear 0.25s",
-			// 		"-moz-transition": "all linear 0.25s",
-			// 		"-o-transition": "all linear 0.25s",
-			// 		"-ms-transition": "all linear 0.25s",
-			// 		"transition": "all linear 0.25s"
-			// 	});
-			// },
-			// onCollapseMenuEnd: function(event, item) {
-			// 	var hide = angular.element(document.getElementsByClassName('testing'));
-			// 	angular.element(hide[0]).removeClass('fa-times').addClass('fa-search');
-			// },
-			// onCollapseMenuStart: function() {
-			// 	angular.element(document.getElementsByClassName('js-filter-competence-catalog')).removeClass('is-filter-competence-active').val("");
-			// },
 			onItemClick: function(event, item) {
 				_variable_id = item.id;
 				_variable_name = item.name;
@@ -115,7 +91,7 @@
 							textContent: 'Se agregó ' + _variable_name,
 							position: 'top right',
 							hideDelay: 1500,
-							parent: $document[0].querySelector('.md-dialog-container'),
+							parent: $document[0].querySelector('.m-dialog--in-competence__var'),
 							autoWrap: true
 						})
 					);
@@ -164,7 +140,6 @@
 				);
 			}
 		};
-		
 
 		/**
 		 * [variableShowed Get or change variable that will be shown on the map]
@@ -318,7 +293,7 @@
 
 	};
 
-	AddCompetenceByVarController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'CompetenceVarJsonService', 'BaseMapService'];
+	AddCompetenceByVarController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'CompetenceVarJsonService', 'BaseMapService', 'competence_variables'];
 
 	angular.module('add.competence.var.controller', []).
 	controller('AddCompetenceByVarController', AddCompetenceByVarController);
