@@ -4,12 +4,14 @@
 	*/
 	'use strict';
 
-	function AddCompetenceByVarController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, CompetenceVarJsonService, BaseMapService, competence_variables){
+	function AddCompetenceByVarController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, CompetenceVarJsonService, BaseMapService, competence_variables, CompetenceService, competence_variables_selected){
+		console.log(competence_variables)
+		console.log(competence_variables_selected)
 		$scope.bounds = null;
 		$scope.nw = null;
 		$scope.se = null;
 		$scope.bbox = null;
-
+		var countAdded = 0;
 		BaseMapService.map.then(function (map) {
 			$scope.bounds = map.getBounds();
 			$scope.nw = $scope.bounds.getNorthWest();
@@ -17,8 +19,8 @@
 			$scope.bbox = [$scope.nw.lng, $scope.se.lat, $scope.se.lng, $scope.nw.lat].join(',');
 		});
 		var _newCompetenceVariables = null,
-		_resultProcess = null,
-		_matchWord = null,
+		_resultOfProcess = null,
+		_matchWordCompetence = null,
 		_matchInput = null,
 		_last_variable = null,
 		_variable_list = null,
@@ -33,6 +35,8 @@
 		_last_variable_flag = null,
 		_last_variable_list = null,
 		_last_list = null,
+		_competence_variable_id = [],
+		_current_competence_variable_id = null,
 		_last_flag = null;
 		$scope.last_competence_checked = null;
 		$scope.current_competence_checked = null;
@@ -48,6 +52,12 @@
 		if (!$scope._competence_array) {
 			$scope._competence_array = [];
 		}
+		
+		if (!$scope._id_layer_flag) {
+			$scope._id_layer_flag = [];
+		}
+		
+		_current_competence_variable_id = competence_variables_selected;
 		// $scope.$watchGroup(['_competence_variable_flag','save_competence_variable_list','current_competence_checked'], function(s){
 		// 	var found = _.filter(s[0],function(item){
 		// 		return item.indexOf(s[2]._variable_name) !== -1;
@@ -56,17 +66,27 @@
 		// 		BaseMapFactory.delPobVivWMS();
 		// 	}
 		// }, true);
+
 		/**
 		 * Get competence variables
 		 */
-		 	$scope.list = true;
-		 	$scope.currentCompetenceVariables = {
-		 		"title":"WORD",
-		 		"idCatalog": 2,
-		 		"icon": "",
-		 		"items": competence_variables
-		 	};
-		 	$scope.menu = $scope.currentCompetenceVariables;
+		$scope.list = true;
+		$scope.currentCompetenceVariables = {
+			"title":"DENUE",
+			"idCatalog": 2,
+			"icon": "",
+			"items": competence_variables
+		};
+		$scope.menu = $scope.currentCompetenceVariables;
+
+		_.each(_current_competence_variable_id, function(index){
+			setTimeout(function(){
+				_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+index+'"]'));
+				_icon_data_id
+				.toggleClass('fa-eye-slash fa-eye')
+				.toggleClass('is-added-to-map')
+			}, 0);
+		});
 
 		/**
 		 * [ Methods and options for menu ]
@@ -77,28 +97,17 @@
 			mode: 'cover',
 			wrapperClass: 'multilevelpushmenu_wrapper--in-competence',
 			direction: 'ltr',
+			backItemClass: 'backCompClass',
+			backText: 'Atrás',
 			onItemClick: function(event, item) {
 				_variable_id = item.id;
 				_variable_name = item.name;
-				
+
 				if($scope._competence_variable_flag.indexOf(_variable_name) === -1){
 					$scope._competence_variable_flag.push(_variable_name);
 					$scope.save_competence_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
-					$mdToast.show(
-						$mdToast.simple({
-							textContent: 'Se agregó ' + _variable_name,
-							position: 'top right',
-							hideDelay: 1500,
-							parent: $document[0].querySelector('.m-dialog--in-competence__var'),
-							autoWrap: true
-						})
-					);
-					
-					if ($scope._competence_variable_flag.length === 1) {
-						$scope.current_competence_checked = $scope.save_competence_variable_list[0];
-						$scope.last_competence_checked = $scope.save_competence_variable_list[0];
-						_addCompetenceToList($scope.save_competence_variable_list[0]._variable_name, $scope.save_competence_variable_list[0]._variable_id);
-					}
+					_showToastMessage('Se agregó ' + _variable_name);
+					_addCompetenceToList(_variable_name, _variable_id);
 				}
 
 				else {
@@ -106,77 +115,35 @@
 						if ($scope._competence_variable_flag[i] === _variable_name){
 							$scope._competence_variable_flag.splice(i,1);
 							$scope.save_competence_variable_list.splice(i,1);
-							//BaseMapFactory.delPobVivWMS();
+							CompetenceService.delCompetence( $scope._id_layer_flag[i] )
+							$scope._id_layer_flag.splice(i,1);
+							countAdded = countAdded - 1;
 							break;
 						}
 					}
-
-					if ($scope._competence_variable_flag.length === 1) {
-						setTimeout(function(){
-							$scope.save_competence_variable_list[0].$index = true;
-							$scope.current_competence_checked = $scope.save_competence_variable_list[0];
-							$scope.last_competence_checked = $scope.save_competence_variable_list[0];
-						}, 500);
-						_addCompetenceToList($scope.save_competence_variable_list[0]._variable_name, $scope.save_competence_variable_list[0]._variable_id);
-					}
-					
-					if ($scope._competence_variable_flag.length === 0) {
-						//BaseMapFactory.delPobVivWMS();
-					}
-					$mdToast.show(
-						$mdToast.simple({
-							textContent: 'Se removió ' + _variable_name,
-							position: 'top right',
-							hideDelay: 2500,
-							parent: $document[0].querySelector('.md-dialog-container'),
-						})
-					);
+					_showToastMessage('Se removió ' + _variable_name);
 
 				}
-				angular.element(event.currentTarget.children).toggleClass('fa fa-check').css(
-					{"color": "#C3EE97", "transition": "all linear 0.25s"}
-				);
+				angular.element(event.currentTarget.children)
+				.toggleClass('fa-eye-slash fa-eye')
+				.toggleClass('is-added-to-map')
+				.css("transition", "all linear 0.25s");
 			}
 		};
-
-		/**
-		 * [variableShowed Get or change variable that will be shown on the map]
-		 * @param  {[type]} list  [list of all variables]
-		 * @param  {[type]} index [currend variable index ]
-		 */
-		// $scope.variableShowed = function(list, index){
-		// 	_column_request = this.variable._variable_id;
-		// 	$scope.last_competence_checked = $scope.current_competence_checked;
-		// 	$scope.current_competence_checked = list.save_variable_list[index];
-			
-		// 	for (var i = 0; i < list.save_variable_list.length; i++) {
-		// 		list.save_variable_list[i].$index = false;
-		// 	}
-		// 	if ($scope.current_competence_checked === $scope.last_competence_checked) {
-		// 		$scope.current_competence_checked = false;
-		// 		BaseMapFactory.delPobVivWMS();
-		// 	}
-		// 	else {
-		// 		$scope.current_competence_checked.$index = true;
-		// 		BaseMapFactory.delPobVivWMS();
-		// 		$scope.last_competence_checked = false;
-		// 		_addCompetenceToList(_column_request);
-		// 	}
-		// };
 
 		/**
 		 * [quickFilter Function to get filter values from catalog]
 		 */
 		$scope.quickCompetenceFilter = function(){
 			$scope._competence_array = [];
-			_resultProcess = null;
-			_matchWord = this.search;
+			_resultOfProcess = null;
+			_matchWordCompetence = this.search_competence;
 
 			/**
 			 * [_newCompetenceVariables Get result of getObject Match words function]
 			 */
 			_newCompetenceVariables = getObject($scope.currentCompetenceVariables.items);
-			if (_newCompetenceVariables && _matchWord !== "") {
+			if (_newCompetenceVariables && _matchWordCompetence !== "") {
 				$scope.menu = {
 					title: 'Resultados',
 					id: 'menuId',
@@ -186,8 +153,8 @@
 				angular.forEach($scope.save_competence_variable_list, function(item){
 					setTimeout(function(){
 						_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+item._variable_id+'"]'));
-						_icon_data_id.addClass('fa fa-check').css(
-							{"color": "#C3EE97", "transition": "all linear 0.25s"}
+						_icon_data_id.addClass('fa fa-eye').css(
+							{"color": "#666470", "transition": "all linear 0.25s"}
 						);
 					}, 0);
 				});
@@ -197,8 +164,8 @@
 				angular.forEach($scope.save_competence_variable_list, function(item){
 					setTimeout(function(){
 						_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+item._variable_id+'"]'));
-						_icon_data_id.addClass('fa fa-check').css(
-							{"color": "#C3EE97", "transition": "all linear 0.25s"}
+						_icon_data_id.addClass('fa fa-eye').css(
+							{"color": "#666470", "transition": "all linear 0.25s"}
 						);
 					}, 0);
 				});
@@ -213,7 +180,7 @@
 				_.each(theObject,function(o){
 					var items = o.menu.items;
 					var found = _.filter(items,function(item){
-						return item.name.toLowerCase().indexOf( _matchWord ) !== -1;
+						return item.name.toLowerCase().indexOf( _matchWordCompetence ) !== -1;
 					});
 					if(found.length > 0){
 						_.extend($scope._competence_array,found);
@@ -229,48 +196,39 @@
 		 */
 		var _addCompetenceToList = function(param, id) {
 			var formData = new FormData();
-	    var pin = "";
-	    console.log($scope.bbox)
-	    formData.append('qf', "cod:"+id );
-	    formData.append('qb', $scope.bbox );
-	    formData.append('competence', "1" );
-	    formData.append('nm', param );
-	    formData.append('pin', pin );
+			var pin = "";
+			formData.append('qf', "cod:"+id );
+			formData.append('qb', $scope.bbox );
+			formData.append('competence', "1" );
+			formData.append('nm', param );
+			formData.append('pin', pin );
 
-	    BaseMapService.addCompetenciaQuery(formData)
-	    .then(function(result){
-	     if (result.statusText === 'OK') {
-	      $mdDialog.hide({success: true});
-	     }
-	    }, function(error){
-	     console.log(error);
-	    });
+			BaseMapService.addCompetenciaQuery(formData)
+			.then(function(result){
+			 if (result.statusText === 'OK') {
+			 	countAdded = countAdded + 1;
+			 	$scope._id_layer_flag.push(result.data.id_layer);
+			 	_competence_variable_id.push(id);
+			 }
+			}, function(error){
+			 console.log(error);
+			});
 		};
 		
-		$scope.removeVariable = function(parent,index) {
-			_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+$scope.save_competence_variable_list[index]._variable_id+'"]'));
-			_icon_data_id.removeClass('fa fa-check').css(
-				{ "transition": "all linear 0.25s"}
-			);
-
-			if ($scope.save_competence_variable_list[index].$index === true){
-				BaseMapFactory.delPobVivWMS();
-				$scope.save_competence_variable_list.splice(index,1);
-				$scope._competence_variable_flag.splice(index,1);
-			}
-			else {
-				$scope.save_competence_variable_list.splice(index,1);
-				$scope._competence_variable_flag.splice(index,1);
-			}
-			
-			if ($scope._competence_variable_flag.length === 1) {
-				$scope.save_competence_variable_list[0].$index = true;
-				$scope.current_competence_checked = $scope.save_competence_variable_list[0];
-				$scope.last_competence_checked = $scope.save_competence_variable_list[0];
-				_addCompetenceToList($scope.save_competence_variable_list[0]._variable_id);
-			}
-
-		}
+		
+		// $scope.removeVariable = function(parent,index) {
+		// 	if ($scope.save_competence_variable_list[index].$index === true){
+		// 		CompetenceService.delCompetence( $scope.save_competence_variable_list[index]._variable_id )
+		// 		//BaseMapFactory.delPobVivWMS();
+		// 		$scope.save_competence_variable_list.splice(index,1);
+		// 		$scope._competence_variable_flag.splice(index,1);
+		// 	}
+		// 	else {
+		// 		CompetenceService.delCompetence( $scope.save_competence_variable_list[index]._variable_id )
+		// 		$scope.save_competence_variable_list.splice(index,1);
+		// 		$scope._competence_variable_flag.splice(index,1);
+		// 	}
+		// }
 		
 		/**
 		 * [_showToastMessage Function to open $mdDialog]
@@ -282,7 +240,7 @@
 					textContent: message,
 					position: 'top right',
 					hideDelay: 2500,
-					parent: $document[0].querySelector('.m-dialog__content')
+					parent: $document[0].querySelector('.md-dialog-cotainer'),
 				})
 			);
 		}
@@ -294,14 +252,13 @@
 		$scope.cancel = function() {
 			$mdDialog.cancel();
 		};
-		
 		$scope.ok = function() {
-			$mdDialog.hide($scope.save_competence_variable_list);
+			$mdDialog.hide({count: countAdded, success: true, selected: _competence_variable_id});
 		};
 
 	};
 
-	AddCompetenceByVarController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'CompetenceVarJsonService', 'BaseMapService', 'competence_variables'];
+	AddCompetenceByVarController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'CompetenceVarJsonService', 'BaseMapService', 'competence_variables', 'CompetenceService', 'competence_variables_selected'];
 
 	angular.module('add.competence.var.controller', []).
 	controller('AddCompetenceByVarController', AddCompetenceByVarController);

@@ -8,22 +8,25 @@
 	width: 500px;
 	opacity: 0;
 	overflow:hidden;
-	visibility:hidden;
-	-webkit-transition: -webkit-clip-path,-webkit-clip-path,opacity, visibility;
-	transition: -webkit-clip-path,clip-path,opacity, visibility;
-	-webkit-transition-duration: .2s,.5s,.8s;
-	transition-duration: .2s,.5s,.8s;
-	-webkit-transition-delay: 0s,0s,.3s;
-	transition-delay: 0s,0s,.3s;
-	-webkit-clip-path: polygon(0 0,-17% 0,0 100%,0 100%);
-	clip-path: polygon(0 0,-17% 0,0 100%,0 100%);
+	@include transform(translateX(-115%));
+	@include transition(opacity 0.25s linear);
+	// visibility:hidden;
+	// -webkit-transition: -webkit-clip-path,-webkit-clip-path,opacity, visibility;
+	// transition: -webkit-clip-path,clip-path,opacity, visibility;
+	// -webkit-transition-duration: .2s,.5s,.8s;
+	// transition-duration: .2s,.5s,.8s;
+	// -webkit-transition-delay: 0s,0s,.3s;
+	// transition-delay: 0s,0s,.3s;
+	// -webkit-clip-path: polygon(0 0,-17% 0,0 100%,0 100%);
+	// clip-path: polygon(0 0,-17% 0,0 100%,0 100%);
 	&.is-panel-open {
 		opacity: 1;
-		visibility:visible;
-		-webkit-clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
-		clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
-		-webkit-transition-delay: 0s;
-		transition-delay: 0s;
+		@include transform(translateX(0%));
+		// visibility:visible;
+		// -webkit-clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+		// clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+		-webkit-transition-delay: .125s;
+		transition-delay: .125s;
 	}
 }
 

@@ -77,6 +77,7 @@
 					if (_data_ep === "competence"){
 						if (!$scope.save_competence_variable_list){
 							$scope.competence_list = true;
+							
 							CompetenceService.getCompetences({
 								competence: '1'
 							})

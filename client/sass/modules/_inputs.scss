@@ -115,8 +115,27 @@
 }
 
 .m-input--in-competence__catalog {
+	border-bottom: 1px solid $gray0 !important;
+	color: $gray50;
 	height: initial;
+	margin: 7px auto !important;
+	padding:5px 30px 5px 5px;
 	position:initial;
 	width: 100%;
+	&::-webkit-input-placeholder {
+		color: $gray25;
+	}
+	&:-moz-placeholder {
+		color: $gray25;
+	}
+	&::-moz-placeholder {
+		color: $gray25;
+	}
+	&:-ms-input-placeholder {
+		color: $gray25;
+	}
+	&:focus {
+	  border-bottom: 1px solid $gray !important;
+	}
 }
 

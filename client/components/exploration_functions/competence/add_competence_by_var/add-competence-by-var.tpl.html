@@ -10,16 +10,17 @@
 	</md-toolbar>
 	<md-dialog-content>
 		<div class="m-catalog-filter m-catalog-filter--in-competence js-filter-competence-catalog">
-			<input type="text" class="m-input m-input--in-demography__catalog m-input--in-competence__catalog" ng-model="search" ng-change="quickCompetenceFilter()" placeholder="Filtro rápido">
+			<input type="text" class="m-input m-input--in-demography__catalog m-input--in-competence__catalog" ng-model="search_competence" ng-change="quickCompetenceFilter()" placeholder="Filtro rápido">
+			<i class="demo demo-search m-search__icon m-search__icon--in-competence-catalog"></i>
 		</div>
 		<div layout="column" style="    overflow: hidden;display: block;bottom: 0;left: 0;right: 0;top: 0;width:100% !important;">
 			<wxy-push-menu menu="menu" options="options"></wxy-push-menu>
 		</div>
 	</md-dialog-content>
 	<div style="position:absolute;left:0;right:0;bottom: 0;">
-	<md-dialog-actions>
-		<md-button ng-click="cancel()" flex="50">Cancelar</md-button>
-		<md-button ng-click="ok(save_competence_variable_list)" flex="50">Listo</md-button>
-	</md-dialog-actions>
+	<div layout="row">
+		<md-button class="md-raised md-warn" ng-click="cancel()" flex="50">Cancelar</md-button>
+		<md-button class="md-raised md-primary" ng-click="ok(save_competence_variable_list)" flex="50">Listo</md-button>
+	</div>
 	</div>
 </md-dialog>

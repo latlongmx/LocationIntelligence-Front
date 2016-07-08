@@ -114,6 +114,10 @@
 				if (!scope.toggleCompetence) {
 					scope.toggleCompetence = [];
 				}
+				if (!scope.competence_variables_selected) {
+					scope.competence_variables_selected = [];
+				}
+				
 				CompetenceVarJsonService.competenceVarJsonRequest()
 				.then(function(result){
 					scope.currentCompetenceItems = result.data;
@@ -129,31 +133,32 @@
 						targetEvent: ev,
 						clickOutsideToClose:true,
 						locals: {
-							competence_variables: scope.currentCompetenceItems
+							competence_variables: scope.currentCompetenceItems,
+							competence_variables_selected: scope.competence_variables_selected
 						}
 					})
 					.then(function(newCompetence) {
-						if (newCompetence) {
-							scope.bounds = null;
-							scope.nw = null;
-							scope.se = null;
-							scope.bbox = null;
+						if (newCompetence.success === true) {
 							CompetenceService.getCompetences({competence: '1'}).then(function(res){
 								if(res.data && res.data.places){
-									var lastCompetenceLayer = res.data.places[res.data.places.length -1];
+									
+									var lastCompetenceLayer = _.last(res.data.places, newCompetence.count);
 									if(lastCompetenceLayer) {
-										var idCompetenceLayer = lastCompetenceLayer.id_layer+'-'+lastCompetenceLayer.name_layer.replace(' ','_');
+										_.each(lastCompetenceLayer, function(competenceAdded, index) {
+											var idCompetenceLayer = competenceAdded.id_layer+'-'+competenceAdded.name_layer.replace(' ','_');
+											scope.competence_variables_selected.push(newCompetence.selected[index]);
+											scope.save_competence_variable_list.push(competenceAdded);
+											BaseMapFactory.addLocation({
+												name: idCompetenceLayer,
+												data: competenceAdded.data,
+												extend: competenceAdded.extend
+											});
+										});
 									}
-
-									scope.save_competence_variable_list.push(lastCompetenceLayer);
-									BaseMapFactory.addLocation({
-										name: idCompetenceLayer,
-										data: lastCompetenceLayer.data,
-										extend: lastCompetenceLayer.extend
-									});
 								}
 							});
 						}
+						console.log(scope.competence_variables_selected)
 					}, function(failAdding) {
 						if (failAdding === undefined) {
 

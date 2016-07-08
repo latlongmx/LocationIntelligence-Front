@@ -6,14 +6,6 @@
 	right: 0;
 }
 
-.m-dialog--in-competence__var {
-	height: 80%;
-	display: table;
-	border-collapse: separate;
-	overflow-x:auto;
-	width: 345px !important;
-}
-
 .m-catalog-filter--in-competence {
 	@include transform(translateX(0%));
 	@include transition(opacity linear 0.25s, transform linear 0.25s);
@@ -21,7 +13,10 @@
 	opacity:1;
 	position:initial;
 	visibility:visible;
-	width: 100%;
+	margin: 0 auto;
+	display: table;
+	width: 90%;
+	background: $white;
 }
 .multilevelpushmenu_wrapper--in-competence {
 	//position: absolute;
@@ -32,20 +27,22 @@
   padding: 0;
   position: absolute;
   right: 0;
-  top: 109px;
+  top: 106px;
   z-index: 10;
-  width: 345px !important;
+  width: 450px !important;
   overflow: hidden;
 }
 
 .multilevelpushmenu_wrapper--in-competence .levelHolderClass {
-	background: #828189;
+	//background: #828189;
+	background: $white;
 	// bottom: 45px;
 	font-size: 1em;
 	position: absolute;
 	top: -2px;
 	zoom: 1;
 	overflow-y: overlay;
+	overflow-y: auto;
 	bottom:0;
 	//@include linearGradient(#D5F7F6, #A0E4E1);
 	//background: #336ca6;
@@ -81,7 +78,8 @@
 }
 
 .multilevelpushmenu_wrapper--in-competence .multilevelpushmenu_inactive {
-	background: #666470;
+	//background: #666470;
+	background: $white;
 	overflow-y: initial;
 }
 
@@ -90,13 +88,14 @@
 	// font-size: 1.5em;
 	line-height: 1em;
 	//color: #1f4164;
-	color: #C3EE97;
+	color: $gray;
 	text-align: left;
 	max-width: 75%;
+	font-weight: 500;
 }
 
 .multilevelpushmenu_wrapper--in-competence .menu-icon {
-	color: #C3EE97;
+	color: $gray25;
 	font-size: 1.5em;
 	line-height: 1em;
 	padding: 0 .4em 0 .4em;
@@ -125,14 +124,17 @@
 .multilevelpushmenu_wrapper--in-competence ul li:hover {
 	@include box-shadow(0px 2px 2px 0px rgba(0,0,0,0.125));
 	@include transition(all 0.25s linear);
-	background-color: #A2A2A7;
+	background-color: rgba($gray0, 0.25);
+	a {
+		color: $gray75;
+	}
 }
 
 .multilevelpushmenu_wrapper--in-competence a {
-	color: $white;
+	color: $gray75;
 	display: block;
 	font-size: 16px;
-	font-weight: 400;
+	font-weight: 300;
 	line-height: 1em;
 	outline: none;
 	overflow: hidden;
@@ -160,7 +162,7 @@
 .multilevelpushmenu_wrapper--in-competence{
 	.visible {
 		visibility: visible;
-		width: 345px !important;
+		width: 100% !important;
 		// overflow-x: auto;
 	}
 }
@@ -256,5 +258,27 @@
 	.m-input__input {
 		height: 35px;
 		width: 100%;
+	}
+}
+
+.backCompClass {
+	background:$gray0;
+	a {
+		color:$gray75;
+		&:hover {
+			color:$gray75;
+		}
+	}
+}
+
+.m-search__icon--in-competence-catalog {
+	padding: 12px 5px 10px 0px;
+	color:$gray25;
+}
+
+[data-variable-id]{
+	color: $gray0;
+	&.is-added-to-map {
+		color: $gray50;
 	}
 }
