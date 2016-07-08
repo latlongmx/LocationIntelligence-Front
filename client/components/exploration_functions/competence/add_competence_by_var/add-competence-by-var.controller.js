@@ -104,7 +104,6 @@
 				if($scope._competence_variable_flag.indexOf(_variable_name) === -1){
 					$scope._competence_variable_flag.push(_variable_name);
 					$scope.save_competence_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
-					_showToastMessage('Se agregó ' + _variable_name);
 					_addCompetenceToList(_variable_name, _variable_id);
 				}
 
@@ -203,11 +202,12 @@
 
 			BaseMapService.addCompetenciaQuery(formData)
 			.then(function(result){
-			 if (result.statusText === 'OK') {
-			 	countAdded = countAdded + 1;
-			 	$scope._id_layer_flag.push(result.data.id_layer);
-			 	_competence_variable_id.push(id);
-			 }
+				if (result.statusText === 'OK') {
+					_showToastMessage('Se agregó ' + param);
+					countAdded = countAdded + 1;
+					$scope._id_layer_flag.push(result.data.id_layer);
+					_competence_variable_id.push(id);
+				}
 			}, function(error){
 			 console.log(error);
 			});
