@@ -5,8 +5,6 @@
 	'use strict';
 
 	function AddCompetenceByVarController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, CompetenceVarJsonService, BaseMapService, competence_variables, CompetenceService, competence_variables_selected){
-		console.log(competence_variables)
-		console.log(competence_variables_selected)
 		$scope.bounds = null;
 		$scope.nw = null;
 		$scope.se = null;
@@ -83,8 +81,8 @@
 			setTimeout(function(){
 				_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+index+'"]'));
 				_icon_data_id
-				.toggleClass('fa-eye-slash fa-eye')
-				.toggleClass('is-added-to-map')
+				.addClass('fa-eye-slash fa-eye')
+				.addClass('is-added-to-map')
 			}, 0);
 		});
 
@@ -214,22 +212,7 @@
 			 console.log(error);
 			});
 		};
-		
-		
-		// $scope.removeVariable = function(parent,index) {
-		// 	if ($scope.save_competence_variable_list[index].$index === true){
-		// 		CompetenceService.delCompetence( $scope.save_competence_variable_list[index]._variable_id )
-		// 		//BaseMapFactory.delPobVivWMS();
-		// 		$scope.save_competence_variable_list.splice(index,1);
-		// 		$scope._competence_variable_flag.splice(index,1);
-		// 	}
-		// 	else {
-		// 		CompetenceService.delCompetence( $scope.save_competence_variable_list[index]._variable_id )
-		// 		$scope.save_competence_variable_list.splice(index,1);
-		// 		$scope._competence_variable_flag.splice(index,1);
-		// 	}
-		// }
-		
+
 		/**
 		 * [_showToastMessage Function to open $mdDialog]
 		 * @param  {[type]} message [Message to show in $mdDialog]
