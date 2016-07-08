@@ -40,23 +40,23 @@
 		_last_flag = null;
 		$scope.last_competence_checked = null;
 		$scope.current_competence_checked = null;
-	
+
 		if (!$scope.save_competence_variable_list) {
 			$scope.save_competence_variable_list = [];
 		}
-		
+
 		if (!$scope._competence_variable_flag) {
 			$scope._competence_variable_flag = [];
 		}
-		
+
 		if (!$scope._competence_array) {
 			$scope._competence_array = [];
 		}
-		
+
 		if (!$scope._id_layer_flag) {
 			$scope._id_layer_flag = [];
 		}
-		
+
 		_current_competence_variable_id = competence_variables_selected;
 		// $scope.$watchGroup(['_competence_variable_flag','save_competence_variable_list','current_competence_checked'], function(s){
 		// 	var found = _.filter(s[0],function(item){
@@ -142,7 +142,20 @@
 			/**
 			 * [_newCompetenceVariables Get result of getObject Match words function]
 			 */
-			_newCompetenceVariables = getObject($scope.currentCompetenceVariables.items);
+			 var found = [];
+				var searchF = function(obj, txt){
+				  _.each(obj,function(o){
+				    if( o.name && o.name.toLowerCase().indexOf(txt) !== -1){
+				      found.push(o);
+				    }
+				    if(o.menu && o.menu.items){
+				      searchF(o.menu.items, txt);
+				    }
+				  });
+				};
+				searchF($scope.currentCompetenceVariables.items, _matchWordCompetence.toLowerCase());
+
+			_newCompetenceVariables = found; //getObject($scope.currentCompetenceVariables.items);
 			if (_newCompetenceVariables && _matchWordCompetence !== "") {
 				$scope.menu = {
 					title: 'Resultados',
@@ -189,7 +202,7 @@
 				return $scope._competence_array;
 			}
 		};
-		
+
 		/**
 		 * [_addCompetenceToList Create Heatmap]
 		 * @param  {[type]} param [description]
@@ -214,8 +227,8 @@
 			 console.log(error);
 			});
 		};
-		
-		
+
+
 		// $scope.removeVariable = function(parent,index) {
 		// 	if ($scope.save_competence_variable_list[index].$index === true){
 		// 		CompetenceService.delCompetence( $scope.save_competence_variable_list[index]._variable_id )
@@ -229,7 +242,7 @@
 		// 		$scope._competence_variable_flag.splice(index,1);
 		// 	}
 		// }
-		
+
 		/**
 		 * [_showToastMessage Function to open $mdDialog]
 		 * @param  {[type]} message [Message to show in $mdDialog]
@@ -244,7 +257,7 @@
 				})
 			);
 		}
-		
+
 		$scope.hide = function() {
 			$mdDialog.hide();
 		};
