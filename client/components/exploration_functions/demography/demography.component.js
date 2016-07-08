@@ -31,7 +31,6 @@
 									'</md-button>',
 									'<md-divider></md-divider>',
 								'</md-list-item>',
-								
 							'</md-list>',
 						'</div>',
 						'<div class="m-modal__demography-list" ng-if="list === true">',
@@ -87,6 +86,8 @@
 						BaseMapFactory.delPobVivWMS();
 					}
 				}, true);
+				
+				
 				/**
 				 * Get demography variables
 				 */
@@ -113,6 +114,8 @@
 					fullCollapse: true,
 					wrapperClass: 'multilevelpushmenu_wrapper',
 					direction: 'ltr',
+					backItemClass: 'backDemClass',
+					backText: 'Atrás',
 					onExpandMenuStart: function() {
 						setTimeout(function(){
 							angular.element(document.getElementsByClassName('js-filter-demography-catalog')).addClass('is-filter-demography-active');
