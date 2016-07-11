@@ -21,7 +21,7 @@
 				reload: true,
 				views: {
 					"main": { 
-						templateUrl: './components/basemap/basemap/basemap.component.html',
+						templateUrl: './components/basemap/basemap.component.html',
 						controller: 'BaseMapController'
 					}
 				}

@@ -8,7 +8,7 @@
 						<div class="m-login__container-body__logo">
 							<img src="./images/login/login_logo.png" alt="" width="150">
 						</div>
-						<form action="" name="loginForm" class="m-login__container-body__form js-login-form" ng-submit="lg.submitLogin(loginForm, lg.login)">
+						<form action="" name="loginForm" class="m-login__container-body__form js-login-form">
 							<fieldset class="m-fieldset">
 							<label for="" class="m-label m-label--in-login" data-user="user">Usuario</label>
 								<input type="text" class="m-input m-input--in-login" ng-model="lg.login.user" required>
@@ -18,7 +18,7 @@
 								<input type="password" class="m-input m-input--in-login" ng-model="lg.login.password" required>
 							</fieldset>
 							<div class="align-center">
-								<button type="submit" class="pure-button m-login__container-body__button is-larger">Iniciar</button>
+								<button type="submit" class="pure-button m-login__container-body__button is-larger" ng-click="lg.submitLogin(loginForm, lg.login)">Iniciar</button>
 								<span class="m-input-error js-login-error" ng-if="lg.error">{{lg.message}}</span>
 							</div>
 						</form>
