@@ -4,11 +4,10 @@
 	*/
 	'use strict';
 
-	function BaseMap($rootScope, $timeout, BaseMapService){
+	function BaseMap($rootScope, $timeout, BaseMapService, Auth){
 		return {
 			restrict: 'E',
 			replace:true,
-			scope: '=curent_zoom',
 			template: [
 				'<div id="basemap" class="m-basemap">',
 					'<label class=" md-fab md-fab-top-right md-button md-primary" type="button" aria-label="" style="position: absolute;top: 154px;right: 0;top:initial;bottom:90px;z-index: 10;">',
@@ -19,6 +18,7 @@
 			link:function(scope, element){
 				var newZoom = angular.element(document.getElementById('zoom'));
 				BaseMapService.resolve(element[0]);
+				
 				BaseMapService.map.then(function(map) {
 					newZoom.text(map.getZoom());
 					map.on('zoomend', function(event){
@@ -29,12 +29,11 @@
 				function _getZoom(zoom){
 					newZoom.text(zoom);
 				}
-				
 			}
 		};
 	}
 	
-	BaseMap.$inject = ['$rootScope', '$timeout', 'BaseMapService'];
+	BaseMap.$inject = ['$rootScope', '$timeout', 'BaseMapService', 'Auth'];
 
 	angular.module('basemap.directive', [])
 		.directive('basemap', BaseMap);

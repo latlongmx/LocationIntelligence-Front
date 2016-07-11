@@ -61,7 +61,7 @@
 .m-list-functions__item-icon {
 	color: $gray;
 	display:block;
-	font-size: 35px;
+	font-size: 25px;
 	vertical-align:middle;
 }
 
@@ -72,7 +72,7 @@
 	@include transition(transform .3s ease-in-out);
 	//background: #d1d7da;
 	background: $gray;
-	margin: 0px 70px 0px 0px;
+	margin: 0px 50px 0px 0px;
 	padding: 0;
 	&.is-menu-opened {
 		@include transform(translate(0%,0));
@@ -88,7 +88,7 @@
 		cursor: pointer;
 		display: block;
 		font-weight: 400;
-		padding: 20px;
+		padding: 10px;
 		&:hover {
 			color: $green-sdark;
 			background: $white;

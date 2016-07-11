@@ -54,11 +54,13 @@
 }
 
 .m-input-error {
-	color: #F35151;
-	display: block;
-	font-weight: 600;
-	margin: 5px;
-	padding: 5px;
+	@include transition(all linear 0.25s);
+	color: $white;
+  background: #F35151;
+  display: block;
+  font-weight: 600;
+  margin: 5px 0px;
+  padding: 5px;
 }
 
 .parsley-custom-error-message {

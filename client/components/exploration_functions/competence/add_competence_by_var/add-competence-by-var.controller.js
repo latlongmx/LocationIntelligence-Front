@@ -188,19 +188,19 @@
 			 * [getObject Search variable name, compare and get the result]
 			 * @param  {[type]} theObject [variables of catalog]
 			 */
-			function getObject(theObject) {
-				$scope._competence_array = [];
-				_.each(theObject,function(o){
-					var items = o.menu.items;
-					var found = _.filter(items,function(item){
-						return item.name.toLowerCase().indexOf( _matchWordCompetence ) !== -1;
-					});
-					if(found.length > 0){
-						_.extend($scope._competence_array,found);
-					}
-				});
-				return $scope._competence_array;
-			}
+			// function getObject(theObject) {
+			// 	$scope._competence_array = [];
+			// 	_.each(theObject,function(o){
+			// 		var items = o.menu.items;
+			// 		var found = _.filter(items,function(item){
+			// 			return item.name.toLowerCase().indexOf( _matchWordCompetence ) !== -1;
+			// 		});
+			// 		if(found.length > 0){
+			// 			_.extend($scope._competence_array,found);
+			// 		}
+			// 	});
+			// 	return $scope._competence_array;
+			// }
 		};
 
 		/**
