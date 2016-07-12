@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 	
-	function uiService(){
+	function uiService($mdDialog){
 		
 		/* Login */
 		this.addLogginIsLoading = function(button, message){
@@ -20,6 +20,6 @@
 		}
 
 	}
-	//uiService.$inject = ['$q', '$http'];
+	uiService.$inject = ['$mdDialog'];
 	angular.module('ui.service', []).service('uiService', uiService);
 })();

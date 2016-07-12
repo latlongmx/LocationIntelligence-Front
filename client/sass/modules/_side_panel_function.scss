@@ -50,7 +50,7 @@
 }
 
 .m-side-panel__search {
-	padding: 0px 15px 0px;
+	padding: 15px 15px 0px;
 	md-input-container {
 		width: 100%;
 		margin-bottom:0;
@@ -67,7 +67,7 @@
 	overflow-y: auto;
 	position: absolute;
 	right: 15px;
-	top: 241px;
+	top: 234px;
 }
 
 .m-side-panel__list-titles {
@@ -189,5 +189,5 @@ button.m-side-panel__locations-list__item {
 }
 
 .m-side-panel__list--in-competence-panel {
-	top: 280px;
+	top: 290px;
 }

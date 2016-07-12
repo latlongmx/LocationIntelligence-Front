@@ -1,0 +1,54 @@
+.m-dialog__content-file {
+  padding-bottom:0;
+  margin-top:0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.m-dialog__content {
+  padding: 15px;
+}
+
+.m-dialog__content-upload-button {
+	color: transparent;
+}
+
+.m-dialog__content-upload-button::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.m-dialog__content-upload-button::before {
+  content: 'Escoger Archivo';
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-size: inherit;
+  color: $white;
+}
+
+.m-dialog__content-icon {
+  margin: 30px 0 0px;
+}
+
+.m-dialog--in-competence-by-name,
+.m-dialog--in-competence-by-var,
+.m-dialog--in-location {
+	width: 350px;
+}
+
+.m-dialog-by-name__content {
+	md-input-container {
+		margin-bottom:0;
+	}
+}
+
+
+.m-dialog--in-competence__var {
+	height: 80%;
+	display: table;
+	border-collapse: separate;
+	overflow-x:auto;
+	width: 450px;
+}

@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function locationDirective(_, $mdDialog, $mdToast, $document, $timeout,  LocationFactory, LocationService, BaseMapFactory, Auth){
+	function locationDirective(_, $mdDialog, $mdToast, $document, $timeout,  LocationFactory, LocationService, BaseMapFactory, Auth, uiService){
 		var _access_token = Auth.getToken();
 
 		return {
@@ -219,7 +219,6 @@
 				scope.toggleGral = function() {
 					if(this.all === true) {
 						_.each(scope.toggleLocations, function(loc){
-							console.log(loc)
 							loc.location.layer = false;
 							scope.is_toggle_gral = true;
 							BaseMapFactory.hideLocation(loc.id_layer);
@@ -227,7 +226,6 @@
 					}
 					else {
 						_.each(scope.toggleLocations, function(loc){
-							console.log(loc)
 							loc.location.layer = true;
 							scope.is_toggle_gral = false;
 							BaseMapFactory.showLocation(loc.id_layer);
@@ -249,11 +247,12 @@
 						})
 					);
 				}
+
 			}
 		};
 	}
 
-	locationDirective.$inject = ['_', '$mdDialog', '$mdToast', '$document', '$timeout', 'LocationFactory', 'LocationService', 'BaseMapFactory', 'Auth'];
+	locationDirective.$inject = ['_', '$mdDialog', '$mdToast', '$document', '$timeout', 'LocationFactory', 'LocationService', 'BaseMapFactory', 'Auth', 'uiService'];
 
 	angular.module('location.directive', [])
 		.directive('location', locationDirective);
