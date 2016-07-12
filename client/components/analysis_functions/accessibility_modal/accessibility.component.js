@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function accessibilityDirective(BaseMapService, BaseMapFactory){
+	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth){
 
 		var _$js_accessibility_side_panel = null,
 		_$js_accessibility_item = null,
@@ -16,6 +16,7 @@
 			'polygon':null,
 			'circle':null
 		};
+		var _layers = {};
 
 		var _$contentCount = {
 			vehi:undefined,
@@ -52,6 +53,7 @@
 						'<div id="access_car_content"></div>',
 						'<p>Vías de acceso en transporte</p>',
 						'<div id="access_trans_content"></div>',
+						'<button id="btnOpenWMS" ng-click="openViasWMS()">Abrirr vias wms</button>',
 						'</div>',
 					'</div>',
 				'</div>'
@@ -84,6 +86,29 @@
 
 				});
 
+				scope.openViasWMS = function(){
+					if(_layers.viasWMS === undefined){
+						_layers.viasWMS = L.tileLayer.dynamicWms(
+							"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&", {
+								layers: 'VIAS',
+								format: 'image/png',
+								minZoom: 10,
+								transparent: true
+						});
+						/*_layers.viasWMS.setDynamicParam({
+							col: function(){
+								return self._curVar;
+							}
+						});*/
+						_layers.viasWMS.options.crs = L.CRS.EPSG4326;
+						_layers.viasWMS.addTo(_map);
+					}else{
+						_map.removeLayer(_layers.viasWMS);
+						_layers.viasWMS = undefined;
+					}
+
+				};
+
 				scope.drawInMap = function($event, tip){
 					$event.preventDefault();
 					_.each(_toolDraw,function(o){
@@ -100,11 +125,49 @@
 						scope.isDrawAccessibility = false;
 						console.log(e.target);
 						_currentFeature = e;
-						_editableLayers.clearLayers();
+
+						var access_token = Auth.getToken().access_token;
+						var geo_wkt = "";
+
+						if(_currentFeature.layerType ==='polygon'){
+							var coors = "";
+							var latlngs = _currentFeature.layer.getLatLngs()[0];
+							for (var i=0; i<latlngs.length; i++){
+								if (i !== 0){
+									coors += ',';
+								}
+							 coors += latlngs[i].lng+' '+latlngs[i].lat;
+							}
+							coors += ','+latlngs[0].lng+' '+latlngs[0].lat;
+							geo_wkt = 'POLYGON('+coors+')';
+						}else{
+							geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
+						}
+
+
+						_layers.viasUserWMS = L.tileLayer.dynamicWms(
+							BaseMapFactory.API_URL+"/ws_wms?access_token="+access_token,
+							//"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&",
+							{
+								layers: 'VIAS_USR',
+								format: 'image/png',
+								minZoom: 10,
+								transparent: true
+						});
+						_layers.viasUserWMS.setDynamicParam({
+							WKT: function(){
+								return geo_wkt;
+							}
+						});
+						_layers.viasUserWMS.options.crs = L.CRS.EPSG4326;
+						_layers.viasUserWMS.addTo(_map);
+
+
+						/*_editableLayers.clearLayers();
 						if(BaseMapFactory.LAYERS.USER.inter15_vias !== undefined){
 							BaseMapFactory.LAYERS.USER.inter15_vias.clearLayers();
 						}
-						_editableLayers.addLayer( _currentFeature.layer );
+						_editableLayers.addLayer( _currentFeature.layer );*/
 					}
 				};
 
@@ -112,6 +175,8 @@
 					console.log(e);
 					console.log(_currentFeature);
 					var geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
+
+
 
 					var opts = {
 							s:'inegi',
@@ -135,7 +200,7 @@
 							_.each(cnts,function(v, i){
 								_$contentCount.vehi.append('<br/>'+i+':'+v);
 							});
-							
+
 							BaseMapFactory.addGeoJSON2Map(geojson, 'inter15_vias');
 						}
 					}, function(error){
@@ -150,7 +215,7 @@
 		};
 	}
 
-	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory'];
+	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth'];
 	angular.module('accessibility.directive', [])
 		.directive('accessibility', accessibilityDirective);
 })();
