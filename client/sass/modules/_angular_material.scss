@@ -3,23 +3,17 @@ md-toolbar {
 	@include radius(0 !important);
 }
 
-.m-dialog--in-competence-by-name {
-	width: 350px;
+md-input-container {
+	margin: 0;
+	padding: 0px 8px !important;
 }
 
-.m-dialog-by-name__content {
-	md-input-container {
-		margin-bottom:0;
-	}
-}
-.m-dialog--in-competence-by-var {
-	width: 350px;
+md-select {
+	padding: 0px 8px !important;
 }
 
-.m-dialog--in-competence__var {
-	height: 80%;
-	display: table;
-	border-collapse: separate;
-	overflow-x:auto;
-	width: 450px;
+md-toolbar,
+.md-toolbar-tools {
+	height: 50px;
+	min-height: 50px;
 }

@@ -1,7 +1,7 @@
-<md-dialog aria-label="csv" flex="40">
+<md-dialog aria-label="csv"  flex="initial" class="m-dialog--in-location">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Añadir mis ubicaciones</h2>
+				<h2>Añadir Ubicacion</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="cancel()">
 					<md-icon aria-label="Close dialog">close</md-icon>
@@ -9,6 +9,7 @@
 			</div>
 		</md-toolbar>
 		<md-dialog-content class="m-dialog__content">
+			<label class="m-label-mandatory">* <span>Campos obligatorios</span></label>
 			<div layout="row">
 				<div layout="column" flex="50" layout-padding="2">
 					<h5 class="normal color-gray75" style="margin:0;"><span><strong>*</strong></span>Subir archivo .csv</h5>
@@ -27,9 +28,8 @@
 			<div ng-if="set_columns">
 				<form name="newLocationForm">
 					<h5 class="normal color-gray75" layout-padding="2" style="margin:0;"><span style="padding:0;"><strong>*</strong></span>Nombre de la categoría</h5>
-					<div layout="row" layout-padding="2">
+					<div layout="row">
 						<md-input-container flex="100" class="md-block">
-						<label>Categoría</label>
 						<input type="text" ng-model="location.nm" name="category" autocomplete="off" required>
 						<span class="error-input" ng-show="newLocationForm.category.$invalid && submitted">Error</span>
 						</md-input-container>
@@ -37,20 +37,18 @@
 					<div layout="row">
 						<md-input-container flex="50" layout-padding="2">
 							<h5 class="normal color-gray75" style="margin:0;"><span><strong>*</strong></span>Latitud</h5>
-							<label>Latitud</label>
 							<md-select ng-model="location.lat" required>
 								<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
 							</md-select>
 						</md-input-container>
 						<md-input-container flex="50" layout-padding="2">
 							<h5 class="normal color-gray75" style="margin:0;"><span><strong>*</strong></span>Longitud</h5>
-							<label>Longitud</label>
 							<md-select ng-model="location.lng" required>
 								<md-option ng-repeat="column_item in items" value="{{column_item}}">{{column_item}}</md-option>
 							</md-select>
 						</md-input-container>
 					</div>
-					<div layout="row">
+					<div layout="row" style="margin:10px 0 0px;">
 						<button class="md-primary md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="uploader.loadFile(newLocationForm, location)" ng-disabled="newLocationForm.$invalid">Subir archivo</button>
 						<button class="md-warn md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="cancel()">Cancelar</button>
 					</div>
