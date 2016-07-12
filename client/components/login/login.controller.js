@@ -4,60 +4,47 @@
 	*/
 	'use strict';
 
-	function LoginController($scope, LoginService, $location, $timeout, Auth){
-		var lg = this;
-		var _$js_login_form = null,
+	function LoginController($scope, LoginService, $location, $timeout, Auth, BaseMapService, uiService, messagesService){
+		var lg = this,
+		_$js_login_form = null,
 		_data = null,
-		_session = null;
+		_session = null,
+		_buttonForm = null,
+		_inputsInForm = null,
+		_$js_login_error = null;
 
-		lg.status = {
-			text: "Enviar"
-		};
-
+		_$js_login_error = angular.element(document.getElementsByClassName('js-login-error'));
+		_inputsInForm = angular.element(document.getElementsByName('loginForm')).find('input');
+		
 		lg.submitLogin = function(loginForm, data){
+			_buttonForm = angular.element(document.getElementsByName('loginForm')).find('[type=submit]');
+			uiService.addLogginIsLoading(_buttonForm, messagesService.addMessageLoggin);
 			if(loginForm.$valid) {
-				var promesa = LoginService.loginRequest(data);
+				var loginProcess = LoginService.loginRequest(data);
 				
-				promesa.then(function(result){
+				loginProcess.then(function(result){
 					if(result.status === 200 && result.statusText === "OK") {
 						Auth.login(result.data);
 					}
 				}, function(error){
+					lg.error = true;
+					uiService.removeLogginIsLoading(_buttonForm, messagesService.removeMessageLoggin);
+					_.each(_inputsInForm, function(_inputs){
+						uiService.cleanInputs(_inputs);
+					});
 
 					if(error.status === 401 && error.statusText === "Unauthorized") {
 						sessionStorage.removeItem('access_token');
-						lg.error = {
-							text : "Las credenciales son incorrectas",
-							error : true
-						};
-
+						lg.message = messagesService.userNotExists();
 						$timeout(function(){
-							lg.status = {
-								text: "Enviar"
-							};
-						}, 0);
-
-						$timeout(function(){
-							lg.error = {
-								error : false
-							};
+							lg.error = false;
 						}, 2500);
 					}
 					else {
-						lg.error = {
-							text : "Ha ocurrido un error, intenta nuevamente",
-							error : true
-						};
+						sessionStorage.removeItem('access_token');
+						lg.message = messagesService.serverErrorRequest();
 						$timeout(function(){
-							lg.status = {
-								text: "Enviar"
-							};
-						}, 0);
-
-						$timeout(function(){
-							lg.error = {
-								error : false
-							};
+							lg.error = false;
 						}, 2500);
 					}
 				});
@@ -66,7 +53,7 @@
 
 	}
 	
-	LoginController.$inject = ['$scope', 'LoginService','$location', '$timeout', 'Auth'];
+	LoginController.$inject = ['$scope', 'LoginService','$location', '$timeout', 'Auth', 'BaseMapService', 'uiService', 'messagesService'];
 
 	angular.module('login', []).
 	controller('LoginController', LoginController);

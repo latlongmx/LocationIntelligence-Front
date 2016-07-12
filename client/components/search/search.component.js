@@ -10,8 +10,8 @@
 			restrict: 'E',
 			template: [
 				'<div class="m-search js-search-form">',
-					'<input class="m-search__input js-search-input" id="search" type="text" ng-model="search" placeholder="buscar" map="map"/>',
-					'<i class="demo demo-search m-search__icon js-search"></i>',
+					'<input class="m-search__input js-search-input" id="search" type="text" ng-model="search_address" placeholder="buscar" map="map" ng-change="isSearching()"/>',
+					'<i class="fa fa-search m-search__icon js-search"></i>',
 				'</div>'
 			].join(''),
 			scope: {
@@ -19,7 +19,7 @@
 			},
 			controller: function($scope){
 				var _searchForm = angular.element(document.getElementsByClassName('js-search-form'));
-				var _searchButton = angular.element(document.getElementsByClassName('js-search'));
+				var _searchIcon = angular.element(document.getElementsByClassName('js-search'));
 				var _searchInput = angular.element(document.getElementsByClassName('js-search-input'));
 				var _searchInputId = document.getElementById('search');
 				var autocomplete = null;
@@ -46,8 +46,24 @@
 					_map = map;
 					autocomplete = new google.maps.places.Autocomplete(_searchInputId);
 					google.maps.event.addListener(autocomplete, 'place_changed', _onPlaceChanged);
+
+					$scope.isSearching = function(){
+						this.search_address ? _searchingMethods(): _searchIcon.removeClass('fa-times').addClass('fa-search');
+					}
 				};
-				
+
+				/**
+				 * [_searchingMethods Function to clean input]
+				 */
+				function _searchingMethods(){
+					_searchIcon.removeClass('fa-search').addClass('fa-times');
+					_searchIcon.bind('click', function(){
+						_searchInput[0].value = "";
+						_searchIcon.removeClass('fa-times').addClass('fa-search');
+						_markerGroup.clearLayers();
+					});
+				}
+
 				/**
 				 * [_onPlaceChanged Place marker]
 				 */
@@ -62,17 +78,6 @@
 					_map.setView([_lat, _lon], 16);
 				};
 
-				/**
-				 * [Bind event to hide input search]
-				 */
-				// $window.addEventListener('mouseup', function(e){
-				// 	e.preventDefault();
-				// 	if (e.target !== _searchButton && e.target.parentNode !== _searchButton) {
-				// 		_searchForm.removeClass('is-showed-form');
-				// 		_searchInput.removeClass('is-showed-input');
-
-				// 	}
-				// });
 			}
 			// controller: function($scope){
 			// }

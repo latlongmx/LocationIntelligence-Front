@@ -38,9 +38,12 @@
 			'ui.router',
 			'ui.bootstrap',
 			'wxy.pushmenu',
+			'dem.pushmenu',
 			'chroma.angularChroma',
 			'ngMaterial',
-			'angularFileUpload'
+			'angularFileUpload',
+			'ui.service',
+			'msg.service'
 		]
 	)
 	.constant('_',
@@ -82,14 +85,13 @@
 		L.drawLocal.edit.toolbar.buttons.remove = "Eliminar dibujos";
 		L.drawLocal.edit.toolbar.buttons.removeDisabled = "No hay dibujos para eliminar";
 		$rootScope.$on('$viewContentLoading', function(e, config) {
-			Auth.checkStatus();
-			//var auth = Auth.checkStatus();
+			//Auth.checkStatus();
+			var auth = Auth.checkStatus();
 
-			// if(auth === false) {
-			// 	setTimeout(function() {
-			// 		window.location.href = "http://52.8.211.37/walmex.latlong.mx";
-			// 	}, 0);
-			// }
+			if(auth === false) {
+					console.log(window)
+					//window.location.href = "http://52.8.211.37/walmex.latlong.mx";
+			}
 		});
 		return $rootScope;
 	}]);

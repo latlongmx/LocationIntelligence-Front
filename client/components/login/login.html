@@ -5,9 +5,9 @@
 				<div class="pure-u-1 pure-u-sm-5-24 pure-u-md-6-24 pure-u-lg-8-24"></div>
 				<div class="pure-u-1 pure-u-sm-14-24 pure-u-md-12-24 pure-u-lg-8-24">
 					<div class="m-login__container-body">
-						<!-- <div class="m-login__container-body__logo">
+						<div class="m-login__container-body__logo">
 							<img src="./images/login/login_logo.png" alt="" width="150">
-						</div> -->
+						</div>
 						<form action="" name="loginForm" class="m-login__container-body__form js-login-form">
 							<fieldset class="m-fieldset">
 							<label for="" class="m-label m-label--in-login" data-user="user">Usuario</label>
@@ -18,8 +18,8 @@
 								<input type="password" class="m-input m-input--in-login" ng-model="lg.login.password" required>
 							</fieldset>
 							<div class="align-center">
-								<span class="m-input-error" ng-if="lg.error.error">{{lg.error.text}}</span>
-								<button type="button" class="pure-button m-login__container-body__button is-larger" ng-click="lg.submitLogin(loginForm, lg.login)">{{lg.status.text}}	</button>
+								<button type="submit" class="pure-button m-login__container-body__button is-larger" ng-click="lg.submitLogin(loginForm, lg.login)">Iniciar</button>
+								<span class="m-input-error js-login-error" ng-if="lg.error">{{lg.message}}</span>
 							</div>
 						</form>
 					</div>

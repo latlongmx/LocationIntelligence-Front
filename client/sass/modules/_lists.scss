@@ -61,7 +61,7 @@
 .m-list-functions__item-icon {
 	color: $gray;
 	display:block;
-	font-size: 35px;
+	font-size: 25px;
 	vertical-align:middle;
 }
 
@@ -72,7 +72,7 @@
 	@include transition(transform .3s ease-in-out);
 	//background: #d1d7da;
 	background: $gray;
-	margin: 0px 70px 0px 0px;
+	margin: 0px 50px 0px 0px;
 	padding: 0;
 	&.is-menu-opened {
 		@include transform(translate(0%,0));
@@ -88,68 +88,10 @@
 		cursor: pointer;
 		display: block;
 		font-weight: 400;
-		padding: 20px;
+		padding: 10px;
 		&:hover {
 			color: $green-sdark;
 			background: $white;
 		}
 	}
-}
-
-.m-side-panel__locations-list__container {
-	padding: 0;
-	margin: 0;
-}
-
-.m-side-panel__locations-list__list {
-	padding: 0;
-	margin: 0;
-	display: flex;
-	display: -webkit-flex;
-	align-items: flex-start;
-	-webkit-align-items: flex-start;
-	justify-content: space-between;
-	-webkit-justify-content: space-between;
-	width: 100%;
-	cursor:pointer;
-	position:relative;
-	@include transition(background 0.25s ease-in-out);
-	&:before {
-		background:$gray0;
-		bottom:0;
-		content:"";
-		height: 1px;
-		left: 0;
-		position:absolute;
-		right: 0;
-	}
-	&:hover {
-		background: rgba($gray0,0.25);
-	}
-	img {
-		-ms-flex: none;
-		-webkit-flex: none;
-		flex: none;
-		height: 30px;
-		margin: 16px 10%;
-		width: 30px;
-	}
-	p {
-		color: $gray75;
-		padding:0px 5px;
-		text-align: left;
-	}
-}
-
-.m-side-panel__locations-list__item {
-	margin:0 !important;
-	align-self: center;
-	-webkit-align-self: center;
-}
-button.m-side-panel__locations-list__item {
-	margin: 6px 0px !important;
-}
-
-.m-side-panel__locations-list__item__add {
-	cursor:pointer;
 }

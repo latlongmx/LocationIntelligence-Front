@@ -31,14 +31,13 @@
 									'</md-button>',
 									'<md-divider></md-divider>',
 								'</md-list-item>',
-								
 							'</md-list>',
 						'</div>',
 						'<div class="m-modal__demography-list" ng-if="list === true">',
 							'<div class="m-catalog-filter js-filter-demography-catalog">',
 								'<input type="text" class="m-input m-input--in-demography__catalog" ng-model="search" ng-change="quickFilter()" placeholder="Filtro rápido">',
 							'</div>',
-							'<wxy-push-menu menu="menu" options="options_one"></wxy-push-menu>',
+							'<dem-push-menu menu="menu" options="options_one"></dem-push-menu>',
 						'</div>',
 					'</div>',
 				'</div>'
@@ -87,6 +86,8 @@
 						BaseMapFactory.delPobVivWMS();
 					}
 				}, true);
+				
+				
 				/**
 				 * Get demography variables
 				 */
@@ -111,8 +112,10 @@
 				scope.options_one = {
 					collapsed: true,
 					fullCollapse: true,
-					wrapperClass: 'multilevelpushmenu_wrapper',
+					wrapperDemClass: 'multilevelpushmenu_wrapper',
 					direction: 'ltr',
+					backDemClass: 'backDemClass',
+					backText: 'Atrás',
 					onExpandMenuStart: function() {
 						setTimeout(function(){
 							angular.element(document.getElementsByClassName('js-filter-demography-catalog')).addClass('is-filter-demography-active');
@@ -135,7 +138,7 @@
 						angular.element(document.getElementsByClassName('js-filter-demography-catalog')).removeClass('is-filter-demography-active').val("");
 						//angular.element(document.getElementsByClassName('current-category')).addClass('visible').removeClass('invisible');
 					},
-					onItemClick: function(event, item) {
+					onItemDemClick: function(event, item) {
 						_variable_id = item.id;
 						_variable_name = item.name;
 						
@@ -200,6 +203,7 @@
 					}
 				};
 				
+				var outside = angular.element(document.q);
 
 				/**
 				 * [variableShowed Get or change variable that will be shown on the map]

@@ -20,7 +20,7 @@
 			},
 			logout: function() {
 				sessionStorage.removeItem('access_token');
-				$location.path("/login").replace();
+				$location.path("/").replace();
 			},
 			checkStatus : function() {
 				var token = this.getToken();
