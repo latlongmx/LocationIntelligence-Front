@@ -1,0 +1,20 @@
+﻿<div ng-show="visible" ng-class="{visible: visible, multilevelpushmenu_inactive: inactive && !collapsed}" class="levelHolderClass">
+		<h3>{{menu.title}}</h3>
+		<i class="floatRight cursorPointer testing menu-icon" ng-class="menu.icon" ng-click="openMenu($event, menu)"></i>
+	<div ng-show="level != 0 && !inactive" ng-class="options.backItemClass">
+		<a href="" ng-click="goBack($event, menu)">
+			<i class="floatRight" ng-class="options.backItemIcon"></i><span ng-bind="options.backText"></span>
+		</a>
+	</div>
+	<ul ng-class="{invisible: inactive}" class="current-category">
+		<li ng-repeat="item in menu.items" data-input-id="{{item.id}}">
+			<a ng-href="{{item.link}}" ng-click="onSubmenuClicked(item, $event)">
+				<i ng-if="item.menu" class="floatLeft iconSpacing" ng-class="options.groupIcon"></i>
+				<i class="floatRight" ng-class="item.icon" data-variable-id="{{item.id}}"></i>{{item.name}}
+			</a>
+			<div ng-if="item.menu">
+				<recursive><com-submenu menu="item.menu" level="childrenLevel" visible="item.visible"></com-submenu></recursive>
+			</div>
+		</li>
+	</ul>
+</div>

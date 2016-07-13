@@ -13,15 +13,14 @@
 			<input type="text" class="m-input m-input--in-demography__catalog m-input--in-competence__catalog" ng-model="search_competence" ng-change="quickCompetenceFilter()" placeholder="Filtro rápido">
 			<i class="demo demo-search m-search__icon m-search__icon--in-competence-catalog"></i>
 		</div>
-		<div layout="row" layout-padding="2" style="height: 400px;overflow: hidden;display: block;bottom: 0;left: 0;right: 0;top: 0;width:100% !important;margin: 10px 0;">
-			<com-push-menu menu="menu" options="options_com"></com-push-menu>
-		</div>
-		<div layout-padding="10" ng-if="addingCompetence">
-			<md-progress-linear md-mode="indeterminate" ></md-progress-linear>
+		<div layout="column" style="    overflow: hidden;display: block;bottom: 0;left: 0;right: 0;top: 0;width:100% !important;">
+			<heat-push-menu menu="menu" options="options_heat"></heat-push-menu>
 		</div>
 	</md-dialog-content>
-	<md-dialog-actions layout="row">
+	<div style="position:absolute;left:0;right:0;bottom: 0;">
+	<div layout="row">
 		<md-button class="md-raised md-warn" ng-click="cancel()" flex="50">Cancelar</md-button>
-		<md-button class="md-raised md-primary" ng-click="ok()" flex="50">Listo</md-button>
-	</md-dialog-actions>
+		<md-button class="md-raised md-primary" ng-click="ok(save_competence_variable_list)" flex="50">Listo</md-button>
+	</div>
+	</div>
 </md-dialog>

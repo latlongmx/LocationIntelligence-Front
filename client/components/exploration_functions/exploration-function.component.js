@@ -20,7 +20,7 @@
 					'<location></location>',
 					'<competence></competence>',
 					'<demography></demography>',
-					'<potential></potential>',
+					// '<potential></potential>',
 				'</ul>',
 			].join(''),
 			controller: function($scope){

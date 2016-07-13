@@ -11,32 +11,31 @@ var ngAnnotate = require('gulp-ng-annotate');
 
 gulp.task('lib1', function() {
 	log('Copying external resources');
-	return gulp.src('./angular-multilevelpushmenu/*.js')
-		.pipe(gulp.dest('./bower_components/angular-multilevelpushmenu/'));
-});
-gulp.task('lib2', function() {
-	log('Copying external resources');
 	return gulp.src('./angular-ui-bootstrap/*.js')
 		.pipe(gulp.dest('./bower_components/angular-ui-bootstrap/'));
 });
-gulp.task('lib3', function() {
+gulp.task('lib2', function() {
 	log('Copying external resources');
 	return gulp.src('./md5/*.js')
 		.pipe(gulp.dest('./bower_components/md5/'));
 });
-gulp.task('lib4', function() {
+gulp.task('lib3', function() {
 	log('Copying external resources');
 	return gulp.src('./jslibs/**/*.js')
 		.pipe(gulp.dest('./bower_components/jslibs/'));
 });
 
-gulp.task('inject', ['lib1', 'lib2', 'lib3', 'lib4'], function(){
+gulp.task('inject', ['lib1', 'lib2', 'lib3'], function(){
 	return gulp.src('./client/index.html')
 		.pipe(wiredep({
 			bowerJson: require('./bower.json'),
 			directory: 'bower_components',
 			ignorePath: '../../',
-			exclude: 'bower_components/jquery/dist/jquery.js'
+			exclude: [
+			'bower_components/jquery/dist/jquery.js',
+			'bower_components/jslibs/leaflet/leaflet.js',
+			'bower_components/jslibs/leaflet-draw/leaflet.draw.js'
+			]
 		}))
 		.pipe($.inject(gulp.src([
 			'bower_components/jquery/dist/jquery.js',
@@ -44,16 +43,17 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3', 'lib4'], function(){
 		.pipe($.inject(gulp.src([
 			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-1.3.2.js',
 			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-tpls-1.3.2.js',
-			'bower_components/angular-multilevelpushmenu/pushmenu.js',
 			'bower_components/md5/md5.js',
-			'bower_components/jslibs/leaflet/leaflet.js',
-			'bower_components/jslibs/leaflet-draw/leaflet.draw.js',
 			'bower_components/jslibs/leaflet-heat/Leaflet.heat.js',
 			'bower_components/jslibs/NonTiledLayer.js',
 			'bower_components/jslibs/NonTiledLayer.WMS.js',
 			'bower_components/jslibs/leaflet.singletilewmslayer.js',
 			'bower_components/jslibs/leaflet.dynamicWMS.js',
 			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:js -->'}))
+		.pipe($.inject(gulp.src([
+			'bower_components/jslibs/leaflet/leaflet.js',
+			'bower_components/jslibs/leaflet-draw/leaflet.draw.js',
+			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:leaflet -->'}))
 		.pipe($.inject(gulp.src([
 			'bower_components/jslibs/leaflet/leaflet.css',
 			'bower_components/jslibs/leaflet-draw/leaflet.draw.css',
