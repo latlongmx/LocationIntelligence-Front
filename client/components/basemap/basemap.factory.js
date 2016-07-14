@@ -415,10 +415,6 @@
 						});
 					}
 				});
-			}else{
-				BaseMapService.map.then(function (map) {
-					_factory.LAYERS.USER[layer].addTo(map);
-				});
 			}
 			else{
 				BaseMapService.map.then(function (map) {
