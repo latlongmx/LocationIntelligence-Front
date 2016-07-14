@@ -416,6 +416,10 @@
 						});
 					}
 				});
+			}else{
+				BaseMapService.map.then(function (map) {
+					_factory.LAYERS.USER[layer].addTo(map);
+				});
 			}
 		};
 		factory.addHeatMap2Data = function(options, callback){
