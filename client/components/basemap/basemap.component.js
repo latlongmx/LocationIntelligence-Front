@@ -95,7 +95,7 @@
 
 			map.on('draw:created', function (e) {
 					//_drawType = e.layerType;
-					// var geo_wkt = BaseMapFactory.geom2wkt(e);
+					//var geo_wkt = BaseMapFactory.geom2wkt(e);
 					// if(geo_wkt){
 					// 	//Servicio que obtiene las geometrias del area seleccionada
 					// 	var servType = 'denue_2016';

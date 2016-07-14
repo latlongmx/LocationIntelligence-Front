@@ -60,31 +60,31 @@
 			].join(''),
 			link: function(scope, element, attr, potencialCtrl){
 
-				// _$contentCount = {
-				// 	vehi : angular.element(document.getElementById('access_car_content')),
-				// 	trns : angular.element(document.getElementById('access_trans_content'))
-				// };
+				_$contentCount = {
+					vehi : angular.element(document.getElementById('access_car_content')),
+					trns : angular.element(document.getElementById('access_trans_content'))
+				};
 
-				// BaseMapService.map.then(function (map) {
-				// 	_map = map;
-				// 	_editableLayers = new L.FeatureGroup();
-				// 	_map.addLayer(_editableLayers);
-				// 	var opst = {
-				// 		shapeOptions: {
-				// 			color: '#81A1C1'
-				// 	}};
-				// 	_toolDraw.line = new L.Draw.Polyline(_map);
-				// 	_toolDraw.polygon = new L.Draw.Polygon(_map);
-				// 	_toolDraw.circle = new L.Draw.Circle(_map);
+				BaseMapService.map.then(function (map) {
+					_map = map;
+					_editableLayers = new L.FeatureGroup();
+					_map.addLayer(_editableLayers);
+					var opst = {
+						shapeOptions: {
+							color: '#81A1C1'
+					}};
+					_toolDraw.line = new L.Draw.Polyline(_map);
+					_toolDraw.polygon = new L.Draw.Polygon(_map);
+					_toolDraw.circle = new L.Draw.Circle(_map);
 
-				// 	_toolDraw.line.setOptions(opst);
-				// 	_toolDraw.polygon.setOptions(opst);
-				// 	_toolDraw.circle.setOptions(opst);
+					_toolDraw.line.setOptions(opst);
+					_toolDraw.polygon.setOptions(opst);
+					_toolDraw.circle.setOptions(opst);
 
-				// 	_map.on('draw:created', scope.drawComplete);
-				// 	_editableLayers.on('layeradd', scope.startAccessibilityAnalysis);
+					_map.on('draw:created', scope.drawComplete);
+					_editableLayers.on('layeradd', scope.startAccessibilityAnalysis);
 
-				// });
+				});
 
 				scope.openViasWMS = function(){
 					if(_layers.viasWMS === undefined){
@@ -128,22 +128,7 @@
 
 						var access_token = Auth.getToken().access_token;
 						var geo_wkt = "";
-
-						if(_currentFeature.layerType ==='polygon'){
-							var coors = "";
-							var latlngs = _currentFeature.layer.getLatLngs()[0];
-							for (var i=0; i<latlngs.length; i++){
-								if (i !== 0){
-									coors += ',';
-								}
-							 coors += latlngs[i].lng+' '+latlngs[i].lat;
-							}
-							coors += ','+latlngs[0].lng+' '+latlngs[0].lat;
-							geo_wkt = 'POLYGON('+coors+')';
-						}else{
-							geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
-						}
-
+						geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
 
 						_layers.viasUserWMS = L.tileLayer.dynamicWms(
 							BaseMapFactory.API_URL+"/ws_wms?access_token="+access_token,
@@ -156,7 +141,10 @@
 						});
 						_layers.viasUserWMS.setDynamicParam({
 							WKT: function(){
-								return geo_wkt;
+								return geo_wkt.wkt;
+							},
+							MTS: function(){
+								return geo_wkt.mts;
 							}
 						});
 						_layers.viasUserWMS.options.crs = L.CRS.EPSG4326;
