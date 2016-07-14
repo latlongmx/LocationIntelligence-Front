@@ -60,31 +60,31 @@
 			].join(''),
 			link: function(scope, element, attr, potencialCtrl){
 
-				// _$contentCount = {
-				// 	vehi : angular.element(document.getElementById('access_car_content')),
-				// 	trns : angular.element(document.getElementById('access_trans_content'))
-				// };
+				_$contentCount = {
+					vehi : angular.element(document.getElementById('access_car_content')),
+					trns : angular.element(document.getElementById('access_trans_content'))
+				};
 
-				// BaseMapService.map.then(function (map) {
-				// 	_map = map;
-				// 	_editableLayers = new L.FeatureGroup();
-				// 	_map.addLayer(_editableLayers);
-				// 	var opst = {
-				// 		shapeOptions: {
-				// 			color: '#81A1C1'
-				// 	}};
-				// 	_toolDraw.line = new L.Draw.Polyline(_map);
-				// 	_toolDraw.polygon = new L.Draw.Polygon(_map);
-				// 	_toolDraw.circle = new L.Draw.Circle(_map);
+				BaseMapService.map.then(function (map) {
+					_map = map;
+					_editableLayers = new L.FeatureGroup();
+					_map.addLayer(_editableLayers);
+					var opst = {
+						shapeOptions: {
+							color: '#81A1C1'
+					}};
+					_toolDraw.line = new L.Draw.Polyline(_map);
+					_toolDraw.polygon = new L.Draw.Polygon(_map);
+					_toolDraw.circle = new L.Draw.Circle(_map);
 
-				// 	_toolDraw.line.setOptions(opst);
-				// 	_toolDraw.polygon.setOptions(opst);
-				// 	_toolDraw.circle.setOptions(opst);
+					_toolDraw.line.setOptions(opst);
+					_toolDraw.polygon.setOptions(opst);
+					_toolDraw.circle.setOptions(opst);
 
-				// 	_map.on('draw:created', scope.drawComplete);
-				// 	_editableLayers.on('layeradd', scope.startAccessibilityAnalysis);
+					_map.on('draw:created', scope.drawComplete);
+					_editableLayers.on('layeradd', scope.startAccessibilityAnalysis);
 
-				// });
+				});
 
 				scope.openViasWMS = function(){
 					if(_layers.viasWMS === undefined){
@@ -139,7 +139,7 @@
 							 coors += latlngs[i].lng+' '+latlngs[i].lat;
 							}
 							coors += ','+latlngs[0].lng+' '+latlngs[0].lat;
-							geo_wkt = 'POLYGON('+coors+')';
+							geo_wkt = 'POLYGON(('+coors+'))';
 						}else{
 							geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
 						}
