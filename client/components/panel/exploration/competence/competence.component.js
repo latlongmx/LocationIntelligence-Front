@@ -13,7 +13,7 @@
 			template: [
 				'<div>',
 					'<li class="m-list-functions__item js-panel-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Mis competencias" tooltip-animation="true">',
-						'<img src="./images/functions/competence.png" class="m-list-functions__item-icon" data-icon="my_competence"/>',
+						'<img src="./images/functions/competence_icon.png" class="m-list-functions__item-icon" data-icon="competence_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-competence-side-panel">',
 						'<h3 class="m-side-panel__title">Competencia</h3>',

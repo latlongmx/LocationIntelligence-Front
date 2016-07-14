@@ -29,6 +29,9 @@
 		factory.getCoords = function(layer, geomtype){
 			var coors = "";
 			var latlngs = layer.getLatLngs();
+			if(geomtype==='polygon'){
+				latlngs = latlngs[0];
+			}
 			for (var i=0; i<latlngs.length; i++){
 				if (i !== 0){
 					coors += ',';
@@ -411,6 +414,11 @@
 							}
 						});
 					}
+				});
+			}
+			else{
+				BaseMapService.map.then(function (map) {
+					_factory.LAYERS.USER[layer].addTo(map);
 				});
 			}
 		};

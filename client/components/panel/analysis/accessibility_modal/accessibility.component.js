@@ -31,7 +31,7 @@
 			template: [
 				'<div>',
 					'<li class="m-list-functions__item js-analysis-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Accesibilidad" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-accessibility"></i>',
+						'<img src="./images/functions/accessibility_icon.png" class="m-list-functions__item-icon" data-icon="accessibility_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-accessibility-side-panel" style="height: 400px;">',
 						'<h3 class="m-side-panel__title">Accesibilidad</h3>',

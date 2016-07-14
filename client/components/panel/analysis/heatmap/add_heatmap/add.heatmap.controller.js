@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function AddHeatmapController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, BaseMapService, heatmap_variables, CompetenceService){
+	function AddHeatmapController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, BaseMapService, heatmap_variables, CompetenceService, BaseMapFactory){
 		// $scope.bounds = null;
 		// $scope.nw = null;
 		// $scope.se = null;
@@ -34,7 +34,9 @@
 		_last_variable_list = null,
 		_last_list = null,
 		_heatmap_variable_id = [],
-		_last_flag = null;
+		_last_flag = null,
+		countAdded = 0;
+		
 
 		if (!$scope.save_heatmap_variable_list) {
 			$scope.save_heatmap_variable_list = [];
@@ -44,12 +46,16 @@
 			$scope._heatmap_variable_flag = [];
 		}
 
-		if (!$scope._competence_array) {
-			$scope._competence_array = [];
+		if (!$scope._heatmap_array) {
+			$scope._heatmap_array = [];
 		}
 
 		if (!$scope._id_heatmap_layer_flag) {
 			$scope._id_heatmap_layer_flag = [];
+		}
+		
+		if (!$scope.is_simple_composed) {
+			$scope.is_simple_composed = [];
 		}
 
 		/**
@@ -71,7 +77,7 @@
 			collapsed: false,
 			fullCollapse: true,
 			mode: 'cover',
-			wrapperClass: 'multilevelpushmenu__in-competence',
+			wrapperClass: 'multilevelpushmenu__in-heatmap',
 			direction: 'ltr',
 			backItemClass: 'backCompClass',
 			backText: 'Atrás',
@@ -82,7 +88,11 @@
 				if($scope._heatmap_variable_flag.indexOf(_variable_name) === -1){
 					$scope._heatmap_variable_flag.push(_variable_name);
 					$scope.save_heatmap_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
-					_addHeatmapToList(_variable_name, _variable_id);
+					$scope.is_simple_composed.push(_variable_id);
+					countAdded = countAdded + 1;
+					//_addHeatmapToList(_variable_name, _variable_id);
+					_showToastMessage('Se añadió ' + _variable_name);
+					
 				}
 
 				else {
@@ -90,8 +100,8 @@
 						if ($scope._heatmap_variable_flag[i] === _variable_name){
 							$scope._heatmap_variable_flag.splice(i,1);
 							$scope.save_heatmap_variable_list.splice(i,1);
-							CompetenceService.delCompetence( $scope._id_heatmap_layer_flag[i] )
 							$scope._id_heatmap_layer_flag.splice(i,1);
+							$scope.is_simple_composed.splice(i,1);
 							countAdded = countAdded - 1;
 							break;
 						}
@@ -111,27 +121,27 @@
 		 * [quickFilter Function to get filter values from catalog]
 		 */
 		$scope.quickHeatmapFilter = function(){
-			$scope._competence_array = [];
+			$scope._heatmap_array = [];
 			_resultOfProcess = null;
-			_matchWordHeatmap = this.search_competence;
+			_matchWordHeatmap = this.search_heatmap;
 
 			/**
 			 * [_newHeatmapVariables Get result of getObject Match words function]
 			 */
-			 var found = [];
-				var searchF = function(obj, txt){
+			 var foundHeatmapLayer = [];
+				var searchHeatmapLayer = function(obj, txt){
 				  _.each(obj,function(o){
 				    if( o.name && o.name.toLowerCase().indexOf(txt) !== -1){
-				      found.push(o);
+				      foundHeatmapLayer.push(o);
 				    }
 				    if(o.menu && o.menu.items){
-				      searchF(o.menu.items, txt);
+				      searchHeatmapLayer(o.menu.items, txt);
 				    }
 				  });
 				};
-				searchF($scope.currentHeatmapVariables.items, _matchWordHeatmap.toLowerCase());
+				searchHeatmapLayer($scope.currentHeatmapVariables.items, _matchWordHeatmap.toLowerCase());
 
-			_newHeatmapVariables = found; //getObject($scope.currentHeatmapVariables.items);
+			_newHeatmapVariables = foundHeatmapLayer;
 			if (_newHeatmapVariables && _matchWordHeatmap !== "") {
 				$scope.menu = {
 					title: 'Resultados',
@@ -165,17 +175,17 @@
 			 * @param  {[type]} theObject [variables of catalog]
 			 */
 			// function getObject(theObject) {
-			// 	$scope._competence_array = [];
+			// 	$scope._heatmap_array = [];
 			// 	_.each(theObject,function(o){
 			// 		var items = o.menu.items;
 			// 		var found = _.filter(items,function(item){
 			// 			return item.name.toLowerCase().indexOf( _matchWordHeatmap ) !== -1;
 			// 		});
 			// 		if(found.length > 0){
-			// 			_.extend($scope._competence_array,found);
+			// 			_.extend($scope._heatmap_array,found);
 			// 		}
 			// 	});
-			// 	return $scope._competence_array;
+			// 	return $scope._heatmap_array;
 			// }
 		};
 
@@ -184,25 +194,22 @@
 		 * @param  {[type]} param [description]
 		 */
 		var _addHeatmapToList = function(param, id) {
-			var formData = new FormData();
-			var pin = "";
-			formData.append('qf', "cod:"+id );
-			formData.append('qb', $scope.bbox );
-			formData.append('competence', "1" );
-			formData.append('nm', param );
-			formData.append('pin', pin );
+			$scope.is_simple_composed.join();
+			
+			
+			//BaseMapFactory.addHeatMap2Layer( "prueba", 734', false);
 
-			BaseMapService.addCompetenciaQuery(formData)
-			.then(function(result){
-				if (result.statusText === 'OK') {
-					_showToastMessage('Se agregó ' + _variable_name);
-					countAdded = countAdded + 1;
-					$scope._id_heatmap_layer_flag.push(result.data.id_layer);
-					_heatmap_variable_id.push(id);
-				}
-			}, function(error){
-			 console.log(error);
-			});
+			// BaseMapService.addCompetenciaQuery(formData)
+			// .then(function(result){
+			// 	if (result.statusText === 'OK') {
+			// 		_showToastMessage('Se agregó ' + _variable_name);
+			// 		countAdded = countAdded + 1;
+			// 		$scope._id_heatmap_layer_flag.push(result.data.id_layer);
+			// 		_heatmap_variable_id.push(id);
+			// 	}
+			// }, function(error){
+			//  console.log(error);
+			// });
 		};
 
 
@@ -224,16 +231,16 @@
 		 * [_showToastMessage Function to open $mdDialog]
 		 * @param  {[type]} message [Message to show in $mdDialog]
 		 */
-		// var _showToastMessage = function(message) {
-		// 	$mdToast.show(
-		// 		$mdToast.simple({
-		// 			textContent: message,
-		// 			position: 'top right',
-		// 			hideDelay: 2500,
-		// 			parent: $document[0].querySelector('.md-dialog-cotainer'),
-		// 		})
-		// 	);
-		// }
+		var _showToastMessage = function(message) {
+			$mdToast.show(
+				$mdToast.simple({
+					textContent: message,
+					position: 'top right',
+					hideDelay: 2500,
+					parent: $document[0].querySelector('.md-dialog-cotainer'),
+				})
+			);
+		}
 
 		$scope.hide = function() {
 			$mdDialog.hide();
@@ -242,13 +249,16 @@
 		$scope.cancel = function() {
 			$mdDialog.cancel();
 		};
-		$scope.ok = function() {
-			$mdDialog.hide({count: countAdded, success: true, selected: _heatmap_variable_id});
+		$scope.ok = function(form, field) {
+			if(form.$valid === true && $scope.is_simple_composed.join() !== ""){
+				BaseMapFactory.addHeatMap2Layer( field.category_name, $scope.is_simple_composed.join(), false);
+			}
+			//$mdDialog.hide({count: countAdded, success: true});
 		};
 
 	};
 
-	AddHeatmapController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'BaseMapService', 'heatmap_variables', 'CompetenceService'];
+	AddHeatmapController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'BaseMapService', 'heatmap_variables', 'CompetenceService', 'BaseMapFactory'];
 
 	angular.module('add.heatmap.controller', []).
 	controller('AddHeatmapController', AddHeatmapController);

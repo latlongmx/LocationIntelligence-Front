@@ -14,7 +14,7 @@
 			template: [
 				'<div>',
 					'<li class="m-list-functions__item js-panel-item" data-ep="location" tooltip-placement="right" uib-tooltip="Mis ubicaciones" tooltip-animation="true">',
-						'<img src="./images/functions/my_locations.png" class="m-list-functions__item-icon" data-icon="my_locations"/>',
+						'<img src="./images/functions/locations_icon.png" class="m-list-functions__item-icon" data-icon="locations_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-location-side-panel">',
 						'<h3 class="m-side-panel__title">Mis ubicaciones</h3>',

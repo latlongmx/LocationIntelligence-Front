@@ -13,7 +13,7 @@
 			template: [
 				'<div>',
 					'<li class="m-list-functions__item js-panel-item" data-ep="heatmap" tooltip-placement="right" uib-tooltip="Mapa de calor" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-heatmap"></i>',
+						'<img src="./images/functions/heatmap_icon.png" class="m-list-functions__item-icon" data-icon="heatmap_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-heatmap-side-panel">',
 						'<h3 class="m-side-panel__title">Mapas de calor</h3>',
@@ -125,16 +125,13 @@
 				if (!scope.heatmap_variables_selected) {
 					scope.heatmap_variables_selected = [];
 				}
-				
+
 				scope.predefindedCategories = [
 					{"id_layer": 722, "name_layer": "Alimentos", "name": "food"},
 					{"id_layer": 2, "name_layer": "Turismo", "name": "tourism"},
-					{"id_layer": 3, "name_layer": "Compras", "name": "shop"},
-					{"id_layer": 4, "name_layer": "Vida nocturna", "name": "night-life"},
-					{"id_layer": 5, "name_layer": "Delincuencia", "name": "delinquency"}
-				]
-				
-				
+					{"id_layer": 3, "name_layer": "Compras", "name": "shop"}
+				];
+
 				HeatmapVarJsonService.heatmapVarJsonRequest()
 				.then(function(result){
 					scope.currentHeatmapItems = result.data;
@@ -237,7 +234,7 @@
 							}
 						}
 					}
-					//layer_predefined === true ? BaseMapFactory.addHeatMapCategory(predefinedLayer.name) : BaseMapFactory.hideHeatMapCategory(predefinedLayer.name);
+					layer_predefined === true ? BaseMapFactory.addHeatMapCategory(predefinedLayer.name) : BaseMapFactory.hideHeatMapCategory(predefinedLayer.name);
 				}
 
 				// scope.turnOnOffLayerCompetence = function(layer, loc) {
@@ -280,19 +277,18 @@
 				// }
 
 				scope.toggleGralHeatmap = function() {
-					console.log(scope.toggleHeatmap)
 					if(this.all_heatmap === true) {
 						_.each(scope.toggleHeatmap, function(heat){
 							heat.heatmap.layer_predefined = false;
 							scope.is_toggle_gral_heatmap = true;
-							//BaseMapFactory.hideLocation(heat.id_layer);
+							BaseMapFactory.hideHeatMapCategory(heat.heatmap.predefined.name);
 						});
 					}
 					else {
 						_.each(scope.toggleHeatmap, function(heat){
 							heat.heatmap.layer_predefined = true;
 							scope.is_toggle_gral_heatmap = false;
-							//BaseMapFactory.showLocation(heat.id_layer);
+							BaseMapFactory.addHeatMapCategory(heat.heatmap.predefined.name);
 						});
 					}
 					if (scope.toggleHeatmap.length === 0) {
