@@ -53,7 +53,7 @@
             return options;
           };
         }],
-        templateUrl: './components/exploration_functions/demography/DemMainMenu.html',
+        templateUrl: './components/panel/exploration/demography/DemMainMenu.html',
         restrict: 'E',
         replace: true
       };
@@ -188,7 +188,7 @@
             };
           })(this));
         },
-        templateUrl: './components/exploration_functions/demography/DemSubMenu.html',
+        templateUrl: './components/panel/exploration/demography/DemSubMenu.html',
         require: '^demPushMenu',
         restrict: 'EA',
         replace: true

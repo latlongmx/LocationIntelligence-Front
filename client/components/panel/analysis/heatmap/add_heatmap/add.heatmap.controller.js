@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function AddHeatmapController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, CompetenceVarJsonService, BaseMapService, heatmap_variables, CompetenceService){
+	function AddHeatmapController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, BaseMapService, heatmap_variables, CompetenceService){
 		// $scope.bounds = null;
 		// $scope.nw = null;
 		// $scope.se = null;
@@ -33,8 +33,7 @@
 		_last_variable_flag = null,
 		_last_variable_list = null,
 		_last_list = null,
-		_competence_variable_id = [],
-		_current_heatmap_variable_id = null,
+		_heatmap_variable_id = [],
 		_last_flag = null;
 
 		if (!$scope.save_heatmap_variable_list) {
@@ -56,7 +55,7 @@
 		/**
 		 * Get competence variables
 		 */
-		$scope.list = true;
+		// $scope.list = true;
 		$scope.currentHeatmapVariables = {
 			"title":"DENUE",
 			"idCatalog": 2,
@@ -64,15 +63,6 @@
 			"items": heatmap_variables
 		};
 		$scope.menu = $scope.currentHeatmapVariables;
-
-		// _.each(_current_heatmap_variable_id, function(index){
-		// 	setTimeout(function(){
-		// 		_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+index+'"]'));
-		// 		_icon_data_id
-		// 		.toggleClass('fa-eye-slash fa-eye')
-		// 		.toggleClass('is-added-to-map')
-		// 	}, 0);
-		// });
 
 		/**
 		 * [ Methods and options for menu ]
@@ -92,7 +82,6 @@
 				if($scope._heatmap_variable_flag.indexOf(_variable_name) === -1){
 					$scope._heatmap_variable_flag.push(_variable_name);
 					$scope.save_heatmap_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
-					_showToastMessage('Se agregó ' + _variable_name);
 					_addHeatmapToList(_variable_name, _variable_id);
 				}
 
@@ -205,11 +194,12 @@
 
 			BaseMapService.addCompetenciaQuery(formData)
 			.then(function(result){
-			 if (result.statusText === 'OK') {
-			 	countAdded = countAdded + 1;
-			 	$scope._id_heatmap_layer_flag.push(result.data.id_layer);
-			 	_competence_variable_id.push(id);
-			 }
+				if (result.statusText === 'OK') {
+					_showToastMessage('Se agregó ' + _variable_name);
+					countAdded = countAdded + 1;
+					$scope._id_heatmap_layer_flag.push(result.data.id_layer);
+					_heatmap_variable_id.push(id);
+				}
 			}, function(error){
 			 console.log(error);
 			});
@@ -234,16 +224,16 @@
 		 * [_showToastMessage Function to open $mdDialog]
 		 * @param  {[type]} message [Message to show in $mdDialog]
 		 */
-		var _showToastMessage = function(message) {
-			$mdToast.show(
-				$mdToast.simple({
-					textContent: message,
-					position: 'top right',
-					hideDelay: 2500,
-					parent: $document[0].querySelector('.md-dialog-cotainer'),
-				})
-			);
-		}
+		// var _showToastMessage = function(message) {
+		// 	$mdToast.show(
+		// 		$mdToast.simple({
+		// 			textContent: message,
+		// 			position: 'top right',
+		// 			hideDelay: 2500,
+		// 			parent: $document[0].querySelector('.md-dialog-cotainer'),
+		// 		})
+		// 	);
+		// }
 
 		$scope.hide = function() {
 			$mdDialog.hide();
@@ -253,12 +243,12 @@
 			$mdDialog.cancel();
 		};
 		$scope.ok = function() {
-			$mdDialog.hide({count: countAdded, success: true, selected: _competence_variable_id});
+			$mdDialog.hide({count: countAdded, success: true, selected: _heatmap_variable_id});
 		};
 
 	};
 
-	AddHeatmapController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'CompetenceVarJsonService', 'BaseMapService', 'heatmap_variables', 'CompetenceService'];
+	AddHeatmapController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'BaseMapService', 'heatmap_variables', 'CompetenceService'];
 
 	angular.module('add.heatmap.controller', []).
 	controller('AddHeatmapController', AddHeatmapController);

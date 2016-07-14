@@ -1,7 +1,7 @@
 (function() {
   var module;
 
-  module = angular.module('heat.components', []);
+  module = angular.module('com.components', []);
 
   module.directive('recursive', [
     '$compile', function($compile) {
@@ -30,10 +30,10 @@
 (function() {
   var module;
 
-  module = angular.module('heat.pushmenu', ['ngAnimate', 'heat.components']);
+  module = angular.module('com.pushmenu', ['ngAnimate', 'com.components']);
 
-  module.directive('heatPushMenu', [
-    'heatOptions', 'wxyUtils', function(heatOptions, wxyUtils) {
+  module.directive('comPushMenu', [
+    'comOptions', 'wxyUtils', function(comOptions, wxyUtils) {
       return {
         scope: {
           menu: '=',
@@ -41,7 +41,7 @@
         },
         controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
           var options, width;
-          $scope.options = options = angular.extend(heatOptions, $scope.options);
+          $scope.options = options = angular.extend(comOptions, $scope.options);
           $scope.level = 0;
           $scope.visible = true;
           width = options.menuWidth || 265;
@@ -53,14 +53,14 @@
             return options;
           };
         }],
-        templateUrl: './components/analysis_functions/heatmap/HeatMainMenu.html',
+        templateUrl: './components/panel/exploration/competence/ComMainMenu.html',
         restrict: 'E',
         replace: true
       };
     }
   ]);
 
-  module.directive('heatSubmenu', [
+  module.directive('comSubmenu', [
     '$animate', 'wxyUtils', function($animate, wxyUtils) {
       return {
         scope: {
@@ -188,8 +188,8 @@
             };
           })(this));
         },
-        templateUrl: './components/analysis_functions/heatmap/HeatSubMenu.html',
-        require: '^heatPushMenu',
+        templateUrl: './components/panel/exploration/competence/ComSubMenu.html',
+        require: '^comPushMenu',
         restrict: 'EA',
         replace: true
       };
@@ -255,7 +255,7 @@
     };
   });
 
-  module.value('heatOptions', {
+  module.value('comOptions', {
     containersToPush: null,
     wrapperClass: 'multilevelpushmenu__in-competence',
     menuInactiveClass: 'multilevelpushmenu_inactive',

@@ -26,7 +26,7 @@
 		return {
 			restrict: 'E',
 			replace: true,
-			require: '^analysisFunctions',
+			require: '^panelFunctions',
 			scope: '=',
 			template: [
 				'<div>',

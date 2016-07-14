@@ -2,7 +2,7 @@
 	@include box-shadow(8px 8px 13px -6px rgba(0,0,0,0.25));
 	background: #ffffff;
 	bottom: 18px;
-	left: 58px;
+	left: 55px;
 	position: absolute;
 	top: 55px;
 	width: 500px;
@@ -114,14 +114,6 @@
 	&:hover {
 		background: rgba($gray0,0.25);
 	}
-	img {
-		-ms-flex: none;
-		-webkit-flex: none;
-		flex: none;
-		height: 30px;
-		margin: 16px 10%;
-		width: 30px;
-	}
 	p {
 		color: $gray75;
 		padding: 5px;
@@ -133,6 +125,15 @@
 	margin:0 !important;
 	align-self: center;
 	-webkit-align-self: center;
+}
+
+.m-side-panel__list-content__item-single-img {
+	-ms-flex: none;
+	-webkit-flex: none;
+	flex: none;
+	height: 30px;
+	margin: 16px 10%;
+	width: 30px;
 }
 
 button.m-side-panel__locations-list__item {
@@ -188,6 +189,28 @@ button.m-side-panel__locations-list__item {
 	display:block;
 }
 
+.m-side-panel__panel_one,
+.m-side-panel__panel_two {
+	position: relative;
+	margin-bottom:20px;
+}
+
 .m-side-panel__list--in-competence-panel {
 	top: 290px;
+}
+
+.m-side-panel__list--in-heatmap-panel-predefined {
+	bottom:initial;
+	top:56px;
+	// overflow-y: auto;
+	position: initial;
+	padding:0px 15px;
+}
+
+.m-side-panel__list--in-heatmap-panel-custom {
+	top:100px;
+}
+
+.m-side-panel__list-content__item-single-img--in-predefined-heatmap-panel {
+	margin: 5px 10%;
 }

@@ -9,12 +9,12 @@
 
 		return {
 			restrict: 'E',
-			require: '^explorationFunctions',
+			require: '^panelFunctions',
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-exploration-item" data-ep="location" tooltip-placement="right" uib-tooltip="Mis ubicaciones" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-location"></i>',
+					'<li class="m-list-functions__item js-panel-item" data-ep="location" tooltip-placement="right" uib-tooltip="Mis ubicaciones" tooltip-animation="true">',
+						'<img src="./images/functions/my_locations.png" class="m-list-functions__item-icon" data-icon="my_locations"/>',
 					'</li>',
 					'<div class="m-side-panel js-location-side-panel">',
 						'<h3 class="m-side-panel__title">Mis ubicaciones</h3>',
@@ -70,7 +70,7 @@
 							'<ul class="m-side-panel__list-content">',
 								'<li class="m-side-panel__list-content__item js-location-item" ng-repeat="location in locations | filter: search_location">',
 									'<div flex="10">',
-										'<img ng-src="'+BaseMapFactory.API_URL+'/ws/icon?nm={{location.pin_url}}&access_token='+_access_token.access_token+'" width="30"/>',
+										'<img ng-src="'+BaseMapFactory.API_URL+'/ws/icon?nm={{location.pin_url}}&access_token='+_access_token.access_token+'" width="30" class="m-side-panel__list-content__item-single-img"/>',
 									'</div>',
 									'<p flex="35" class="m-side-panel__list-content__item-single">{{location.name_layer}}</p>',
 									'<p flex="20" class="m-side-panel__list-content__item-single">{{location.num_features}}</p>',
@@ -105,7 +105,7 @@
 				scope.addLocation = function(ev){
 					$mdDialog.show({
 						controller: 'AddLocationController',
-						templateUrl: './components/exploration_functions/location/add_locations/add-locations.tpl.html',
+						templateUrl: './components/panel/exploration/location/add_locations/add-locations.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: ev,
 						clickOutsideToClose:true
@@ -134,7 +134,7 @@
 					var id = location_item.id_layer +'-'+ location_item.name_layer.replace(' ','_');
 					$mdDialog.show({
 						controller: 'EditLayerLocationController',
-						templateUrl: './components/exploration_functions/location/edit_layer/edit-layer.location.tpl.html',
+						templateUrl: './components/panel/exploration/location/edit_layer/edit-layer.location.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: location_item.id_layer,
 						clickOutsideToClose:true,

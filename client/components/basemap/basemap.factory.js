@@ -392,7 +392,6 @@
 			});
 		};
 
-
 		factory.addHeatMap2Layer = function(layer, cods, reload){
 			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
 				BaseMapService.map.then(function (map) {
@@ -415,6 +414,7 @@
 				});
 			}
 		};
+
 		factory.addHeatMap2Data = function(options, callback){
 			BaseMapService.getHeatMapData(options).then(function(res){
 				if(res.data){
@@ -434,8 +434,8 @@
 					case 'food':
 						layer = 'heatmapFood';
 						break;
-					case 'tourims':
-						layer = 'heatmapTourims';
+					case 'tourism':
+						layer = 'heatmapTourism';
 						break;
 					case 'shop':
 						layer = 'heatmapShop';
@@ -443,16 +443,16 @@
 				}
 				map.removeLayer( _factory.LAYERS.USER[layer] );
 			});
-
 		};
+
 		factory.addHeatMapCategory = function(category, reload){
 			var categ = category.toLowerCase();
 			switch (categ) {
 				case 'food':
 					_factory.addHeatMap2Layer('heatmapFood','722',reload);
 					break;
-				case 'tourims':
-					_factory.addHeatMap2Layer('heatmapTourims','721,712',reload);
+				case 'tourism':
+					_factory.addHeatMap2Layer('heatmapTourism','721,712',reload);
 					break;
 				case 'shop':
 					_factory.addHeatMap2Layer('heatmapShop','46',reload);

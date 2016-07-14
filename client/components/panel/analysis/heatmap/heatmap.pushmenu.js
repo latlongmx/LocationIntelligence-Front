@@ -1,7 +1,7 @@
 (function() {
   var module;
 
-  module = angular.module('com.components', []);
+  module = angular.module('heat.components', []);
 
   module.directive('recursive', [
     '$compile', function($compile) {
@@ -30,10 +30,10 @@
 (function() {
   var module;
 
-  module = angular.module('com.pushmenu', ['ngAnimate', 'com.components']);
+  module = angular.module('heat.pushmenu', ['ngAnimate', 'heat.components']);
 
-  module.directive('comPushMenu', [
-    'comOptions', 'wxyUtils', function(comOptions, wxyUtils) {
+  module.directive('heatPushMenu', [
+    'heatOptions', 'wxyUtils', function(heatOptions, wxyUtils) {
       return {
         scope: {
           menu: '=',
@@ -41,7 +41,7 @@
         },
         controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
           var options, width;
-          $scope.options = options = angular.extend(comOptions, $scope.options);
+          $scope.options = options = angular.extend(heatOptions, $scope.options);
           $scope.level = 0;
           $scope.visible = true;
           width = options.menuWidth || 265;
@@ -53,14 +53,14 @@
             return options;
           };
         }],
-        templateUrl: './components/exploration_functions/competence/ComMainMenu.html',
+        templateUrl: './components/panel/analysis/heatmap/HeatMainMenu.html',
         restrict: 'E',
         replace: true
       };
     }
   ]);
 
-  module.directive('comSubmenu', [
+  module.directive('heatSubmenu', [
     '$animate', 'wxyUtils', function($animate, wxyUtils) {
       return {
         scope: {
@@ -96,9 +96,9 @@
               scope.collapsed = !scope.collapsed;
               scope.inactive = scope.collapsed;
               if (scope.collapsed) {
-                options.onCollapseComMenuStart();
+                options.onCollapseHeatMenuStart();
               } else {
-                options.onExpandComMenuStart();
+                options.onExpandHeatMenuStart();
               }
               animatePromise = $animate.addClass(element, 'slide', {
                 fromMargin: scope.collapsed ? 0 : marginCollapsed,
@@ -107,9 +107,9 @@
               animatePromise.then(function() {
                 //scope.$apply(function() {
                   if (scope.collapsed) {
-                    return options.onCollapseComMenuEnd();
+                    return options.onCollapseHeatMenuEnd();
                   } else {
-                    return options.onExpandComMenuEnd();
+                    return options.onExpandHeatMenuEnd();
                   }
                 //});
                 return;
@@ -131,13 +131,13 @@
             if (item.menu) {
               item.visible = true;
               scope.inactive = true;
-              options.onGroupComItemClick($event, item);
+              options.onGroupHeatItemClick($event, item);
             } else {
-              options.onComItemClick($event, item);
+              options.onHeatItemClick($event, item);
             }
           };
           scope.goBack = function(event, menu) {
-            options.onBackComItemClick(event, menu);
+            options.onBackHeatItemClick(event, menu);
             scope.visible = false;
             return scope.$emit('submenuClosed', scope.level);
           };
@@ -146,14 +146,14 @@
               var animatePromise;
               if (visible) {
                 if (scope.level > 0) {
-                  options.onExpandComMenuStart();
+                  options.onExpandHeatMenuStart();
                   animatePromise = $animate.addClass(element, 'slide', {
                     fromMargin: -ctrl.GetBaseWidth() + 40,
                     toMargin: 0
                   });
                   animatePromise.then(function() {
                     //scope.$apply(function() {
-                      options.onExpandComMenuEnd();
+                      options.onExpandHeatMenuEnd();
                     //});
                   });
                 }
@@ -188,8 +188,8 @@
             };
           })(this));
         },
-        templateUrl: './components/exploration_functions/competence/ComSubMenu.html',
-        require: '^comPushMenu',
+        templateUrl: './components/panel/analysis/heatmap/HeatSubMenu.html',
+        require: '^heatPushMenu',
         restrict: 'EA',
         replace: true
       };
@@ -255,7 +255,7 @@
     };
   });
 
-  module.value('comOptions', {
+  module.value('heatOptions', {
     containersToPush: null,
     wrapperClass: 'multilevelpushmenu__in-competence',
     menuInactiveClass: 'multilevelpushmenu_inactive',
@@ -273,15 +273,15 @@
     preventItemClick: true,
     preventGroupItemClick: true,
     swipe: 'both',
-    onCollapseComMenuStart: function() {},
-    onCollapseComMenuEnd: function() {},
-    onExpandComMenuStart: function() {},
-    onExpandComMenuEnd: function() {},
-    onGroupComItemClick: function() {},
-    onComItemClick: function() {},
-    onTitleComItemClick: function() {},
-    onBackComItemClick: function() {},
-    onComMenuReady: function() {}
+    onCollapseHeatMenuStart: function() {},
+    onCollapseHeatMenuEnd: function() {},
+    onExpandHeatMenuStart: function() {},
+    onExpandHeatMenuEnd: function() {},
+    onGroupHeatItemClick: function() {},
+    onHeatItemClick: function() {},
+    onTitleHeatItemClick: function() {},
+    onBackHeatItemClick: function() {},
+    onHeatMenuReady: function() {}
   });
 
 }).call(this);

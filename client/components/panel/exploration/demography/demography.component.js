@@ -12,12 +12,12 @@
 		return {
 			restrict: 'E',
 			replace: true,
-			require: '^explorationFunctions',
+			require: '^panelFunctions',
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-exploration-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-demography"></i>',
+					'<li class="m-list-functions__item js-panel-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true">',
+						'<img src="./images/functions/demography.png" class="m-list-functions__item-icon" data-icon="my_competence"/>',
 					'</li>',
 					'<div class="m-side-panel js-demography-side-panel">',
 						'<div class="m-modal__demography-variables">',

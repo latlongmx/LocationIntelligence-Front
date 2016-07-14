@@ -8,12 +8,12 @@
 		var _access_token = Auth.getToken();
 		return {
 			restrict: 'E',
-			require: '^explorationFunctions',
+			require: '^panelFunctions',
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-exploration-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Mis competencias" tooltip-animation="true">',
-						'<i class="m-list-functions__item-icon demo demo-competence"></i>',
+					'<li class="m-list-functions__item js-panel-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Mis competencias" tooltip-animation="true">',
+						'<img src="./images/functions/competence.png" class="m-list-functions__item-icon" data-icon="my_competence"/>',
 					'</li>',
 					'<div class="m-side-panel js-competence-side-panel">',
 						'<h3 class="m-side-panel__title">Competencia</h3>',
@@ -85,7 +85,7 @@
 							'<ul class="m-side-panel__list-content">',
 								'<li class="m-side-panel__list-content__item js-competence-item" ng-repeat="competence in save_competence_variable_list | filter: search_competence">',
 									'<div flex="10">',
-										'<img ng-src="'+BaseMapFactory.API_URL+'/ws/icon?nm={{competence.pin_url}}&access_token='+_access_token.access_token+'" width="25"/>',
+										'<img ng-src="'+BaseMapFactory.API_URL+'/ws/icon?nm={{competence.pin_url}}&access_token='+_access_token.access_token+'" width="25" class="m-side-panel__list-content__item-single-img"/>',
 									'</div>',
 									'<p flex="35" class="m-side-panel__list-content__item-single">{{competence.name_layer}}</p>',
 									'<p flex="20" class="m-side-panel__list-content__item-single">{{competence.num_features}}</p>',
@@ -128,7 +128,7 @@
 				scope.addCompetenceByVariable = function(ev){
 					$mdDialog.show({
 						controller: 'AddCompetenceByVarController',
-						templateUrl: './components/exploration_functions/competence/add_competence_by_var/add-competence-by-var.tpl.html',
+						templateUrl: './components/panel/exploration/competence/add_competence_by_var/add-competence-by-var.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: ev,
 						clickOutsideToClose:true,
@@ -168,7 +168,7 @@
 				scope.addCompetenceByCsv = function(ev){
 					$mdDialog.show({
 						controller: 'AddCompetenceByCsvController',
-						templateUrl: './components/exploration_functions/competence/add_competence_by_csv/add-competence-by-csv.tpl.html',
+						templateUrl: './components/panel/exploration/competence/add_competence_by_csv/add-competence-by-csv.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: ev,
 						clickOutsideToClose:true
@@ -196,7 +196,7 @@
 				scope.addCompetenceByName = function(ev){
 					$mdDialog.show({
 						controller: 'AddCompetenceByNameController',
-						templateUrl: './components/exploration_functions/competence/add_competence_by_name/add-competence-by-name.tpl.html',
+						templateUrl: './components/panel/exploration/competence/add_competence_by_name/add-competence-by-name.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: ev,
 						clickOutsideToClose:true
@@ -225,7 +225,7 @@
 					var id = competence_item.id_layer +'-'+ competence_item.name_layer.replace(' ','_');
 					$mdDialog.show({
 						controller: 'EditLayerCompetenceController',
-						templateUrl: './components/exploration_functions/competence/edit_competence/edit-competence.tpl.html',
+						templateUrl: './components/panel/exploration/competence/edit_competence/edit-competence.tpl.html',
 						parent: angular.element(document.body),
 						targetEvent: competence_item.id_layer,
 						clickOutsideToClose:true,
