@@ -128,22 +128,7 @@
 
 						var access_token = Auth.getToken().access_token;
 						var geo_wkt = "";
-
-						if(_currentFeature.layerType ==='polygon'){
-							var coors = "";
-							var latlngs = _currentFeature.layer.getLatLngs()[0];
-							for (var i=0; i<latlngs.length; i++){
-								if (i !== 0){
-									coors += ',';
-								}
-							 coors += latlngs[i].lng+' '+latlngs[i].lat;
-							}
-							coors += ','+latlngs[0].lng+' '+latlngs[0].lat;
-							geo_wkt = 'POLYGON(('+coors+'))';
-						}else{
-							geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
-						}
-
+						geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
 
 						_layers.viasUserWMS = L.tileLayer.dynamicWms(
 							BaseMapFactory.API_URL+"/ws_wms?access_token="+access_token,
@@ -156,7 +141,10 @@
 						});
 						_layers.viasUserWMS.setDynamicParam({
 							WKT: function(){
-								return geo_wkt;
+								return geo_wkt.wkt;
+							},
+							MTS: function(){
+								return geo_wkt.mts;
 							}
 						});
 						_layers.viasUserWMS.options.crs = L.CRS.EPSG4326;
