@@ -116,7 +116,7 @@
 					direction: 'ltr',
 					backDemClass: 'backDemClass',
 					backText: 'Atrás',
-					onExpandMenuStart: function() {
+					onExpandDemMenuStart: function() {
 						setTimeout(function(){
 							angular.element(document.getElementsByClassName('js-filter-demography-catalog')).addClass('is-filter-demography-active');
 						}, 500);
@@ -129,12 +129,12 @@
 							"transition": "all linear 0.25s"
 						});
 					},
-					onCollapseMenuEnd: function(event, item) {
+					onCollapseDemMenuEnd: function(event, item) {
 						//angular.element(document.getElementsByClassName('current-category')).removeClass('visible').addClass('invisible');
 						var hide = angular.element(document.getElementsByClassName('testing'));
 						angular.element(hide[0]).removeClass('fa-times').addClass('fa-search');
 					},
-					onCollapseMenuStart: function() {
+					onCollapseDemMenuStart: function() {
 						angular.element(document.getElementsByClassName('js-filter-demography-catalog')).removeClass('is-filter-demography-active').val("");
 						//angular.element(document.getElementsByClassName('current-category')).addClass('visible').removeClass('invisible');
 					},

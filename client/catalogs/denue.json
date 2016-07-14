@@ -10,8 +10,7 @@
 				"items": [
 					{
 						"name": "Minería",
-						"id": "21",
-						"icon": "fa fa-eye-slash"
+						"id": "21"
 					}
 				]
 			}
@@ -27,8 +26,7 @@
 				"items": [
 					{
 						"name": "Generación, transmisión y distribución de energía eléctrica, suministro de agua y de gas por ductos al consumidor final",
-						"id": "22",
-						"icon": "fa fa-eye-slash"
+						"id": "22"
 					}
 				]
 			}
@@ -44,8 +42,7 @@
 				"items": [
 					{
 						"name": "Construcción",
-						"id": "23",
-						"icon": "fa fa-eye-slash"
+						"id": "23"
 					}
 				]
 			}
@@ -58,108 +55,87 @@
 				"items": [
 					{
 						"name": "Industria alimentaria",
-						"id": "311",
-						"icon": "fa fa-eye-slash"
+						"id": "311"
 					},
 					{
 						"name": "Industria de las bebidas y del tabaco",
-						"id": "312",
-						"icon": "fa fa-eye-slash"
+						"id": "312"
 					},
 					{
 						"name": "Fabricación de insumos textiles y acabado de textiles",
-						"id": "313",
-						"icon": "fa fa-eye-slash"
+						"id": "313"
 					},
 					{
 						"name": "Fabricación de productos textiles, excepto prendas de vestir",
-						"id": "314",
-						"icon": "fa fa-eye-slash"
+						"id": "314"
 					},
 					{
 						"name": "Fabricación de prendas de vestir",
-						"id": "315",
-						"icon": "fa fa-eye-slash"
+						"id": "315"
 					},
 					{
 						"name": "Curtido y acabado de cuero y piel, y fabricación de productos de cuero, piel y materiales sucedáneos",
-						"id": "316",
-						"icon": "fa fa-eye-slash"
+						"id": "316"
 					},
 					{
 						"name": "Industria de la madera",
-						"id": "321",
-						"icon": "fa fa-eye-slash"
+						"id": "321"
 					},
 					{
 						"name": "Industria del papel",
-						"id": "322",
-						"icon": "fa fa-eye-slash"
+						"id": "322"
 					},
 					{
 						"name": "Impresión e industrias conexas",
-						"id": "323",
-						"icon": "fa fa-eye-slash"
+						"id": "323"
 					},
 					{
 						"name": "Fabricación de productos derivados del petróleo y del carbón",
-						"id": "324",
-						"icon": "fa fa-eye-slash"
+						"id": "324"
 					},
 					{
 						"name": "Industria química",
-						"id": "325",
-						"icon": "fa fa-eye-slash"
+						"id": "325"
 					},
 					{
 						"name": "Industria del plástico y del hule",
-						"id": "326",
-						"icon": "fa fa-eye-slash"
+						"id": "326"
 					},
 					{
 						"name": "Fabricación de productos a base de minerales no metálicos",
-						"id": "327",
-						"icon": "fa fa-eye-slash"
+						"id": "327"
 					},
 					{
 						"name": "Industrias metálicas básicas",
-						"id": "331",
-						"icon": "fa fa-eye-slash"
+						"id": "331"
 					},
 					{
 						"name": "Fabricación de productos metálicos",
-						"id": "332",
-						"icon": "fa fa-eye-slash"
+						"id": "332"
 					},
 					{
 						"name": "Fabricación de maquinaria y equipo",
-						"id": "333",
-						"icon": "fa fa-eye-slash"
+						"id": "333"
 					},
 					{
 						"name": "Fabricación de equipo de computación, comunicación, medición y de otros equipos, componentes y accesorios electrónicos",
-						"id": "334",
-						"icon": "fa fa-eye-slash"
+						"id": "334"
 					},
 					{
 						"name": "Fabricación de accesorios, aparatos eléctricos y equipo de generación de energía eléctrica",
-						"id": "335",
-						"icon": "fa fa-eye-slash"
+						"id": "335"
 					},
 					{
 						"name": "Fabricación de equipo de transporte",
-						"id": "336",
-						"icon": "fa fa-eye-slash"
+						"id": "336"
 					},
 					{
 						"name": "Fabricación de muebles, colchones y persianas",
-						"id": "337",
-						"icon": "fa fa-eye-slash"
+						"id": "337"
 					},
 					{
 						"name": "Otras industrias manufactureras",
-						"id": "339",
-						"icon": "fa fa-eye-slash"
+						"id": "339"
 					}
 				]
 			}
@@ -172,38 +148,31 @@
 				"items": [
 					{
 						"name": "Comercio al por mayor de abarrotes, alimentos, bebidas, hielo y tabaco",
-						"id": "431",
-						"icon": "fa fa-eye-slash"
+						"id": "431"
 					},
 					{
 						"name": "Comercio al por mayor de productos textiles y calzado",
-						"id": "432",
-						"icon": "fa fa-eye-slash"
+						"id": "432"
 					},
 					{
 						"name": "Comercio al por mayor de productos farmacéuticos, de perfumería, artículos para el esparcimiento, electrodomésticos menores y aparatos de línea blanca",
-						"id": "433",
-						"icon": "fa fa-eye-slash"
+						"id": "433"
 					},
 					{
 						"name": "Comercio al por mayor de materias primas agropecuarias y forestales, para la industria, y materiales de desecho",
-						"id": "434",
-						"icon": "fa fa-eye-slash"
+						"id": "434"
 					},
 					{
 						"name": "Comercio al por mayor de maquinaria, equipo y mobiliario para actividades agropecuarias, industriales, de servicios y comerciales, y de otra maquinaria y equipo de uso general",
-						"id": "435",
-						"icon": "fa fa-eye-slash"
+						"id": "435"
 					},
 					{
 						"name": "Comercio al por mayor de camiones y de partes y refacciones nuevas para automóviles, camionetas y camiones",
-						"id": "436",
-						"icon": "fa fa-eye-slash"
+						"id": "436"
 					},
 					{
 						"name": "Intermediación de comercio al por mayor",
-						"id": "437",
-						"icon": "fa fa-eye-slash"
+						"id": "437"
 					}
 				]
 			}
@@ -231,43 +200,35 @@
 										"items": [
 											{
 												"name": "Comercio al por menor en tiendas de abarrotes, ultramarinos y misceláneas",
-												"id": "46111",
-												"icon": "fa fa-eye-slash"
+												"id": "46111"
 											},
 											{
 												"name": "Comercio al por menor de carnes",
-												"id": "46112",
-												"icon": "fa fa-eye-slash"
+												"id": "46112"
 											},
 											{
 												"name": "Comercio al por menor de frutas y verduras frescas",
-												"id": "46113",
-												"icon": "fa fa-eye-slash"
+												"id": "46113"
 											},
 											{
 												"name": "Comercio al por menor de semillas y granos alimenticios, especias y chiles secos",
-												"id": "46114",
-												"icon": "fa fa-eye-slash"
+												"id": "46114"
 											},
 											{
 												"name": "Comercio al por menor de leche, otros productos lácteos y embutidos",
-												"id": "46115",
-												"icon": "fa fa-eye-slash"
+												"id": "46115"
 											},
 											{
 												"name": "Comercio al por menor de dulces y materias primas para repostería",
-												"id": "46116",
-												"icon": "fa fa-eye-slash"
+												"id": "46116"
 											},
 											{
 												"name": "Comercio al por menor de paletas de hielo y helados",
-												"id": "46117",
-												"icon": "fa fa-eye-slash"
+												"id": "46117"
 											},
 											{
 												"name": "Comercio al por menor de otros alimentos",
-												"id": "46119",
-												"icon": "fa fa-eye-slash"
+												"id": "46119"
 											}
 										]
 									}
@@ -288,26 +249,22 @@
 													"items": [
 														{
 															"name": "Comercio al por menor de vinos y licores",
-															"id": "461211",
-															"icon": "fa fa-eye-slash"
+															"id": "461211"
 														},
 														{
 															"name": "Comercio al por menor de cerveza",
-															"id": "461212",
-															"icon": "fa fa-eye-slash"
+															"id": "461212"
 														},
 														{
 															"name": "Comercio al por menor de bebidas no alcohólicas y hielo",
-															"id": "461213",
-															"icon": "fa fa-eye-slash"
+															"id": "461213"
 														}
 													]
 												}
 											},
 											{
 												"name": "Comercio al por menor de cigarros, puros y tabaco",
-												"id": "46122",
-												"icon": "fa fa-eye-slash"
+												"id": "46122"
 											}
 										]
 									}
@@ -331,21 +288,18 @@
 										"items": [
 											{
 												"name": "Comercio al por menor en supermercados",
-												"id": "462111",
-												"icon": "fa fa-eye-slash"
+												"id": "462111"
 											},
 											{
 												"name": "Comercio al por menor en minisupers",
-												"id": "462112",
-												"icon": "fa fa-eye-slash"
+												"id": "462112"
 											}
 										]
 									}
 								},
 								{
 									"name": "Comercio al por menor en tiendas departamentales",
-									"id": "4622",
-									"icon": "fa fa-eye-slash"
+									"id": "4622"
 								}
 							]
 						}
@@ -364,18 +318,15 @@
 										"items": [
 											{
 												"name": "Comercio al por menor de telas",
-												"id": "463111",
-												"icon": "fa fa-eye-slash"
+												"id": "463111"
 											},
 											{
 												"name": "Comercio al por menor de blancos",
-												"id": "463112",
-												"icon": "fa fa-eye-slash"
+												"id": "463112"
 											},
 											{
 												"name": "Comercio al por menor de artículos de mercería y bonetería",
-												"id": "463113",
-												"icon": "fa fa-eye-slash"
+												"id": "463113"
 											}
 										]
 									}
@@ -389,51 +340,42 @@
 										"items": [
 											{
 												"name": "Comercio al por menor de ropa, excepto de bebé y lencería",
-												"id": "463211",
-												"icon": "fa fa-eye-slash"
+												"id": "463211"
 											},
 											{
 												"name": "Comercio al por menor de ropa de bebé",
-												"id": "463212",
-												"icon": "fa fa-eye-slash"
+												"id": "463212"
 											},
 											{
 												"name": "Comercio al por menor de lencería",
-												"id": "463213",
-												"icon": "fa fa-eye-slash"
+												"id": "463213"
 											},
 											{
 												"name": "Comercio al por menor de disfraces, vestimenta regional y vestidos de novia",
-												"id": "463214",
-												"icon": "fa fa-eye-slash"
+												"id": "463214"
 											},
 											{
 												"name": "Comercio al por menor de bisutería y accesorios de vestir",
-												"id": "463215",
-												"icon": "fa fa-eye-slash"
+												"id": "463215"
 											},
 											{
 												"name": "Comercio al por menor de ropa de cuero y piel y de otros artículos de estos materiales",
-												"id": "463216",
-												"icon": "fa fa-eye-slash"
+												"id": "463216"
 											},
 											{
 												"name": "Comercio al por menor de pañales desechables",
-												"id": "463217",
-												"icon": "fa fa-eye-slash"
+												"id": "463217"
 											},
 											{
 												"name": "Comercio al por menor de sombreros",
-												"id": "463218",
-												"icon": "fa fa-eye-slash"
+												"id": "463218"
 											}
 										]
 									}
 								},
 								{
 									"name": "Comercio al por menor de calzado",
-									"id": "4633",
-									"icon": "fa fa-eye-slash"
+									"id": "4633"
 								}
 							]
 						}
@@ -452,18 +394,15 @@
 										"items": [
 											{
 												"name": "Farmacias sin minisúper",
-												"id": "464111",
-												"icon": "fa fa-eye-slash"
+												"id": "464111"
 											},
 											{
 												"name": "Farmacias con minisúper",
-												"id": "464112",
-												"icon": "fa fa-eye-slash"
+												"id": "464112"
 											},
 											{
 												"name": "Comercio al por menor de productos naturistas, medicamentos homeopáticos y de complementos alimenticios",
-												"id": "464113",
-												"icon": "fa fa-eye-slash"
+												"id": "464113"
 											}
 										]
 									}
@@ -477,13 +416,11 @@
 										"items": [
 											{
 												"name": "Comercio al por menor de lentes",
-												"id": "464121",
-												"icon": "fa fa-eye-slash"
+												"id": "464121"
 											},
 											{
 												"name": "Comercio al por menor de artículos ortopédicos",
-												"id": "464122",
-												"icon": "fa fa-eye-slash"
+												"id": "464122"
 											}
 										]
 									}
@@ -505,13 +442,11 @@
 										"items": [
 											{
 												"name": "Comercio al por menor de artículos de perfumería y cosméticos",
-												"id": "465111",
-												"icon": "fa fa-eye-slash"
+												"id": "465111"
 											},
 											{
 												"name": "Comercio al por menor de artículos de joyería y relojes",
-												"id": "465112",
-												"icon": "fa fa-eye-slash"
+												"id": "465112"
 											}
 										]
 									}
@@ -525,33 +460,27 @@
 										"items": [
 											{
 												"name": "Comercio al por menor de discos y casetes",
-												"id": "465211",
-												"icon": "fa fa-eye-slash"
+												"id": "465211"
 											},
 											{
 												"name": "Comercio al por menor de juguetes",
-												"id": "465212",
-												"icon": "fa fa-eye-slash"
+												"id": "465212"
 											},
 											{
 												"name": "Comercio al por menor de bicicletas",
-												"id": "465213",
-												"icon": "fa fa-eye-slash"
+												"id": "465213"
 											},
 											{
 												"name": "Comercio al por menor de equipo y material fotográfico",
-												"id": "465214",
-												"icon": "fa fa-eye-slash"
+												"id": "465214"
 											},
 											{
 												"name": "Comercio al por menor de artículos y aparatos deportivos",
-												"id": "465215",
-												"icon": "fa fa-eye-slash"
+												"id": "465215"
 											},
 											{
 												"name": "Comercio al por menor de instrumentos musicales",
-												"id": "465216",
-												"icon": "fa fa-eye-slash"
+												"id": "465216"
 											}
 										]
 									}
@@ -565,18 +494,15 @@
 										"items": [
 											{
 												"name": "Comercio al por menor de artículos de papelería",
-												"id": "465311",
-												"icon": "fa fa-eye-slash"
+												"id": "465311"
 											},
 											{
 												"name": "Comercio al por menor de libros",
-												"id": "465312",
-												"icon": "fa fa-eye-slash"
+												"id": "465312"
 											},
 											{
 												"name": "Comercio al por menor de revistas y periódicos",
-												"id": "465313",
-												"icon": "fa fa-eye-slash"
+												"id": "465313"
 											}
 										]
 									}
@@ -590,33 +516,27 @@
 										"items": [
 											{
 												"name": "Comercio al por menor de mascotas",
-												"id": "465911",
-												"icon": "fa fa-eye-slash"
+												"id": "465911"
 											},
 											{
 												"name": "Comercio al por menor de regalos",
-												"id": "465912",
-												"icon": "fa fa-eye-slash"
+												"id": "465912"
 											},
 											{
 												"name": "Comercio al por menor de artículos religiosos",
-												"id": "465913",
-												"icon": "fa fa-eye-slash"
+												"id": "465913"
 											},
 											{
 												"name": "Comercio al por menor de artículos desechables",
-												"id": "465914",
-												"icon": "fa fa-eye-slash"
+												"id": "465914"
 											},
 											{
 												"name": "Comercio al por menor en tiendas de artesanías",
-												"id": "465915",
-												"icon": "fa fa-eye-slash"
+												"id": "465915"
 											},
 											{
 												"name": "Comercio al por menor de otros artículos de uso personal",
-												"id": "465919",
-												"icon": "fa fa-eye-slash"
+												"id": "465919"
 											}
 										]
 									}

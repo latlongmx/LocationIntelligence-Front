@@ -34,7 +34,8 @@
 
 .m-dialog--in-competence-by-name,
 .m-dialog--in-competence-by-var,
-.m-dialog--in-location {
+.m-dialog--in-location,
+.m-dialog--in-heatmap {
 	width: 350px;
 }
 
@@ -46,7 +47,7 @@
 
 
 .m-dialog--in-competence__var {
-	height: 80%;
+	// height: 80%;
 	display: table;
 	border-collapse: separate;
 	overflow-x:auto;

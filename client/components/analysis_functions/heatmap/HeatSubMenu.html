@@ -1,7 +1,7 @@
 ﻿<div ng-show="visible" ng-class="{visible: visible, multilevelpushmenu_inactive: inactive && !collapsed}" class="levelHolderClass">
 		<h3>{{menu.title}}</h3>
 		<i class="floatRight cursorPointer testing menu-icon" ng-class="menu.icon" ng-click="openMenu($event, menu)"></i>
-	<div ng-show="level != 0 && !inactive" ng-class="options.backItemClass">
+	<div ng-show="level != 0 && !inactive" ng-class="options.backHeatClass">
 		<a href="" ng-click="goBack($event, menu)">
 			<i class="floatRight" ng-class="options.backItemIcon"></i><span ng-bind="options.backText"></span>
 		</a>
@@ -13,7 +13,7 @@
 				<i class="floatRight" ng-class="item.icon" data-variable-id="{{item.id}}"></i>{{item.name}}
 			</a>
 			<div ng-if="item.menu">
-				<recursive><wxy-submenu menu="item.menu" level="childrenLevel" visible="item.visible"></wxy-submenu></recursive>
+				<recursive><heat-submenu menu="item.menu" level="childrenLevel" visible="item.visible"></heat-submenu></recursive>
 			</div>
 		</li>
 	</ul>

@@ -30,7 +30,7 @@
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-analysis-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Potencial" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-analysis-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Accesibilidad" tooltip-animation="true">',
 						'<i class="m-list-functions__item-icon demo demo-accessibility"></i>',
 					'</li>',
 					'<div class="m-side-panel js-accessibility-side-panel" style="height: 400px;">',

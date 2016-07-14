@@ -1,7 +1,7 @@
 (function() {
   var module;
 
-  module = angular.module('dem.components', []);
+  module = angular.module('heat.components', []);
 
   module.directive('recursive', [
     '$compile', function($compile) {
@@ -30,10 +30,10 @@
 (function() {
   var module;
 
-  module = angular.module('dem.pushmenu', ['ngAnimate', 'dem.components']);
+  module = angular.module('heat.pushmenu', ['ngAnimate', 'heat.components']);
 
-  module.directive('demPushMenu', [
-    'demOptions', 'wxyUtils', function(demOptions, wxyUtils) {
+  module.directive('heatPushMenu', [
+    'heatOptions', 'wxyUtils', function(heatOptions, wxyUtils) {
       return {
         scope: {
           menu: '=',
@@ -41,7 +41,7 @@
         },
         controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
           var options, width;
-          $scope.options = options = angular.extend(demOptions, $scope.options);
+          $scope.options = options = angular.extend(heatOptions, $scope.options);
           $scope.level = 0;
           $scope.visible = true;
           width = options.menuWidth || 265;
@@ -53,14 +53,14 @@
             return options;
           };
         }],
-        templateUrl: './components/exploration_functions/demography/DemMainMenu.html',
+        templateUrl: './components/analysis_functions/heatmap/HeatMainMenu.html',
         restrict: 'E',
         replace: true
       };
     }
   ]);
 
-  module.directive('demSubmenu', [
+  module.directive('heatSubmenu', [
     '$animate', 'wxyUtils', function($animate, wxyUtils) {
       return {
         scope: {
@@ -96,9 +96,9 @@
               scope.collapsed = !scope.collapsed;
               scope.inactive = scope.collapsed;
               if (scope.collapsed) {
-                options.onCollapseDemMenuStart();
+                options.onCollapseComMenuStart();
               } else {
-                options.onExpandDemMenuStart();
+                options.onExpandComMenuStart();
               }
               animatePromise = $animate.addClass(element, 'slide', {
                 fromMargin: scope.collapsed ? 0 : marginCollapsed,
@@ -107,9 +107,9 @@
               animatePromise.then(function() {
                 //scope.$apply(function() {
                   if (scope.collapsed) {
-                    return options.onCollapseDemMenuEnd();
+                    return options.onCollapseComMenuEnd();
                   } else {
-                    return options.onExpandDemMenuEnd();
+                    return options.onExpandComMenuEnd();
                   }
                 //});
                 return;
@@ -120,7 +120,7 @@
           scope.openMenu = function(event, menu) {
             wxyUtils.StopEventPropagation(event);
             scope.$broadcast('menuOpened', scope.level);
-            options.onTitleDemItemClick(event, menu);
+            options.onTitleComItemClick(event, menu);
             if (scope.level === 0 && !scope.inactive || scope.collapsed) {
               collapse();
             } else {
@@ -131,13 +131,13 @@
             if (item.menu) {
               item.visible = true;
               scope.inactive = true;
-              options.onGroupDemItemClick($event, item);
+              options.onGroupComItemClick($event, item);
             } else {
-              options.onItemDemClick($event, item);
+              options.onComItemClick($event, item);
             }
           };
           scope.goBack = function(event, menu) {
-            options.onBackDemItemClick(event, menu);
+            options.onBackComItemClick(event, menu);
             scope.visible = false;
             return scope.$emit('submenuClosed', scope.level);
           };
@@ -146,14 +146,14 @@
               var animatePromise;
               if (visible) {
                 if (scope.level > 0) {
-                  options.onExpandDemMenuStart();
+                  options.onExpandComMenuStart();
                   animatePromise = $animate.addClass(element, 'slide', {
                     fromMargin: -ctrl.GetBaseWidth() + 40,
                     toMargin: 0
                   });
                   animatePromise.then(function() {
                     //scope.$apply(function() {
-                      options.onExpandDemMenuEnd();
+                      options.onExpandComMenuEnd();
                     //});
                   });
                 }
@@ -188,8 +188,8 @@
             };
           })(this));
         },
-        templateUrl: './components/exploration_functions/demography/DemSubMenu.html',
-        require: '^demPushMenu',
+        templateUrl: './components/analysis_functions/heatmap/HeatSubMenu.html',
+        require: '^heatPushMenu',
         restrict: 'EA',
         replace: true
       };
@@ -255,9 +255,9 @@
     };
   });
 
-  module.value('demOptions', {
+  module.value('heatOptions', {
     containersToPush: null,
-    wrapperDemClass: 'multilevelpushmenu_wrapper',
+    wrapperClass: 'multilevelpushmenu__in-competence',
     menuInactiveClass: 'multilevelpushmenu_inactive',
     menuWidth: 0,
     menuHeight: 0,
@@ -265,23 +265,23 @@
     fullCollapse: true,
     direction: 'ltr',
     backText: 'Back',
-    backDemClass: 'backItemClass',
-    backDemIcon: 'fa fa-angle-right',
+    backItemClass: 'backItemClass',
+    backItemIcon: 'fa fa-angle-right',
     groupIcon: 'fa fa-angle-left',
     mode: 'overlap',
     overlapWidth: 40,
     preventItemClick: true,
     preventGroupItemClick: true,
     swipe: 'both',
-    onCollapseDemMenuStart: function() {},
-    onCollapseDemMenuEnd: function() {},
-    onExpandDemMenuStart: function() {},
-    onExpandDemMenuEnd: function() {},
-    onGroupDemItemClick: function() {},
-    onItemDemClick: function() {},
-    onTitleDemItemClick: function() {},
-    onBackDemItemClick: function() {},
-    onDemMenuReady: function() {}
+    onCollapseComMenuStart: function() {},
+    onCollapseComMenuEnd: function() {},
+    onExpandComMenuStart: function() {},
+    onExpandComMenuEnd: function() {},
+    onGroupComItemClick: function() {},
+    onComItemClick: function() {},
+    onTitleComItemClick: function() {},
+    onBackComItemClick: function() {},
+    onComMenuReady: function() {}
   });
 
 }).call(this);

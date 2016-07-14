@@ -5,8 +5,6 @@
 	'use strict';
 
 	function AddCompetenceByVarController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, CompetenceVarJsonService, BaseMapService, competence_variables, CompetenceService, competence_variables_selected){
-		console.log(competence_variables)
-		console.log(competence_variables_selected)
 		$scope.bounds = null;
 		$scope.nw = null;
 		$scope.se = null;
@@ -56,8 +54,6 @@
 		if (!$scope._id_layer_flag) {
 			$scope._id_layer_flag = [];
 		}
-
-		_current_competence_variable_id = competence_variables_selected;
 		// $scope.$watchGroup(['_competence_variable_flag','save_competence_variable_list','current_competence_checked'], function(s){
 		// 	var found = _.filter(s[0],function(item){
 		// 		return item.indexOf(s[2]._variable_name) !== -1;
@@ -79,34 +75,33 @@
 		};
 		$scope.menu = $scope.currentCompetenceVariables;
 
-		_.each(_current_competence_variable_id, function(index){
-			setTimeout(function(){
-				_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+index+'"]'));
-				_icon_data_id
-				.toggleClass('fa-eye-slash fa-eye')
-				.toggleClass('is-added-to-map')
-			}, 0);
-		});
+		// _.each(_current_competence_variable_id, function(index){
+		// 	setTimeout(function(){
+		// 		_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+index+'"]'));
+		// 		_icon_data_id
+		// 		.toggleClass('fa-eye-slash fa-eye')
+		// 		.toggleClass('is-added-to-map')
+		// 	}, 0);
+		// });
 
 		/**
 		 * [ Methods and options for menu ]
 		 */
-		$scope.options = {
+		$scope.options_com = {
 			collapsed: false,
 			fullCollapse: true,
 			mode: 'cover',
-			wrapperClass: 'multilevelpushmenu_wrapper--in-competence',
+			wrapperClass: 'multilevelpushmenu__in-competence',
 			direction: 'ltr',
 			backItemClass: 'backCompClass',
 			backText: 'Atrás',
-			onItemClick: function(event, item) {
+			onComItemClick: function(event, item) {
 				_variable_id = item.id;
 				_variable_name = item.name;
 
 				if($scope._competence_variable_flag.indexOf(_variable_name) === -1){
 					$scope._competence_variable_flag.push(_variable_name);
 					$scope.save_competence_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
-					_showToastMessage('Se agregó ' + _variable_name);
 					_addCompetenceToList(_variable_name, _variable_id);
 				}
 
@@ -125,9 +120,10 @@
 
 				}
 				angular.element(event.currentTarget.children)
-				.toggleClass('fa-eye-slash fa-eye')
-				.toggleClass('is-added-to-map')
-				.css("transition", "all linear 0.25s");
+				.toggleClass('fa fa-check')
+				.css(
+					{"color": "#828189", "transition": "all linear 0.25s"}
+				);
 			}
 		};
 
@@ -143,17 +139,17 @@
 			 * [_newCompetenceVariables Get result of getObject Match words function]
 			 */
 			 var found = [];
-				var searchF = function(obj, txt){
-				  _.each(obj,function(o){
-				    if( o.name && o.name.toLowerCase().indexOf(txt) !== -1){
-				      found.push(o);
-				    }
-				    if(o.menu && o.menu.items){
-				      searchF(o.menu.items, txt);
-				    }
-				  });
+				var searchCompetence = function(obj, txt){
+					_.each(obj,function(o){
+						if( o.name && o.name.toLowerCase().indexOf(txt) !== -1){
+							found.push(o);
+						}
+						if(o.menu && o.menu.items){
+							searchCompetence(o.menu.items, txt);
+						}
+					});
 				};
-				searchF($scope.currentCompetenceVariables.items, _matchWordCompetence.toLowerCase());
+				searchCompetence($scope.currentCompetenceVariables.items, _matchWordCompetence.toLowerCase());
 
 			_newCompetenceVariables = found; //getObject($scope.currentCompetenceVariables.items);
 			if (_newCompetenceVariables && _matchWordCompetence !== "") {
@@ -166,8 +162,8 @@
 				angular.forEach($scope.save_competence_variable_list, function(item){
 					setTimeout(function(){
 						_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+item._variable_id+'"]'));
-						_icon_data_id.addClass('fa fa-eye').css(
-							{"color": "#666470", "transition": "all linear 0.25s"}
+						_icon_data_id.addClass('fa fa-check').css(
+							{"color": "#828189", "transition": "all linear 0.25s"}
 						);
 					}, 0);
 				});
@@ -177,30 +173,12 @@
 				angular.forEach($scope.save_competence_variable_list, function(item){
 					setTimeout(function(){
 						_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+item._variable_id+'"]'));
-						_icon_data_id.addClass('fa fa-eye').css(
-							{"color": "#666470", "transition": "all linear 0.25s"}
+						_icon_data_id.addClass('fa fa-check').css(
+							{"color": "#828189", "transition": "all linear 0.25s"}
 						);
 					}, 0);
 				});
 			}
-
-			/**
-			 * [getObject Search variable name, compare and get the result]
-			 * @param  {[type]} theObject [variables of catalog]
-			 */
-			// function getObject(theObject) {
-			// 	$scope._competence_array = [];
-			// 	_.each(theObject,function(o){
-			// 		var items = o.menu.items;
-			// 		var found = _.filter(items,function(item){
-			// 			return item.name.toLowerCase().indexOf( _matchWordCompetence ) !== -1;
-			// 		});
-			// 		if(found.length > 0){
-			// 			_.extend($scope._competence_array,found);
-			// 		}
-			// 	});
-			// 	return $scope._competence_array;
-			// }
 		};
 
 		/**
@@ -208,6 +186,7 @@
 		 * @param  {[type]} param [description]
 		 */
 		var _addCompetenceToList = function(param, id) {
+			$scope.addingCompetence = true;
 			var formData = new FormData();
 			var pin = "";
 			formData.append('qf', "cod:"+id );
@@ -218,13 +197,15 @@
 
 			BaseMapService.addCompetenciaQuery(formData)
 			.then(function(result){
-			 if (result.statusText === 'OK') {
-			 	countAdded = countAdded + 1;
-			 	$scope._id_layer_flag.push(result.data.id_layer);
-			 	_competence_variable_id.push(id);
+				if (result.statusText === 'OK') {
+					$scope.addingCompetence = false;
+					countAdded = countAdded + 1;
+					$scope._id_layer_flag.push(result.data.id_layer);
+					_competence_variable_id.push(id);
+					_showToastMessage('Se agregó ' + _variable_name);
 			 }
 			}, function(error){
-			 console.log(error);
+				console.log(error);
 			});
 		};
 

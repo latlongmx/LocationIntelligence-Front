@@ -13,7 +13,7 @@
 			deferred = $q.defer();
 
 			_competenceVarJsonRequest = $http({
-				url: './catalogs/competence.json',
+				url: './catalogs/denue.json',
 				method: 'GET'
 			});
 
