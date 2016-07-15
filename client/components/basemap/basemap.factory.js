@@ -423,6 +423,33 @@
 			}
 		};
 
+		factory.addHeatMap2LayerBounds = function(layer, cods, wkt, reload){
+			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
+				BaseMapService.map.then(function (map) {
+					var options = {
+						cod: cods,
+						wkt: wkt
+					};
+					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
+						_factory.LAYERS.USER[layer].addTo(map);
+					}else{
+						_factory.addHeatMap2Data(options,function(data){
+							if(_factory.LAYERS.USER[layer] === undefined){
+								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
+							}else{
+								_factory.LAYERS.USER[layer].setLatLngs(data);
+							}
+						});
+					}
+				});
+			}
+			else{
+				BaseMapService.map.then(function (map) {
+					_factory.LAYERS.USER[layer].addTo(map);
+				});
+			}
+		};
+
 		factory.addHeatMap2Data = function(options, callback){
 			BaseMapService.getHeatMapData(options).then(function(res){
 				if(res.data){

@@ -174,6 +174,60 @@
 					deferred.reject(error);
 				});
 				return deferred.promise;
+			},
+
+			/**
+	     * [addUserHeatMap: Agrega un heatmap del usuario]
+			 * @param {[type]} object [valores de heatmap a guardar]
+	     * @return {Object} http promise
+	     */
+			addUserHeatMap: function(opts){
+				var deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _heatMap = $http({
+					url: this.apiBaseURL + '/ws/heat',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					},
+					params: opts
+				});
+				_heatMap.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+			/**
+	     * [getUserHeatMap: Obtiene los heatmas del usuario]
+	     * @return {Object} http promise
+	     */
+			getUserHeatMap: function(){
+				var deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _heatMap = $http({
+					url: this.apiBaseURL + '/ws/heat',
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					}
+				});
+				_heatMap.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
 			}
 
 

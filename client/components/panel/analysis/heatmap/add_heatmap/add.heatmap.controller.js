@@ -36,7 +36,7 @@
 		_heatmap_variable_id = [],
 		_last_flag = null,
 		countAdded = 0;
-		
+
 
 		if (!$scope.save_heatmap_variable_list) {
 			$scope.save_heatmap_variable_list = [];
@@ -53,7 +53,7 @@
 		if (!$scope._id_heatmap_layer_flag) {
 			$scope._id_heatmap_layer_flag = [];
 		}
-		
+
 		if (!$scope.is_simple_composed) {
 			$scope.is_simple_composed = [];
 		}
@@ -92,7 +92,7 @@
 					countAdded = countAdded + 1;
 					//_addHeatmapToList(_variable_name, _variable_id);
 					_showToastMessage('Se añadió ' + _variable_name);
-					
+
 				}
 
 				else {
@@ -195,8 +195,8 @@
 		 */
 		var _addHeatmapToList = function(param, id) {
 			$scope.is_simple_composed.join();
-			
-			
+
+
 			//BaseMapFactory.addHeatMap2Layer( "prueba", 734', false);
 
 			// BaseMapService.addCompetenciaQuery(formData)
@@ -252,6 +252,19 @@
 		$scope.ok = function(form, field) {
 			if(form.$valid === true && $scope.is_simple_composed.join() !== ""){
 				BaseMapFactory.addHeatMap2Layer( field.category_name, $scope.is_simple_composed.join(), false);
+				BaseMapService.map.then(function (map) {
+					var wkt = BaseMapFactory.bounds2polygonWKT(map.getBounds());
+					BaseMapService.addUserHeatMap({
+						'nm':field.category_name,
+						'cod':$scope.is_simple_composed.join(),
+						'bnd':wkt
+					});
+				});
+
+				//Ejemplo de get heatmpas del usuario, este lo puedes quitar
+				BaseMapService.getUserHeatMap().then(function(data){
+					console.log(data);
+				});
 			}
 			//$mdDialog.hide({count: countAdded, success: true});
 		};
