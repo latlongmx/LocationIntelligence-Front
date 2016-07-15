@@ -6,35 +6,75 @@
 	z-index:0;
 }
 
+.leaflet-draw-toolbar.leaflet-bar.leaflet-draw-toolbar-top,
+.leaflet-draw-toolbar.leaflet-bar {
+	a {
+		border-bottom:0;
+		border-left:1px solid #f5f5f5;
+		background-image: none;
+	}
+}
+
+.leaflet-control-layers-expanded {
+	padding: 0 !important;
+	background: transparent !important;
+}
+
 .leaflet-bar,
 .leaflet-control-layers {
-	//@include box-shadow(0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15));
-	border: 0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.65) !important;
+	border-radius: 0 !important;
 }
+
+.leaflet-draw-toolbar.leaflet-bar.leaflet-draw-toolbar-top.leaflet-draw-toolbar-notop{
+	& + ul.leaflet-draw-actions-top{
+		top: 200px !important;
+	}
+}
+
+.leaflet-draw-toolbar.leaflet-bar.leaflet-draw-toolbar-top {
+	& + ul.leaflet-draw-actions{
+		top: 200px !important;
+	}
+}
+
+.leaflet-draw-toolbar.leaflet-bar.leaflet-draw-toolbar-top.leaflet-draw-toolbar-nobottom {
+	& + ul.leaflet-draw-actions-bottom{
+		top: 200px !important;
+	}
+}
+
+.leaflet-draw-toolbar.leaflet-bar.leaflet-draw-toolbar-notop {
+	& + ul.leaflet-draw-actions-top{
+		top: 80px !important;
+	}
+}
+
+.leaflet-draw-toolbar.leaflet-bar.leaflet-draw-toolbar-nobottom {
+	& + ul.leaflet-draw-actions-bottom{
+		top: 80px !important;
+	}
+}
+.leaflet-draw-section {
+	>ul.leaflet-draw-actions,
+	>ul.leaflet-draw-actions-top,
+	>ul.leaflet-draw-actions-bottom {
+		left: initial !important;
+		right: 0 !important;
+		li {
+			display:block !important;
+			a:not(first-child) {
+				border-bottom:1px solid #aaaaaa;
+			} 
+		}
+	}
+}
+
+
+
 .mapbox-icon {
 	background-image:url('../images/icons-000000@2x.png');
 }
-// .leaflet-bar a {
-// 	border-radius: 0 !important;
-// 	width: 30px;
-// 	height: 30px;
-// }
-
-// .leaflet-control-zoom-in,
-// .leaflet-control-zoom-out {
-// 	background-size: 30px 260px;
-// }
-
-// .leaflet-draw-toolbar {
-// 	a {
-// 		background-image: none;
-// 		background-position: 0px 0px;
-// 	}
-// 	.leaflet-draw-draw-polyline {
-// 		background: url('../images/maptools/line.png') no-repeat;
-// 		width: 64px;
-// 	}
-// }
 
 .leaflet-top.leaflet-left{
 	z-index:999;
@@ -52,10 +92,10 @@
 }
 
 .leaflet-control-zoom {
+	@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
 	margin-top:60px !important;
 	position:absolute !important;
 	right: 0;
-	@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
 }
 
 .leaflet-control-zoom-in,
@@ -65,11 +105,13 @@
 .leaflet-draw-draw-circle,
 .leaflet-draw-edit-edit,
 .leaflet-draw-edit-remove {
-	opacity:1 !important;
-	height: 35px !important;
-	width: 35px !important;
-	background-image:none;
 	background-color: $white !important;
+	background-image:none;
+	border-bottom:none !important;
+	cursor:pointer !important;
+	height: 35px !important;
+	opacity:1 !important;
+	width: 35px !important;
 }
 .leaflet-zoom-in,
 .leaflet-zoom-out{
@@ -111,25 +153,21 @@
 	}
 }
 
-
-
-.leaflet-control-container {
-	// bottom:0;
-	// left:0;
-	// position:absolute;
-	// right:0;
-	// top:0;
+.leaflet-draw.leaflet-control {
+	float:right;
+	top:150px;
 }
 
 .leaflet-control-layers.leaflet-control {
   margin-bottom: 20px !important;
   border:0 !important;
-  @include box-shadow(none);
+  @include box-shadow(none !important);
   @include radius(0);
 }
 
 .leaflet-control-layers {
 	@include transition(all linear 0.25s);
+	background: transparent !important;
 	padding: 0;
 	.leaflet-control-layers-toggle {
 		-moz-user-select: none;
@@ -155,6 +193,13 @@
 		white-space: nowrap;
 		width: inherit;
 		text-transform: uppercase;
+		background: $white;
+		i {
+			&:before{
+				font-size: 25px;
+			}
+			
+		}
 	}
 	.leaflet-control-layers-list {
 		@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
@@ -163,13 +208,16 @@
 
 .leaflet-control-layers-base {
 	label {
-		cursor: pointer;
-		position:relative;
-		opacity: 0.75;
 		@include transition(all linear 0.25s);
+		cursor: pointer;
+		float:left;
+		opacity: 0.75;
+		position:relative;
+		border-radius:50%;
 		&:hover {
 			opacity:1;
 			span {
+				bottom: 80%;
 				display:block;
 				right: 50%;
 			}
@@ -189,55 +237,20 @@
 			padding: 5px;
 			position: absolute;
 			text-align: center;
-			width: 100%;
+			width: 120px;
 		}
 		img {
+			background: $white;
+			border-radius: 50%;
+			@include box-shadow(0 5px 5px 0 rgba(0,0,0,.26));
 			display: block;
-			margin: 0 auto;
+			height: 60px;
+			margin: 0 5px;
+			padding: 1px;
 			text-align: center;
-
+			width: 60px;
 		}
 	}
 }
 
-.leaflet-draw {
-	left: 330px;
-	top:0px;
-	margin-top: 0px !important;
-}
-.leaflet-draw-section {
-	display:inline-block;
-	margin-right:10px;
-}
-.leaflet-draw-actions {
-	display: block;
-	left: 0px;
-	top: 40px;
-	a {
-		background: $green-ssmooth;
-		font-size: 14px;
-		font-weight: 400;
-		height: 28px;
-		line-height: 28px;
-	}
-}
 
-.leaflet-draw-actions.leaflet-draw-actions-top {
-	// bottom: 10px !important;
-	// display: block !important;
-	// top: initial !important;
-
-}
-
-.leaflet-draw-toolbar.leaflet-bar.leaflet-draw-toolbar-top,
-.leaflet-draw-toolbar.leaflet-bar {
-	a {
-		display:inline-block;
-		border-bottom:0;
-		border-left:1px solid #f5f5f5;
-		background-image: none;
-	}
-}
-.leaflet-control-layers-expanded {
-	padding: 0 !important;
-}

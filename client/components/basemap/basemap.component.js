@@ -72,7 +72,7 @@
 			 * @type {Array}
 			 */
 			var imagesArray = ['mapbox-calles', 'mapbox-relieve', 'mapbox-satellite', 'mapbox-satellite', 'mapbox-calles'];
-
+			var layerToggle = angular.element(document.getElementsByClassName('leaflet-control-layers-toggle'));
 			_label_item = angular.element(document.getElementsByClassName('leaflet-control-layers-base')).children();
 			_label = angular.element(document.getElementsByClassName('leaflet-control-layers-toggle'));
 			_label.text("Mapa Base");
@@ -85,6 +85,8 @@
 			angular.forEach(_label_item, function(item, index) {
 				angular.element(item).append('<img src="./images/switcher_map/'+imagesArray[index]+'.jpg" width="120"/>');
 			});
+
+			layerToggle.text("").append('<i class="fa fa-map-o"></i>')
 
 			_featureGroup = BaseMapService.featureGroup.addTo(map);
 			_drawControl = BaseMapService.drawControl(_featureGroup);

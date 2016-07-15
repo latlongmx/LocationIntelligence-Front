@@ -31,6 +31,7 @@
 				_$js_menu_button.on('click', function(e){
 					e.preventDefault();
 					angular.element(this).toggleClass('is-menu-active');
+					angular.element(document.getElementsByClassName('m-search')).toggleClass('is-menu-open');
 					_$js_list_navigation.toggleClass('is-menu-opened');
 					return false;
 				});
@@ -39,22 +40,7 @@
 					Auth.logout();
 					$scope.$apply();
 				});
-				
-				
-				
-				// $window.addEventListener('mouseup', function(e){
-				// 	e.preventDefault();
-				// 	// if (_$js_menu_button.hasClass('is-menu-active')) {
-				// 	// 	_$js_menu_button.removeClass('is-menu-active');
-				// 	// 	_$js_list_navigation.removeClass('is-menu-opened');
-				// 	// }
-				// 	// console.log(e);
-				// 	console.log(_$js_list_navigation.find(_$js_list_navigation))
-				// 	// if (e.target !== _$js_list_navigation && _$js_list_navigation.eq(e.target).length === 0 && e.target !== _$js_menu_button) {
-				// 	// 	_$js_menu_button.removeClass('is-menu-active')
-				// 	// 	_$js_list_navigation.removeClass('is-menu-opened');
-				// 	// }
-				// });
+
 			}
 		};
 		return _menuDirective;

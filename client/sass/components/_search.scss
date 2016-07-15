@@ -1,12 +1,21 @@
 .m-search {
-	left: 80px;
+	right: 72px;
 	position: absolute;
 	top:10px;
 	z-index:1;
+	@include transition(all linear 0.25s);
+	&.is-menu-open {
+		top:60px;
+		@include transition(all linear 0.25s);
+		-webkit-transition-delay: 0.25s;
+		-moz-transition-delay: 0.25s;
+		-o-transition-delay: 0.25s;
+		transition-delay: 0.25s;
+	}
 }
 
 .m-search__input {
-	@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
+	@include box-shadow(0 1px 5px 0 rgba(0,0,0,.26));
 	border: 0;
 	color: $gray;
 	font-weight: 400;
@@ -23,5 +32,4 @@
 	position: absolute;
 	right: 0px;
 	top: 0px;
-	//@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
 }

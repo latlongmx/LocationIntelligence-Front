@@ -66,17 +66,22 @@
 }
 
 .m-list-navigation {
-	//padding: 12px 200px 12px 0px;
+	-moz-transition-delay: 0.01ms;
+	-o-transition-delay: 0.01ms;
+	-webkit-transition-delay: 0.01ms;
 	@include transform(translate(100%,0));
-	//@include transition(opacity .3s ease-in-out,visibility 0s linear);
 	@include transition(transform .3s ease-in-out);
-	//background: #d1d7da;
 	background: $gray;
 	margin: 0px 50px 0px 0px;
 	padding: 0;
+	transition-delay: 0.01ms;
 	&.is-menu-opened {
+		-moz-transition-delay: 0.35s;
+		-o-transition-delay: 0.35s;
+		-webkit-transition-delay: 0.35s;
 		@include transform(translate(0%,0));
 		@include transition(transform .3s ease-in-out);
+		transition-delay: 0.35s;
 	}
 }
 
@@ -88,7 +93,7 @@
 		cursor: pointer;
 		display: block;
 		font-weight: 400;
-		padding: 10px;
+		padding: 10.5px 10px;
 		&:hover {
 			color: $green-sdark;
 			background: $white;
