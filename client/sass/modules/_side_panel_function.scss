@@ -195,6 +195,14 @@ button.m-side-panel__locations-list__item {
 	margin-bottom:20px;
 }
 
+.m-side-panel__panel_two {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 368px;
+}
+
 .m-side-panel__list--in-competence-panel {
 	top: 290px;
 }
@@ -205,10 +213,19 @@ button.m-side-panel__locations-list__item {
 	// overflow-y: auto;
 	position: initial;
 	padding:0px 15px;
+	
+  // bottom: 0;
+  // left: 0;
+  // position: absolute;
+  // right: 0;
+  // top: 368px;
 }
 
 .m-side-panel__list--in-heatmap-panel-custom {
-	top:100px;
+	top:55px;
+	// bottom: initial;
+	// position: initial;
+	// padding: 0px 15px;
 }
 
 .m-side-panel__list-content__item-single-img--in-predefined-heatmap-panel {

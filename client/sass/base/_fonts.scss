@@ -11,16 +11,15 @@
 
 
 @font-face {
-  font-family: "demo";
-  src: url("../fonts/demo.eot");
-  src: url("../fonts/demo.eot?#iefix") format("embedded-opentype"),
-       url("../fonts/demo.woff") format("woff"),
-       url("../fonts/demo.ttf") format("truetype"),
-       url("../fonts/demo.svg#demo") format("svg");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'demo';
+    src:    url('../fonts/demo.eot?rfzu61');
+    src:    url('../fonts/demo.eot?rfzu61#iefix') format('embedded-opentype'),
+        url('../fonts/demo.ttf?rfzu61') format('truetype'),
+        url('../fonts/demo.woff?rfzu61') format('woff'),
+        url('../fonts/demo.svg?rfzu61#demo') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
-
 [class^="demo-"], [class*=" demo-"] {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
@@ -34,29 +33,25 @@
     text-transform: none;
 }
 
-.demo-historic:before {
-    content: "\e903";
+.demo-zoom-out:before {
+    content: "\e15b";
 }
-.demo-demography:before {
-    content: "\e906";
+.demo-zoom-in:before {
+    content: "\e114";
 }
-.demo-competence:before {
+.demo-locations .path1:before {
     content: "\e900";
+    color: rgb(114, 114, 114);
 }
-.demo-heatmap:before {
+.demo-locations .path2:before {
     content: "\e901";
+    margin-left: -1em;
+    color: rgb(130, 129, 137);
 }
-.demo-location:before {
-    content: "\e90e";
-}
-.demo-origin-destiny:before {
-    content: "\e90a";
-}
-.demo-rings:before {
-    content: "\e905";
-}
-.demo-accessibility:before {
+.demo-locations .path3:before {
     content: "\e902";
+    margin-left: -1em;
+    color: rgb(130, 129, 137);
 }
 .demo-area:before {
     content: "\e904";
@@ -70,23 +65,11 @@
 .demo-line:before {
     content: "\e90c";
 }
-.demo-locations:before {
-    content: "\e90d";
-}
-.demo-potencial-location:before {
-    content: "\e910";
-}
-.demo-radio:before {
-    content: "\e911";
-}
 .demo-search:before {
     content: "\e913";
 }
-.demo-zoom-in:before {
-    content: "\e914";
-}
-.demo-zoom-out:before {
-    content: "\e915";
+.demo-radio:before {
+    content: "\e903";
 }
 
 .fa {

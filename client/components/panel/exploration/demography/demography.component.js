@@ -79,6 +79,7 @@
 					scope.arreglo = [];
 				}
 				scope.$watchGroup(['_variable_flag','demography_variable_list','current_checked'], function(s){
+					console.log(s)
 					var found = _.filter(s[0],function(item){
 						return item.indexOf(s[2]._variable_name) !== -1;
 					});
@@ -158,6 +159,7 @@
 							);
 							
 							if (scope._variable_flag.length === 1) {
+								console.log(scope._variable_flag.length)
 								scope.current_checked = scope.demography_variable_list[0];
 								scope.last_checked = scope.demography_variable_list[0];
 								_demographyWKTRequest(scope.demography_variable_list[0]._variable_id);
@@ -213,7 +215,9 @@
 				scope.variableShowed = function(list, index){
 					_column_request = this.variable._variable_id;
 					scope.last_checked = scope.current_checked;
+					console.log(scope.last_checked)
 					scope.current_checked = list.demography_variable_list[index];
+					console.log(scope.current_checked)
 					
 					for (var i = 0; i < list.demography_variable_list.length; i++) {
 						list.demography_variable_list[i].$index = false;

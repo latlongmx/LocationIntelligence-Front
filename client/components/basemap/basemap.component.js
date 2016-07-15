@@ -60,7 +60,7 @@
 			 * [Add layers to custom control]
 			 */
 			map.addControl(new L.Control.Layers( {
-				'Mapbox Calles': _mapbox_streets.addTo(map),
+				'Mapbox Streets': _mapbox_streets.addTo(map),
 				'Mapbox Relieve': _mapbox_relieve,
 				'Mapbox Satellite': _mapbox_satellite,
 				'Google Roadmap': _google_roadmap,

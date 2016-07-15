@@ -65,45 +65,7 @@
 											'<img ng-src="" width="25" class="m-side-panel__list-content__item-single-img m-side-panel__list-content__item-single-img--in-predefined-heatmap-panel"/>',
 										'</div>',
 										'<p flex="75" class="m-side-panel__list-content__item-single">{{predefined.name_layer}}</p>',
-										'<md-switch flex ng-disabled="is_toggle_gral_heatmap" ng-model="layer_predefined" md-no-ink aria-label="predefined-id_layer" ng-change="turnOnOffLayerHeatmap(layer_predefined, predefined)" class="md-primary m-side-panel__list-content__item-single"></md-switch>',
-									'</li>',
-								'</ul>',
-							'</div>',
-						'</div>',
-						'<div class="m-side-panel__panel_two">',
-							'<div class="m-side-panel__header">',
-								'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">Mis categorías</h4>',
-								'<ul class="m-side-panel__list-titles">',
-									'<div layout="row">',
-										'<p flex="10" class="bold m-side-panel__list-titles__column-name">Icono</p>',
-										'<p flex="35" class="bold m-side-panel__list-titles__column-name">Categoría</p>',
-										'<p flex="20" class="bold m-side-panel__list-titles__column-name"># Negocios</p>',
-										'<p flex="10" class="bold m-side-panel__list-titles__column-name">Acciones</p>',
-										'<p flex="10" class="bold m-side-panel__list-titles__column-name"></p>',
-										'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
-										'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
-										'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
-									'</div>',
-								'</ul>',
-							'</div>',
-							'<div class="m-side-panel__list m-side-panel__list--in-heatmap-panel-custom">',
-								'<ul class="m-side-panel__list-content">',
-									'<li class="m-side-panel__list-content__item js-heatmap-item" ng-repeat="heatmap in save_heatmap_variable_list | filter: search_competence">',
-										'<div flex="10">',
-											'<img ng-src="'+BaseMapFactory.API_URL+'/ws/icon?nm={{heatmap.pin_url}}&access_token='+_access_token.access_token+'" width="25"/>',
-										'</div>',
-										'<p flex="35" class="m-side-panel__list-content__item-single">{{heatmap.name_layer}}</p>',
-										'<p flex="20" class="m-side-panel__list-content__item-single">{{heatmap.num_features}}</p>',
-										'<md-switch ng-disabled="is_toggle_gral_competence" ng-model="layer" flex="10" md-no-ink aria-label="heatmap.id_layer" ng-change="turnOnOffLayerCompetence(layer, heatmap)" class="md-primary m-side-panel__list-content__item-single"></md-switch>',
-										'<md-button data-id-heatmap="heatmap.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="zoomToCompetenceLayer(heatmap.id_layer, heatmap.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
-											'<md-icon>zoom_in</md-icon>',
-										'</md-button>',
-										'<md-button data-id-heatmap="heatmap.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="editLayerHeatmap($parent, heatmap, $index)">',
-											'<md-icon>create</md-icon>',
-										'</md-button>',
-										'<md-button data-id-layer="heatmap.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="removeHeatmap(heatmap, heatmap.id_layer, heatmap.name_layer, $index)">',
-											'<md-icon>delete</md-icon>',
-										'</md-button>',
+										'<md-switch flex ng-disabled="is_toggle_gral_heatmap" ng-model="predefined.$index" md-no-ink aria-label="predefined-id_layer" ng-change="variableHeatmapShowed($parent, $index)" class="md-primary m-side-panel__list-content__item-single"></md-switch>',
 									'</li>',
 								'</ul>',
 							'</div>',
@@ -111,13 +73,44 @@
 						'<div layout="row" class="layout-align-space-around-stretch layout-row" ng-if="heatmap_list">',
 							'<md-progress-circular md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
 						'</div>',
+						'<div class="m-side-panel__panel_two">',
+							'<div class="m-side-panel__header">',
+								'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">Mis categorías</h4>',
+								'<ul class="m-side-panel__list-titles">',
+									'<div layout="row">',
+										'<p flex="55" class="bold m-side-panel__list-titles__column-name">Categoría</p>',
+										'<p flex="20" class="bold m-side-panel__list-titles__column-name">Tipo</p>',
+										'<p flex class="bold m-side-panel__list-titles__column-name">Acciones</p>',
+									'</div>',
+								'</ul>',
+							'</div>',
+							'<div class="m-side-panel__list m-side-panel__list--in-heatmap-panel-custom">',
+								'<ul class="m-side-panel__list-content">',
+									'<li class="m-side-panel__list-content__item js-heatmap-item" ng-repeat="heatmap in save_heatmap_variable_list | filter: search_competence">',
+										'<p flex="55" class="m-side-panel__list-content__item-single">{{heatmap.name_heat}}</p>',
+										'<p flex="20" class="m-side-panel__list-content__item-single">{{heatmap.compuest === true? "Compuesta": "Simple"}}</p>',
+										'<md-switch ng-model="heatmap.$index" flex md-no-ink aria-label="heatmap.id_heat" ng-change="variableHeatmapShowed($parent, $index)" class="md-primary m-side-panel__list-content__item-single"></md-switch>',
+										// '<md-button data-id-heatmap="heatmap.id_heat" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="zoomToCompetenceLayer(heatmap.id_heat, heatmap.name_heat)" ng-init="disabled" ng-disabled="heat_layer === false">',
+										// 	'<md-icon>zoom_in</md-icon>',
+										// '</md-button>',
+										'<md-button data-id-heatmap="heatmap.id_heat" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="editLayerHeatmap($parent, heatmap, $index)">',
+											'<md-icon>create</md-icon>',
+										'</md-button>',
+										'<md-button data-id-layer="heatmap.id_heat" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="removeHeatmap(heatmap, heatmap.id_heat, heatmap.name_heat, $index)">',
+											'<md-icon>delete</md-icon>',
+										'</md-button>',
+									'</li>',
+								'</ul>',
+							'</div>',
+						'</div>',
 					'</div>',
 				'</div>'
 			].join(''),
 			link: function(scope, element, attr){
 				var _this = null,
 				_removeHeatmapItem = null,
-				_thisPredefinedHeatmapIsTrue = null;
+				_thisPredefinedHeatmapIsTrue = null,
+				_column_heatmap_request = null;
 
 				if (!scope.toggleHeatmap) {
 					scope.toggleHeatmap = [];
@@ -131,6 +124,8 @@
 					{"id_layer": 2, "name_layer": "Turismo", "name": "tourism"},
 					{"id_layer": 3, "name_layer": "Compras", "name": "shop"}
 				];
+				
+
 
 				HeatmapVarJsonService.heatmapVarJsonRequest()
 				.then(function(result){
@@ -151,25 +146,13 @@
 						}
 					})
 					.then(function(newHeatmap) {
-						if (newHeatmap.success === true) {
-							// CompetenceService.getCompetences({competence: '1'}).then(function(res){
-							// 	if(res.data && res.data.places){
-
-							// 		var lastHeatmapLayer = _.last(res.data.places, newHeatmap.count);
-							// 		if(lastHeatmapLayer) {
-							// 			_.each(lastHeatmapLayer, function(heatmapAdded, index) {
-							// 				var idHeatmaLayer = heatmapAdded.id_layer+'-'+heatmapAdded.name_layer.replace(' ','_');
-							// 				scope.heatmap_variables_selected.push(newHeatmap.selected[index]);
-							// 				scope.save_heatmap_variable_list.push(heatmapAdded);
-							// 				BaseMapFactory.addLocation({
-							// 					name: idHeatmaLayer,
-							// 					data: heatmapAdded.data,
-							// 					extend: heatmapAdded.extend
-							// 				});
-							// 			});
-							// 		}
-							// 	}
-							// });
+						if (newHeatmap === true) {
+							BaseMapService.getUserHeatMap().then(function(res){
+								if(res.data && res.data.heats){
+									var lastHeatmapLayer = res.data.heats[res.data.heats.length -1];
+									scope.save_heatmap_variable_list.push(lastHeatmapLayer);
+								}
+							});
 						}
 					}, function(failAdding) {
 						if (failAdding === undefined) {
@@ -220,22 +203,47 @@
 				// 	var id = id_layer +'-'+ name_layer.replace(' ','_');
 				// 	BaseMapFactory.zoomLocation(id);
 				// }
-				scope.turnOnOffLayerHeatmap = function(layer_predefined, predefinedLayer) {
-					_thisPredefinedHeatmapIsTrue = this;
-					var id = predefinedLayer.id_layer +'-'+ predefinedLayer.name_layer.replace(' ','_');
-					if(scope.toggleHeatmap.indexOf(_thisPredefinedHeatmapIsTrue.$index) === -1 && _thisPredefinedHeatmapIsTrue.layer_predefined === true){
-						scope.toggleHeatmap.push({index: _thisPredefinedHeatmapIsTrue.$index, heatmap: _thisPredefinedHeatmapIsTrue, id_layer: id});
+				// scope.turnOnOffLayerHeatmap = function(layer_predefined, predefinedLayer) {
+				// 	_thisPredefinedHeatmapIsTrue = this;
+				// 	var id = predefinedLayer.id_layer +'-'+ predefinedLayer.name_layer.replace(' ','_');
+				// 	if(scope.toggleHeatmap.indexOf(_thisPredefinedHeatmapIsTrue.$index) === -1 && _thisPredefinedHeatmapIsTrue.layer_predefined === true){
+				// 		scope.toggleHeatmap.push({index: _thisPredefinedHeatmapIsTrue.$index, heatmap: _thisPredefinedHeatmapIsTrue, id_layer: id});
+				// 	}
+				// 	else{
+				// 		for (var i=0; i<scope.toggleHeatmap.length; i++){
+				// 			if (scope.toggleHeatmap[i].index === _thisPredefinedHeatmapIsTrue.$index){
+				// 				scope.toggleHeatmap.splice(i,1);
+				// 				break;
+				// 			}
+				// 		}
+				// 	}
+				// 	layer_predefined === true ? BaseMapFactory.addHeatMapCategory(predefinedLayer.name) : BaseMapFactory.hideHeatMapCategory(predefinedLayer.name);
+				// }
+				
+				scope.variableHeatmapShowed = function(list, index){
+					// _column_heatmap_request = this.heatmap.name_heat;
+					scope.last_heatmap_checked = scope.current_heatmap_checked;
+					scope.current_heatmap_checked = list.save_heatmap_variable_list[index];
+					
+					for (var i = 0; i < list.save_heatmap_variable_list.length; i++) {
+						list.save_heatmap_variable_list[i].$index = false;
 					}
-					else{
-						for (var i=0; i<scope.toggleHeatmap.length; i++){
-							if (scope.toggleHeatmap[i].index === _thisPredefinedHeatmapIsTrue.$index){
-								scope.toggleHeatmap.splice(i,1);
-								break;
-							}
-						}
+					if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
+						scope.current_heatmap_checked = false;
+						console.log(scope.current_heatmap_checked)
+						//BaseMapFactory.hideHeatMapCategory(scope.current_heatmap_checked.name_heat)
+						
+						//BaseMapFactory.delPobVivWMS();
 					}
-					layer_predefined === true ? BaseMapFactory.addHeatMapCategory(predefinedLayer.name) : BaseMapFactory.hideHeatMapCategory(predefinedLayer.name);
-				}
+					else {
+						scope.current_heatmap_checked.$index = true;
+						console.log(scope.current_heatmap_checked)
+						//BaseMapFactory.addHeatMapCategory(predefinedLayer.name);
+						//BaseMapFactory.delPobVivWMS();
+						scope.last_heatmap_checked = false;
+						//_demographyWKTRequest(_column_heatmap_request);
+					}
+				};
 
 				// scope.turnOnOffLayerCompetence = function(layer, loc) {
 				// 	_thisHeatmapIsTrue = this;
@@ -276,25 +284,25 @@
 				// 	}
 				// }
 
-				scope.toggleGralHeatmap = function() {
-					if(this.all_heatmap === true) {
-						_.each(scope.toggleHeatmap, function(heat){
-							heat.heatmap.layer_predefined = false;
-							scope.is_toggle_gral_heatmap = true;
-							BaseMapFactory.hideHeatMapCategory(heat.heatmap.predefined.name);
-						});
-					}
-					else {
-						_.each(scope.toggleHeatmap, function(heat){
-							heat.heatmap.layer_predefined = true;
-							scope.is_toggle_gral_heatmap = false;
-							BaseMapFactory.addHeatMapCategory(heat.heatmap.predefined.name);
-						});
-					}
-					if (scope.toggleHeatmap.length === 0) {
-						scope.is_toggle_gral_heatmap = false;
-					}
-				}
+				// scope.toggleGralHeatmap = function() {
+				// 	if(this.all_heatmap === true) {
+				// 		_.each(scope.toggleHeatmap, function(heat){
+				// 			heat.heatmap.layer_predefined = false;
+				// 			scope.is_toggle_gral_heatmap = true;
+				// 			BaseMapFactory.hideHeatMapCategory(heat.heatmap.predefined.name);
+				// 		});
+				// 	}
+				// 	else {
+				// 		_.each(scope.toggleHeatmap, function(heat){
+				// 			heat.heatmap.layer_predefined = true;
+				// 			scope.is_toggle_gral_heatmap = false;
+				// 			BaseMapFactory.addHeatMapCategory(heat.heatmap.predefined.name);
+				// 		});
+				// 	}
+				// 	if (scope.toggleHeatmap.length === 0) {
+				// 		scope.is_toggle_gral_heatmap = false;
+				// 	}
+				// }
 
 				// var _deleteMessage = function(msg) {
 				// 	$mdToast.show(

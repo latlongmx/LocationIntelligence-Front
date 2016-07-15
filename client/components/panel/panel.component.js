@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function panelFunctions(LocationService, BaseMapFactory, $timeout, Auth, CompetenceService){
+	function panelFunctions(LocationService, BaseMapFactory, BaseMapService, $timeout, Auth, CompetenceService){
 		var _$js_exploration_item = null,
 		_data_ep = null,
 		_currentPanelActive = null,
@@ -109,13 +109,25 @@
 							});
 						}
 					}
+
+					if (_data_ep === "heatmap"){
+						if (!$scope.save_heatmap_variable_list){
+							$scope.heatmap_list = true;
+							BaseMapService.getUserHeatMap().then(function(res){
+								if(res.data && res.data.heats){
+									$scope.heatmap_list = false;
+									$scope.save_heatmap_variable_list = res.data.heats;
+								}
+							});
+						}
+					}
 				});
 			}
 			
 		};
 	}
 
-	panelFunctions.$inject = ['LocationService', 'BaseMapFactory', '$timeout', 'Auth', 'CompetenceService'];
+	panelFunctions.$inject = ['LocationService', 'BaseMapFactory', 'BaseMapService', '$timeout', 'Auth', 'CompetenceService'];
 
 	angular.module('panel.directive', [])
 		.directive('panelFunctions', panelFunctions);

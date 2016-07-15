@@ -35,7 +35,8 @@
 		_last_list = null,
 		_heatmap_variable_id = [],
 		_last_flag = null,
-		countAdded = 0;
+		countAdded = 0,
+		_wkt = null;
 
 
 		if (!$scope.save_heatmap_variable_list) {
@@ -251,19 +252,21 @@
 		};
 		$scope.ok = function(form, field) {
 			if(form.$valid === true && $scope.is_simple_composed.join() !== ""){
-				BaseMapFactory.addHeatMap2Layer( field.category_name, $scope.is_simple_composed.join(), false);
 				BaseMapService.map.then(function (map) {
-					var wkt = BaseMapFactory.bounds2polygonWKT(map.getBounds());
-					BaseMapService.addUserHeatMap({
-						'nm':field.category_name,
-						'cod':$scope.is_simple_composed.join(),
-						'bnd':wkt
-					});
+					_wkt = BaseMapFactory.bounds2polygonWKT(map.getBounds());
 				});
-
-				//Ejemplo de get heatmpas del usuario, este lo puedes quitar
-				BaseMapService.getUserHeatMap().then(function(data){
-					console.log(data);
+				
+				BaseMapService.addUserHeatMap({
+					'nm':field.category_name,
+					'cod':$scope.is_simple_composed.join(),
+					'bnd':_wkt
+				})
+				.then(function(result){
+					if (result.data.res === "correcto") {
+						$mdDialog.hide(true);
+					}
+				}, function(error){
+					console.log(error);
 				});
 			}
 			//$mdDialog.hide({count: countAdded, success: true});
