@@ -5321,7 +5321,7 @@ L.Icon.Default = L.Icon.extend({
 		if (this.options[key]) {
 			return this.options[key];
 		}
-
+		L.Icon.Default.imagePath = './images'
 		var path = L.Icon.Default.imagePath;
 
 		if (!path) {

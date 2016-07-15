@@ -71,7 +71,7 @@
 			 * [Set image name to each layer]
 			 * @type {Array}
 			 */
-			var imagesArray = ['mapbox-calles', 'mapbox-relieve', 'mapbox-satellite', 'mapbox-satellite', 'mapbox-calles'];
+			var imagesArray = ['mapbox-calles', 'mapbox-relieve', 'mapbox-satellite', 'google-roadmap', 'google-satellite'];
 			var layerToggle = angular.element(document.getElementsByClassName('leaflet-control-layers-toggle'));
 			_label_item = angular.element(document.getElementsByClassName('leaflet-control-layers-base')).children();
 			_label = angular.element(document.getElementsByClassName('leaflet-control-layers-toggle'));
