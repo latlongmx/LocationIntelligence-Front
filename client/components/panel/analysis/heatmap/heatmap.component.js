@@ -214,7 +214,7 @@
 				// 	}
 				// 	layer_predefined === true ? BaseMapFactory.addHeatMapCategory(predefinedLayer.name) : BaseMapFactory.hideHeatMapCategory(predefinedLayer.name);
 				// }
-				
+
 				scope.variableHeatmapShowed = function(list, index){
 					var idLayer, cods, wkt = null;
 					//_column_heatmap_request = this.heatmap.id_heat;
@@ -223,7 +223,7 @@
 					idLayer = scope.current_heatmap_checked.id_heat;
 					cods = scope.current_heatmap_checked.cods;
 					wkt = scope.current_heatmap_checked.bounds;
-					
+
 					for (var i = 0; i < list.save_heatmap_variable_list.length; i++) {
 						list.save_heatmap_variable_list[i].$index = false;
 					}
