@@ -217,7 +217,7 @@
 				
 				scope.variableHeatmapShowed = function(list, index){
 					var idLayer, cods, wkt = null;
-					// _column_heatmap_request = this.heatmap.name_heat;
+					//_column_heatmap_request = this.heatmap.id_heat;
 					scope.last_heatmap_checked = scope.current_heatmap_checked;
 					scope.current_heatmap_checked = list.save_heatmap_variable_list[index];
 					idLayer = scope.current_heatmap_checked.id_heat;
@@ -228,15 +228,26 @@
 						list.save_heatmap_variable_list[i].$index = false;
 					}
 					if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
+						console.log(scope.current_heatmap_checked)
+						console.log(scope.last_heatmap_checked)
 						scope.current_heatmap_checked = false;
 						BaseMapService.map.then(function (map) {
-							map.removeLayer(idLayer)
+							map.removeLayer( BaseMapFactory.LAYERS.USER[idLayer] )
 						});
 					}
 					else {
+						console.log(scope.current_heatmap_checked.id_heat)
+
 						scope.current_heatmap_checked.$index = true;
-						BaseMapFactory.addHeatMap2LayerBounds(idLayer, cods, wkt, false);
+						if (scope.last_heatmap_checked) {
+							console.log(scope.last_heatmap_checked.id_heat)
+							BaseMapService.map.then(function (map) {
+								map.removeLayer( BaseMapFactory.LAYERS.USER[scope.last_heatmap_checked.id_heat] )
+							});
+						}
+						
 						scope.last_heatmap_checked = false;
+						BaseMapFactory.addHeatMap2LayerBounds(idLayer, cods, wkt, false);
 					}
 				};
 
