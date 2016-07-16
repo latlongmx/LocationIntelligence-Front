@@ -5,17 +5,6 @@
 	'use strict';
 
 	function AddHeatmapController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, FileUploader, $document, LocationFactory, LocationService, BaseMapService, heatmap_variables, CompetenceService, BaseMapFactory){
-		// $scope.bounds = null;
-		// $scope.nw = null;
-		// $scope.se = null;
-		// $scope.bbox = null;
-		// var countAdded = 0;
-		// BaseMapService.map.then(function (map) {
-		// 	$scope.bounds = map.getBounds();
-		// 	$scope.nw = $scope.bounds.getNorthWest();
-		// 	$scope.se = $scope.bounds.getSouthEast();
-		// 	$scope.bbox = [$scope.nw.lng, $scope.se.lat, $scope.se.lng, $scope.nw.lat].join(',');
-		// });
 		var _newHeatmapVariables = null,
 		_resultOfProcess = null,
 		_matchWordHeatmap = null,
@@ -85,36 +74,8 @@
 			onHeatItemClick: function(event, item) {
 				_variable_id = item.id;
 				_variable_name = item.name;
-
-				if($scope._heatmap_variable_flag.indexOf(_variable_name) === -1){
-					$scope._heatmap_variable_flag.push(_variable_name);
-					$scope.save_heatmap_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
-					$scope.is_simple_composed.push(_variable_id);
-					countAdded = countAdded + 1;
-					//_addHeatmapToList(_variable_name, _variable_id);
-					_showToastMessage('Se añadió ' + _variable_name);
-
-				}
-
-				else {
-					for (var i=0; i<$scope._heatmap_variable_flag.length; i++){
-						if ($scope._heatmap_variable_flag[i] === _variable_name){
-							$scope._heatmap_variable_flag.splice(i,1);
-							$scope.save_heatmap_variable_list.splice(i,1);
-							$scope._id_heatmap_layer_flag.splice(i,1);
-							$scope.is_simple_composed.splice(i,1);
-							countAdded = countAdded - 1;
-							break;
-						}
-					}
-					_showToastMessage('Se removió ' + _variable_name);
-
-				}
-				angular.element(event.currentTarget.children)
-				.toggleClass('fa fa-check')
-				.css(
-					{"color": "#C3EE97", "transition": "all linear 0.25s"}
-				);
+				
+				_addHeatmapToList(event, _variable_name, _variable_id);
 			}
 		};
 
@@ -194,23 +155,34 @@
 		 * [_addHeatmapToList Create Heatmap]
 		 * @param  {[type]} param [description]
 		 */
-		var _addHeatmapToList = function(param, id) {
-			$scope.is_simple_composed.join();
+		var _addHeatmapToList = function(event, name, id) {
+			if($scope._heatmap_variable_flag.indexOf(name) === -1){
+				$scope._heatmap_variable_flag.push(name);
+				$scope.save_heatmap_variable_list.push({_variable_name: name, _variable_id: id});
+				$scope.is_simple_composed.push(id);
+				countAdded = countAdded + 1;
+				_showToastMessage('Se añadió ' + name);
+			}
 
+			else {
+				for (var i=0; i<$scope._heatmap_variable_flag.length; i++){
+					if ($scope._heatmap_variable_flag[i] === name){
+						$scope._heatmap_variable_flag.splice(i,1);
+						$scope.save_heatmap_variable_list.splice(i,1);
+						$scope._id_heatmap_layer_flag.splice(i,1);
+						$scope.is_simple_composed.splice(i,1);
+						countAdded = countAdded - 1;
+						break;
+					}
+				}
+				_showToastMessage('Se removió ' + name);
 
-			//BaseMapFactory.addHeatMap2Layer( "prueba", 734', false);
-
-			// BaseMapService.addCompetenciaQuery(formData)
-			// .then(function(result){
-			// 	if (result.statusText === 'OK') {
-			// 		_showToastMessage('Se agregó ' + _variable_name);
-			// 		countAdded = countAdded + 1;
-			// 		$scope._id_heatmap_layer_flag.push(result.data.id_layer);
-			// 		_heatmap_variable_id.push(id);
-			// 	}
-			// }, function(error){
-			//  console.log(error);
-			// });
+			}
+			angular.element(event.currentTarget.children)
+			.toggleClass('fa fa-check')
+			.css(
+				{"color": "#C3EE97", "transition": "all linear 0.25s"}
+			);
 		};
 
 
@@ -254,22 +226,20 @@
 			if(form.$valid === true && $scope.is_simple_composed.join() !== ""){
 				BaseMapService.map.then(function (map) {
 					_wkt = BaseMapFactory.bounds2polygonWKT(map.getBounds());
-				});
-				
-				BaseMapService.addUserHeatMap({
-					'nm':field.category_name,
-					'cod':$scope.is_simple_composed.join(),
-					'bnd':_wkt
-				})
-				.then(function(result){
-					if (result.data.res === "correcto") {
-						$mdDialog.hide(true);
-					}
-				}, function(error){
-					console.log(error);
+					BaseMapService.addUserHeatMap({
+						'nm':field.category_name,
+						'cod':$scope.is_simple_composed.join(),
+						'bnd':_wkt
+					})
+					.then(function(result){
+						if (result.data.res === "correcto") {
+							$mdDialog.hide(true);
+						}
+					}, function(error){
+						console.log(error);
+					});
 				});
 			}
-			//$mdDialog.hide({count: countAdded, success: true});
 		};
 
 	};

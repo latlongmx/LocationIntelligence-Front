@@ -90,9 +90,6 @@
 										'<p flex="55" class="m-side-panel__list-content__item-single">{{heatmap.name_heat}}</p>',
 										'<p flex="20" class="m-side-panel__list-content__item-single">{{heatmap.compuest === true? "Compuesta": "Simple"}}</p>',
 										'<md-switch ng-model="heatmap.$index" flex md-no-ink aria-label="heatmap.id_heat" ng-change="variableHeatmapShowed($parent, $index)" class="md-primary m-side-panel__list-content__item-single"></md-switch>',
-										// '<md-button data-id-heatmap="heatmap.id_heat" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="zoomToCompetenceLayer(heatmap.id_heat, heatmap.name_heat)" ng-init="disabled" ng-disabled="heat_layer === false">',
-										// 	'<md-icon>zoom_in</md-icon>',
-										// '</md-button>',
 										'<md-button data-id-heatmap="heatmap.id_heat" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="editLayerHeatmap($parent, heatmap, $index)">',
 											'<md-icon>create</md-icon>',
 										'</md-button>',
@@ -124,8 +121,6 @@
 					{"id_layer": 2, "name_layer": "Turismo", "name": "tourism"},
 					{"id_layer": 3, "name_layer": "Compras", "name": "shop"}
 				];
-				
-
 
 				HeatmapVarJsonService.heatmapVarJsonRequest()
 				.then(function(result){
@@ -221,27 +216,27 @@
 				// }
 				
 				scope.variableHeatmapShowed = function(list, index){
+					var idLayer, cods, wkt = null;
 					// _column_heatmap_request = this.heatmap.name_heat;
 					scope.last_heatmap_checked = scope.current_heatmap_checked;
 					scope.current_heatmap_checked = list.save_heatmap_variable_list[index];
+					idLayer = scope.current_heatmap_checked.id_heat;
+					cods = scope.current_heatmap_checked.cods;
+					wkt = scope.current_heatmap_checked.bounds;
 					
 					for (var i = 0; i < list.save_heatmap_variable_list.length; i++) {
 						list.save_heatmap_variable_list[i].$index = false;
 					}
 					if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
 						scope.current_heatmap_checked = false;
-						console.log(scope.current_heatmap_checked)
-						//BaseMapFactory.hideHeatMapCategory(scope.current_heatmap_checked.name_heat)
-						
-						//BaseMapFactory.delPobVivWMS();
+						BaseMapService.map.then(function (map) {
+							map.removeLayer(idLayer)
+						});
 					}
 					else {
 						scope.current_heatmap_checked.$index = true;
-						console.log(scope.current_heatmap_checked)
-						//BaseMapFactory.addHeatMapCategory(predefinedLayer.name);
-						//BaseMapFactory.delPobVivWMS();
+						BaseMapFactory.addHeatMap2LayerBounds(idLayer, cods, wkt, false);
 						scope.last_heatmap_checked = false;
-						//_demographyWKTRequest(_column_heatmap_request);
 					}
 				};
 
