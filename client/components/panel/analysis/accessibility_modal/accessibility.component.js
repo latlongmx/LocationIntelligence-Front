@@ -30,7 +30,7 @@
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-analysis-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Accesibilidad" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-panel-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Accesibilidad" tooltip-animation="true">',
 						'<img src="./images/functions/accessibility_icon.png" class="m-list-functions__item-icon" data-icon="accessibility_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-accessibility-side-panel" style="height: 400px;">',
@@ -51,9 +51,10 @@
 						'<div>',
 						'<p>Vías de acceso vehicular</p>',
 						'<div id="access_car_content"></div>',
-						'<p>Vías de acceso en transporte</p>',
+						//'<p>Vías de acceso en transporte</p>',
+						'<p></p>',
 						'<div id="access_trans_content"></div>',
-						'<button id="btnOpenWMS" ng-click="openViasWMS()">Abrirr vias wms</button>',
+						//'<button id="btnOpenWMS" ng-click="openViasWMS()">Abrirr vias wms</button>',
 						'</div>',
 					'</div>',
 				'</div>'
@@ -130,6 +131,10 @@
 						var geo_wkt = "";
 						geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
 
+						if(_layers.viasUserWMS !== undefined){
+							_map.removeLayer( _layers.viasUserWMS );
+						}
+
 						_layers.viasUserWMS = L.tileLayer.dynamicWms(
 							BaseMapFactory.API_URL+"/ws_wms?access_token="+access_token,
 							//"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&",
@@ -149,13 +154,14 @@
 						});
 						_layers.viasUserWMS.options.crs = L.CRS.EPSG4326;
 						_layers.viasUserWMS.addTo(_map);
+						_editableLayers.clearLayers();
+						_editableLayers.addLayer( _currentFeature.layer );
 
-
-						/*_editableLayers.clearLayers();
+						/*
 						if(BaseMapFactory.LAYERS.USER.inter15_vias !== undefined){
 							BaseMapFactory.LAYERS.USER.inter15_vias.clearLayers();
 						}
-						_editableLayers.addLayer( _currentFeature.layer );*/
+						*/
 					}
 				};
 
@@ -180,16 +186,30 @@
 							var geojson = res.data.geojson;
 
 							//Count tipo de features
-							var tips = _.map(geojson.features,function(o){
-								return o.properties;
+							var p = 0;
+							var s = 0;
+							var t = 0;
+							var pP = ["Carretera","Autopista","Periférico","Circuito"];
+							var pS = ["Avenida","Viaducto","Eje vial","Circunvalación","Boulevard","Calzada"];
+							var pT = ["Calle","Continuación","Corredor","Prolongación","Pasaje","Diagonal","Retorno","Andador","Cerrada","Privada","Plaza","Ampliación","Callejón"];
+							var noms = [];
+							_.each(geojson.features,function(o){
+								var tipoVial = o.properties.tipovial;
+								//noms.push(o.properties.);
+								if(pP.indexOf(tipoVial)!==-1){
+									p++;
+								}else if(pS.indexOf(tipoVial)!==-1){
+									s++;
+								}else if(pT.indexOf(tipoVial)!==-1){
+									t++;
+								}
 							});
-							var cnts = _.countBy(tips,'tipovial');
 							_$contentCount.vehi.html('');
-							_.each(cnts,function(v, i){
-								_$contentCount.vehi.append('<br/>'+i+':'+v);
-							});
+							_$contentCount.vehi.append('<br/>Primatias:'+p);
+							_$contentCount.vehi.append('<br/>Secundarias:'+s);
+							_$contentCount.vehi.append('<br/>Terciarias:'+t);
 
-							BaseMapFactory.addGeoJSON2Map(geojson, 'inter15_vias');
+							//BaseMapFactory.addGeoJSON2Map(geojson, 'inter15_vias');
 						}
 					}, function(error){
 						console.log(error);
