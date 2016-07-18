@@ -261,16 +261,18 @@
 			updUserHeatMap: function(layer, name){
 				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
+				var formData = new FormData();
+				formData.append("nom", name);
+				
 				var _heatMap = $http({
 					url: this.apiBaseURL + '/ws/heat_u/'+layer,
 					method: 'POST',
+					transformRequest: angular.identity,
 					headers: {
-						'Content-Type': 'application/json',
+						'Content-Type': undefined,
 						'Authorization': 'Bearer '+access_token
 					},
-					data: {
-						nom: name
-					}
+					data: formData
 				});
 				_heatMap.then(function(result){
 					deferred.resolve(result);
