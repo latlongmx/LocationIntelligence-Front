@@ -115,7 +115,7 @@
 					setTimeout(function(){
 						_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+item._variable_id+'"]'));
 						_icon_data_id.addClass('fa fa-check').css(
-							{"color": "#666470", "transition": "all linear 0.25s"}
+							{"color": "#828189", "transition": "all linear 0.25s"}
 						);
 					}, 0);
 				});
@@ -126,7 +126,7 @@
 					setTimeout(function(){
 						_icon_data_id = angular.element(document.querySelector('[data-variable-id="'+item._variable_id+'"]'));
 						_icon_data_id.addClass('fa fa-check').css(
-							{"color": "#666470", "transition": "all linear 0.25s"}
+							{"color": "#828189", "transition": "all linear 0.25s"}
 						);
 					}, 0);
 				});
@@ -181,7 +181,7 @@
 			angular.element(event.currentTarget.children)
 			.toggleClass('fa fa-check')
 			.css(
-				{"color": "#C3EE97", "transition": "all linear 0.25s"}
+				{"color": "#828189", "transition": "all linear 0.25s"}
 			);
 		};
 

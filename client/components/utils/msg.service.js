@@ -16,6 +16,9 @@
 		this.userNotExists = function(button){
 			return "Las credenciales son incorrectas";
 		}
+		this.fieldsRequired = function(){
+			return "Los campos son requeridos";
+		}
 		
 		/* Server error */
 		this.serverErrorRequest = function(button){

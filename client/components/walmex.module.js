@@ -33,6 +33,7 @@
 			'heatmap.service',
 			'add.heatmap.controller',
 			'add.heatmap.service',
+			'edit.layer.heatmap.controller',
 			'od.modal.controller',
 			'rings.modal.controller',
 			'search.directive',
