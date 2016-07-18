@@ -245,7 +245,7 @@
 								map.removeLayer( BaseMapFactory.LAYERS.USER[scope.last_heatmap_checked.id_heat] )
 							});
 						}
-						
+
 						scope.last_heatmap_checked = false;
 						BaseMapFactory.addHeatMap2LayerBounds(idLayer, cods, wkt, false);
 					}
@@ -268,27 +268,33 @@
 				// 	layer === true ? BaseMapFactory.showLocation(id) : BaseMapFactory.hideLocation(id);
 				// }
 
-				// scope.removeHeatmap = function(indexItem, id_layer, name, index) {
-				// 	var id = id_layer +'-'+ name.replace(' ','_');
-				// 	_removeHeatmapItem = scope.save_heatmap_variable_list.indexOf(indexItem);
-				// 	if (_removeHeatmapItem !== -1) {
-				// 		BaseMapFactory.hideLocation(id);
-				// 		scope.save_heatmap_variable_list.splice(_removeHeatmapItem, 1);
-				// 		CompetenceService.delCompetence( id_layer )
-				// 		.then(function(res){
-				// 			_deleteMessage("Se eliminó " + name);
-				// 		}, function(){
-				// 			_deleteMessage("Error al eliminar " + name + ", intente nuevamente");
-				// 		});
+				scope.removeHeatmap = function(indexItem, id_layer, name, index) {
+					BaseMapService.delUserHeatMap(id_layer);
 
-				// 		for (var i=0; i<scope.toggleHeatmap.length; i++){
-				// 			if (scope.toggleHeatmap[i].index === index){
-				// 				scope.toggleHeatmap.splice(i,1);
-				// 				break;
-				// 			}
-				// 		}
-				// 	}
-				// }
+					//actualizar nombre
+					//BaseMapService.updUserHeatMap(id_layer, nuevo_nombre);
+
+					
+					/*var id = id_layer +'-'+ name.replace(' ','_');
+					_removeHeatmapItem = scope.save_heatmap_variable_list.indexOf(indexItem);
+					if (_removeHeatmapItem !== -1) {
+						BaseMapFactory.hideLocation(id);
+						scope.save_heatmap_variable_list.splice(_removeHeatmapItem, 1);
+						CompetenceService.delCompetence( id_layer )
+						.then(function(res){
+							_deleteMessage("Se eliminó " + name);
+						}, function(){
+							_deleteMessage("Error al eliminar " + name + ", intente nuevamente");
+						});
+
+						for (var i=0; i<scope.toggleHeatmap.length; i++){
+							if (scope.toggleHeatmap[i].index === index){
+								scope.toggleHeatmap.splice(i,1);
+								break;
+							}
+						}
+					}*/
+				};
 
 				// scope.toggleGralHeatmap = function() {
 				// 	if(this.all_heatmap === true) {
