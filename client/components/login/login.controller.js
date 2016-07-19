@@ -4,32 +4,32 @@
 	*/
 	'use strict';
 
-	function LoginController($scope, LoginService, $location, $timeout, Auth, BaseMapService, uiService, messagesService){
+	function LoginController($scope, $timeout, loginService, Auth, uiService, messagesService){
 		var lg = this,
 		_$js_login_form = null,
 		_data = null,
 		_session = null,
-		_buttonForm = null,
-		_inputsInForm = null,
-		_$js_login_error = null;
+		_$buttonForm = null,
+		_$inputsInForm = null,
+		_$js_login_error = null,
+		_loginProcess = null;
 
 		_$js_login_error = angular.element(document.getElementsByClassName('js-login-error'));
-		_inputsInForm = angular.element(document.getElementsByName('loginForm')).find('input');
-		
+		_$inputsInForm = angular.element(document.getElementsByName('loginForm')).find('input');
+		_$buttonForm = angular.element(document.getElementsByName('loginForm')).find('[type=submit]');
+
 		lg.submitLogin = function(loginForm, data){
-			_buttonForm = angular.element(document.getElementsByName('loginForm')).find('[type=submit]');
-			uiService.addLogginIsLoading(_buttonForm, messagesService.addMessageLoggin);
+			uiService.addLogginIsLoading(_$buttonForm, messagesService.addMessageLoggin);
 			if(loginForm.$valid) {
-				var loginProcess = LoginService.loginRequest(data);
-				
-				loginProcess.then(function(result){
+				_loginProcess = loginService.loginRequest(data);
+				_loginProcess.then(function(result){
 					if(result.status === 200 && result.statusText === "OK") {
 						Auth.login(result.data);
 					}
 				}, function(error){
 					lg.error = true;
-					uiService.removeLogginIsLoading(_buttonForm, messagesService.removeMessageLoggin);
-					_.each(_inputsInForm, function(_inputs){
+					uiService.removeLogginIsLoading(_$buttonForm, messagesService.removeMessageLoggin);
+					_.each(_$inputsInForm, function(_inputs){
 						uiService.cleanInputs(_inputs);
 					});
 
@@ -55,13 +55,13 @@
 				$timeout(function(){
 					lg.error = false;
 				}, 2500);
-				uiService.removeLogginIsLoading(_buttonForm, messagesService.removeMessageLoggin);
+				uiService.removeLogginIsLoading(_$buttonForm, messagesService.removeMessageLoggin);
 			}
 		};
 
 	}
 	
-	LoginController.$inject = ['$scope', 'LoginService','$location', '$timeout', 'Auth', 'BaseMapService', 'uiService', 'messagesService'];
+	LoginController.$inject = ['$scope', '$timeout', 'loginService', 'Auth', 'uiService', 'messagesService'];
 
 	angular.module('login', []).
 	controller('LoginController', LoginController);

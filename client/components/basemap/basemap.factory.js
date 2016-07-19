@@ -8,13 +8,11 @@
 	function BaseMapFactory(BaseMapService, chroma, _, Auth) { //_, chroma, $http
 		var factory = {};
 		var _factory = factory;
-
 		factory.LAYERS = {};
 		factory.LAYERS.USER = {};
-
 		factory.API_URL = 'http://52.8.211.37/api.walmex.latlong.mx';
-
 		factory._map = undefined;
+		factory._curVar = '';
 
 		BaseMapService.map.then(function (map) {
 			factory._map = map;
@@ -62,6 +60,7 @@
 			latlngs.push({ lat: bounds.getCenter().lat, lng: bounds.getWest() });//center left
 			return "POLYGON(("+this.getCoords(new L.polygon(latlngs), 'polygon')+"))";
 		},
+
 		/**
 		 * [geom2wkt: Lee la geometria dibujada y regresa WKT]
 		 * @param {[type]} geom [element drawed]
@@ -94,7 +93,6 @@
 			};
 		};
 
-
 		/*STYLES*/
 
 		factory.eachFeature = function(feature, layer) {
@@ -105,6 +103,7 @@
 			}
 			layer.bindPopup('<div class="popInfo">' + popupContent + '</div>');
 		};
+
 		/**
 		 * [addLayer: Agrega capa a leaflet]
 		 * @param {[type]} map [element drawed]
@@ -183,6 +182,7 @@
 			factory.LAYERS.USER[layer] = new L.geoJson(GeoJSON, opts);
 			factory.LAYERS.USER[layer].addTo(map);
 		};
+
 		/**
 		 * [addGeoJSON: Lee la geometria dibujada y regresa WKT]
 		 * @param {[type]} geom [element drawed]
@@ -195,6 +195,10 @@
 			});
 		};
 
+		/**
+		 * [addCompetencia Add Competence layer to map]
+		 * @param {[type]} GeoJSON [description]
+		 */
 		factory.addCompetencia = function(GeoJSON){
 			var self = this;
 			BaseMapService.map.then(function (map) {
@@ -208,10 +212,19 @@
 			});
 		};
 
+		/**
+		 * [cleanColorPletMap Clean colorplet map]
+		 * @return {[type]} [description]
+		 */
 		factory.cleanColorPletMap = function(){
 			this.LAYERS.heatMap.clearLayers();
 		};
-
+		
+		/**
+		 * [addColorPletMap Add colorplet to map]
+		 * @param {[type]} GeoJSON [description]
+		 * @param {[type]} column  [description]
+		 */
 		factory.addColorPletMap = function(GeoJSON, column){
 			var self = this;
 
@@ -246,7 +259,10 @@
 			});
 		};
 
-		factory._curVar = '';
+		/**
+		 * [setPobVivWMS Add Demography layer to map]
+		 * @param {[type]} variable [description]
+		 */
 		factory.setPobVivWMS = function(variable){
 			var self = this;
 			self._curVar = variable;
@@ -266,6 +282,19 @@
 					self.LAYERS.pobvivWMS.addTo(map);
 					self.LAYERS.pobvivWMS.setZIndex(9);
 			});
+		};
+
+		/**
+		 * [delPobVivWMS Remove Demography layer from map]
+		 * @return {[type]} [description]
+		 */
+		factory.delPobVivWMS = function(){
+			if(this.LAYERS.pobvivWMS){
+					var self = this;
+				BaseMapService.map.then(function (map) {
+					map.removeLayer( self.LAYERS.pobvivWMS );
+				});
+			}
 		};
 
 		factory.setHeatWMS = function(variable){
@@ -289,15 +318,6 @@
 			});
 		};
 
-		factory.delPobVivWMS = function(){
-			if(this.LAYERS.pobvivWMS){
-					var self = this;
-				BaseMapService.map.then(function (map) {
-					map.removeLayer( self.LAYERS.pobvivWMS );
-				});
-			}
-		};
-
 		/********************************************/
 		/********************************************/
 		/********************************************/
@@ -307,6 +327,7 @@
 			factory.addLocationID(id);
 			factory.LAYERS.USER['u'+id+'-extend'] = obj.extend;
 		};
+
 		factory.addLocationID = function(id){
 			var access_token = Auth.getToken().access_token;
 			factory.LAYERS.USER['u'+id] = new L.nonTiledLayer.wms(
@@ -320,22 +341,27 @@
 			factory.LAYERS.USER['u'+id].options.crs = L.CRS.EPSG4326;
 			//factory.LAYERS.USER['u'+id].addTo(factory._map);
 		};
+
 		factory.updateLocation = function(name){
 			var id = name.split('-')[0];
 			factory.updateLocationID(id);
 		};
+
 		factory.updateLocationID = function(id){
 			factory._map.removeLayer( factory.LAYERS.USER['u'+id] );
 			factory.addLocationID(id);
 			//factory.LAYERS.USER['u'+id].addTo(factory._map);
 		};
+
 		factory.addLayerIfTurnedOn = function(id){
 			factory.LAYERS.USER['u'+id].addTo(factory._map);
 		};
+
 		factory.hideLocation = function(name){
 			var id = name.split('-')[0];
 			factory.hideLocationID(id);
 		};
+
 		factory.hideLocationID = function(id){
 			factory._map.removeLayer( factory.LAYERS.USER['u'+id] );
 		};
@@ -344,6 +370,7 @@
 			var id = name.split('-')[0];
 			factory.showLocationID(id);
 		};
+
 		factory.showLocationID = function(id){
 			factory._map.addLayer( factory.LAYERS.USER['u'+id] );
 		};
@@ -371,7 +398,10 @@
 		/********************************************/
 
 
-
+		/**
+		 * [addHeatMap Add new heatmap layer]
+		 * @param {[type]} options [description]
+		 */
 		factory.addHeatMap = function(options){
 			BaseMapService.map.then(function (map) {
 				options.wkt = _factory.bounds2polygonWKT(map.getBounds());
@@ -394,6 +424,7 @@
 				});
 			});
 		};
+
 
 		factory.addHeatMap2Layer = function(layer, cods, reload){
 			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
@@ -422,7 +453,14 @@
 				});
 			}
 		};
-
+		
+		/**
+		 * [addHeatMap2LayerBounds Add heatmap layer to map (created by the user) ]
+		 * @param {[type]} layer  [description]
+		 * @param {[type]} cods   [description]
+		 * @param {[type]} wkt    [description]
+		 * @param {[type]} reload [description]
+		 */
 		factory.addHeatMap2LayerBounds = function(layer, cods, wkt, reload){
 			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
 				BaseMapService.map.then(function (map) {
@@ -460,7 +498,32 @@
 				}
 			});
 		};
-
+		
+		/**
+		 * [addHeatMapCategory Add predefined heatmap layer to map]
+		 * @param {[type]} category [description]
+		 * @param {[type]} reload   [description]
+		 */
+		factory.addHeatMapCategory = function(category, reload){
+			var categ = category.toLowerCase();
+			switch (categ) {
+				case 'food':
+					_factory.addHeatMap2Layer('heatmapFood','722',reload);
+					break;
+				case 'tourism':
+					_factory.addHeatMap2Layer('heatmapTourism','721,712',reload);
+					break;
+				case 'shop':
+					_factory.addHeatMap2Layer('heatmapShop','46',reload);
+					break;
+			}
+		};
+		
+		/**
+		 * [hideHeatMapCategory Remove predefined heatmap layer from map]
+		 * @param  {[type]} category [description]
+		 * @return {[type]}          [description]
+		 */
 		factory.hideHeatMapCategory = function(category){
 			var categ = category.toLowerCase();
 			BaseMapService.map.then(function (map) {
@@ -480,20 +543,6 @@
 			});
 		};
 
-		factory.addHeatMapCategory = function(category, reload){
-			var categ = category.toLowerCase();
-			switch (categ) {
-				case 'food':
-					_factory.addHeatMap2Layer('heatmapFood','722',reload);
-					break;
-				case 'tourism':
-					_factory.addHeatMap2Layer('heatmapTourism','721,712',reload);
-					break;
-				case 'shop':
-					_factory.addHeatMap2Layer('heatmapShop','46',reload);
-					break;
-			}
-		};
 
 		return factory;
 	}

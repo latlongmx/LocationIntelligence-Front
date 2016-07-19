@@ -4,30 +4,24 @@
 	*/
 	'use strict';
 	
-	function LoginService($q, $http, $httpParamSerializer){
+	function loginService($q, $http, $httpParamSerializer){
 		var deferred = null,
 		_loginRequest = null,
-		username = null,
-		password = null,
-		grant_type = "password",
-		client_id = null,
-		client_secret = null,
+		_username = null,
+		_password = null,
+		_grant_type = "password",
+		_client_id = null,
+		_client_secret = null,
 		_data = null,
 		_session = null;
 
-			// encodeData : function(encode){
-
-			// 	return _data;
-			// },
-
 		this.loginRequest = function(data){
 			deferred = $q.defer();
-			_data = "";
-			username = data.user;
-			password = md5(data.password);
-			client_id = md5(username);
-			client_secret = sha256(password).substr(0,40);
-			_data = {username: username, password: password, grant_type: grant_type, client_id: client_id, client_secret: client_secret};
+			_username = data.user;
+			_password = md5(data.password);
+			_client_id = md5(_username);
+			_client_secret = sha256(_password).substr(0,40);
+			_data = {username: _username, password: _password, grant_type: _grant_type, client_id: _client_id, client_secret: _client_secret};
 			
 			_loginRequest = $http({
 				url: 'http://52.8.211.37/api.walmex.latlong.mx/oa/accesstk',
@@ -47,8 +41,8 @@
 		};
 
 	}
-	LoginService.$inject = ['$q', '$http', '$httpParamSerializer'];
+	loginService.$inject = ['$q', '$http', '$httpParamSerializer'];
 	angular.module('login.service', []).
-		service('LoginService', LoginService);
+		service('loginService', loginService);
 
 })();

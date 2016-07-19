@@ -50,7 +50,7 @@
 		};
 
 	}
-	AuthFactory.$inject = ['$location','$window', '$rootScope'];
+	AuthFactory.$inject = ['$location', '$window', '$rootScope'];
 	angular.module('login.factory', []).
 		factory('Auth', AuthFactory);
 })();

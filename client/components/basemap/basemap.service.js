@@ -47,7 +47,6 @@
 	     * @return {Object} http promise
 	     */
 			intersect: function(opts){
-
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
 				var _intersect = $http({
@@ -124,7 +123,6 @@
 				return deferred.promise;
 			},
 
-
 			addCompetenciaQuery: function(opts){
 				deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
@@ -148,6 +146,7 @@
 				});
 				return deferred.promise;
 			},
+
 			/**
 	     * [setHeatMap: Solicita los datos para crear el heatmap]
 			 * @param {[type]} object [element drawed]
@@ -259,7 +258,6 @@
 				* @return {Object} http promise
 			*/
 			updUserHeatMap: function(layer, name){
-				console.log(name)
 				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
 				var formData = new FormData();
