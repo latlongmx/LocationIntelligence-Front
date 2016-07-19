@@ -140,6 +140,7 @@
 					angular.element('#accessNumP').html('0');
 					angular.element('#accessNumS').html('0');
 					angular.element('#accessNumT').html('0');
+					angular.element('#contAccesTrans').hide();
 					var opts = {
 							WKT: geo_wkt.wkt,
 							MTS: geo_wkt.mts
@@ -172,7 +173,9 @@
 							angular.element('#accessNumT').html(t);
 
 							var trans = _.countBy(res.data.transp,'agency_id');
+							var t = 0;
 							_.each(trans, function(v,k){
+								t++;
 								listAccessTrans.append([
 									'<md-list-item>',
 						        '<img ng-src=""></img>',
@@ -181,6 +184,9 @@
 						      '</md-list-item>'
 								].join(''));
 							});
+							if(t >0){
+								angular.element('#contAccesTrans').show();
+							}
 
 						}
 					}, function(error){
