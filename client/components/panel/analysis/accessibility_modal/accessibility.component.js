@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth){
+	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, $compile){
 
 		var _$js_accessibility_side_panel = null,
 		_$js_accessibility_item = null,
@@ -33,29 +33,8 @@
 					'<li class="m-list-functions__item js-panel-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Accesibilidad" tooltip-animation="true">',
 						'<img src="./images/functions/accessibility_icon.png" class="m-list-functions__item-icon" data-icon="accessibility_icon"/>',
 					'</li>',
-					'<div class="m-side-panel js-accessibility-side-panel" style="height: 400px;">',
-						'<h3 class="m-side-panel__title">Accesibilidad</h3>',
-						'<span class="accessibility-tools">',
-							'<div class="leaflet-draw-toolbar leaflet-bar leaflet-draw-toolbar-top">',
-								'<button class="leaflet-draw-draw-polyline" href="#" title="Dibujar Líneas" ng-click="drawInMap($event,\'line\')">',
-									'<i class="demo demo-line line-tool"></i>',
-								'</button>',
-								'<button class="leaflet-draw-draw-polygon" href="#" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">',
-									'<i class="demo demo-area polygon-tool"></i>',
-								'</button>',
-								'<button class="leaflet-draw-draw-circle" href="#" title="Dibujar Radio"  ng-click="drawInMap($event,\'circle\')">',
-									'<i class="demo demo-radio area-tool"></i>',
-								'</button>',
-							'</div>',
-						'</span>',
-						'<div>',
-						'<p>Vías de acceso vehicular</p>',
-						'<div id="access_car_content"></div>',
-						//'<p>Vías de acceso en transporte</p>',
-						'<p></p>',
-						'<div id="access_trans_content"></div>',
-						//'<button id="btnOpenWMS" ng-click="openViasWMS()">Abrirr vias wms</button>',
-						'</div>',
+					'<div id="accessibilityContent" ng-include src="\'./components/panel/analysis/accessibility_modal/accessibility.component.tpl.html\'"',
+					'class="m-side-panel js-accessibility-side-panel" >', //style="height: 400px;"
 					'</div>',
 				'</div>'
 			].join(''),
@@ -96,11 +75,6 @@
 								minZoom: 10,
 								transparent: true
 						});
-						/*_layers.viasWMS.setDynamicParam({
-							col: function(){
-								return self._curVar;
-							}
-						});*/
 						_layers.viasWMS.options.crs = L.CRS.EPSG4326;
 						_layers.viasWMS.addTo(_map);
 					}else{
@@ -156,34 +130,23 @@
 						_layers.viasUserWMS.addTo(_map);
 						_editableLayers.clearLayers();
 						_editableLayers.addLayer( _currentFeature.layer );
-
-						/*
-						if(BaseMapFactory.LAYERS.USER.inter15_vias !== undefined){
-							BaseMapFactory.LAYERS.USER.inter15_vias.clearLayers();
-						}
-						*/
 					}
 				};
 
 				scope.startAccessibilityAnalysis = function(e){
-					console.log(e);
-					console.log(_currentFeature);
 					var geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
-
-
-
+					var listAccessTrans = angular.element('#listAccessTrans');
+					listAccessTrans.html('');
+					angular.element('#accessNumP').html('0');
+					angular.element('#accessNumS').html('0');
+					angular.element('#accessNumT').html('0');
 					var opts = {
-							s:'inegi',
-							t: 'inter15_vias',
-							c: 'tipovial',
-							w:'',
-							wkt: geo_wkt.wkt,
-							mts: geo_wkt.mts
+							WKT: geo_wkt.wkt,
+							MTS: geo_wkt.mts
 						};
-					BaseMapService.intersect(opts).then(function(res){
+					AccessibilityService.viasInfo(opts).then(function(res){
 						if(res && res.data){
 							var info = res.data.info;
-							var geojson = res.data.geojson;
 
 							//Count tipo de features
 							var p = 0;
@@ -193,9 +156,8 @@
 							var pS = ["Avenida","Viaducto","Eje vial","Circunvalación","Boulevard","Calzada"];
 							var pT = ["Calle","Continuación","Corredor","Prolongación","Pasaje","Diagonal","Retorno","Andador","Cerrada","Privada","Plaza","Ampliación","Callejón"];
 							var noms = [];
-							_.each(geojson.features,function(o){
-								var tipoVial = o.properties.tipovial;
-								//noms.push(o.properties.);
+							_.each(info,function(o){
+								var tipoVial = o.tipovial;
 								if(pP.indexOf(tipoVial)!==-1){
 									p++;
 								}else if(pS.indexOf(tipoVial)!==-1){
@@ -205,11 +167,21 @@
 								}
 							});
 							_$contentCount.vehi.html('');
-							_$contentCount.vehi.append('<br/>Primatias:'+p);
-							_$contentCount.vehi.append('<br/>Secundarias:'+s);
-							_$contentCount.vehi.append('<br/>Terciarias:'+t);
+							angular.element('#accessNumP').html(p);
+							angular.element('#accessNumS').html(s);
+							angular.element('#accessNumT').html(t);
 
-							//BaseMapFactory.addGeoJSON2Map(geojson, 'inter15_vias');
+							var trans = _.countBy(res.data.transp,'agency_id');
+							_.each(trans, function(v,k){
+								listAccessTrans.append([
+									'<md-list-item>',
+						        '<img ng-src=""></img>',
+						        '<p>'+k+'</p>',
+						        '<p id="accessNumT">'+v+'</p>',
+						      '</md-list-item>'
+								].join(''));
+							});
+
 						}
 					}, function(error){
 						console.log(error);
@@ -223,7 +195,7 @@
 		};
 	}
 
-	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth'];
+	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile'];
 	angular.module('accessibility.directive', [])
 		.directive('accessibility', accessibilityDirective);
 })();
