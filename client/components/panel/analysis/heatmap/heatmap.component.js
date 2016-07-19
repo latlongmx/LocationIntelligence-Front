@@ -52,7 +52,8 @@
 								'<ul class="m-side-panel__list-content">',
 									'<li class="m-side-panel__list-content__item js-heatmap-item" ng-repeat="predefined in predefinedCategories ">',
 										'<div flex="10">',
-											'<img ng-src="" width="25" class="m-side-panel__list-content__item-single-img m-side-panel__list-content__item-single-img--in-predefined-heatmap-panel"/>',
+											'<i class="{{predefined.icon}}" style="padding:7px;"></i>',
+											// '<img ng-src="" width="25" class="m-side-panel__list-content__item-single-img m-side-panel__list-content__item-single-img--in-predefined-heatmap-panel"/>',
 										'</div>',
 										'<p flex="75" class="m-side-panel__list-content__item-single">{{predefined.name_layer}}</p>',
 										'<md-switch flex ng-disabled="is_toggle_gral_heatmap" ng-model="predefined.$index" md-no-ink aria-label="predefined-id_layer" ng-change="variableHeatmapShowed($parent, $index)" class="md-primary m-side-panel__list-content__item-single"></md-switch>',
@@ -97,7 +98,12 @@
 				var _this = null,
 				_removeHeatmapItem = null,
 				_thisPredefinedHeatmapIsTrue = null,
-				_column_heatmap_request = null;
+				_column_heatmap_request = null,
+				idLayer = null,
+				cods = null,
+				wkt = null,
+				lastLayer = null,
+				id_predefined_Layer = null;
 
 				if (!scope.toggleHeatmap) {
 					scope.toggleHeatmap = [];
@@ -107,9 +113,9 @@
 				}
 
 				scope.predefinedCategories = [
-					{"id_layer": 722, "name_layer": "Alimentos", "name": "food"},
-					{"id_layer": '721,712', "name_layer": "Turismo", "name": "tourism"},
-					{"id_layer": 46, "name_layer": "Compras", "name": "shop"}
+					{"id_layer": 722, "name_layer": "Alimentos", "name": "food", "icon": "fa fa-cutlery"},
+					{"id_layer": '721,712', "name_layer": "Turismo", "name": "tourism", "icon": "fa fa-camera"},
+					{"id_layer": 46, "name_layer": "Compras", "name": "shop", "icon": "fa fa-shopping-bag"}
 				];
 
 				HeatmapVarJsonService.heatmapVarJsonRequest()
@@ -168,7 +174,6 @@
 
 
 				scope.variableHeatmapShowed = function(list, index){
-					var idLayer, cods, wkt, lastLayer = null;
 					if (!this.predefined) {
 						scope.last_heatmap_checked = scope.current_heatmap_checked;
 						scope.current_heatmap_checked = list.save_heatmap_variable_list[index];
@@ -176,10 +181,16 @@
 						cods = scope.current_heatmap_checked.cods;
 						wkt = scope.current_heatmap_checked.bounds;
 
+						if (scope.current_predefined_checked) {
+							BaseMapFactory.hideHeatMapCategory(scope.current_predefined_checked.name);
+							scope.current_predefined_checked.$index = false;
+							scope.current_predefined_checked = "";
+						}
+
 						for (var i = 0; i < list.save_heatmap_variable_list.length; i++) {
 							list.save_heatmap_variable_list[i].$index = false;
-							list.predefinedCategories[i].$index = false;
 						}
+
 						if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
 							scope.current_heatmap_checked = false;
 							BaseMapService.map.then(function (map) {
@@ -198,33 +209,44 @@
 							scope.last_heatmap_checked = false;
 							BaseMapFactory.addHeatMap2LayerBounds(idLayer, cods, wkt, false);
 						}
+
 					}
 					else {
-						var last_predefined_checked, current_predefined_checked, id_predefined_Layer = "";
-						last_predefined_checked = current_predefined_checked;
-						current_predefined_checked = list.predefinedCategories[index];
-						console.log(current_predefined_checked)
-						id_predefined_Layer = current_predefined_checked.name;
+						scope.last_predefined_checked = scope.current_predefined_checked;
+						scope.current_predefined_checked = list.predefinedCategories[index];
+						id_predefined_Layer = scope.current_predefined_checked.name;
 
-						for (var i = 0; i < list.save_heatmap_variable_list.length; i++) {
-							list.save_heatmap_variable_list[i].$index = false;
+						if (scope.current_heatmap_checked) {
+							var removeLayer = scope.current_heatmap_checked.id_heat;
+							BaseMapService.map.then(function (map) {
+								map.removeLayer( BaseMapFactory.LAYERS.USER[removeLayer] )
+							});
+							scope.current_heatmap_checked.$index = false;
+							scope.current_heatmap_checked = "";
+						}
+
+						for (var i = 0; i < list.predefinedCategories.length; i++) {
 							list.predefinedCategories[i].$index = false;
 						}
-						if (current_predefined_checked === last_predefined_checked) {
-							current_predefined_checked = false;
+
+						if (scope.current_predefined_checked === scope.last_predefined_checked) {
+							scope.current_predefined_checked = false;
 							BaseMapFactory.hideHeatMapCategory(id_predefined_Layer);
 						}
 						else {
-							current_predefined_checked.$index = true;
-							if (last_predefined_checked) {
-								BaseMapFactory.hideHeatMapCategory(last_predefined_checked.name);
+							scope.current_predefined_checked.$index = true;
+							if (scope.last_predefined_checked) {
+								BaseMapFactory.hideHeatMapCategory(scope.last_predefined_checked.name);
 							}
 
-							last_predefined_checked = false;
+							scope.last_predefined_checked = false;
 							BaseMapFactory.addHeatMapCategory(id_predefined_Layer, false);
 						}
 					}
 				};
+				
+				
+				
 
 				scope.removeHeatmap = function(indexItem, id_layer, index) {
 					var removeLayer = BaseMapFactory.LAYERS.USER[id_layer];
@@ -244,6 +266,69 @@
 						_deleteMessage("Se eliminó " + indexItem.name_heat);
 					}
 				}
+				
+				// var _toggleEachLayer = function(self, array_list, index) {
+				// 	var removeLayer = "";
+				// 	scope.last_heatmap_checked = scope.current_heatmap_checked;
+				// 	scope.current_heatmap_checked = self.heatmap;
+
+				// 	for (var i = 0; i < array_list.save_heatmap_variable_list.length; i++) {
+				// 		array_list.save_heatmap_variable_list[i].$index = false;
+				// 	}
+				// 	for (var i = 0; i < array_list.predefinedCategories.length; i++) {
+				// 		array_list.predefinedCategories[i].$index = false;
+				// 	}
+
+				// 	if (scope.current_heatmap_checked.bounds) {
+				// 		idLayer = scope.current_heatmap_checked.id_heat;
+				// 		cods = scope.current_heatmap_checked.cods;
+				// 		wkt = scope.current_heatmap_checked.bounds;
+				// 		if (scope.last_heatmap_checked) {
+				// 			if (scope.last_heatmap_checked.name) {
+				// 				BaseMapFactory.hideHeatMapCategory(scope.last_heatmap_checked.name);
+				// 				//scope.last_heatmap_checked = false;
+				// 			}
+				// 			else {
+				// 				removeLayer = BaseMapFactory.LAYERS.USER[scope.last_heatmap_checked.id_heat];
+				// 				BaseMapService.map.then(function (map) {
+				// 					map.removeLayer(removeLayer);
+				// 				});
+				// 			}
+				// 			//scope.last_heatmap_checked = false;
+				// 		}
+						
+				// 		if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
+				// 			scope.current_heatmap_checked = false;
+				// 			removeLayer = BaseMapFactory.LAYERS.USER[scope.last_heatmap_checked.id_heat];
+				// 			BaseMapService.map.then(function (map) {
+				// 				map.removeLayer(removeLayer);
+				// 			});
+				// 		}
+						
+				// 		scope.current_heatmap_checked.$index = true;
+				// 		BaseMapFactory.addHeatMap2LayerBounds(idLayer, cods, wkt, false);
+				// 	}
+				// 	else {
+				// 		if (scope.last_heatmap_checked) {
+				// 			BaseMapFactory.hideHeatMapCategory(scope.last_heatmap_checked.name);
+				// 			scope.last_heatmap_checked = false;
+				// 		}
+						
+				// 		if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
+				// 			scope.current_heatmap_checked = false;
+				// 			removeLayer = BaseMapFactory.LAYERS.USER[scope.current_heatmap_checked.id_heat];
+				// 			BaseMapService.map.then(function (map) {
+				// 				map.removeLayer(removeLayer);
+				// 			});
+				// 		}
+						
+				// 		scope.current_heatmap_checked.$index = true;
+				// 		BaseMapFactory.addHeatMapCategory(scope.current_heatmap_checked.name);
+				// 	}
+					
+					
+					
+				// }
 
 				var _deleteMessage = function(msg) {
 					$mdToast.show(

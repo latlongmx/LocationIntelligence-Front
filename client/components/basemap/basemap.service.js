@@ -259,6 +259,7 @@
 				* @return {Object} http promise
 			*/
 			updUserHeatMap: function(layer, name){
+				console.log(name)
 				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
 				var formData = new FormData();

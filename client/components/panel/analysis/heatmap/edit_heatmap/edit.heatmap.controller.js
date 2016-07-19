@@ -8,13 +8,11 @@
 		$scope.updateHeatmap = function(form, data){
 			
 			if (form.$valid) {
-				var formData = new FormData();
-				formData.append('nom', data.nm);
-				BaseMapService.updUserHeatMap(heatmap_layer_id , formData)
+				BaseMapService.updUserHeatMap(heatmap_layer_id , data.nm)
 				.then(function(data){
-					console.log(data)
-					//$mdDialog.hide(true);
-
+					if(data.statusText === "OK"){
+						$mdDialog.hide(true);
+					}
 				}, function(error){
 					console.log(error)
 				});
