@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function componentDirective(_, $mdDialog, $mdToast, $mdMedia, $document, $timeout, CompetenceService, CompetenceVarJsonService, BaseMapFactory, BaseMapService, Auth, $log){
+	function componentDirective(_, $mdDialog, $q, $mdToast, $mdMedia, $document, $timeout, CompetenceService, CompetenceVarJsonService, BaseMapFactory, BaseMapService, Auth, $log, uiService){
 		var _access_token = Auth.getToken();
 		return {
 			restrict: 'E',
@@ -278,7 +278,7 @@
 							}
 						}
 					}
-					layer === true ? BaseMapFactory.showLocation(id) : BaseMapFactory.hideLocation(id);
+					layer === true ? BaseMapFactory.showLocation(id): BaseMapFactory.hideLocation(id);
 				}
 
 				scope.removeCompetence = function(indexItem, id_layer, name, index) {
@@ -338,7 +338,7 @@
 		};
 	}
 
-	componentDirective.$inject = ['_', '$mdDialog', '$mdToast', '$mdMedia', '$document', '$timeout', 'CompetenceService', 'CompetenceVarJsonService', 'BaseMapFactory','BaseMapService', 'Auth', '$log'];
+	componentDirective.$inject = ['_', '$mdDialog', '$q', '$mdToast', '$mdMedia', '$document', '$timeout', 'CompetenceService', 'CompetenceVarJsonService', 'BaseMapFactory','BaseMapService', 'Auth', '$log', 'uiService'];
 
 	angular.module('competence.directive', [])
 		.directive('competence', componentDirective);

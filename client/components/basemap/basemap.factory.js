@@ -5,7 +5,7 @@
 	*/
 	'use strict';
 
-	function BaseMapFactory(BaseMapService, chroma, _, Auth) { //_, chroma, $http
+	function BaseMapFactory(BaseMapService, chroma, _, Auth, uiService, $timeout) { //_, chroma, $http
 		var factory = {};
 		var _factory = factory;
 		factory.LAYERS = {};
@@ -17,6 +17,7 @@
 		BaseMapService.map.then(function (map) {
 			factory._map = map;
 		});
+
 
 		/**
 		 * [getCoords: Lee las coordenas de una geometria y regresa un arreglo]
@@ -264,23 +265,27 @@
 		 * @param {[type]} variable [description]
 		 */
 		factory.setPobVivWMS = function(variable){
+			
 			var self = this;
 			self._curVar = variable;
 			BaseMapService.map.then(function (map) {
-					self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
-							layers: 'Manzanas',
-							format: 'image/png',
-							minZoom: 13,
-							transparent: true
-					});
-					self.LAYERS.pobvivWMS.setDynamicParam({
-						col: function(){
-							return self._curVar;
-						}
-					});
-					self.LAYERS.pobvivWMS.options.crs = L.CRS.EPSG4326;
-					self.LAYERS.pobvivWMS.addTo(map);
-					self.LAYERS.pobvivWMS.setZIndex(9);
+				angular.element(document.getElementsByTagName('body')).append(uiService.isLoaddingLayer());
+				self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
+						layers: 'Manzanas',
+						format: 'image/png',
+						minZoom: 13,
+						transparent: true
+				});
+				//
+				self.LAYERS.pobvivWMS.setDynamicParam({
+					col: function(){
+						return self._curVar;
+					}
+				});
+				angular.element(document.getElementsByClassName('m-loading')).remove();
+				self.LAYERS.pobvivWMS.options.crs = L.CRS.EPSG4326;
+				self.LAYERS.pobvivWMS.addTo(map);
+				self.LAYERS.pobvivWMS.setZIndex(9);
 			});
 		};
 
@@ -434,11 +439,14 @@
 						cod: cods,
 						wkt: wkt
 					};
+					angular.element(document.getElementsByTagName('body')).append(uiService.isLoaddingLayer());
 					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
+						angular.element(document.getElementsByClassName('m-loading')).remove();
 						_factory.LAYERS.USER[layer].addTo(map);
 					}else{
 						_factory.addHeatMap2Data(options,function(data){
 							if(_factory.LAYERS.USER[layer] === undefined){
+								angular.element(document.getElementsByClassName('m-loading')).remove();
 								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
 							}else{
 								_factory.LAYERS.USER[layer].setLatLngs(data);
@@ -468,12 +476,16 @@
 						cod: cods,
 						wkt: wkt
 					};
+					angular.element(document.getElementsByTagName('body')).append(uiService.isLoaddingLayer());
 					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
+						angular.element(document.getElementsByClassName('m-loading')).remove();
 						_factory.LAYERS.USER[layer].addTo(map);
 					}else{
 						_factory.addHeatMap2Data(options,function(data){
 							if(_factory.LAYERS.USER[layer] === undefined){
+								angular.element(document.getElementsByClassName('m-loading')).remove();
 								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
+
 							}else{
 								_factory.LAYERS.USER[layer].setLatLngs(data);
 							}
@@ -548,7 +560,7 @@
 	}
 
 
-	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_', 'Auth'];
+	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_', 'Auth', 'uiService', '$timeout'];
 	angular.module('basemap.factory',[])
 		.factory('BaseMapFactory', BaseMapFactory);
 
