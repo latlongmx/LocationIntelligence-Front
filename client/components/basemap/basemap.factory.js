@@ -219,7 +219,7 @@
 		factory.cleanColorPletMap = function(){
 			this.LAYERS.heatMap.clearLayers();
 		};
-		
+
 		/**
 		 * [addColorPletMap Add colorplet to map]
 		 * @param {[type]} GeoJSON [description]
@@ -355,6 +355,14 @@
 
 		factory.addLayerIfTurnedOn = function(id){
 			factory.LAYERS.USER['u'+id].addTo(factory._map);
+			factory.LAYERS.USER['u'+id].on('loading', function (event) {
+	        //cargando
+					console.log('cargando: u'+id);
+	    });
+	    factory.LAYERS.USER['u'+id].on('load', function (event) {
+	        //finalizao carga
+					console.log('finaliza: u'+id);
+	    });
 		};
 
 		factory.hideLocation = function(name){
@@ -453,7 +461,7 @@
 				});
 			}
 		};
-		
+
 		/**
 		 * [addHeatMap2LayerBounds Add heatmap layer to map (created by the user) ]
 		 * @param {[type]} layer  [description]
@@ -498,7 +506,7 @@
 				}
 			});
 		};
-		
+
 		/**
 		 * [addHeatMapCategory Add predefined heatmap layer to map]
 		 * @param {[type]} category [description]
@@ -518,7 +526,7 @@
 					break;
 			}
 		};
-		
+
 		/**
 		 * [hideHeatMapCategory Remove predefined heatmap layer from map]
 		 * @param  {[type]} category [description]
