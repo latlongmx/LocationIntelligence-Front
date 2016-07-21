@@ -14,7 +14,7 @@
 			mapId : 'pokaxperia.pk657nfi',
 			accessToken : 'pk.eyJ1IjoicG9rYXhwZXJpYSIsImEiOiJjaW13eHJ2NHMwM2Uwdjdra3c1bWF3Nzd6In0.leOLCkHazd_6JAQtdiHOFw',
 			resolve: function (element) {
-			  deferred.resolve(new L.Map(element).setView([19.432711775616433, -99.13325428962708], 12));
+				deferred.resolve(new L.Map(element).setView([19.432711775616433, -99.13325428962708], 12));
 			},
 
 			autoComplete : function(searchInput){
@@ -27,25 +27,25 @@
 						marker: false,
 						polyline: {
 							shapeOptions: {
-		          	color: '#f06eaa',
+								color: '#f06eaa',
 								opacity: 1
-		          }
-		        },
+							}
+						},
 					},
 					edit: {
 						featureGroup: feature,
 						selectedPathOptions: {
-				        maintainColor: true
-				    }
+								maintainColor: true
+						}
 					}
 				});
 			},
 
 			/**
-	     * [intersect: Solicita e servicio de obtener las geometrias que intersecten WKT sobre el layer solicitado]
+			 * [intersect: Solicita e servicio de obtener las geometrias que intersecten WKT sobre el layer solicitado]
 			 * @param {[type]} object [element drawed]
-	     * @return {Object} http promise
-	     */
+			 * @return {Object} http promise
+			 */
 			intersect: function(opts){
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
@@ -70,10 +70,10 @@
 			},
 
 			/**
-	     * [intersect: Solicita e servicio de obtener las geometrias que intersecten WKT sobre el layer solicitado]
+			 * [intersect: Solicita e servicio de obtener las geometrias que intersecten WKT sobre el layer solicitado]
 			 * @param {[type]} object [element drawed]
-	     * @return {Object} http promise
-	     */
+			 * @return {Object} http promise
+			 */
 			getPlaces: function(opts){
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
@@ -97,10 +97,10 @@
 			},
 
 			/**
-	     * [intersect: Solicita el servicio de obtener las geometrias que intersecten WKT sobre el layer solicitado]
+			 * [intersect: Solicita el servicio de obtener las geometrias que intersecten WKT sobre el layer solicitado]
 			 * @param {[type]} object [element drawed]
-	     * @return {Object} http promise
-	     */
+			 * @return {Object} http promise
+			 */
 			addPlaces: function(opts){
 				deferred = $q.defer();
 				var access_token = Auth.getToken();
@@ -148,10 +148,10 @@
 			},
 
 			/**
-	     * [setHeatMap: Solicita los datos para crear el heatmap]
+			 * [setHeatMap: Solicita los datos para crear el heatmap]
 			 * @param {[type]} object [element drawed]
-	     * @return {Object} http promise
-	     */
+			 * @return {Object} http promise
+			 */
 			getHeatMapData: function(opts){
 				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
@@ -176,10 +176,10 @@
 			},
 
 			/**
-	     * [addUserHeatMap: Agrega un heatmap del usuario]
+			 * [addUserHeatMap: Agrega un heatmap del usuario]
 			 * @param {[type]} object [valores de heatmap a guardar]
-	     * @return {Object} http promise
-	     */
+			 * @return {Object} http promise
+			 */
 			addUserHeatMap: function(opts){
 				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
@@ -204,9 +204,9 @@
 			},
 
 			/**
-	     * [getUserHeatMap: Obtiene los heatmas del usuario]
-	     * @return {Object} http promise
-	     */
+			 * [getUserHeatMap: Obtiene los heatmas del usuario]
+			 * @return {Object} http promise
+			 */
 			getUserHeatMap: function(){
 				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;

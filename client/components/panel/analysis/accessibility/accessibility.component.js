@@ -33,8 +33,55 @@
 					'<li class="m-list-functions__item js-panel-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Accesibilidad" tooltip-animation="true">',
 						'<img src="./images/functions/accessibility_icon.png" class="m-list-functions__item-icon" data-icon="accessibility_icon"/>',
 					'</li>',
-					'<div id="accessibilityContent" ng-include src="\'./components/panel/analysis/accessibility_modal/accessibility.component.tpl.html\'"',
-					'class="m-side-panel js-accessibility-side-panel" >', //style="height: 400px;"
+					'<div class="m-side-panel js-accessibility-side-panel">',
+					'<h3 class="m-side-panel__title">Accesibilidad</h3>',
+					'<span class="accessibility-tools">',
+						'<section layout="row" layout-align="center center">',
+							'<md-button class="groupX left leaflet-draw-draw-polyline" title="Dibujar Líneas" ng-click="drawInMap($event,\'line\')">',
+								'<i class="demo demo-line line-tool"></i>',
+							'</md-button>',
+							'<md-button class="groupX middle leaflet-draw-draw-polygon" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">',
+								'<i class="demo demo-area polygon-tool"></i>',
+							'</md-button>',
+							'<md-button class="groupX right leaflet-draw-draw-circle" title="Dibujar Radio" ng-click="drawInMap($event,\'circle\')">',
+								'<i class="demo demo-radio area-tool"></i>',
+							'</md-button>',
+						'</section>',
+					'</span>',
+					'<div>',
+						'<div id="access_car_content">',
+							'<div class="m-side-panel__header">',
+								'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
+									'Vías de acceso vehicular',
+								'</h4>',
+							'</div>',
+							'<md-list>',
+								'<md-list-item>',
+									'<img ng-src="images/accessibility/highway.png"></img>',
+									'<p>Primarias</p>',
+									'<p id="accessNumP">0</p>',
+								'</md-list-item>',
+								'<md-list-item>',
+									'<img ng-src="images/accessibility/road-with-broken-line.png"></img>',
+									'<p>Secundarias</p>',
+									'<p id="accessNumS">0</p>',
+								'</md-list-item>',
+								'<md-list-item>',
+									'<img ng-src="images/accessibility/speedometer.png"></img>',
+									'<p>Terciarias</p>',
+									'<p id="accessNumT">0</p>',
+								'</md-list-item>',
+							'</md-list>',
+							'<div class="m-side-panel__header" id="contAccesTrans" style="display:none">',
+								'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
+									'Vías de acceso en transporte',
+								'</h4>',
+							'</div>',
+							'<md-list id="listAccessTrans">',
+							'</md-list>',
+						'</div>',
+						'<p></p>',
+						'<div id="access_trans_content"></div>',
 					'</div>',
 				'</div>'
 			].join(''),
@@ -61,8 +108,8 @@
 					_toolDraw.polygon.setOptions(opst);
 					_toolDraw.circle.setOptions(opst);
 
-					_map.on('draw:created', scope.drawComplete);
-					_editableLayers.on('layeradd', scope.startAccessibilityAnalysis);
+					_map.on('draw:created', _drawComplete);
+					_editableLayers.on('layeradd', _startAccessibilityAnalysis);
 
 				});
 
@@ -95,7 +142,7 @@
 					_toolDraw[tip].enable();
 				};
 
-				scope.drawComplete = function(e){
+				var _drawComplete = function(e){
 					if(scope.isDrawAccessibility){
 						scope.isDrawAccessibility = false;
 						console.log(e.target);
@@ -133,7 +180,7 @@
 					}
 				};
 
-				scope.startAccessibilityAnalysis = function(e){
+				var _startAccessibilityAnalysis = function(e){
 					var geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
 					var listAccessTrans = angular.element('#listAccessTrans');
 					listAccessTrans.html('');
@@ -142,14 +189,12 @@
 					angular.element('#accessNumT').html('0');
 					angular.element('#contAccesTrans').hide();
 					var opts = {
-							WKT: geo_wkt.wkt,
-							MTS: geo_wkt.mts
-						};
+						WKT: geo_wkt.wkt,
+						MTS: geo_wkt.mts
+					};
 					AccessibilityService.viasInfo(opts).then(function(res){
 						if(res && res.data){
 							var info = res.data.info;
-
-							//Count tipo de features
 							var p = 0;
 							var s = 0;
 							var t = 0;
@@ -178,10 +223,10 @@
 								t++;
 								listAccessTrans.append([
 									'<md-list-item>',
-						        '<img ng-src=""></img>',
-						        '<p>'+k+'</p>',
-						        '<p id="accessNumT">'+v+'</p>',
-						      '</md-list-item>'
+										'<img ng-src=""></img>',
+										'<p>'+k+'</p>',
+										'<p id="accessNumT">'+v+'</p>',
+									'</md-list-item>'
 								].join(''));
 							});
 							if(t >0){

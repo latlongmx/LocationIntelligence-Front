@@ -169,12 +169,9 @@
 				}
 
 				scope.zoomToLocationLayer = function(id_layer, name_layer) {
-					
 					var n_l = name_layer.replace(' ','_');
 					var id = id_layer +'-'+ n_l;
 					BaseMapFactory.zoomLocation(id);
-					// remove_panel.removeClass('is-panel-open');
-					// remove_exploration_item.removeClass('is-item-panel-active');
 				}
 
 				scope.turnOnOffLayer = function(layer, loc) {
