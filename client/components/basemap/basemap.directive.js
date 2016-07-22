@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function BaseMap($rootScope, $timeout, BaseMapService, Auth){
+	function BaseMap($rootScope, $timeout, BaseMapService, Auth, uiService){
 		return {
 			restrict: 'E',
 			replace:true,
@@ -20,20 +20,42 @@
 				BaseMapService.resolve(element[0]);
 				
 				BaseMapService.map.then(function(map) {
+					/* Update zoom */
 					newZoom.text(map.getZoom());
+					
+					/**
+					 * [_getZoom Function to get the current zoom]
+					 * @param  {[number]} zoom [get zoom]
+					 * @return {[type]}      [new zoom]
+					 */
+					function _getZoom(zoom){
+						newZoom.text(zoom);
+					}
+
+					/**
+					 * [description]
+					 * @param  {[type]} event) [Map event when zoom is changed]
+					 * @return {[type]} [Function]
+					 */
 					map.on('zoomend', function(event){
 						_getZoom(map.getZoom());
 					});
+
+					/**
+					 * [description]
+					 * @param  {[type]} [Map events when user clicks or dragstart]
+					 * @return {[type]} [Service to hide panel]
+					 */
+					map.on('click dragstart', function(){
+						uiService.changeCurrentPanel(true);
+					});
 				});
-				
-				function _getZoom(zoom){
-					newZoom.text(zoom);
-				}
+
 			}
 		};
 	}
 	
-	BaseMap.$inject = ['$rootScope', '$timeout', 'BaseMapService', 'Auth'];
+	BaseMap.$inject = ['$rootScope', '$timeout', 'BaseMapService', 'Auth', 'uiService'];
 
 	angular.module('basemap.directive', [])
 		.directive('basemap', BaseMap);

@@ -52,14 +52,21 @@
 		/* Panel */
 		this.changeCurrentPanel = function(boo) {
 			if(boo === true){
-				_currentPanelActive.children().attr('src', './images/functions/'+_currentIconActive+'.png');
-				_currentPanelActive.removeClass('is-item-panel-active');
-				_current_data_side_panel.removeClass('is-panel-open');
+				if (_currentPanelActive) {
+					_currentPanelActive.children().attr('src', './images/functions/'+_currentIconActive+'.png');
+					_currentPanelActive.removeClass('is-item-panel-active');
+					_current_data_side_panel.removeClass('is-panel-open');
+					_currentIconActive = "";
+					_currentPanelActive = "";
+					_current_data_side_panel = "";
+				}
 			}
 			else {
-				_currentPanelActive.children().attr('src', './images/functions/'+_currentIconActive+'_active.png');
-				 _currentPanelActive.addClass('is-item-panel-active');
-				 _current_data_side_panel.addClass('is-panel-open');
+				if(_currentPanelActive){
+					_currentPanelActive.children().attr('src', './images/functions/'+_currentIconActive+'_active.png');
+					_currentPanelActive.addClass('is-item-panel-active');
+					_current_data_side_panel.addClass('is-panel-open');
+				}
 			}
 		}
 		this.changePreviousPanel = function() {

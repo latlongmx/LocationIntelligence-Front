@@ -268,7 +268,7 @@
 			var self = this;
 			self._curVar = variable;
 			BaseMapService.map.then(function (map) {
-				angular.element(document.getElementsByTagName('body')).append(uiService.isLoaddingLayer());
+				uiService.layerIsLoading();
 				self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
 						layers: 'Manzanas',
 						format: 'image/png',
@@ -281,7 +281,7 @@
 						return self._curVar;
 					}
 				});
-				angular.element(document.getElementsByClassName('m-loading')).remove();
+				uiService.layerIsLoaded();
 				self.LAYERS.pobvivWMS.options.crs = L.CRS.EPSG4326;
 				self.LAYERS.pobvivWMS.addTo(map);
 				self.LAYERS.pobvivWMS.setZIndex(9);
