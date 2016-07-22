@@ -236,7 +236,6 @@
 			}
 
 			BaseMapService.map.then(function (map) {
-
 				var SCALE = 10;
 				var vals = GeoJSON.features.map(function(o){return parseInt(o.properties[column]) || 0;});
 				var dmax = window._.max(vals);
@@ -439,14 +438,15 @@
 						cod: cods,
 						wkt: wkt
 					};
-					angular.element(document.getElementsByTagName('body')).append(uiService.isLoaddingLayer());
+					uiService.layerIsLoading();
 					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
-						angular.element(document.getElementsByClassName('m-loading')).remove();
+						uiService.layerIsLoaded();
 						_factory.LAYERS.USER[layer].addTo(map);
-					}else{
+					}
+					else{
 						_factory.addHeatMap2Data(options,function(data){
 							if(_factory.LAYERS.USER[layer] === undefined){
-								angular.element(document.getElementsByClassName('m-loading')).remove();
+								uiService.layerIsLoaded();
 								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
 							}else{
 								_factory.LAYERS.USER[layer].setLatLngs(data);
@@ -476,14 +476,15 @@
 						cod: cods,
 						wkt: wkt
 					};
-					angular.element(document.getElementsByTagName('body')).append(uiService.isLoaddingLayer());
+					uiService.layerIsLoading();
 					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
-						angular.element(document.getElementsByClassName('m-loading')).remove();
+						uiService.layerIsLoaded();
 						_factory.LAYERS.USER[layer].addTo(map);
-					}else{
+					}
+					else{
 						_factory.addHeatMap2Data(options,function(data){
 							if(_factory.LAYERS.USER[layer] === undefined){
-								angular.element(document.getElementsByClassName('m-loading')).remove();
+								uiService.layerIsLoaded();
 								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
 
 							}else{

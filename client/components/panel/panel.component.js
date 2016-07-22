@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function panelFunctions(LocationService, BaseMapFactory, BaseMapService, $timeout, Auth, CompetenceService){
+	function panelFunctions($timeout, Auth, uiService, LocationService, BaseMapFactory, BaseMapService, CompetenceService){
 		var _$js_exploration_item = null,
 		_data_ep = null,
 		_currentPanelActive = null,
@@ -14,7 +14,8 @@
 		_currentIconActive = null,
 		_previousIconActive = null,
 		_data_panel = null,
-		_data_icon = null;
+		_data_icon = null,
+		_currentPanelId = null;
 
 		return {
 			restrict: 'E',
@@ -44,32 +45,12 @@
 
 				_$js_exploration_item.on('click', function(e){
 					e.preventDefault();
-					//_data_icon = angular.element(this).children().data('icon');
 					_data_ep = this.getAttribute('data-ep');
-					_previousPanelActive = _currentPanelActive;
-					
-					_previous_data_side_panel = _current_data_side_panel;
-					_previousIconActive = _currentIconActive;
-					$scope.valor = _data_ep;
-
-					_currentPanelActive = angular.element(document.querySelector('[data-ep="'+_data_ep+'"]'));
-					_current_data_side_panel = angular.element(document.getElementsByClassName('js-'+_data_ep+'-side-panel'));
+					_currentPanelId = angular.element(document.querySelector('[data-ep="'+_data_ep+'"]'));
 					_currentIconActive = angular.element(this).children().data('icon');
-
-					angular.equals(_previousIconActive, _currentIconActive) ? [_previousIconActive = "", _currentPanelActive.children().attr('src', './images/functions/'+_currentIconActive+'.png'),  _currentIconActive = ""] : _currentPanelActive.children().attr('src', './images/functions/'+_currentIconActive+'_active.png');
-					if(_previousIconActive){
-						!_currentIconActive ? [_currentPanelActive.children().attr('src', './images/functions/'+_currentIconActive+'_active.png'), _previousIconActive = ""] : _previousPanelActive.children().attr('src', './images/functions/'+_previousIconActive+'.png');
-					}
-					angular.equals(_previousPanelActive, _currentPanelActive) ? [_previousPanelActive = "", _currentPanelActive.removeClass('is-item-panel-active'), _currentPanelActive = ""] : [_currentPanelActive.addClass('is-item-panel-active')];
-					if(_previousPanelActive){
-						!_currentPanelActive ? [_currentPanelActive.removeClass('is-item-panel-active'), _previousPanelActive = ""] :[_previousPanelActive.removeClass('is-item-panel-active')];
-					}
-
-					angular.equals(_previous_data_side_panel, _current_data_side_panel) ? [_previous_data_side_panel = "", _current_data_side_panel.removeClass('is-panel-open'),  _current_data_side_panel = ""] : _current_data_side_panel.addClass('is-panel-open');
-					if(_previous_data_side_panel){
-						!_current_data_side_panel ? [_current_data_side_panel.removeClass('is-panel-open'), _previous_data_side_panel = ""] : _previous_data_side_panel.removeClass('is-panel-open');
-					}
-					
+					_current_data_side_panel = angular.element(document.getElementsByClassName('js-'+_data_ep+'-side-panel'));
+					uiService.panelIsOpen(_currentPanelId, _currentIconActive, _current_data_side_panel);
+					//uiService.listIsLoaded(_data_ep);
 
 					if (_data_ep === "location"){
 						if (!$scope.locations){
@@ -134,7 +115,7 @@
 		};
 	}
 
-	panelFunctions.$inject = ['LocationService', 'BaseMapFactory', 'BaseMapService', '$timeout', 'Auth', 'CompetenceService'];
+	panelFunctions.$inject = ['$timeout', 'Auth', 'uiService', 'LocationService', 'BaseMapFactory', 'BaseMapService', 'CompetenceService'];
 
 	angular.module('panel.directive', [])
 		.directive('panelFunctions', panelFunctions);
