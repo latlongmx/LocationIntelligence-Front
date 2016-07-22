@@ -67,9 +67,7 @@
 			_previousPanelActive.removeClass('is-item-panel-active');
 			_previous_data_side_panel.removeClass('is-panel-open');
 		}
-		
 		this.panelIsOpen = function(currentPanelId, currentIcon, currentPanel){
-
 			_previousPanelActive = _currentPanelActive;
 			_previousIconActive = _currentIconActive;
 			_previous_data_side_panel = _current_data_side_panel;
