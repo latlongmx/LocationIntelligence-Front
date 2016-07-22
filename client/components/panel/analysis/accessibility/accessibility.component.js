@@ -34,12 +34,13 @@
 						'<img src="./images/functions/accessibility_icon.png" class="m-list-functions__item-icon" data-icon="accessibility_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-accessibility-side-panel">',
-					'<h3 class="m-side-panel__title">Accesibilidad</h3>',
+					'<h3 class="m-side-panel__title">Métricas Accesibilidad</h3>',
 					'<span class="accessibility-tools">',
 						'<section layout="row" layout-align="center center">',
-							'<md-button class="groupX left leaflet-draw-draw-polyline" title="Dibujar Líneas" ng-click="drawInMap($event,\'line\')">',
-								'<i class="demo demo-line line-tool"></i>',
-							'</md-button>',
+							'<label class="groupX left">Crear un área:</label>',
+							//'<md-button class="groupX left leaflet-draw-draw-polyline" title="Dibujar Líneas" ng-click="drawInMap($event,\'line\')">',
+							//	'<i class="demo demo-line line-tool"></i>',
+							//'</md-button>',
 							'<md-button class="groupX middle leaflet-draw-draw-polygon" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">',
 								'<i class="demo demo-area polygon-tool"></i>',
 							'</md-button>',
@@ -82,6 +83,36 @@
 						'</div>',
 						'<p></p>',
 						'<div id="access_trans_content"></div>',
+
+						'<div class="divider"></div>',
+						'<h4 class="m-side-panel__title">Datos de transporte público</h4>',
+						'<div class="m-side-panel__header">',
+							'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
+								'Transporte público',
+							'</h4>',
+						'</div>',
+						'<md-list id="viasListWMS">',
+							'<md-list-item>',
+								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="METRO">Metro</md-button>',
+								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="MB">Metrobus</md-button>',
+								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="">Colectivo</md-button>',
+								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="SUB">Tren Subur</md-button>',
+							'</md-list-item>',
+							'<md-list-item>',
+								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="STE">Trolebus</md-button>',
+								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="">Ecobici</md-button>',
+								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="RTP">Ruta Camión</md-button>',
+								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="">Microbus</md-button>',
+							'</md-list-item>',
+						'</md-list>',
+						'<div class="divider"></div>',
+						'<h4 class="m-side-panel__title">Areas de análisis</h4>',
+						'<div class="m-side-panel__header">',
+							'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
+								'Transporte público',
+							'</h4>',
+						'</div>',
+
 					'</div>',
 				'</div>'
 			].join(''),
@@ -128,6 +159,75 @@
 						_map.removeLayer(_layers.viasWMS);
 						_layers.viasWMS = undefined;
 					}
+
+				};
+
+				scope.vialToggleWMS = function($event){
+					var $btn = angular.element($event.target);
+					if($event.target.nodeName==='SPAN'){
+						$btn = angular.element($event.target.parentNode);
+					}
+					var lay = $btn.data('tipo');
+					if( !$btn.hasClass('md-primary')  ){
+						$btn.addClass('md-raised');
+						$btn.addClass('md-primary');
+					}else{
+						$btn.removeClass('md-raised');
+						$btn.removeClass('md-primary');
+					}
+					scope.callWMSpublicTrans();
+				};
+
+				scope.callWMSpublicTrans = function(){
+					var activeBtns = angular.element(document.getElementsByClassName('btnTransWMS'));
+					var layers = "";
+					var layersP = "";
+					_.each(activeBtns, function(btn){
+						var $btn = angular.element(btn);
+						if($btn.hasClass('md-primary') && $btn.data('tipo') !== ''){
+							layers = layers+$btn.data('tipo')+'_l,';
+							layersP = layersP+$btn.data('tipo')+'_p,';
+						}
+					});
+					layers = layers.substr(0, layers.length-1);
+					layersP = layersP.substr(0, layersP.length-1);
+					if(layers !== ''){
+						if(_layers.transpWMS !== undefined){
+							_map.removeLayer( _layers.transpWMS );
+						}
+						if(_layers.transpWMS_P !== undefined){
+							_map.removeLayer( _layers.transpWMS_P );
+						}
+						var access_token = Auth.getToken().access_token;
+
+						//Lineas
+						_layers.transpWMS = L.tileLayer.wms(
+							BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
+							{
+								layers: layers,
+								format: 'image/png',
+								minZoom: 10,
+								transparent: true
+						});
+						_layers.transpWMS.options.crs = L.CRS.EPSG4326;
+						_layers.transpWMS.addTo(_map);
+
+						//PUNTOS
+						_layers.transpWMS_P = new L.nonTiledLayer.wms(
+							BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
+							{
+								layers: layersP,
+								format: 'image/png',
+								minZoom: 10,
+								transparent: true
+						});
+						_layers.transpWMS_P.options.crs = L.CRS.EPSG4326;
+						_layers.transpWMS_P.addTo(_map);
+					}else{
+						_map.removeLayer( _layers.transpWMS );
+						_map.removeLayer( _layers.transpWMS_P );
+					}
+
 
 				};
 
@@ -212,13 +312,12 @@
 									t++;
 								}
 							});
-							_$contentCount.vehi.html('');
 							angular.element('#accessNumP').html(p);
 							angular.element('#accessNumS').html(s);
 							angular.element('#accessNumT').html(t);
 
 							var trans = _.countBy(res.data.transp,'agency_id');
-							var t = 0;
+							t = 0;
 							_.each(trans, function(v,k){
 								t++;
 								listAccessTrans.append([
