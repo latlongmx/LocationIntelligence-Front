@@ -10,7 +10,8 @@ L.NonTiledLayer.WMS = L.NonTiledLayer.extend({
     layers: '',
     styles: '',
     format: 'image/jpeg',
-    transparent: false
+    transparent: false,
+    info_format:'geojson'
   },
 
   options: {
@@ -86,7 +87,7 @@ L.NonTiledLayer.WMS = L.NonTiledLayer.extend({
         width: size.x,
         layers: this.wmsParams.layers,
         query_layers: this.wmsParams.layers,
-        info_format: 'geojson'
+        info_format: this.wmsParams.info_format
       };
 
     params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;

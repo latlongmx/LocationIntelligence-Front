@@ -219,7 +219,8 @@
 								layers: layersP,
 								format: 'image/png',
 								minZoom: 10,
-								transparent: true
+								transparent: true,
+								info_format: 'text/plain'
 						});
 						_layers.transpWMS_P.options.crs = L.CRS.EPSG4326;
 						_layers.transpWMS_P.addTo(_map);
