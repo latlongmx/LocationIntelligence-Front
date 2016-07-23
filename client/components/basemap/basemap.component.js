@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	var BaseMapController = function($scope, BaseMapFactory, BaseMapService){
+	var BaseMapController = function(_, $scope, BaseMapFactory, BaseMapService){
 
 		var _this = null,
 		_map = null,
@@ -71,29 +71,32 @@
 			 * [Set image name to each layer]
 			 * @type {Array}
 			 */
-			var imagesArray = ['mapbox-calles', 'mapbox-relieve', 'mapbox-satellite', 'google-roadmap', 'google-satellite'];
+			var imagesArray = ['mapbox-streets', 'mapbox-relieve', 'mapbox-satellite', 'google-roadmap', 'google-satellite'];
 			var layerToggle = angular.element(document.getElementsByClassName('leaflet-control-layers-toggle'));
 			_label_item = angular.element(document.getElementsByClassName('leaflet-control-layers-base')).children();
 			_label = angular.element(document.getElementsByClassName('leaflet-control-layers-toggle'));
-			_label.text("Mapa Base");
+			_label.text("");
 
 			/**
 			 * [Append image function to each layer item]
 			 * @param  {[type]} item   [Label control layer item]
 			 * @param  {String} index) [Index from each label control layer]
 			 */
-			angular.forEach(_label_item, function(item, index) {
+			_.forEach(_label_item, function(item, index) {
 				angular.element(item).append('<img src="./images/switcher_map/'+imagesArray[index]+'.jpg" width="120"/>');
 			});
-
-			layerToggle.text("").append('<i class="fa fa-map-o"></i>')
+			
+			layerToggle.text("").append('<img src="./images/switcher_map/'+imagesArray[0]+'.jpg" width="120"/>');
+			
+			map.on('baselayerchange', function(e){
+				console.log(e.name.toLowerCase().replace(' ', '-'))
+				layerToggle.text("").append('<img src="./images/switcher_map/'+e.name.toLowerCase().replace(' ', '-')+'.jpg" width="120"/>');
+			});
+			
 
 			_featureGroup = BaseMapService.featureGroup.addTo(map);
 			_drawControl = BaseMapService.drawControl(_featureGroup);
 			_drawControl.addTo(map);
-
-
-
 
 			map.on('draw:created', function (e) {
 					//_drawType = e.layerType;
@@ -185,7 +188,7 @@
 		// });
 	};
 
-	BaseMapController.$inject = ['$scope', 'BaseMapFactory', 'BaseMapService'];
+	BaseMapController.$inject = ['_', '$scope', 'BaseMapFactory', 'BaseMapService'];
 
 	angular.module('basemap', []).
 	controller('BaseMapController', BaseMapController);

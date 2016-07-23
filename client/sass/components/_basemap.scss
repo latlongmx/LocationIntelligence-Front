@@ -177,23 +177,36 @@
 		@include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
 		background-image: none;
 		background-image: none;
-		border-radius: 0px !important;
+		border-radius: 50% !important;
 		border: 0px solid transparent;
 		color: $gray;
 		cursor: pointer;
-		font-size: 14px;
 		font-weight: 600;
 		height: initial;
 		opacity:1;
-		padding: 6px 12px;
+		padding: 0;
 		text-decoration: none;
 		touch-action: manipulation;
 		user-select: none;
 		vertical-align: middle;
 		white-space: nowrap;
-		width: inherit;
+		width: 60px;
 		text-transform: uppercase;
 		background: $white;
+		img {
+			background: #ffffff;
+			border-radius: 50%;
+			-webkit-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.26);
+			-moz-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.26);
+			-ms-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.26);
+			@include box-shadow(0 5px 5px 0 rgba(0,0,0,0.26));
+			display: block;
+			height: 60px;
+			margin: 0;
+			padding: 1px;
+			text-align: center;
+			width: 60px;
+		}
 		i {
 			&:before{
 				font-size: 25px;
@@ -243,7 +256,7 @@
 			@include box-shadow(0 5px 5px 0 rgba(0,0,0,.26));
 			display: block;
 			height: 60px;
-			margin: 0 5px;
+			margin: 0px 0px 0px 5px;
 			padding: 1px;
 			text-align: center;
 			width: 60px;

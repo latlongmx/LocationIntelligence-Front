@@ -69,6 +69,12 @@
 	}
 }
 
+.m-modal__demography-variables__list-item__list {
+	p {
+		padding: 5px 0px;
+	}
+}
+
 .m-modal__demography-variables__list-item {
 	position:relative;
 	padding: 0 5px 0 0;
@@ -89,13 +95,9 @@
 }
 
 
-// .m-modal__demography-variables__switch {
-// 	bottom:0px;
-// 	margin:0px;
-// 	position:absolute;
-// 	right:40px;
-// 	top:2px;
-// }
+.m-modal__demography-variables__switch {
+	margin:0px;
+}
 
 // .m-modal__demography-variables__close {
 // 	bottom: 0px;

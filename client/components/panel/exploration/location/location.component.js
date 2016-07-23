@@ -36,7 +36,7 @@
 									'</div>',
 									'<div flex="25">',
 										'<div class="m-side-panel__switch">',
-											'<md-switch class="md-primary md-mode-A200" aria-label="all-locations" ng-model="all" ng-change="toggleGral(location)"></md-switch>',
+											'<md-switch class="md-primary md-hue-2" aria-label="all-locations" ng-model="all" ng-change="toggleGral(location)"></md-switch>',
 										'</div>',
 									'</div>',
 								'</div>',
@@ -74,8 +74,8 @@
 									'</div>',
 									'<p flex="35" class="m-side-panel__list-content__item-single">{{location.name_layer}}</p>',
 									'<p flex="20" class="m-side-panel__list-content__item-single">{{location.num_features}}</p>',
-									'<md-switch ng-disabled="is_toggle_gral" ng-model="layer" flex="10" md-no-ink aria-label="location.id_layer" ng-change="turnOnOffLayer(layer, location)" class="md-primary m-side-panel__list-content__item-single"></md-switch>',
-									'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="zoomToLocationLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer === false">',
+									'<md-switch ng-disabled="is_toggle_gral" ng-model="layer" flex="10" md-no-ink aria-label="location.id_layer" ng-change="turnOnOffLayer(layer, location)" class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
+									'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="zoomToLocationLayer(location.id_layer, location.name_layer)" ng-init="disabled" ng-disabled="layer !== true">',
 										'<md-icon>zoom_in</md-icon>',
 									'</md-button>',
 									'<md-button data-id-location="location.id_layer" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single" ng-click="editLayerLocation($parent, location, $index)">',
@@ -214,6 +214,7 @@
 				}
 
 				scope.toggleGral = function() {
+					scope.at_least_one = false;
 					if(this.all === true) {
 						_.each(scope.toggleLocations, function(loc){
 							loc.location.layer = false;

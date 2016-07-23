@@ -51,7 +51,7 @@
 		]
 	)
 	.constant('_',
-    window._
+		window._
 	)
 	.run(["$rootScope", "$state", "$stateParams", "Auth", function ($rootScope, $state, $stateParams, Auth) {
 		$rootScope.$state = $state;
@@ -98,6 +98,42 @@
 			}
 		});
 		return $rootScope;
-	}]);
+	}])
+	.config(function($mdThemingProvider){
+		// var demoRedMap = $mdThemingProvider.extendPalette('red', {
+		// 	'200': '#82c341',
+		// 	'300': '#acd08c',
+		// 	'400': '#cbdf7d',
+		// 	'500': '#22ac9b',
+		// 	'600': '#00b8b0',
+		// 	'700': '#6fc9c4',
+		// 	'contrastDefaultColor': 'light',
+		// 	'contrastLightColors': ['500', '600', '700']
+		// });
+		$mdThemingProvider.definePalette('demo', {
+			'50': '#22ac9b',
+			'100': '#00b8b0',
+			'200': '#6fc9c4',
+			'300': '#82c341',
+			'400': '#acd08c',
+			'500': '#22ac9b',
+			'600': '#00b8b0',
+			'700': '#6fc9c4',
+			'800': '#828189',
+			'900': '#A2A2A7', 
+			'A100': '828189',
+			'A200': '666470',
+			'A400': '828189',
+			'A700': 'A2A2A7',
+			'contrastDefaultColor': 'light',
+			'contrastLightColors': ['50', '100', '200'],
+			'hue-1': '300',
+			'hue-2': '400',
+			'hue-3': '500',
+			
+		});
+		$mdThemingProvider.theme('default')
+		    .primaryPalette('demo')
+	});
 	//prueba push dandelion deploy
 })();
