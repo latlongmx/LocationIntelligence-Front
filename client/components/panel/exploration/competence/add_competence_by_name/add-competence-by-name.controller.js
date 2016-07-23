@@ -72,7 +72,12 @@
 						$mdDialog.hide({success: true});
 					}
 				}, function(error){
-					console.log(error);
+					if(error.status === 500) {
+						_showToastMessage('Hubo un error, intenta nuevamente');
+					}
+					else {
+						_showToastMessage('No hay elementos para esa categoría');
+					}
 				});
 			}
 
@@ -115,7 +120,7 @@
 					textContent: message,
 					position: 'top right',
 					hideDelay: 2500,
-					parent: $document[0].querySelector('.m-dialog__content')
+					parent: $document[0].querySelector('.m-dialog--in-competence-by-name')
 				})
 			);
 		}

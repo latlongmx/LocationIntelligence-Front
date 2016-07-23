@@ -131,10 +131,10 @@
 					// 	});
 					// }
 
-					//     layer = e.layer;
+					//layer = e.layer;
 					// Do whatever else you need to. (save to db, add to map etc)
 
-					//_featureGroup.addLayer(e.layer);
+					_featureGroup.addLayer(e.layer);
 			});
 
 			_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
