@@ -68,16 +68,18 @@
 
 				BaseMapService.addCompetenciaQuery(formData)
 				.then(function(result){
-					if (result.statusText === 'OK') {
-						$mdDialog.hide({success: true});
-					}
+					console.log(result)
+					// if (result.statusText === 'OK') {
+					// 	$mdDialog.hide({success: true});
+					// }
 				}, function(error){
-					if(error.status === 500) {
-						_showToastMessage('Hubo un error, intenta nuevamente');
-					}
-					else {
-						_showToastMessage('No hay elementos para esa categoría');
-					}
+					console.log(error)
+					// if(error.status === 500) {
+					// 	_showToastMessage('Hubo un error, intenta nuevamente');
+					// }
+					// else {
+					// 	_showToastMessage('No hay elementos para esa categoría');
+					// }
 				});
 			}
 
