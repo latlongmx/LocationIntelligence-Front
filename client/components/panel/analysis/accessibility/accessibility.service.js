@@ -37,6 +37,55 @@
 				return deferred.promise;
 			},
 
+			getUserDraws: function(id){
+				if(id===undefined){
+					id='';
+				}
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _http = $http({
+					url: this.apiBaseURL + '/ws/draw/'+id,
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					},
+					params: opts
+				});
+				_http.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+			addUserDraws: function(opts){
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _http = $http({
+					url: this.apiBaseURL + '/ws/draw/',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					},
+					params: opts
+				});
+				_http.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			}
+
 		};
 		return _service;
 	}

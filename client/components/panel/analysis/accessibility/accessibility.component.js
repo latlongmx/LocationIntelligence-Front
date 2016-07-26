@@ -17,6 +17,8 @@
 			'circle':null
 		};
 		var _layers = {};
+		var _$userDraws = null;
+		var _$userDrawsGeoms = [];
 
 		var _$contentCount = {
 			vehi:undefined,
@@ -41,10 +43,10 @@
 							//'<md-button class="groupX left leaflet-draw-draw-polyline" title="Dibujar Líneas" ng-click="drawInMap($event,\'line\')">',
 							//	'<i class="demo demo-line line-tool"></i>',
 							//'</md-button>',
-							'<md-button class="groupX middle leaflet-draw-draw-polygon" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">',
+							'<md-button id="btnAddNewPoly" class="groupX middle leaflet-draw-draw-polygon" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">',
 								'<i class="demo demo-area polygon-tool"></i>',
 							'</md-button>',
-							'<md-button class="groupX right leaflet-draw-draw-circle" title="Dibujar Radio" ng-click="drawInMap($event,\'circle\')">',
+							'<md-button id="btnAddNewRadio" class="groupX right leaflet-draw-draw-circle" title="Dibujar Radio" ng-click="drawInMap($event,\'circle\')">',
 								'<i class="demo demo-radio area-tool"></i>',
 							'</md-button>',
 						'</section>',
@@ -73,12 +75,12 @@
 									'<p id="accessNumT">0</p>',
 								'</md-list-item>',
 							'</md-list>',
-							'<div class="m-side-panel__header" id="contAccesTrans" style="display:none">',
+							'<div class="m-side-panel__header" id="contAccesTrans">',
 								'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
 									'Vías de acceso en transporte',
 								'</h4>',
 							'</div>',
-							'<md-list id="listAccessTrans">',
+							'<md-list id="listAccessTrans" style="overflow-y: auto; height: 140px;">',
 							'</md-list>',
 						'</div>',
 						'<p></p>',
@@ -87,9 +89,9 @@
 						'<div class="divider"></div>',
 						'<h4 class="m-side-panel__title">Datos de transporte público</h4>',
 						'<div class="m-side-panel__header">',
-							'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
+							/*'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
 								'Transporte público',
-							'</h4>',
+							'</h4>',*/
 						'</div>',
 						'<md-list id="viasListWMS">',
 							'<md-list-item>',
@@ -108,9 +110,32 @@
 						'<div class="divider"></div>',
 						'<h4 class="m-side-panel__title">Areas de análisis</h4>',
 						'<div class="m-side-panel__header">',
-							'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
-								'Transporte público',
-							'</h4>',
+							'<ul class="m-side-panel__list-titles">',
+								'<div layout="row">',
+									'<p flex="50" class="m-side-panel__list-titles__column-name">Nombre</p>',
+									'<p flex="20" class="m-side-panel__list-titles__column-name">Tipo</p>',
+									'<p flex="10" class="m-side-panel__list-titles__column-name">Visible</p>',
+									'<p flex="10" class="m-side-panel__list-titles__column-name"></p>',
+									'<p flex="10" class="m-side-panel__list-titles__column-name"></p>',
+								'</div>',
+							'</ul>',
+						'</div>',
+
+						'<div class="m-side-panel__list" style="height: 100px; position: absolute;top:685px; overflow-y: auto; left:15px;right:15px;">',
+							'<ul id="accessPanelUserDraws" class="m-side-panel__list-content">',
+								'<li ng-repeat="draw in userDraws" class="m-side-panel__list-content__item js-location-item li">',
+									'<p flex="50" class="m-side-panel__list-content__item-single">{{draw.name}}</p>',
+									'<p flex="20" class="m-side-panel__list-content__item-single">{{draw.icon}}</p>',
+									'<md-switch data-iddraw="draw.id" ng-model="draw.isActive" flex="10" data-iddraw="draw.id" ng-change="turnOnOffDraw(draw.id)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
+									'<md-button flex="10" data-iddraw="draw.id" ng-click="zoomToUserDraw()" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+										'<md-icon>zoom_in</md-icon>',
+									'</md-button>',
+									// ng-click="removeLocation(location, location.id_layer, location.name_layer, $index)"
+									'<md-button flex="10" data-iddraw="draw.id" ng-click="delUserDraw()" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+										'<md-icon>delete</md-icon>',
+									'</md-button>',
+								'</li>',
+							'</ul>',
 						'</div>',
 
 					'</div>',
@@ -118,10 +143,14 @@
 			].join(''),
 			link: function(scope, element, attr, potencialCtrl){
 
+				scope.userDraws =[];
+
 				_$contentCount = {
 					vehi : angular.element(document.getElementById('access_car_content')),
 					trns : angular.element(document.getElementById('access_trans_content'))
 				};
+
+
 
 				BaseMapService.map.then(function (map) {
 					_map = map;
@@ -248,37 +277,41 @@
 						scope.isDrawAccessibility = false;
 						console.log(e.target);
 						_currentFeature = e;
-
-						var access_token = Auth.getToken().access_token;
-						var geo_wkt = "";
-						geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
-
-						if(_layers.viasUserWMS !== undefined){
-							_map.removeLayer( _layers.viasUserWMS );
-						}
-
-						_layers.viasUserWMS = L.tileLayer.dynamicWms(
-							BaseMapFactory.API_URL+"/ws_wms?access_token="+access_token,
-							//"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&",
-							{
-								layers: 'VIAS_USR',
-								format: 'image/png',
-								minZoom: 10,
-								transparent: true
-						});
-						_layers.viasUserWMS.setDynamicParam({
-							WKT: function(){
-								return geo_wkt.wkt;
-							},
-							MTS: function(){
-								return geo_wkt.mts;
-							}
-						});
-						_layers.viasUserWMS.options.crs = L.CRS.EPSG4326;
-						_layers.viasUserWMS.addTo(_map);
+						scope.addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
+						scope.activateViasWMS(_currentFeature);
 						_editableLayers.clearLayers();
 						_editableLayers.addLayer( _currentFeature.layer );
 					}
+				};
+
+				scope.activateViasWMS = function(_currentFeature){
+					var access_token = Auth.getToken().access_token;
+					var geo_wkt = "";
+					geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
+
+					if(_layers.viasUserWMS !== undefined){
+						_map.removeLayer( _layers.viasUserWMS );
+					}
+
+					_layers.viasUserWMS = L.tileLayer.dynamicWms(
+						BaseMapFactory.API_URL+"/ws_wms?access_token="+access_token,
+						//"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&",
+						{
+							layers: 'VIAS_USR',
+							format: 'image/png',
+							minZoom: 10,
+							transparent: true
+					});
+					_layers.viasUserWMS.setDynamicParam({
+						WKT: function(){
+							return geo_wkt.wkt;
+						},
+						MTS: function(){
+							return geo_wkt.mts;
+						}
+					});
+					_layers.viasUserWMS.options.crs = L.CRS.EPSG4326;
+					_layers.viasUserWMS.addTo(_map);
 				};
 
 				var _startAccessibilityAnalysis = function(e){
@@ -288,7 +321,7 @@
 					angular.element('#accessNumP').html('0');
 					angular.element('#accessNumS').html('0');
 					angular.element('#accessNumT').html('0');
-					angular.element('#contAccesTrans').hide();
+					//angular.element('#contAccesTrans').hide();
 					var opts = {
 						WKT: geo_wkt.wkt,
 						MTS: geo_wkt.mts
@@ -329,15 +362,56 @@
 									'</md-list-item>'
 								].join(''));
 							});
-							if(t >0){
+							/*if(t >0){
 								angular.element('#contAccesTrans').show();
-							}
+							}*/
 
 						}
 					}, function(error){
 						console.log(error);
 					});
 					_currentFeature = null;
+				};
+
+
+				_$userDraws= angular.element(document.getElementById('accessPanelUserDraws'));
+				scope.addUserDraw2Panel = function(id, name, draw){
+					var isActive = false;
+					if(id===-1){
+						id = (scope.userDraws.length+1)*-1;
+						isActive = true;
+					}
+					scope.userDraws.push({
+						id:id,
+						name:name,
+						icon:'',
+						isActive:isActive,
+						draw:draw
+					});
+					var _$btnAddNewPoly = angular.element(document.getElementById('btnAddNewPoly'));
+					var _$btnAddNewRadio = angular.element(document.getElementById('btnAddNewRadio'));
+					if( scope.userDraws.length>=2){
+						_$btnAddNewPoly.attr('disabled',true);
+						_$btnAddNewRadio.attr('disabled',true);
+					}else{
+						_$btnAddNewPoly.attr('disabled',false);
+						_$btnAddNewRadio.attr('disabled',false);
+					}
+				};
+
+				scope.delUserDraw = function(id){
+					console.log("del:"+id);
+				};
+				scope.zoomToUserDraw = function(id){
+					console.log("zoom:"+id);
+				};
+				scope.turnOnOffDraw = function(id){
+					console.log("turn:"+id);
+					_editableLayers.clearLayers();
+					var d = _.findWhere( scope.userDraws ,{id:id});
+					_currentFeature = d.draw;
+					_editableLayers.addLayer( _currentFeature.layer );
+					scope.activateViasWMS(_currentFeatur);
 				};
 
 			},
