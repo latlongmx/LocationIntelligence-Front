@@ -406,12 +406,13 @@
 					console.log("zoom:"+id);
 				};
 				scope.turnOnOffDraw = function(id){
-					console.log("turn:"+id);
 					_editableLayers.clearLayers();
 					var d = _.findWhere( scope.userDraws ,{id:id});
+					console.log("turn:"+id);
+					console.log("isActive:"+d.isActive);
 					_currentFeature = d.draw;
 					_editableLayers.addLayer( _currentFeature.layer );
-					scope.activateViasWMS(_currentFeatur);
+					scope.activateViasWMS(_currentFeature);
 				};
 
 			},
