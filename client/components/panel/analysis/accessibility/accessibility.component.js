@@ -127,11 +127,11 @@
 									'<p flex="50" class="m-side-panel__list-content__item-single">{{draw.name}}</p>',
 									'<p flex="20" class="m-side-panel__list-content__item-single">{{draw.icon}}</p>',
 									'<md-switch data-iddraw="draw.id" ng-model="draw.isActive" flex="10" data-iddraw="draw.id" ng-change="turnOnOffDraw(draw.id)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
-									'<md-button flex="10" data-iddraw="draw.id" ng-click="zoomToUserDraw()" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+									'<md-button flex="10" data-iddraw="draw.id" ng-click="zoomToUserDraw(draw.id)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
 										'<md-icon>zoom_in</md-icon>',
 									'</md-button>',
 									// ng-click="removeLocation(location, location.id_layer, location.name_layer, $index)"
-									'<md-button flex="10" data-iddraw="draw.id" ng-click="delUserDraw()" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+									'<md-button flex="10" data-iddraw="draw.id" ng-click="delUserDraw(draw.id)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
 										'<md-icon>delete</md-icon>',
 									'</md-button>',
 								'</li>',
@@ -284,10 +284,10 @@
 					}
 				};
 
-				scope.activateViasWMS = function(_currentFeature){
+				scope.activateViasWMS = function( geom ){
 					var access_token = Auth.getToken().access_token;
 					var geo_wkt = "";
-					geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
+					geo_wkt = BaseMapFactory.geom2wkt( geom );
 
 					if(_layers.viasUserWMS !== undefined){
 						_map.removeLayer( _layers.viasUserWMS );
@@ -362,10 +362,6 @@
 									'</md-list-item>'
 								].join(''));
 							});
-							/*if(t >0){
-								angular.element('#contAccesTrans').show();
-							}*/
-
 						}
 					}, function(error){
 						console.log(error);
@@ -381,6 +377,11 @@
 						id = (scope.userDraws.length+1)*-1;
 						isActive = true;
 					}
+					if(isActive){
+						_.each(scope.userDraws, function(o){
+							o.isActive = false;
+						});
+					}
 					scope.userDraws.push({
 						id:id,
 						name:name,
@@ -388,6 +389,35 @@
 						isActive:isActive,
 						draw:draw
 					});
+
+					var Obj = {
+						nm: name,
+						typ: draw.layerType,
+						geo: {}
+					};
+					if(draw.layerType === 'polygon'){
+						var latlngs = draw.layer.getLatLngs();
+						Obj.geo = {
+							latlngs: _.map(latlngs[0],function(o){
+							  return { lat: o.lat, lng: o.lng };
+							})
+						};
+					}else{
+						Obj.geo = {
+							radius: draw.layer.getRadius(),
+							lat: draw.layer.getLatLng().lat,
+							lng: draw.layer.getLatLng().lng
+						};
+					}
+
+					AccessibilityService.addUserDraws(Obj).then(function(data){
+						console.log(Obj);
+						console.log(data);
+					});
+					scope.verifyLimitDraws();
+				};
+
+				scope.verifyLimitDraws = function(){
 					var _$btnAddNewPoly = angular.element(document.getElementById('btnAddNewPoly'));
 					var _$btnAddNewRadio = angular.element(document.getElementById('btnAddNewRadio'));
 					if( scope.userDraws.length>=2){
@@ -399,20 +429,74 @@
 					}
 				};
 
+				scope.getUserDraws = function(){
+					AccessibilityService.getUserDraws().then(function(res){
+						_.each(res.data.draws, function(o){
+							var geo;
+							if(o.type_draw==='circle'){
+								geo = {
+										layerType: o.type_draw,
+										layer: L.circle([o.gjson.lat, o.gjson.lng], o.gjson.radius, {
+											color: '#81A1C1'
+										})
+									};
+							}else{
+								var coords = _.map(o.gjson.latlngs,function(o){
+									return [o.lat, o.lng];
+								});
+								geo = {
+										layerType: o.type_draw,
+										layer: L.polygon(coords, {
+											color: '#81A1C1'
+										})
+									};
+							}
+							scope.userDraws.push({
+								id: o.id_draw,
+								name: o.name_draw,
+								icon:'',
+								isActive: false,
+								draw: geo
+							});
+						});
+						scope.verifyLimitDraws();
+					});
+				};
+
+				scope.getUserDraws();
+
 				scope.delUserDraw = function(id){
-					console.log("del:"+id);
+					scope.userDraws = _.filter(scope.userDraws, function(o) { return o.id !== id; });
+					_editableLayers.clearLayers();
+					_currentFeature = null;
+					if(_layers.viasUserWMS !== undefined){
+						_map.removeLayer( _layers.viasUserWMS );
+					}
+					AccessibilityService.delUserDraws(id);
+					scope.verifyLimitDraws();
 				};
 				scope.zoomToUserDraw = function(id){
-					console.log("zoom:"+id);
+					var d = _.findWhere( scope.userDraws ,{id:id});
+					_map.fitBounds(d.draw.layer.getBounds());
 				};
 				scope.turnOnOffDraw = function(id){
 					_editableLayers.clearLayers();
 					var d = _.findWhere( scope.userDraws ,{id:id});
-					console.log("turn:"+id);
-					console.log("isActive:"+d.isActive);
-					_currentFeature = d.draw;
-					_editableLayers.addLayer( _currentFeature.layer );
-					scope.activateViasWMS(_currentFeature);
+					if(d.isActive){
+						_.each(scope.userDraws, function(o){
+							if(o.id!==d.id){
+								o.isActive = false;
+							}
+						});
+						_currentFeature = d.draw;
+						scope.activateViasWMS( _currentFeature );
+						_editableLayers.addLayer( _currentFeature.layer );
+					}else{
+						if(_layers.viasUserWMS !== undefined){
+							_map.removeLayer( _layers.viasUserWMS );
+						}
+					}
+
 				};
 
 			},

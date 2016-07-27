@@ -38,8 +38,13 @@
 			},
 
 			getUserDraws: function(id){
-				if(id===undefined){
-					id='';
+				var obs = {};
+				if(id!==undefined){
+					obs = {
+						id: id
+					};
+				}else{
+					id = '';
 				}
 				deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
@@ -50,7 +55,7 @@
 						'Content-Type': 'application/json',
 						'Authorization': 'Bearer '+access_token
 					},
-					params: opts
+					params: obs
 				});
 				_http.then(function(result){
 					deferred.resolve(result);
@@ -84,7 +89,29 @@
 					deferred.reject(error);
 				});
 				return deferred.promise;
-			}
+			},
+
+			delUserDraws: function(id){
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _http = $http({
+					url: this.apiBaseURL + '/ws/draw/'+id,
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					}
+				});
+				_http.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
 
 		};
 		return _service;
