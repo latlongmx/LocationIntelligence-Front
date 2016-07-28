@@ -35,7 +35,10 @@
 			'add.heatmap.controller',
 			'add.heatmap.service',
 			'edit.layer.heatmap.controller',
-			'od.modal.controller',
+			'od.directive',
+			'od.service',
+			'age.graph.directive',
+			'gender.graph.directive',
 			'rings.modal.controller',
 			'search.directive',
 			'ui.router',
@@ -100,16 +103,6 @@
 		return $rootScope;
 	}])
 	.config(function($mdThemingProvider){
-		// var demoRedMap = $mdThemingProvider.extendPalette('red', {
-		// 	'200': '#82c341',
-		// 	'300': '#acd08c',
-		// 	'400': '#cbdf7d',
-		// 	'500': '#22ac9b',
-		// 	'600': '#00b8b0',
-		// 	'700': '#6fc9c4',
-		// 	'contrastDefaultColor': 'light',
-		// 	'contrastLightColors': ['500', '600', '700']
-		// });
 		$mdThemingProvider.definePalette('demo', {
 			'50': '#22ac9b',
 			'100': '#00b8b0',

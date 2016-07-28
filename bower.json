@@ -28,6 +28,7 @@
     "angular-messages": "~1.5.5",
     "angular-aria": "~1.5.5",
     "angular-material": "~1.0.9",
-    "angular-file-upload": "~2.3.3"
+    "angular-file-upload": "~2.3.3",
+    "highcharts": "~4.2.5"
   }
 }

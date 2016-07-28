@@ -49,6 +49,7 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3'], function(){
 			'bower_components/jslibs/NonTiledLayer.WMS.js',
 			'bower_components/jslibs/leaflet.singletilewmslayer.js',
 			'bower_components/jslibs/leaflet.dynamicWMS.js',
+			'bower_components/jslibs/geostats.js',
 			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:js -->'}))
 		.pipe($.inject(gulp.src([
 			'bower_components/jslibs/leaflet/leaflet.js',
@@ -58,6 +59,9 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3'], function(){
 			'bower_components/jslibs/leaflet/leaflet.css',
 			'bower_components/jslibs/leaflet-draw/leaflet.draw.css',
 			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:css -->'}))
+		.pipe($.inject(gulp.src([
+			'client/catalogs/df.geojson.js',
+			], {read: false}),{ignorePath: '../../', relative: true, starttag: '<!-- inject:own:geojson -->'}))
 		.pipe($.inject(gulp.src([
 			'./client/styles/styles.css'
 		]), {ignorePath: '../../', relative: true}))

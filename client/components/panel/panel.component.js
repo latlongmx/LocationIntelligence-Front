@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function panelFunctions($timeout, Auth, uiService, LocationService, BaseMapFactory, BaseMapService, CompetenceService){
+	function panelFunctions($timeout, Auth, uiService, LocationService, BaseMapFactory, BaseMapService, CompetenceService, odService){
 		var _$js_exploration_item = null,
 		_data_ep = null,
 		_currentPanelActive = null,
@@ -27,9 +27,7 @@
 				'</ul>',
 				'<ul class="m-list-functions">',
 					'<accessibility></accessibility>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="od" tooltip-placement="right" uib-tooltip="Origen Destino" tooltip-animation="true">',
-						'<img src="./images/functions/od_icon.png" class="m-list-functions__item-icon" data-icon="od_icon"/>',
-					'</li>',
+					'<od></od>',
 					'<heatmap></heatmap>',
 					'<li class="m-list-functions__item js-panel-item" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
 						'<img src="./images/functions/rings_icon.png" class="m-list-functions__item-icon" data-icon="rings_icon"/>',
@@ -37,7 +35,9 @@
 				'</ul>',
 			].join(''),
 			controller: function($scope){
-				var dm = this;
+				var dm = this,
+				cityFile = null,
+				cityLayer = null;
 				$scope.location_list = false;
 				$scope.competence_list = false;
 
@@ -53,6 +53,7 @@
 					//uiService.listIsLoaded(_data_ep);
 
 					if (_data_ep === "location"){
+						uiService.removeCityLayer();
 						if (!$scope.locations){
 							$scope.location_list = true;
 							
@@ -75,6 +76,7 @@
 					}
 
 					if (_data_ep === "competence"){
+						uiService.removeCityLayer();
 						if (!$scope.save_competence_variable_list){
 							$scope.competence_list = true;
 							
@@ -99,6 +101,7 @@
 					}
 
 					if (_data_ep === "heatmap"){
+						uiService.removeCityLayer();
 						if (!$scope.save_heatmap_variable_list){
 							$scope.heatmap_list = true;
 							BaseMapService.getUserHeatMap().then(function(res){
@@ -109,6 +112,12 @@
 							});
 						}
 					}
+					
+					if (_data_ep === "od"){
+						cityFile = DFGeoJson;
+						uiService.odIsOpen(_data_ep, cityFile);
+						
+					}
 
 				});
 			}
@@ -116,7 +125,7 @@
 		};
 	}
 
-	panelFunctions.$inject = ['$timeout', 'Auth', 'uiService', 'LocationService', 'BaseMapFactory', 'BaseMapService', 'CompetenceService'];
+	panelFunctions.$inject = ['$timeout', 'Auth', 'uiService', 'LocationService', 'BaseMapFactory', 'BaseMapService', 'CompetenceService', 'odService'];
 
 	angular.module('panel.directive', [])
 		.directive('panelFunctions', panelFunctions);

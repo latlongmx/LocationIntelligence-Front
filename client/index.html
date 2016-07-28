@@ -58,6 +58,9 @@
 	<script src="../bower_components/angular-aria/angular-aria.js"></script>
 	<script src="../bower_components/angular-material/angular-material.js"></script>
 	<script src="../bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
+	<script src="../bower_components/highcharts/highcharts.js"></script>
+	<script src="../bower_components/highcharts/highcharts-more.js"></script>
+	<script src="../bower_components/highcharts/modules/exporting.js"></script>
 	<!-- endbower -->
 	<!-- inject:own:js -->
 	<script src="../bower_components/angular-ui-bootstrap/ui-bootstrap-custom-1.3.2.js"></script>
@@ -68,20 +71,21 @@
 	<script src="../bower_components/jslibs/NonTiledLayer.WMS.js"></script>
 	<script src="../bower_components/jslibs/leaflet.singletilewmslayer.js"></script>
 	<script src="../bower_components/jslibs/leaflet.dynamicWMS.js"></script>
+	<script src="../bower_components/jslibs/geostats.js"></script>
 	<!-- endinject -->
 	<!-- endbuild -->
 	<!-- build:js js/app.js -->
 	<!-- inject:js -->
 	<script src="components/walmex.module.js"></script>
 	<script src="components/walmex.routes.js"></script>
-	<script src="components/login/login.controller.js"></script>
-	<script src="components/login/login.factory.js"></script>
-	<script src="components/login/login.service.js"></script>
 	<script src="components/basemap/basemap.component.js"></script>
 	<script src="components/basemap/basemap.directive.js"></script>
 	<script src="components/basemap/basemap.factory.js"></script>
 	<script src="components/basemap/basemap.service.js"></script>
 	<script src="components/basemap/google.basemap.js"></script>
+	<script src="components/login/login.controller.js"></script>
+	<script src="components/login/login.factory.js"></script>
+	<script src="components/login/login.service.js"></script>
 	<script src="components/menu/menu.component.js"></script>
 	<script src="components/panel/panel.component.js"></script>
 	<script src="components/search/search.component.js"></script>
@@ -93,7 +97,8 @@
 	<script src="components/panel/analysis/heatmap/heatmap.component.js"></script>
 	<script src="components/panel/analysis/heatmap/heatmap.pushmenu.js"></script>
 	<script src="components/panel/analysis/heatmap/heatmap.service.js"></script>
-	<script src="components/panel/analysis/od_modal/od-modal.controller.js"></script>
+	<script src="components/panel/analysis/od_modal/od.component.js"></script>
+	<script src="components/panel/analysis/od_modal/od.service.js"></script>
 	<script src="components/panel/analysis/rings_modal/rings-modal.controller.js"></script>
 	<script src="components/panel/exploration/competence/competence.component.js"></script>
 	<script src="components/panel/exploration/competence/competence.pushmenu.js"></script>
@@ -108,6 +113,8 @@
 	<script src="components/panel/analysis/heatmap/add_heatmap/add.heatmap.controller.js"></script>
 	<script src="components/panel/analysis/heatmap/add_heatmap/add.heatmap.service.js"></script>
 	<script src="components/panel/analysis/heatmap/edit_heatmap/edit.heatmap.controller.js"></script>
+	<script src="components/panel/analysis/od_modal/age_graph/age-graph.component.js"></script>
+	<script src="components/panel/analysis/od_modal/gender_graph/gender-graph.component.js"></script>
 	<script src="components/panel/exploration/competence/add_competence_by_csv/add-competence-by-csv.controller.js"></script>
 	<script src="components/panel/exploration/competence/add_competence_by_name/add-competence-by-name.controller.js"></script>
 	<script src="components/panel/exploration/competence/add_competence_by_var/add-competence-by-var.controller.js"></script>
@@ -115,6 +122,9 @@
 	<script src="components/panel/exploration/competence/edit_competence/edit.competence.controller.js"></script>
 	<script src="components/panel/exploration/location/add_locations/add.location.controller.js"></script>
 	<script src="components/panel/exploration/location/edit_layer/edit-layer.location.controller.js"></script>
+	<!-- endinject -->
+	<!-- inject:own:geojson -->
+	<script src="catalogs/df.geojson.js"></script>
 	<!-- endinject -->
 	<!-- inject:templates:js -->
 	<!-- endinject -->

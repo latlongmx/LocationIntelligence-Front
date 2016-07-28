@@ -4,13 +4,16 @@
 	*/
 	'use strict';
 	
-	function uiService($mdDialog){
+	function uiService($mdDialog, BaseMapService, odService){
 		var _previousPanelActive = null,
 		_previousIconActive = null,
 		_previous_data_side_panel = null,
 		_currentPanelActive = null,
 		_currentIconActive = null,
-		_current_data_side_panel = null;
+		_current_data_side_panel = null,
+		_od_active = null,
+		_od_previous = null,
+		cityLayerGroup = new L.LayerGroup();
 		
 		/* Template for Loader progress */
 		this.loaderTemplate = [
@@ -50,7 +53,7 @@
 		}
 		
 		/* Panel */
-		this.changeCurrentPanel = function(boo) {
+		this.changeCurrentPanel = function(boo, layer) {
 			if(boo === true){
 				if (_currentPanelActive) {
 					_currentPanelActive.children().attr('src', './images/functions/'+_currentIconActive+'.png');
@@ -59,6 +62,7 @@
 					_currentIconActive = "";
 					_currentPanelActive = "";
 					_current_data_side_panel = "";
+					//this.removeCityLayer();
 				}
 			}
 			else {
@@ -73,8 +77,9 @@
 			_previousPanelActive.children().attr('src', './images/functions/'+_previousIconActive+'.png');
 			_previousPanelActive.removeClass('is-item-panel-active');
 			_previous_data_side_panel.removeClass('is-panel-open');
+			this.removeCityLayer();
 		}
-		this.panelIsOpen = function(currentPanelId, currentIcon, currentPanel){
+		this.panelIsOpen = function(currentPanelId, currentIcon, currentPanel, layer){
 			_previousPanelActive = _currentPanelActive;
 			_previousIconActive = _currentIconActive;
 			_previous_data_side_panel = _current_data_side_panel;
@@ -90,13 +95,36 @@
 
 			_previousPanelActive ===  _currentPanelActive ? this.changeCurrentPanel(true) : this.changeCurrentPanel();
 			if(_previousPanelActive){
-				!_currentPanelActive ? this.changeCurrentPanel(true) : this.changePreviousPanel();
+				!_currentPanelActive ? [this.changeCurrentPanel(true), this.addCityLayer(layer)] : this.changePreviousPanel();
 			}
 			_previous_data_side_panel === _current_data_side_panel ? this.changeCurrentPanel(true) : this.changeCurrentPanel();
 			if(_previous_data_side_panel){
 				!_current_data_side_panel ? this.changeCurrentPanel(true) : this.changePreviousPanel();
 			}
 		}
+		
+		/* Layer OD */
+		this.addCityLayer = function(layer) {
+			if (layer) {
+				cityLayerGroup.addLayer(odService.loadMap(layer));
+				BaseMapService.map.then(function (map) {
+					cityLayerGroup.addTo(map);
+				});
+			}
+		}
+		this.removeCityLayer = function() {
+			cityLayerGroup.clearLayers();
+			_od_active = "";
+		}
+		this.odIsOpen = function(od, data) {
+			_od_previous = _od_active;
+			_od_active = od;
+			if (_od_previous !== _od_active){
+				this.addCityLayer(data);
+			}
+		}
+		
+		
 		// this.listIsLoaded = function(currentId){
 		// 	if (currentId === "location"){
 		// 		if (!$scope.locations){
@@ -158,6 +186,6 @@
 		// }
 
 	}
-	uiService.$inject = ['$mdDialog'];
+	uiService.$inject = ['$mdDialog', 'BaseMapService', 'odService'];
 	angular.module('ui.service', []).service('uiService', uiService);
 })();
