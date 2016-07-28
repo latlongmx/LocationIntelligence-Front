@@ -121,11 +121,17 @@
 							'</ul>',
 						'</div>',
 
-						'<div class="m-side-panel__list" style="height: 100px; position: absolute;top:685px; overflow-y: auto; left:15px;right:15px;">',
+						'<div class="m-side-panel__list" style="height: 115px; position: absolute;top:685px; overflow-y: auto; left:15px;right:15px;">',
 							'<ul id="accessPanelUserDraws" class="m-side-panel__list-content">',
 								'<li ng-repeat="draw in userDraws" class="m-side-panel__list-content__item js-location-item li">',
-									'<p flex="50" class="m-side-panel__list-content__item-single">{{draw.name}}</p>',
-									'<p flex="20" class="m-side-panel__list-content__item-single">{{draw.icon}}</p>',
+									//'<input ng-model="string"  class="m-side-panel__list-content__item-single" value="{{draw.name}}"/>',
+									'<md-input-container flex="50" >',
+										'<input ng-change="putNameUserDraw(draw.id, draw.name)" ng-model-options="{debounce: 750}" ng-model="draw.name" style="position: absolute; bottom: -12px;">',
+									'</md-input-container>',
+									'<p flex="20" class="m-side-panel__list-content__item-single">',
+									//'{{draw.icon}}',
+									'<i class="demo {{draw.icon}}"></i>',
+									'</p>',
 									'<md-switch data-iddraw="draw.id" ng-model="draw.isActive" flex="10" data-iddraw="draw.id" ng-change="turnOnOffDraw(draw.id)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
 									'<md-button flex="10" data-iddraw="draw.id" ng-click="zoomToUserDraw(draw.id)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
 										'<md-icon>zoom_in</md-icon>',
@@ -382,10 +388,16 @@
 							o.isActive = false;
 						});
 					}
+					var img = '';
+					if(draw.layerType==='circle'){
+						img = 'demo-radio area-tool';
+					}else{
+						img = 'demo-area polygon-tool';
+					}
 					scope.userDraws.push({
 						id:id,
 						name:name,
-						icon:'',
+						icon:img,
 						isActive:isActive,
 						draw:draw
 					});
@@ -433,6 +445,7 @@
 					AccessibilityService.getUserDraws().then(function(res){
 						_.each(res.data.draws, function(o){
 							var geo;
+							var img = '';
 							if(o.type_draw==='circle'){
 								geo = {
 										layerType: o.type_draw,
@@ -440,6 +453,7 @@
 											color: '#81A1C1'
 										})
 									};
+								img = 'demo-radio area-tool';
 							}else{
 								var coords = _.map(o.gjson.latlngs,function(o){
 									return [o.lat, o.lng];
@@ -450,11 +464,12 @@
 											color: '#81A1C1'
 										})
 									};
+								img = 'demo-area polygon-tool';
 							}
 							scope.userDraws.push({
 								id: o.id_draw,
 								name: o.name_draw,
-								icon:'',
+								icon:img,
 								isActive: false,
 								draw: geo
 							});
@@ -465,6 +480,9 @@
 
 				scope.getUserDraws();
 
+				scope.putNameUserDraw = function(id, nm){
+					AccessibilityService.putUserDraws(id,nm);
+				};
 				scope.delUserDraw = function(id){
 					scope.userDraws = _.filter(scope.userDraws, function(o) { return o.id !== id; });
 					_editableLayers.clearLayers();

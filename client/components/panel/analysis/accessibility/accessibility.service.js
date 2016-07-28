@@ -91,6 +91,31 @@
 				return deferred.promise;
 			},
 
+			putUserDraws: function(id, nm){
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _http = $http({
+					url: this.apiBaseURL + '/ws/draw_u/'+id,
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					},
+					params: {
+						nom:nm
+					}
+				});
+				_http.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
 			delUserDraws: function(id){
 				deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
