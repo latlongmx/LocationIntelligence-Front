@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function panelFunctions($timeout, Auth, uiService, LocationService, BaseMapFactory, BaseMapService, CompetenceService, odService){
+	function panelFunctions($rootScope, $timeout, Auth, uiService, LocationService, BaseMapFactory, BaseMapService, CompetenceService, odService){
 		var _$js_exploration_item = null,
 		_data_ep = null,
 		_currentPanelActive = null,
@@ -53,7 +53,6 @@
 					//uiService.listIsLoaded(_data_ep);
 
 					if (_data_ep === "location"){
-						uiService.removeCityLayer();
 						if (!$scope.locations){
 							$scope.location_list = true;
 							
@@ -76,7 +75,6 @@
 					}
 
 					if (_data_ep === "competence"){
-						uiService.removeCityLayer();
 						if (!$scope.save_competence_variable_list){
 							$scope.competence_list = true;
 							
@@ -101,7 +99,6 @@
 					}
 
 					if (_data_ep === "heatmap"){
-						uiService.removeCityLayer();
 						if (!$scope.save_heatmap_variable_list){
 							$scope.heatmap_list = true;
 							BaseMapService.getUserHeatMap().then(function(res){
@@ -112,11 +109,18 @@
 							});
 						}
 					}
-					
+
 					if (_data_ep === "od"){
 						cityFile = DFGeoJson;
 						uiService.odIsOpen(_data_ep, cityFile);
+						dm.setLayer = cityFile;
 						
+					}
+					
+					if (_data_ep !== "od"){
+						uiService.removeCityLayer();
+						odService.removeMarker();
+						$scope.selected_zc = false;
 					}
 
 				});
@@ -125,7 +129,7 @@
 		};
 	}
 
-	panelFunctions.$inject = ['$timeout', 'Auth', 'uiService', 'LocationService', 'BaseMapFactory', 'BaseMapService', 'CompetenceService', 'odService'];
+	panelFunctions.$inject = ['$rootScope','$timeout', 'Auth', 'uiService', 'LocationService', 'BaseMapFactory', 'BaseMapService', 'CompetenceService', 'odService'];
 
 	angular.module('panel.directive', [])
 		.directive('panelFunctions', panelFunctions);

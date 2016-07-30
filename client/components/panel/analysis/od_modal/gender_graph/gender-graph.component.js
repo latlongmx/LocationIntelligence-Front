@@ -9,7 +9,6 @@
 		return {
 			restrict: 'E',
 			replace: true,
-			require: '^od',
 			scope: '=',
 			template: [
 				'<div id="total_gender"></div>'

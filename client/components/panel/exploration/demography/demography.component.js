@@ -158,7 +158,6 @@
 							);
 							
 							if (scope._variable_flag.length === 1) {
-								console.log(scope._variable_flag.length)
 								scope.current_checked = scope.demography_variable_list[0];
 								scope.last_checked = scope.demography_variable_list[0];
 								_demographyWKTRequest(scope.demography_variable_list[0]._variable_id);

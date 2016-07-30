@@ -36,10 +36,12 @@
 			button.attr("disabled", true);
 			button.text(message);
 		}
+
 		this.removeLogginIsLoading = function(button, message){
 			button.attr("disabled", false);
 			button.text(message);
 		}
+
 		this.cleanInputs = function(inputs){
 			inputs.value = "";
 		}
@@ -48,6 +50,7 @@
 		this.layerIsLoading = function(){
 			return angular.element(document.getElementsByTagName("body")).append(this.loaderTemplate);
 		}
+
 		this.layerIsLoaded = function(){
 			return angular.element(document.getElementsByClassName('m-loading')).remove();
 		}
@@ -62,7 +65,6 @@
 					_currentIconActive = "";
 					_currentPanelActive = "";
 					_current_data_side_panel = "";
-					//this.removeCityLayer();
 				}
 			}
 			else {
@@ -73,12 +75,14 @@
 				}
 			}
 		}
+
 		this.changePreviousPanel = function() {
 			_previousPanelActive.children().attr('src', './images/functions/'+_previousIconActive+'.png');
 			_previousPanelActive.removeClass('is-item-panel-active');
 			_previous_data_side_panel.removeClass('is-panel-open');
 			this.removeCityLayer();
 		}
+
 		this.panelIsOpen = function(currentPanelId, currentIcon, currentPanel, layer){
 			_previousPanelActive = _currentPanelActive;
 			_previousIconActive = _currentIconActive;
@@ -112,10 +116,12 @@
 				});
 			}
 		}
+
 		this.removeCityLayer = function() {
 			cityLayerGroup.clearLayers();
 			_od_active = "";
 		}
+
 		this.odIsOpen = function(od, data) {
 			_od_previous = _od_active;
 			_od_active = od;
