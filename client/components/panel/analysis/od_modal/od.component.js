@@ -21,7 +21,7 @@
 					'<div class="m-side-panel js-od-side-panel">',
 					'<h3 class="m-side-panel__title">Gasto Origen-Destino</h3>',
 					'<div class="m-side-panel__actions pos-relative">',
-						'<h4 class="m-side-panel__subtitle">Código Postal: <span>{{zip_code}}</span></h4>',
+						'<h4 class="m-side-panel__subtitle">Código Postal: <span>{{zip_code ? zip_code:"Selecciona un código postal del mapa"}}</span></h4>',
 						'<md-divider></md-divider>',
 						'<span class="m-side-panel__title-action"  ng-if="selected_zc">Información a consultar</span>',
 						'<div layout="row" ng-if="selected_zc">',
@@ -49,17 +49,14 @@
 							'<slick settings="slickConfig" infinite=false slides-to-show=1 slides-to-scroll=1>',
 								'<div class="m-side-panel__list-slider__slide">',
 									'<avg-day-gender class="m-graphic"></avg-day-gender>',
-									'<md-divider></md-divider>',
 									'<avg-age class="m-graphic"></avg-age>',
 								'</div>',
 								'<div class="m-side-panel__list-slider__slide">',
 									'<payments-day-gender class="m-graphic"></payments-day-gender>',
-									'<md-divider></md-divider>',
 									'<payments-age class="m-graphic"></payments-age>',
 								'</div>',
 								'<div class="m-side-panel__list-slider__slide">',
 									'<cards-day class="m-graphic"></cards-day>',
-									'<md-divider></md-divider>',
 									'<cards-age class="m-graphic"></cards-age>',
 								'</div>',
 							 '</slick>',
@@ -88,7 +85,12 @@
 			    method: {}
 				};
 				
-				$rootScope.$emit('slider', "hola");
+				Highcharts.setOptions({
+					lang: {
+						months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+						weekdays: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+					}
+				});
 				
 				$scope.getIndex = function(index){
 					var selectCategory = angular.element(document.getElementsByClassName('js-index-'+ index));
@@ -114,9 +116,10 @@
 						odService.getBasicStats(zipCode)
 						.then(function(result){
 							if(result.status === 200 && result.statusText === "OK"){
-								uiService.layerIsLoaded();
+								
 								datazipcode[zipCode] = result.data;
-								_getSeries(result.data);
+								_getSeries(result.data, zipCode);
+								uiService.layerIsLoaded();
 							}
 						}, function(error){
 							console.log(error)
@@ -126,26 +129,36 @@
 					else {
 						_getSeries(datazipcode[zipCode]);
 					}
+					//BaseMapFactory._map.setView([sMarker._latlng.lat, sMarker._latlng.lng, map._zoom]);
 				}
 				
-				function _getSeries(d){
+				function _getSeries(d, zip_code){
 					if (d.day !== undefined || d.day !== false) {
 						_array_avg_day= [];
 						_array_num_payments_day= [];
 						_array_num_cards_day= [];
 						_.each(d.day.stats, function(val, i) {
-							if(val.avg === undefined || val.num_payments === undefined || val.num_cards === undefined){
-								_array_avg_day.push(0);
-								_array_num_payments_day.push(0);
-								_array_num_cards_day.push(0);
+							if(val.avg !== undefined){
+								_array_avg_day.push(val.avg);
 							}
 							else {
-								_array_avg_day.push(val.avg);
+								_array_avg_day.push(0);
+							}
+							if (val.num_payments !== undefined) {
 								_array_num_payments_day.push(val.num_payments);
+							}
+							else {
+								_array_num_payments_day.push(0);
+							}
+							if (val.num_cards !== undefined) {
 								_array_num_cards_day.push(val.num_cards);
+							}
+							else {
+								_array_num_cards_day.push(0);
 							}
 						});
 					}
+
 					if (d.gender_distribution !== undefined || d.gender_distribution !== false) {
 						_array_avg_gender = { male : [], female : [] };
 						_array_num_payments_gender = { male : [], female : [] };
@@ -189,6 +202,7 @@
 							}
 						});
 					}
+
 					if (d.age_distribution !== undefined || d.age_distribution !== false) {
 						_array_avg_age = { a1925 : [], a2635 : [], a3645 : [], a4655 : [], a5665 : [], am66 : [] };
 						_array_num_payments_age = { a1925 : [], a2635 : [], a3645 : [], a4655 : [], a5665 : [], am66 : [] };
@@ -267,7 +281,11 @@
 							_array_num_cards_age.am66.push(num_cards_agem66);
 						});
 					}
-					
+
+					if (d.customer_zipcodes.zcs !== null) {
+						odService.setMarkers(d.customer_zipcodes, zip_code);
+					}
+
 					$rootScope.$emit('avgDayGender', [_array_avg_day, _array_avg_gender]);
 					$rootScope.$emit('avgAge', _array_avg_age);
 					$rootScope.$emit('paymentsDayGender', [_array_num_payments_day, _array_num_payments_gender]);

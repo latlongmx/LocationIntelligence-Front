@@ -129,67 +129,6 @@
 				this.addCityLayer(data);
 			}
 		}
-		
-		
-		// this.listIsLoaded = function(currentId){
-		// 	if (currentId === "location"){
-		// 		if (!$scope.locations){
-		// 			$scope.location_list = true;
-					
-		// 			LocationService.getLocations()
-		// 			.then(function(res){
-		// 				if(res.data && res.data.places){
-		// 					$scope.location_list = false;
-		// 					$scope.locations = res.data.places;
-		// 					_.each(res.data.places,function(o){
-		// 						var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-		// 						BaseMapFactory.addLocation({
-		// 							name: id,
-		// 							data: o.data,
-		// 							extend: o.extend
-		// 						});
-		// 					});
-		// 				}
-		// 			});
-		// 		}
-		// 	}
-
-		// 	if (currentId === "competence"){
-		// 		if (!$scope.save_competence_variable_list){
-		// 			$scope.competence_list = true;
-					
-		// 			CompetenceService.getCompetences({
-		// 				competence: '1'
-		// 			})
-		// 			.then(function(res){
-		// 				if(res.data && res.data.places){
-		// 					$scope.competence_list = false;
-		// 					$scope.save_competence_variable_list = res.data.places;
-		// 					_.each(res.data.places,function(o){
-		// 						var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-		// 						BaseMapFactory.addLocation({
-		// 							name: id,
-		// 							data: o.data,
-		// 							extend: o.extend
-		// 						});
-		// 					});
-		// 				}
-		// 			});
-		// 		}
-		// 	}
-
-		// 	if (currentId === "heatmap"){
-		// 		if (!$scope.save_heatmap_variable_list){
-		// 			$scope.heatmap_list = true;
-		// 			BaseMapService.getUserHeatMap().then(function(res){
-		// 				if(res.data && res.data.heats){
-		// 					$scope.heatmap_list = false;
-		// 					$scope.save_heatmap_variable_list = res.data.heats;
-		// 				}
-		// 			});
-		// 		}
-		// 	}
-		// }
 
 	}
 	uiService.$inject = ['$mdDialog', 'BaseMapService', 'odService'];
