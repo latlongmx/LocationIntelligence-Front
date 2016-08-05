@@ -234,7 +234,7 @@
 					textContent: message,
 					position: 'top right',
 					hideDelay: 2500,
-					parent: $document[0].querySelector('.md-dialog-cotainer'),
+					parent: $document[0].querySelector('.md-dialog-container')
 				})
 			);
 		}

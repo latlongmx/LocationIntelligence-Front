@@ -76,15 +76,23 @@
 				_array_num_cards_day = [],
 				_array_num_cards_age = null;
 
+				/**
+				 * [slickConfig Slick slider init and configurations]
+				 * @type {Object}
+				 */
 				$scope.slickConfig = {
-			    enabled: false,
-			    autoplay: false,
-			    draggable: false,
-			    dots: false,
-			    arrows:false,
-			    method: {}
+					enabled: false,
+					autoplay: false,
+					draggable: false,
+					dots: false,
+					arrows:false,
+					method: {}
 				};
 				
+				/**
+				 * [lang Highcharts options]
+				 * @type {Object}
+				 */
 				Highcharts.setOptions({
 					lang: {
 						months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
@@ -92,6 +100,10 @@
 					}
 				});
 				
+				/**
+				 * [getIndex Function to get current index in slick slider, to activate selected category (slide)]
+				 * @param  {[type]} index [description]
+				 */
 				$scope.getIndex = function(index){
 					var selectCategory = angular.element(document.getElementsByClassName('js-index-'+ index));
 					var selectIndex = angular.element(document.getElementsByClassName('js-index'));
@@ -99,17 +111,21 @@
 					$scope.slickConfig.method.slickGoTo(index);
 					selectCategory.removeClass('md-hue-2')
 				}
+
 				/**
 				 * [Update ZipCode label]
 				 */
-				
 				var updateZC = $rootScope.$on('zc_event', function(e, data){
 					$scope.selected_zc = true;
 					$scope.slickConfig.enabled = true;
 					$scope.zip_code = data;
 					_getZipCodeData(data);
 				});
-				
+
+				/**
+				 * [_getZipCodeData Http requeste to get all data for current zipcode selected]
+				 * @param  {[type]} zipCode [current zipcode selected]
+				 */
 				var _getZipCodeData = function(zipCode) {
 					if (!datazipcode[zipCode]) {
 						uiService.layerIsLoading();
@@ -119,6 +135,7 @@
 								
 								datazipcode[zipCode] = result.data;
 								_getSeries(result.data, zipCode);
+								uiService.changeCurrentPanel(true);
 								uiService.layerIsLoaded();
 							}
 						}, function(error){
@@ -129,9 +146,13 @@
 					else {
 						_getSeries(datazipcode[zipCode]);
 					}
-					//BaseMapFactory._map.setView([sMarker._latlng.lat, sMarker._latlng.lng, map._zoom]);
 				}
 				
+				/**
+				 * [_getSeries Build day, age and gender series data for charts]
+				 * @param  {[type]} d        [all data on each zip code]
+				 * @param  {[type]} zip_code [current zip code selected]
+				 */
 				function _getSeries(d, zip_code){
 					if (d.day !== undefined || d.day !== false) {
 						_array_avg_day= [];

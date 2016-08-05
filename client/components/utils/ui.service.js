@@ -13,7 +13,8 @@
 		_current_data_side_panel = null,
 		_od_active = null,
 		_od_previous = null,
-		cityLayerGroup = new L.LayerGroup();
+		cityLayerGroup = new L.LayerGroup(),
+		_set_panel = [];
 		
 		/* Template for Loader progress */
 		this.loaderTemplate = [
@@ -83,7 +84,17 @@
 			this.removeCityLayer();
 		}
 
+		this.setPanel = function(a,b,c) {
+			_set_panel = [];
+			_set_panel.push(a,b,c);
+		}
+
+		this.getPanel = function() {
+			return _set_panel;
+		}
+
 		this.panelIsOpen = function(currentPanelId, currentIcon, currentPanel, layer){
+			this.setPanel(currentPanelId,currentIcon,currentPanel);
 			_previousPanelActive = _currentPanelActive;
 			_previousIconActive = _currentIconActive;
 			_previous_data_side_panel = _current_data_side_panel;
@@ -110,7 +121,7 @@
 		/* Layer OD */
 		this.addCityLayer = function(layer) {
 			if (layer) {
-				cityLayerGroup.addLayer(odService.loadMap(layer));
+				cityLayerGroup.addLayer(odService.loadMap(layer, this.getPanel()));
 				BaseMapService.map.then(function (map) {
 					cityLayerGroup.addTo(map);
 				});

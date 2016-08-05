@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, $compile){
+	function accessibilityDirective(BaseMapFactory, Auth, AccessibilityService, $compile, BaseMapService){
 
 		var _$js_accessibility_side_panel = null,
 		_$js_accessibility_item = null,
@@ -346,7 +346,7 @@
 		};
 	}
 
-	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile'];
+	accessibilityDirective.$inject = ['BaseMapFactory', 'Auth', 'AccessibilityService', '$compile', 'BaseMapService'];
 	angular.module('accessibility.directive', [])
 		.directive('accessibility', accessibilityDirective);
 })();

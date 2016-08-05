@@ -90,7 +90,7 @@
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr, parentCtrl){
+			link: function(scope, element, attr){
 				var remove_panel = angular.element(document.getElementsByClassName('js-location-side-panel'));
 				var remove_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
 				var _this = null,

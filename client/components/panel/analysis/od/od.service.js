@@ -24,21 +24,14 @@
 			_polylinesGroup.clearLayers();
 			_polygonsGroup.clearLayers();
 		};
-
-		var setLabelZipCode = function(ZipCode) {
-			_zip_code = ZipCode;
-		}
 		
 		var getClass = function(val, a) {
-			var separator = ' - '
-			// return 2;
+			var separator = ' - ';
 			for(var i= 0; i < a.length; i++) {
-				// all classification except uniqueValues
 				if(a[i].indexOf(separator) != -1) {
 					var item = a[i].split(separator);
 					if(val <= parseFloat(item[1])) {return i;}
 				} else {
-					// uniqueValues classification
 					if(val == a[i]) {
 						return i;
 					}
@@ -54,15 +47,6 @@
 			return _geometry;
 		}
 
-		this.getLabelZipCode = function(callback) {
-			if (_zip_code) {
-				return callback(_zip_code);
-			}
-			else {
-				return callback("Sin código postal");
-			}
-		}
-
 		this.removeMarker = function(){
 			return clearLayer(_sMarker);
 		}
@@ -71,7 +55,8 @@
 			return map;
 		});
 
-		this.loadMap = function(layer){
+		this.loadMap = function(layer, panel){
+			console.log(panel[0])
 			var items = [],
 			test = null,
 			ranges = null,
@@ -106,7 +91,6 @@
 				_sMarker.addTo(this._map);
 				zcMarker.bindPopup("Código postal: " + feature.properties.ZipCode);
 
-				//getBasicStats(feature.properties.ZipCode);
 				$rootScope.$emit('zc_event', feature.properties.ZipCode)
 				this._map.setView([zcMarker._latlng.lat, zcMarker._latlng.lng, this._map._zoom]);
 			});
@@ -127,6 +111,7 @@
 			});
 			return deferred.promise;
 		}
+
 		this.setMarkers = function(d, zip_code) {
 			var serie = new geostats(),
 			color_x = new Array('#22ac9b', '#82c341', '#acd08c', '#cbdf7d'),
@@ -185,8 +170,7 @@
 						fillOpacity: 0.7, 
 						opacity: 0.7, weight: 1.2, color: "#828189", fillColor: color_x[getClass(data.incomes, ranges)]
 					});
-					
-					//Create custom popup content
+
 					_popupContent = ['<p><strong>Ingresos</strong><br/><span class="number">' + data.incomes + '</span></p>',
 					'<p><strong>Número de tarjetas</strong><br/><span class="number">' + data.num_cards + '</span></p>',
 					'<p><strong>Número de pagos</strong><br/><span class="number">' + data.num_payments + '</span></p>'
@@ -217,7 +201,6 @@
 					});
 					_polylinesGroup.addLayer(_polyline);
 					_markersCustZC.addLayer(_marker);
-					// marker.on('click', function(e) { $('.number').number(true, 2); });
 				}
 			});
 			BaseMapService.map.then(function (map) {
@@ -225,12 +208,11 @@
 				_markersCustZC.addTo(map);
 				_polygonsGroup.addTo(map).bringToBack();
 			});
-			
 		}
 
 	}
 
-	odService.$inject = ['_', '$q', '$http', 'Auth', 'BaseMapService', '$rootScope'];
+	odService.$inject = ['_', '$q', '$http', 'Auth' ,'BaseMapService', '$rootScope'];
 	angular.module('od.service', []).
 		service('odService', odService);
 
