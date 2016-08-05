@@ -37,6 +37,107 @@
 				return deferred.promise;
 			},
 
+			getUserDraws: function(id){
+				var obs = {};
+				if(id!==undefined){
+					obs = {
+						id: id
+					};
+				}else{
+					id = '';
+				}
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _http = $http({
+					url: this.apiBaseURL + '/ws/draw/'+id,
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					},
+					params: obs
+				});
+				_http.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+			addUserDraws: function(opts){
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _http = $http({
+					url: this.apiBaseURL + '/ws/draw/',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					},
+					params: opts
+				});
+				_http.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+			putUserDraws: function(id, nm){
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _http = $http({
+					url: this.apiBaseURL + '/ws/draw_u/'+id,
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					},
+					params: {
+						nom:nm
+					}
+				});
+				_http.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
+			delUserDraws: function(id){
+				deferred = $q.defer();
+				var access_token = Auth.getToken().access_token;
+				var _http = $http({
+					url: this.apiBaseURL + '/ws/draw/'+id,
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer '+access_token
+					}
+				});
+				_http.then(function(result){
+					deferred.resolve(result);
+				}, function(error){
+					if(error.status===401 && error.statusText==='Unauthorized'){
+						//Actualizar token
+					}
+					deferred.reject(error);
+				});
+				return deferred.promise;
+			},
+
 		};
 		return _service;
 	}
