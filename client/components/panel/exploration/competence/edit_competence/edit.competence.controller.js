@@ -106,7 +106,7 @@
 					textContent: message,
 					position: 'top right',
 					hideDelay: 2500,
-					parent: $document[0].querySelector('.m-dialog__content')
+					parent: $document[0].querySelector('.md-dialog-container')
 				})
 			);
 		}

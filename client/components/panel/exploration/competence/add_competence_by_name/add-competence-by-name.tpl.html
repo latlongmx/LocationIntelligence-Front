@@ -14,9 +14,9 @@
 				<div layout="row">
 					<md-input-container flex="100" class="md-block md-input-container--in-by-name">
 					<label><strong>*</strong>Nombre exacto del establecimiento</label>
-					<input type="text" ng-model="competence_name.query_find" name="competence_name" autocomplete="off" required>
+					<input type="text" ng-model="competence_name.query_find" name="competence_name" autocomplete="off" required ng-change="matchesByName(competence_name.query_find)">
 					</md-input-container>
-				</div>
+					</div>
 				<div layout="row">
 					<md-input-container flex="100" class="md-block md-input-container--in-by-name">
 					<label><strong>*</strong>Nombre personalizado de la competencia para mostrar</label>

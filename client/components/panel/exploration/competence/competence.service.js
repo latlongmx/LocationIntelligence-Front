@@ -137,6 +137,29 @@
 					deferred.reject(err);
 				});
 				return deferred.promise;
+			},
+			
+			competenceByNameMatches: function(formData) {
+				var access_token = Auth.getToken();
+				deferred = $q.defer();
+
+				$http({
+					url: this.apiBaseURL+'/ws/places_c',
+					method: "POST",
+					transformRequest: angular.identity,
+					data:formData, 
+					headers: {
+						'Content-Type': undefined,
+						'Authorization': 'Bearer '+access_token.access_token
+					}
+				})
+				.then(function(dat){
+					deferred.resolve(dat);
+				}, function(err){
+					deferred.reject(err);
+				});
+				return deferred.promise;
+				
 			}
 		};
 	}

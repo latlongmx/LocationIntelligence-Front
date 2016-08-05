@@ -51,6 +51,28 @@
 		uploader.onAfterAddingFile = function(item) {
 			_validateFile(item);
 		}
+		
+		$scope.matchesByName = function(param) {
+			_getDebounce(param);
+		}
+		
+		var _getDebounce = _.debounce(function(valor){
+			var formData = new FormData();
+			formData.append('qb', $scope.name_bbox );
+			formData.append('nm', valor );
+			CompetenceService.competenceByNameMatches(formData)
+			.then(function(result){
+				if (result.data.regs !== 0) {
+					_showToastMessage( "Se encontraron " + result.data.regs + " resultados con la palabra \"" + valor+ "\"");
+				}
+				else {
+					_showToastMessage( "Se encontraron " + result.data.regs + " resultados con la palabra \"" + valor+ "\"");
+				}
+				
+			}, function(error){
+				console.log(error)
+			});
+		}, 500);
 
 		$scope.loadCompetenceName = function(validForm, competenceNameData) {
 			if (validForm.$valid === true) {
@@ -68,10 +90,9 @@
 
 				BaseMapService.addCompetenciaQuery(formData)
 				.then(function(result){
-					console.log(result)
-					// if (result.statusText === 'OK') {
-					// 	$mdDialog.hide({success: true});
-					// }
+					if (result.statusText === 'OK') {
+						$mdDialog.hide({success: true});
+					}
 				}, function(error){
 					console.log(error)
 					// if(error.status === 500) {
@@ -122,12 +143,11 @@
 					textContent: message,
 					position: 'top right',
 					hideDelay: 2500,
-					parent: $document[0].querySelector('.m-dialog--in-competence-by-name')
+					parent: $document[0].querySelector('.md-dialog-container')
 				})
 			);
 		}
-
-	};
+	}
 
 	AddCompetenceByNameController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'CompetenceService', 'BaseMapService', 'BaseMapFactory'];
 
