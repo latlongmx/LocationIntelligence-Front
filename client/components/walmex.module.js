@@ -32,6 +32,8 @@
 			'accessibility.service',
 			'heatmap.directive',
 			'heatmap.service',
+			'timerings.directive',
+			'timerings.service',
 			'add.heatmap.controller',
 			'add.heatmap.service',
 			'edit.layer.heatmap.controller',
@@ -120,7 +122,7 @@
 			'600': '#00b8b0',
 			'700': '#6fc9c4',
 			'800': '#828189',
-			'900': '#A2A2A7', 
+			'900': '#A2A2A7',
 			'A100': '828189',
 			'A200': '666470',
 			'A400': '828189',
@@ -130,7 +132,7 @@
 			'hue-1': '300',
 			'hue-2': '400',
 			'hue-3': '500',
-			
+
 		});
 		$mdThemingProvider.theme('default')
 		    .primaryPalette('demo')

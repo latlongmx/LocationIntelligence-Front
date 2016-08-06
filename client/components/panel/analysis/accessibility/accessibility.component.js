@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, $compile){
+	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, $compile, $mdToast, $document){
 
 		var _$js_accessibility_side_panel = null,
 		_$js_accessibility_item = null,
@@ -97,11 +97,12 @@
 							'<md-list-item>',
 								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="METRO">Metro</md-button>',
 								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="MB">Metrobus</md-button>',
-								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="">--</md-button>',
+								//'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="">--</md-button>',
+								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="STE">Transp. Eléctricos</md-button>',
 								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="SUB">Tren Suburb.</md-button>',
 							'</md-list-item>',
 							'<md-list-item>',
-								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="STE">Transp. Eléctricos</md-button>',
+
 								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="RTP">Transp. Pasajeros</md-button>',
 								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="CC">Concesionados</md-button>',
 								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="NCC">Nochebús</md-button>',
@@ -356,6 +357,16 @@
 							angular.element('#accessNumS').html(s);
 							angular.element('#accessNumT').html(t);
 
+							var cat_vias = {
+								'CC': 'Corredores Concesionados',
+								'MB': 'Metrobús',
+								'METRO': 'Sistema de Transporte Colectivo Metro',
+								'NCC': 'NOCHEBÚS Corredores concesionados',
+								'RTP': 'Red de Transporte de Pasajeros',
+								'STE': 'Servicio de Transportes Eléctricos',
+								'SUB': 'Ferrocarriles Suburbanos'
+							};
+
 							var trans = _.countBy(res.data.transp,'agency_id');
 							t = 0;
 							_.each(trans, function(v,k){
@@ -363,7 +374,7 @@
 								listAccessTrans.append([
 									'<md-list-item>',
 										'<img ng-src=""></img>',
-										'<p>'+k+'</p>',
+										'<p>'+cat_vias[k]+'</p>',
 										'<p id="accessNumT">'+v+'</p>',
 									'</md-list-item>'
 								].join(''));
@@ -435,6 +446,15 @@
 					if( scope.userDraws.length>=2){
 						_$btnAddNewPoly.attr('disabled',true);
 						_$btnAddNewRadio.attr('disabled',true);
+						$mdToast.show(
+							$mdToast.simple({
+								textContent: "Solo puedes realizar 2 analisis, elimina uno si deseas agregar otro",
+								position: 'top right',
+								hideDelay: 1500,
+								parent: $document[0].querySelector('.js-accessibility-side-panel'),
+								autoWrap: true
+							})
+						);
 					}else{
 						_$btnAddNewPoly.attr('disabled',false);
 						_$btnAddNewRadio.attr('disabled',false);
@@ -523,7 +543,7 @@
 		};
 	}
 
-	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile'];
+	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile', '$mdToast', '$document'];
 	angular.module('accessibility.directive', [])
 		.directive('accessibility', accessibilityDirective);
 })();
