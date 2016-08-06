@@ -10,8 +10,8 @@
 			replace:true,
 			template: [
 				'<div id="basemap" class="m-basemap">',
-					'<label class=" md-fab md-fab-top-right md-button md-primary" type="button" aria-label="" style="position: absolute;top: 154px;right: 0;top:initial;bottom:90px;z-index: 10;">',
-						'<span id="zoom" class="bold" style="font-size:18px;"></span><div class="md-ripple-container"></div>',
+					'<label type="button" aria-label="" style="position: absolute;top: 135px;right: 10px;bottom: initial;z-index: 800;background: #828189;width: 35px;text-align: center;color:#ffffff;">',
+						'<span id="zoom" class="bold" style="font-size:18px;"></span>',
 					'</label>',
 				'</div>',
 			].join(''),

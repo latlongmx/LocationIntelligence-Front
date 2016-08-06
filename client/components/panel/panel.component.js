@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function panelFunctions($timeout, Auth, uiService, LocationService, BaseMapFactory, BaseMapService, CompetenceService){
+	function panelFunctions($rootScope, $timeout, Auth, uiService, LocationService, BaseMapFactory, BaseMapService, CompetenceService, odService){
 		var _$js_exploration_item = null,
 		_data_ep = null,
 		_currentPanelActive = null,
@@ -27,9 +27,7 @@
 				'</ul>',
 				'<ul class="m-list-functions">',
 					'<accessibility></accessibility>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="od" tooltip-placement="right" uib-tooltip="Origen Destino" tooltip-animation="true">',
-						'<img src="./images/functions/od_icon.png" class="m-list-functions__item-icon" data-icon="od_icon"/>',
-					'</li>',
+					'<od></od>',
 					'<heatmap></heatmap>',
 					'<timerings></timerings>',
 					//'<li class="m-list-functions__item js-panel-item" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
@@ -38,7 +36,9 @@
 				'</ul>',
 			].join(''),
 			controller: function($scope){
-				var dm = this;
+				var dm = this,
+				cityFile = null,
+				cityLayer = null;
 				$scope.location_list = false;
 				$scope.competence_list = false;
 
@@ -52,6 +52,28 @@
 					_current_data_side_panel = angular.element(document.getElementsByClassName('js-'+_data_ep+'-side-panel'));
 					uiService.panelIsOpen(_currentPanelId, _currentIconActive, _current_data_side_panel);
 					//uiService.listIsLoaded(_data_ep);
+
+					if (_data_ep === "demography"){
+						// if (!$scope.locations){
+						// 	$scope.location_list = true;
+							
+						// 	LocationService.getLocations()
+						// 	.then(function(res){
+						// 		if(res.data && res.data.places){
+						// 			$scope.location_list = false;
+						// 			$scope.locations = res.data.places;
+						// 			_.each(res.data.places,function(o){
+						// 				var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
+						// 				BaseMapFactory.addLocation({
+						// 					name: id,
+						// 					data: o.data,
+						// 					extend: o.extend
+						// 				});
+						// 			});
+						// 		}
+						// 	});
+						// }
+					}
 
 					if (_data_ep === "location"){
 						if (!$scope.locations){
@@ -111,13 +133,26 @@
 						}
 					}
 
+					if (_data_ep === "od"){
+						cityFile = DFGeoJson;
+						uiService.odIsOpen(_data_ep, cityFile);
+						dm.setLayer = cityFile;
+						
+					}
+					
+					if (_data_ep !== "od"){
+						uiService.removeCityLayer();
+						odService.removeMarker();
+						$scope.selected_zc = false;
+					}
+
 				});
 			}
 
 		};
 	}
 
-	panelFunctions.$inject = ['$timeout', 'Auth', 'uiService', 'LocationService', 'BaseMapFactory', 'BaseMapService', 'CompetenceService'];
+	panelFunctions.$inject = ['$rootScope','$timeout', 'Auth', 'uiService', 'LocationService', 'BaseMapFactory', 'BaseMapService', 'CompetenceService', 'odService'];
 
 	angular.module('panel.directive', [])
 		.directive('panelFunctions', panelFunctions);

@@ -31,11 +31,11 @@
 									'</div>',
 								'</div>',
 								'<div layout="row" flex="60" layout-align="center center" class="m-side-panel__actions-columns">',
-									'<div flex="75">',
+									'<div flex="80" layout-align="center end">',
 										'<h5 class="m-side-panel__subtitle m-side-panel__subtitle--in-locations-actions">Mostrar/ocultar Capas activas</h5>',
 									'</div>',
-									'<div flex="25">',
-										'<div class="m-side-panel__switch">',
+									'<div flex="20">',
+										'<div layout-align="center center" >',
 											'<md-switch class="md-primary md-hue-2" aria-label="all-locations" ng-model="all" ng-change="toggleGral(location)"></md-switch>',
 										'</div>',
 									'</div>',
@@ -90,7 +90,7 @@
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr, parentCtrl){
+			link: function(scope, element, attr){
 				var remove_panel = angular.element(document.getElementsByClassName('js-location-side-panel'));
 				var remove_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
 				var _this = null,

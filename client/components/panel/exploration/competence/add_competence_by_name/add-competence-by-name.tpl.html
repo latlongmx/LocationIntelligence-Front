@@ -9,16 +9,17 @@
 			</div>
 		</md-toolbar>
 		<md-dialog-content class="m-dialog__content m-dialog-by-name__content">
-			<form name="newCompetenceNameForm">
+			<label class="m-label-mandatory">* <span>Campos obligatorios</span></label>
+			<form name="newCompetenceNameForm" class="form--in-by-name">
 				<div layout="row">
-					<md-input-container flex="100" class="md-block">
-					<label>Nombre exacto del establecimiento</label>
-					<input type="text" ng-model="competence_name.query_find" name="competence_name" autocomplete="off" required>
+					<md-input-container flex="100" class="md-block md-input-container--in-by-name">
+					<label><strong>*</strong>Nombre exacto del establecimiento</label>
+					<input type="text" ng-model="competence_name.query_find" name="competence_name" autocomplete="off" required ng-change="matchesByName(competence_name.query_find)">
 					</md-input-container>
-				</div>
+					</div>
 				<div layout="row">
-					<md-input-container flex="100" class="md-block">
-					<label>Nombre personalizado de la competencia para mostrar</label>
+					<md-input-container flex="100" class="md-block md-input-container--in-by-name">
+					<label><strong>*</strong>Nombre personalizado de la competencia para mostrar</label>
 					<input type="text" ng-model="competence_name.nm" name="competence_custom_name" autocomplete="off" required>
 					</md-input-container>
 				</div>
@@ -29,7 +30,7 @@
 					<p class="m-dialog__content-file color-gray50">{{ icon }}</p>
 				</div>
 				<div layout="row">
-					<button class="md-primary md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="loadCompetenceName(newCompetenceNameForm, competence_name)">Agregar</button>
+					<button class="md-primary md-raised md-button md-ink-ripple" flex="50" ng-click="loadCompetenceName(newCompetenceNameForm, competence_name)" ng-disabled="newCompetenceNameForm.$invalid">Agregar</button>
 					<button type="button" class="md-warn md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="cancel()">Cancelar</button>
 				</div>
 			</form>

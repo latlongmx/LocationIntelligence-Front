@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function demographyDirective(DemographyJsonService, BaseMapService, BaseMapFactory, $mdToast, $document){
+	function demographyDirective(DemographyJsonService, BaseMapService, BaseMapFactory, $mdToast, $document, $timeout){
 		var _$js_demography_side_panel = null,
 		_$js_demography_item = null,
 		_column_request = null;
@@ -130,35 +130,21 @@
 						});
 					},
 					onCollapseDemMenuEnd: function(event, item) {
-						//angular.element(document.getElementsByClassName('current-category')).removeClass('visible').addClass('invisible');
 						var hide = angular.element(document.getElementsByClassName('testing'));
 						angular.element(hide[0]).removeClass('fa-times').addClass('fa-search');
 					},
 					onCollapseDemMenuStart: function() {
 						angular.element(document.getElementsByClassName('js-filter-demography-catalog')).removeClass('is-filter-demography-active').val("");
-						//angular.element(document.getElementsByClassName('current-category')).addClass('visible').removeClass('invisible');
 					},
 					onItemDemClick: function(event, item) {
 						_variable_id = item.id;
 						_variable_name = item.name;
-						
 
 						if(scope._variable_flag.indexOf(_variable_name) === -1){
 							scope._variable_flag.push(_variable_name);
 							scope.demography_variable_list.push({_variable_name: _variable_name, _variable_id: _variable_id});
-							$mdToast.show(
-								$mdToast.simple({
-									textContent: 'Se agregó ' + _variable_name,
-									position: 'top right',
-									hideDelay: 1500,
-									parent: $document[0].querySelector('.m-side-panel'),
-									theme: 'info-toast',
-									autoWrap: true
-								})
-							);
-							
+							_showToastMessage('Se agregó ' + _variable_name);
 							if (scope._variable_flag.length === 1) {
-								console.log(scope._variable_flag.length)
 								scope.current_checked = scope.demography_variable_list[0];
 								scope.last_checked = scope.demography_variable_list[0];
 								_demographyWKTRequest(scope.demography_variable_list[0]._variable_id);
@@ -187,15 +173,7 @@
 							if (scope._variable_flag.length === 0) {
 								BaseMapFactory.delPobVivWMS();
 							}
-							$mdToast.show(
-								$mdToast.simple({
-									textContent: 'Se removió ' + _variable_name,
-									position: 'top right',
-									hideDelay: 2500,
-									parent: $document[0].querySelector('.m-side-panel'),
-									theme: 'error-toast'
-								})
-							);
+							_showToastMessage('Se removió ' + _variable_name);
 
 						}
 						angular.element(event.currentTarget.children).toggleClass('fa fa-check').css(
@@ -296,36 +274,13 @@
 				 */
 				var _demographyWKTRequest = function(param) {
 					BaseMapService.map.then(function (map) {
-						if(map.getZoom()<13){
-							console.log('zoom mayor');
-							return;
+						if(map.getZoom() < 13){
+							$timeout(function(){
+								_showToastMessage("Se necesita un zoom mínimo de 14 para visualizar la capa");
+							}, 2500);
+							//
 						}
 						BaseMapFactory.setPobVivWMS(param);
-
-						// if(map.getZoom()<15){
-						// 	console.log('zoom mayor');
-						// 	return;
-						// }
-
-						// var demographyWKT = BaseMapFactory.bounds2polygonWKT(map.getBounds());
-						// if(demographyWKT){
-						// 	BaseMapService.intersect({
-						// 		s:'inegi',
-						// 		t: 'pobviv2010',
-						// 		c: param,
-						// 		w:'',
-						// 		wkt: demographyWKT,
-						// 		mts: 0
-						// 	}).then(function(result){
-						// 		if(result && result.data){
-						// 			var info = result.data.info;
-						// 			var geojson = result.data.geojson;
-						// 			BaseMapFactory.addColorPletMap(geojson,param);
-						// 		}
-						// 	}, function(error){
-						// 		console.log(error);
-						// 	});
-						// }
 					});
 				};
 				
@@ -351,13 +306,27 @@
 						scope.last_checked = scope.demography_variable_list[0];
 						_demographyWKTRequest(scope.demography_variable_list[0]._variable_id);
 					}
-
+				}
+				
+				/**
+				 * [_showToastMessage Function to open $mdDialog]
+				 * @param  {[type]} message [Message to show in $mdDialog]
+				 */
+				var _showToastMessage = function(message) {
+					$mdToast.show(
+						$mdToast.simple({
+							textContent: message,
+							position: 'top right',
+							hideDelay: 2500,
+							parent: $document[0].querySelector('.md-dialog-container')
+						})
+					);
 				}
 			}
 		};
 	}
 	
-	demographyDirective.$inject = ['DemographyJsonService', 'BaseMapService', 'BaseMapFactory', '$mdToast', '$document'];
+	demographyDirective.$inject = ['DemographyJsonService', 'BaseMapService', 'BaseMapFactory', '$mdToast', '$document', '$timeout'];
 
 	angular.module('demography.directive', [])
 		.directive('demography', demographyDirective);

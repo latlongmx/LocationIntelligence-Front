@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
 	<link rel="stylesheet" href="../bower_components/route360/dist/r360.css" />
 	<link rel="stylesheet" href="../bower_components/route360/dist/jquery-ui-1.10.0.custom.css" />
+	<link rel="stylesheet" href="../bower_components/slick-carousel/slick/slick.css" />
 	<!-- endbower -->
 	<!-- inject:css -->
 	<link rel="stylesheet" href="css/styles.css">
@@ -61,11 +62,11 @@
 	<script src="../bower_components/angular-aria/angular-aria.js"></script>
 	<script src="../bower_components/angular-material/angular-material.js"></script>
 	<script src="../bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
-	<!--script src="../bower_components/leaflet/dist/leaflet.js"></script>
-	<script src="../bower_components/leaflet/dist/leaflet-src.js"></script-->
-	<!--script src="../bower_components/jquery-ui/ui/jquery-ui.js"></script-->
-
-
+	<script src="../bower_components/slick-carousel/slick/slick.js"></script>
+	<script src="../bower_components/angular-slick-carousel/dist/angular-slick.js"></script>
+	<script src="../bower_components/highcharts/highcharts.js"></script>
+	<script src="../bower_components/highcharts/highcharts-more.js"></script>
+	<script src="../bower_components/highcharts/modules/exporting.js"></script>
 	<!-- endbower -->
 	<!-- inject:own:js -->
 	<script src="../bower_components/angular-ui-bootstrap/ui-bootstrap-custom-1.3.2.js"></script>
@@ -79,6 +80,7 @@
 	<script src="../bower_components/jslibs/leaflet.dynamicWMS.js"></script>
 	<script src="../bower_components/route360/dist/r360-core.js"></script>
 	<script src="../bower_components/route360/dist/r360-leaflet.js"></script>
+	<script src="../bower_components/jslibs/geostats.js"></script>
 	<!-- endinject -->
 	<!-- endbuild -->
 	<!-- build:js js/app.js -->
@@ -104,7 +106,8 @@
 	<script src="components/panel/analysis/heatmap/heatmap.component.js"></script>
 	<script src="components/panel/analysis/heatmap/heatmap.pushmenu.js"></script>
 	<script src="components/panel/analysis/heatmap/heatmap.service.js"></script>
-	<script src="components/panel/analysis/od_modal/od-modal.controller.js"></script>
+	<script src="components/panel/analysis/od/od.component.js"></script>
+	<script src="components/panel/analysis/od/od.service.js"></script>
 	<script src="components/panel/analysis/rings_modal/rings-modal.controller.js"></script>
 	<script src="components/panel/analysis/timerings/timerings.component.js"></script>
 	<script src="components/panel/exploration/competence/competence.component.js"></script>
@@ -120,6 +123,13 @@
 	<script src="components/panel/analysis/heatmap/add_heatmap/add.heatmap.controller.js"></script>
 	<script src="components/panel/analysis/heatmap/add_heatmap/add.heatmap.service.js"></script>
 	<script src="components/panel/analysis/heatmap/edit_heatmap/edit.heatmap.controller.js"></script>
+	<script src="components/panel/analysis/od/avg-age/avg-age.component.js"></script>
+	<script src="components/panel/analysis/od/avg-day-gender/avg-day-gender.component.js"></script>
+	<script src="components/panel/analysis/od/cards-age/cards-age.component.js"></script>
+	<script src="components/panel/analysis/od/cards-day/cards-day.component..js"></script>
+	<script src="components/panel/analysis/od/gender_graph/gender-graph.component.js"></script>
+	<script src="components/panel/analysis/od/payments-age/payments-age.component.js"></script>
+	<script src="components/panel/analysis/od/payments-day-gender/payments-day-gender.component.js"></script>
 	<script src="components/panel/exploration/competence/add_competence_by_csv/add-competence-by-csv.controller.js"></script>
 	<script src="components/panel/exploration/competence/add_competence_by_name/add-competence-by-name.controller.js"></script>
 	<script src="components/panel/exploration/competence/add_competence_by_var/add-competence-by-var.controller.js"></script>
@@ -127,6 +137,9 @@
 	<script src="components/panel/exploration/competence/edit_competence/edit.competence.controller.js"></script>
 	<script src="components/panel/exploration/location/add_locations/add.location.controller.js"></script>
 	<script src="components/panel/exploration/location/edit_layer/edit-layer.location.controller.js"></script>
+	<!-- endinject -->
+	<!-- inject:own:geojson -->
+	<script src="catalogs/df.geojson.js"></script>
 	<!-- endinject -->
 	<!-- inject:templates:js -->
 	<!-- endinject -->

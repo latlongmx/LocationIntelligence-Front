@@ -4,13 +4,17 @@
 	*/
 	'use strict';
 	
-	function uiService($mdDialog){
+	function uiService($mdDialog, BaseMapService, odService){
 		var _previousPanelActive = null,
 		_previousIconActive = null,
 		_previous_data_side_panel = null,
 		_currentPanelActive = null,
 		_currentIconActive = null,
-		_current_data_side_panel = null;
+		_current_data_side_panel = null,
+		_od_active = null,
+		_od_previous = null,
+		cityLayerGroup = new L.LayerGroup(),
+		_set_panel = [];
 		
 		/* Template for Loader progress */
 		this.loaderTemplate = [
@@ -33,10 +37,12 @@
 			button.attr("disabled", true);
 			button.text(message);
 		}
+
 		this.removeLogginIsLoading = function(button, message){
 			button.attr("disabled", false);
 			button.text(message);
 		}
+
 		this.cleanInputs = function(inputs){
 			inputs.value = "";
 		}
@@ -45,12 +51,13 @@
 		this.layerIsLoading = function(){
 			return angular.element(document.getElementsByTagName("body")).append(this.loaderTemplate);
 		}
+
 		this.layerIsLoaded = function(){
 			return angular.element(document.getElementsByClassName('m-loading')).remove();
 		}
 		
 		/* Panel */
-		this.changeCurrentPanel = function(boo) {
+		this.changeCurrentPanel = function(boo, layer) {
 			if(boo === true){
 				if (_currentPanelActive) {
 					_currentPanelActive.children().attr('src', './images/functions/'+_currentIconActive+'.png');
@@ -69,12 +76,25 @@
 				}
 			}
 		}
+
 		this.changePreviousPanel = function() {
 			_previousPanelActive.children().attr('src', './images/functions/'+_previousIconActive+'.png');
 			_previousPanelActive.removeClass('is-item-panel-active');
 			_previous_data_side_panel.removeClass('is-panel-open');
+			this.removeCityLayer();
 		}
-		this.panelIsOpen = function(currentPanelId, currentIcon, currentPanel){
+
+		this.setPanel = function(a,b,c) {
+			_set_panel = [];
+			_set_panel.push(a,b,c);
+		}
+
+		this.getPanel = function() {
+			return _set_panel;
+		}
+
+		this.panelIsOpen = function(currentPanelId, currentIcon, currentPanel, layer){
+			this.setPanel(currentPanelId,currentIcon,currentPanel);
 			_previousPanelActive = _currentPanelActive;
 			_previousIconActive = _currentIconActive;
 			_previous_data_side_panel = _current_data_side_panel;
@@ -90,74 +110,38 @@
 
 			_previousPanelActive ===  _currentPanelActive ? this.changeCurrentPanel(true) : this.changeCurrentPanel();
 			if(_previousPanelActive){
-				!_currentPanelActive ? this.changeCurrentPanel(true) : this.changePreviousPanel();
+				!_currentPanelActive ? [this.changeCurrentPanel(true), this.addCityLayer(layer)] : this.changePreviousPanel();
 			}
 			_previous_data_side_panel === _current_data_side_panel ? this.changeCurrentPanel(true) : this.changeCurrentPanel();
 			if(_previous_data_side_panel){
 				!_current_data_side_panel ? this.changeCurrentPanel(true) : this.changePreviousPanel();
 			}
 		}
-		// this.listIsLoaded = function(currentId){
-		// 	if (currentId === "location"){
-		// 		if (!$scope.locations){
-		// 			$scope.location_list = true;
-					
-		// 			LocationService.getLocations()
-		// 			.then(function(res){
-		// 				if(res.data && res.data.places){
-		// 					$scope.location_list = false;
-		// 					$scope.locations = res.data.places;
-		// 					_.each(res.data.places,function(o){
-		// 						var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-		// 						BaseMapFactory.addLocation({
-		// 							name: id,
-		// 							data: o.data,
-		// 							extend: o.extend
-		// 						});
-		// 					});
-		// 				}
-		// 			});
-		// 		}
-		// 	}
+		
+		/* Layer OD */
+		this.addCityLayer = function(layer) {
+			if (layer) {
+				cityLayerGroup.addLayer(odService.loadMap(layer, this.getPanel()));
+				BaseMapService.map.then(function (map) {
+					cityLayerGroup.addTo(map);
+				});
+			}
+		}
 
-		// 	if (currentId === "competence"){
-		// 		if (!$scope.save_competence_variable_list){
-		// 			$scope.competence_list = true;
-					
-		// 			CompetenceService.getCompetences({
-		// 				competence: '1'
-		// 			})
-		// 			.then(function(res){
-		// 				if(res.data && res.data.places){
-		// 					$scope.competence_list = false;
-		// 					$scope.save_competence_variable_list = res.data.places;
-		// 					_.each(res.data.places,function(o){
-		// 						var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-		// 						BaseMapFactory.addLocation({
-		// 							name: id,
-		// 							data: o.data,
-		// 							extend: o.extend
-		// 						});
-		// 					});
-		// 				}
-		// 			});
-		// 		}
-		// 	}
+		this.removeCityLayer = function() {
+			cityLayerGroup.clearLayers();
+			_od_active = "";
+		}
 
-		// 	if (currentId === "heatmap"){
-		// 		if (!$scope.save_heatmap_variable_list){
-		// 			$scope.heatmap_list = true;
-		// 			BaseMapService.getUserHeatMap().then(function(res){
-		// 				if(res.data && res.data.heats){
-		// 					$scope.heatmap_list = false;
-		// 					$scope.save_heatmap_variable_list = res.data.heats;
-		// 				}
-		// 			});
-		// 		}
-		// 	}
-		// }
+		this.odIsOpen = function(od, data) {
+			_od_previous = _od_active;
+			_od_active = od;
+			if (_od_previous !== _od_active){
+				this.addCityLayer(data);
+			}
+		}
 
 	}
-	uiService.$inject = ['$mdDialog'];
+	uiService.$inject = ['$mdDialog', 'BaseMapService', 'odService'];
 	angular.module('ui.service', []).service('uiService', uiService);
 })();

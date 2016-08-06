@@ -36,7 +36,15 @@
 			'add.heatmap.controller',
 			'add.heatmap.service',
 			'edit.layer.heatmap.controller',
-			'od.modal.controller',
+			'od.directive',
+			'od.service',
+			'avg.day.gender.directive',
+			'avg.age.directive',
+			'payments.day.gender.directive',
+			'payments.age.directive',
+			'cards.day.directive',
+			'cards.age.directive',
+			'gender.graph.directive',
 			'rings.modal.controller',
 			'search.directive',
 			'ui.router',
@@ -48,7 +56,8 @@
 			'ngMaterial',
 			'angularFileUpload',
 			'ui.service',
-			'msg.service'
+			'msg.service',
+			'slickCarousel'
 		]
 	)
 	.constant('_',
@@ -101,16 +110,6 @@
 		return $rootScope;
 	}])
 	.config(function($mdThemingProvider){
-		// var demoRedMap = $mdThemingProvider.extendPalette('red', {
-		// 	'200': '#82c341',
-		// 	'300': '#acd08c',
-		// 	'400': '#cbdf7d',
-		// 	'500': '#22ac9b',
-		// 	'600': '#00b8b0',
-		// 	'700': '#6fc9c4',
-		// 	'contrastDefaultColor': 'light',
-		// 	'contrastLightColors': ['500', '600', '700']
-		// });
 		$mdThemingProvider.definePalette('demo', {
 			'50': '#22ac9b',
 			'100': '#00b8b0',
@@ -120,12 +119,12 @@
 			'500': '#22ac9b',
 			'600': '#00b8b0',
 			'700': '#6fc9c4',
-			'800': '#828189',
+			'800': '#D3D3D5',
 			'900': '#A2A2A7',
-			'A100': '828189',
-			'A200': '666470',
-			'A400': '828189',
-			'A700': 'A2A2A7',
+			'A100': '#828189',
+			'A200': '#666470',
+			'A400': '#828189',
+			'A700': '#A2A2A7',
 			'contrastDefaultColor': 'light',
 			'contrastLightColors': ['50', '100', '200'],
 			'hue-1': '300',
