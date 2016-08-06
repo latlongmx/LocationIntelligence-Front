@@ -33,7 +33,6 @@
 			'heatmap.directive',
 			'heatmap.service',
 			'timerings.directive',
-			'timerings.service',
 			'add.heatmap.controller',
 			'add.heatmap.service',
 			'edit.layer.heatmap.controller',
