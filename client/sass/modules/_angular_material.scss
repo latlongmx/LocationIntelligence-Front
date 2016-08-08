@@ -24,3 +24,11 @@ md-progress-linear {
 		background-color: $gray0 !important;
 	}
 }
+
+.md-button {
+	white-space:normal;
+	line-height: 1.42;
+}
+.md-button--in-accessibility {
+	text-transform:initial;
+}

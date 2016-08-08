@@ -36,128 +36,98 @@
 						'<img src="./images/functions/accessibility_icon.png" class="m-list-functions__item-icon" data-icon="accessibility_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-accessibility-side-panel">',
-					'<h3 class="m-side-panel__title">Métricas Accesibilidad</h3>',
-					'<span class="accessibility-tools">',
-						'<section layout="row" layout-align="center center">',
-							'<label class="groupX left">Crear un área:</label>',
-							//'<md-button class="groupX left leaflet-draw-draw-polyline" title="Dibujar Líneas" ng-click="drawInMap($event,\'line\')">',
-							//	'<i class="demo demo-line line-tool"></i>',
-							//'</md-button>',
-							'<md-button id="btnAddNewPoly" class="groupX middle leaflet-draw-draw-polygon" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">',
-								'<i class="demo demo-area polygon-tool"></i>',
-							'</md-button>',
-							'<md-button id="btnAddNewRadio" class="groupX right leaflet-draw-draw-circle" title="Dibujar Radio" ng-click="drawInMap($event,\'circle\')">',
-								'<i class="demo demo-radio area-tool"></i>',
-							'</md-button>',
-						'</section>',
-					'</span>',
-					'<div>',
-						'<div id="access_car_content">',
-							'<div class="m-side-panel__header">',
-								'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
-									'Vías de acceso vehicular',
-								'</h4>',
-							'</div>',
-							'<md-list>',
-								'<md-list-item>',
-									'<img ng-src="images/accessibility/highway.png"></img>',
-									'<p>Primarias</p>',
-									'<p id="accessNumP">0</p>',
-								'</md-list-item>',
-								'<md-list-item>',
-									'<img ng-src="images/accessibility/road-with-broken-line.png"></img>',
-									'<p>Secundarias</p>',
-									'<p id="accessNumS">0</p>',
-								'</md-list-item>',
-								'<md-list-item>',
-									'<img ng-src="images/accessibility/speedometer.png"></img>',
-									'<p>Terciarias</p>',
-									'<p id="accessNumT">0</p>',
-								'</md-list-item>',
-							'</md-list>',
-							'<div class="m-side-panel__header" id="contAccesTrans">',
-								'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
-									'Vías de acceso en transporte',
-								'</h4>',
-							'</div>',
-							'<md-list id="listAccessTrans" style="overflow-y: auto; height: 140px;">',
-							'</md-list>',
-						'</div>',
-						'<p></p>',
-						'<div id="access_trans_content"></div>',
-
-						'<div class="divider"></div>',
-						'<h4 class="m-side-panel__title">Datos de transporte público</h4>',
-						'<div class="m-side-panel__header">',
-							/*'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">',
-								'Transporte público',
-							'</h4>',*/
-						'</div>',
-						'<md-list id="viasListWMS">',
-							'<md-list-item>',
-								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="METRO">Metro</md-button>',
-								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="MB">Metrobus</md-button>',
-								//'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="">--</md-button>',
-								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="STE">Transp. Eléctricos</md-button>',
-								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="SUB">Tren Suburb.</md-button>',
-							'</md-list-item>',
-							'<md-list-item>',
-
-								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="RTP">Transp. Pasajeros</md-button>',
-								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="CC">Concesionados</md-button>',
-								'<md-button class="btnTransWMS" ng-click="vialToggleWMS($event)" data-tipo="NCC">Nochebús</md-button>',
-							'</md-list-item>',
-						'</md-list>',
-						'<div class="divider"></div>',
-						'<h4 class="m-side-panel__title">Areas de análisis</h4>',
-						'<div class="m-side-panel__header">',
-							'<ul class="m-side-panel__list-titles">',
-								'<div layout="row">',
-									'<p flex="50" class="m-side-panel__list-titles__column-name">Nombre</p>',
-									'<p flex="20" class="m-side-panel__list-titles__column-name">Tipo</p>',
-									'<p flex="10" class="m-side-panel__list-titles__column-name">Visible</p>',
-									'<p flex="10" class="m-side-panel__list-titles__column-name"></p>',
-									'<p flex="10" class="m-side-panel__list-titles__column-name"></p>',
+						'<h3 class="m-side-panel__title">Métricas Accesibilidad</h3>',
+						'<div class="m-side-panel__actions pos-relative">',
+							'<div layout="row">',
+								'<div layout="column" flex="50" layout-align="center center">',
+									'<h4 class="m-side-panel__subtitle">Crear área:</h4>',
 								'</div>',
-							'</ul>',
+								'<div layout="column" flex="50" layout-align="center center">',
+									'<md-button id="btnAddNewPoly" ng-disabled="disableDrawAccessBtn" aria-label="" class="md-raised md-fab md-mini leaflet-draw-draw-polygon" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">Hola</md-button>',
+								'</div>',
+								'<div layout="column" flex="50" layout-align="center center">',
+									'<md-button id="btnAddNewRadio" ng-disabled="disableDrawAccessBtn" aria-label="area-tool" class="md-raised md-fab md-mini leaflet-draw-draw-circle" title="Dibujar Radio" ng-click="drawInMap($event,\'circle\')">',
+									  '<i class="demo demo-radio area-tool area-tool--in-accessibility"></i>',
+									'</md-button>',
+								'</div>',
+							'</div>',
 						'</div>',
-
-						'<div class="m-side-panel__list" style="height: 115px; position: absolute;top:685px; overflow-y: auto; left:15px;right:15px;">',
-							'<ul id="accessPanelUserDraws" class="m-side-panel__list-content">',
-								'<li ng-repeat="draw in userDraws" class="m-side-panel__list-content__item js-location-item li">',
-									//'<input ng-model="string"  class="m-side-panel__list-content__item-single" value="{{draw.name}}"/>',
-									'<md-input-container flex="50" >',
-										'<input ng-change="putNameUserDraw(draw.id, draw.name)" ng-model-options="{debounce: 750}" ng-model="draw.name" style="position: absolute; bottom: -12px;">',
+						'<div class="m-side-panel__list m-side-panel__list--in-accessibility__analysis-area">',
+							'<h3 class="m-side-panel__user-title">Areas de análisis</h3>',
+							'<ul id="accessPanelUserDraws" class="m-side-panel__list-content m-side-panel__list-content--in-accessibility">',
+								'<li ng-repeat="draw in userDraws" class="m-side-panel__list-content__item">',
+									'<md-input-container flex="60">',
+										'<input ng-change="putNameUserDraw(draw.id, draw.name)" ng-model-options="{debounce: 750}" ng-model="draw.name" >',
 									'</md-input-container>',
-									'<p flex="20" class="m-side-panel__list-content__item-single">',
-									//'{{draw.icon}}',
+									'<p flex="10" class="m-side-panel__list-content__item-single">',
 									'<i class="demo {{draw.icon}}"></i>',
 									'</p>',
 									'<md-switch data-iddraw="draw.id" ng-model="draw.isActive" flex="10" data-iddraw="draw.id" ng-change="turnOnOffDraw(draw.id)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
 									'<md-button flex="10" data-iddraw="draw.id" ng-click="zoomToUserDraw(draw.id)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
 										'<md-icon>zoom_in</md-icon>',
 									'</md-button>',
-									// ng-click="removeLocation(location, location.id_layer, location.name_layer, $index)"
 									'<md-button flex="10" data-iddraw="draw.id" ng-click="delUserDraw(draw.id)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
 										'<md-icon>delete</md-icon>',
 									'</md-button>',
 								'</li>',
 							'</ul>',
 						'</div>',
-
+						'<div class="m-side-panel__list m-side-panel__list--in-accessibility__car-access">',
+							'<h3 class="m-side-panel__user-title">Vías de acceso vehicular</h3>',
+							'<div id="access_car_content" class="access-car-content">',
+								'<div layout="row">',
+									'<div layout="column" flex="50" layout-align="center center">',
+										'<h6 class="m-title-sm">Primarias</h6>',
+										'<img ng-src="images/accessibility/highway.png" width="30">',
+										'<p id="accessNumP" style="    margin: 5px 0 0 0;color: #ffffff;font-weight: bold;padding: 3px 15px;background: #22ac9b;font-size: 14px;">0</p>',
+									'</div>',
+									'<div layout="column" flex="50" layout-align="center center">',
+										'<h6 class="m-side-panel__subtitle">Secundarias</h6>',
+										'<img ng-src="images/accessibility/road-with-broken-line.png" width="30">',
+										'<p id="accessNumS" style="    margin: 5px 0 0 0;color: #ffffff;font-weight: bold;padding: 3px 15px;background: #22ac9b;font-size: 14px;">0</p>',
+									'</div>',
+									'<div layout="column" flex="50" layout-align="center center">',
+										'<h6 class="m-side-panel__subtitle">Terciarias</h6>',
+										'<img ng-src="images/accessibility/speedometer.png" width="30">',
+										'<p id="accessNumT" style="    margin: 5px 0 0 0;color: #ffffff;font-weight: bold;padding: 3px 15px;background: #22ac9b;font-size: 14px;">0</p>',
+									'</div>',
+								'</div>',
+							'</div>',
+						'</div>',
+						'<div class="m-side-panel__list m-side-panel__list--in-accessibility__access-routes">',
+							'<h3 class="m-side-panel__user-title">Vías de acceso en transporte</h3>',
+								'<md-list id="listAccessTrans" style="overflow-y: auto; height: 140px;padding:0;">',
+								'</md-list>',
+						'</div>',
+						'<div class="m-side-panel__list m-side-panel__list--in-accessibility__transport-data">',
+							'<h3 class="m-side-panel__user-title">Datos de transporte público</h3>',
+							'<md-list id="viasListWMS">',
+								'<md-list-item layout="row">',
+									'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="METRO">Metro</md-button>',
+									'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="MB">Metrobús</md-button>',
+									'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="">--</md-button>',
+									'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="SUB">Tren Suburbano</md-button>',
+								'</md-list-item>',
+								'<md-list-item layout="row">',
+									'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="STE">Transportes eléctrico</md-button>',
+									'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="RTP">Transporte de pasajeros</md-button>',
+									'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="CC">Concesionados</md-button>',
+									'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="NCC">Nochebús</md-button>',
+								'</md-list-item>',
+							'</md-list>',
+						'</div>',
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr, potencialCtrl){
+			link: function(scope, element, attr){
 
-				scope.userDraws =[];
+				scope.userDraws = [];
+				scope.disableDrawAccessBtn = false;
 
 				_$contentCount = {
 					vehi : angular.element(document.getElementById('access_car_content')),
 					trns : angular.element(document.getElementById('access_trans_content'))
 				};
-
-
 
 				BaseMapService.map.then(function (map) {
 					_map = map;
@@ -280,9 +250,9 @@
 				};
 
 				var _drawComplete = function(e){
+					console.log(scope.userDraws)
 					if(scope.isDrawAccessibility){
 						scope.isDrawAccessibility = false;
-						console.log(e.target);
 						_currentFeature = e;
 						scope.addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
 						scope.activateViasWMS(_currentFeature);
@@ -441,11 +411,13 @@
 				};
 
 				scope.verifyLimitDraws = function(){
-					var _$btnAddNewPoly = angular.element(document.getElementById('btnAddNewPoly'));
-					var _$btnAddNewRadio = angular.element(document.getElementById('btnAddNewRadio'));
-					if( scope.userDraws.length>=2){
-						_$btnAddNewPoly.attr('disabled',true);
-						_$btnAddNewRadio.attr('disabled',true);
+					console.log(scope.userDraws.length >= 2)
+					var _$btnAddNewPoly = angular.element(document.getElementsByClassName('btnAddNewPoly'));
+					var _$btnAddNewRadio = angular.element(document.getElementsByClassName('btnAddNewRadio'));
+					if( scope.userDraws.length >= 2){
+						//_$btnAddNewPoly.attr('disabled',true);
+						//_$btnAddNewRadio.attr('disabled',true);
+						scope.disableDrawAccessBtn = true;
 						$mdToast.show(
 							$mdToast.simple({
 								textContent: "Solo puedes realizar 2 analisis, elimina uno si deseas agregar otro",
@@ -456,8 +428,9 @@
 							})
 						);
 					}else{
-						_$btnAddNewPoly.attr('disabled',false);
-						_$btnAddNewRadio.attr('disabled',false);
+						//_$btnAddNewPoly.attr('disabled',false);
+						//_$btnAddNewRadio.attr('disabled',false);
+						scope.disableDrawAccessBtn = false;
 					}
 				};
 
