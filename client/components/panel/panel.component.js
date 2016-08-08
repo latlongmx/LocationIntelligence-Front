@@ -29,9 +29,10 @@
 					'<accessibility></accessibility>',
 					'<od></od>',
 					'<heatmap></heatmap>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
-						'<img src="./images/functions/rings_icon.png" class="m-list-functions__item-icon" data-icon="rings_icon"/>',
-					'</li>',
+					'<timerings></timerings>',
+					//'<li class="m-list-functions__item js-panel-item" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
+					//	'<img src="./images/functions/rings_icon.png" class="m-list-functions__item-icon" data-icon="rings_icon"/>',
+					//'</li>',
 				'</ul>',
 			].join(''),
 			controller: function($scope){
@@ -77,7 +78,7 @@
 					if (_data_ep === "location"){
 						if (!$scope.locations){
 							$scope.location_list = true;
-							
+
 							LocationService.getLocations()
 							.then(function(res){
 								if(res.data && res.data.places){
@@ -99,7 +100,7 @@
 					if (_data_ep === "competence"){
 						if (!$scope.save_competence_variable_list){
 							$scope.competence_list = true;
-							
+
 							CompetenceService.getCompetences({
 								competence: '1'
 							})
@@ -147,7 +148,7 @@
 
 				});
 			}
-			
+
 		};
 	}
 
