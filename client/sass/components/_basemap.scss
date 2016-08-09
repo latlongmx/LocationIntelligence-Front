@@ -105,10 +105,10 @@
 .leaflet-draw-draw-circle,
 .leaflet-draw-edit-edit,
 .leaflet-draw-edit-remove {
-	background-color: $white !important;
+	background-color: $white;
 	background-image:none;
 	border-bottom:none !important;
-	cursor:pointer !important;
+	cursor:pointer;
 	height: 35px !important;
 	opacity:1 !important;
 	width: 35px !important;

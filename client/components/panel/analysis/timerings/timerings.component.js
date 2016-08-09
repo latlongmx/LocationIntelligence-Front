@@ -143,9 +143,11 @@
 
         scope.setTimeRing = function(time){
           _timeRing = time;
+          scope.callTravelRings();
         };
         scope.setTypeRing = function(type){
           _typeRing = type;
+          scope.callTravelRings();
         };
 
         scope.callTravelRings = function(){
@@ -160,7 +162,7 @@
             _polygonRings.clearAndAddLayers(polygons, false);
           });
         };
-
+        
 
       },
       controller: function($scope) {}

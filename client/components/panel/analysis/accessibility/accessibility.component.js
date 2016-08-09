@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, $compile, $mdToast, $document){
+	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, $compile, $mdToast, $document, $timeout){
 
 		var _$js_accessibility_side_panel = null,
 		_$js_accessibility_item = null,
@@ -19,6 +19,7 @@
 		var _layers = {};
 		var _$userDraws = null;
 		var _$userDrawsGeoms = [];
+		var _counterUserDraws = 0;
 
 		var _$contentCount = {
 			vehi:undefined,
@@ -43,10 +44,10 @@
 									'<h4 class="m-side-panel__subtitle">Crear área:</h4>',
 								'</div>',
 								'<div layout="column" flex="50" layout-align="center center">',
-									'<md-button id="btnAddNewPoly" ng-disabled="disableDrawAccessBtn" aria-label="" class="md-raised md-fab md-mini leaflet-draw-draw-polygon" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">Hola</md-button>',
+									'<md-button id="btnAddNewPoly" ng-disabled="disableDrawAccessBtn" aria-label="" class="md-raised md-fab md-mini leaflet-draw-draw-polygon js-draw-area" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">Hola</md-button>',
 								'</div>',
 								'<div layout="column" flex="50" layout-align="center center">',
-									'<md-button id="btnAddNewRadio" ng-disabled="disableDrawAccessBtn" aria-label="area-tool" class="md-raised md-fab md-mini leaflet-draw-draw-circle" title="Dibujar Radio" ng-click="drawInMap($event,\'circle\')">',
+									'<md-button id="btnAddNewRadio" ng-disabled="disableDrawAccessBtn" aria-label="area-tool" class="md-raised md-fab md-mini leaflet-draw-draw-circle  js-draw-area" title="Dibujar Radio" ng-click="drawInMap($event,\'circle\')">',
 									  '<i class="demo demo-radio area-tool area-tool--in-accessibility"></i>',
 									'</md-button>',
 								'</div>',
@@ -54,7 +55,7 @@
 						'</div>',
 						'<div class="m-side-panel__list m-side-panel__list--in-accessibility__analysis-area">',
 							'<h3 class="m-side-panel__user-title">Areas de análisis</h3>',
-							'<ul id="accessPanelUserDraws" class="m-side-panel__list-content m-side-panel__list-content--in-accessibility">',
+							'<ul id="accessPanelUserDraws" class="m-side-panel__list-content m-side-panel__list-content--in-accessibility" ng-if="user_draws">',
 								'<li ng-repeat="draw in userDraws" class="m-side-panel__list-content__item">',
 									'<md-input-container flex="60">',
 										'<input ng-change="putNameUserDraw(draw.id, draw.name)" ng-model-options="{debounce: 750}" ng-model="draw.name" >',
@@ -66,7 +67,7 @@
 									'<md-button flex="10" data-iddraw="draw.id" ng-click="zoomToUserDraw(draw.id)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
 										'<md-icon>zoom_in</md-icon>',
 									'</md-button>',
-									'<md-button flex="10" data-iddraw="draw.id" ng-click="delUserDraw(draw.id)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+									'<md-button flex="10" data-iddraw="draw.id" ng-click="delUserDraw(draw.id_draw)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
 										'<md-icon>delete</md-icon>',
 									'</md-button>',
 								'</li>',
@@ -122,12 +123,14 @@
 			link: function(scope, element, attr){
 
 				scope.userDraws = [];
-				scope.disableDrawAccessBtn = false;
+				//scope.disableDrawAccessBtn = true;
 
 				_$contentCount = {
 					vehi : angular.element(document.getElementById('access_car_content')),
 					trns : angular.element(document.getElementById('access_trans_content'))
 				};
+				
+				var _$js_draw_area = null;
 
 				BaseMapService.map.then(function (map) {
 					_map = map;
@@ -145,120 +148,114 @@
 					_toolDraw.polygon.setOptions(opst);
 					_toolDraw.circle.setOptions(opst);
 
-					_map.on('draw:created', _drawComplete);
-					_editableLayers.on('layeradd', _startAccessibilityAnalysis);
-
+					_map.on('draw:created', _verifyLimitDraws);
+					console.log(scope.userDraws)
+					//_editableLayers.on('layeradd', _startAccessibilityAnalysis);
 				});
+				
+				// var _drawComplete = function(e){
+				// 	_verifyLimitDraws(e);
+				// };
+				
 
-				scope.openViasWMS = function(){
-					if(_layers.viasWMS === undefined){
-						_layers.viasWMS = L.tileLayer.dynamicWms(
-							"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&", {
-								layers: 'VIAS',
-								format: 'image/png',
-								minZoom: 10,
-								transparent: true
-						});
-						_layers.viasWMS.options.crs = L.CRS.EPSG4326;
-						_layers.viasWMS.addTo(_map);
-					}else{
-						_map.removeLayer(_layers.viasWMS);
-						_layers.viasWMS = undefined;
-					}
+				// scope.openViasWMS = function(){
+				// 	if(_layers.viasWMS === undefined){
+				// 		_layers.viasWMS = L.tileLayer.dynamicWms(
+				// 			"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&", {
+				// 				layers: 'VIAS',
+				// 				format: 'image/png',
+				// 				minZoom: 10,
+				// 				transparent: true
+				// 		});
+				// 		_layers.viasWMS.options.crs = L.CRS.EPSG4326;
+				// 		_layers.viasWMS.addTo(_map);
+				// 	}else{
+				// 		_map.removeLayer(_layers.viasWMS);
+				// 		_layers.viasWMS = undefined;
+				// 	}
 
-				};
+				// };
 
-				scope.vialToggleWMS = function($event){
-					var $btn = angular.element($event.target);
-					if($event.target.nodeName==='SPAN'){
-						$btn = angular.element($event.target.parentNode);
-					}
-					var lay = $btn.data('tipo');
-					if( !$btn.hasClass('md-primary')  ){
-						$btn.addClass('md-raised');
-						$btn.addClass('md-primary');
-					}else{
-						$btn.removeClass('md-raised');
-						$btn.removeClass('md-primary');
-					}
-					scope.callWMSpublicTrans();
-				};
+				// scope.vialToggleWMS = function($event){
+				// 	var $btn = angular.element($event.target);
+				// 	if($event.target.nodeName==='SPAN'){
+				// 		$btn = angular.element($event.target.parentNode);
+				// 	}
+				// 	var lay = $btn.data('tipo');
+				// 	if( !$btn.hasClass('md-primary')  ){
+				// 		$btn.addClass('md-raised');
+				// 		$btn.addClass('md-primary');
+				// 	}else{
+				// 		$btn.removeClass('md-raised');
+				// 		$btn.removeClass('md-primary');
+				// 	}
+				// 	scope.callWMSpublicTrans();
+				// };
 
-				scope.callWMSpublicTrans = function(){
-					var activeBtns = angular.element(document.getElementsByClassName('btnTransWMS'));
-					var layers = "";
-					var layersP = "";
-					_.each(activeBtns, function(btn){
-						var $btn = angular.element(btn);
-						if($btn.hasClass('md-primary') && $btn.data('tipo') !== ''){
-							layers = layers+$btn.data('tipo')+'_l,';
-							layersP = layersP+$btn.data('tipo')+'_p,';
-						}
-					});
-					layers = layers.substr(0, layers.length-1);
-					layersP = layersP.substr(0, layersP.length-1);
-					if(layers !== ''){
-						if(_layers.transpWMS !== undefined){
-							_map.removeLayer( _layers.transpWMS );
-						}
-						if(_layers.transpWMS_P !== undefined){
-							_map.removeLayer( _layers.transpWMS_P );
-						}
-						var access_token = Auth.getToken().access_token;
+				// scope.callWMSpublicTrans = function(){
+				// 	var activeBtns = angular.element(document.getElementsByClassName('btnTransWMS'));
+				// 	var layers = "";
+				// 	var layersP = "";
+				// 	_.each(activeBtns, function(btn){
+				// 		var $btn = angular.element(btn);
+				// 		if($btn.hasClass('md-primary') && $btn.data('tipo') !== ''){
+				// 			layers = layers+$btn.data('tipo')+'_l,';
+				// 			layersP = layersP+$btn.data('tipo')+'_p,';
+				// 		}
+				// 	});
+				// 	layers = layers.substr(0, layers.length-1);
+				// 	layersP = layersP.substr(0, layersP.length-1);
+				// 	if(layers !== ''){
+				// 		if(_layers.transpWMS !== undefined){
+				// 			_map.removeLayer( _layers.transpWMS );
+				// 		}
+				// 		if(_layers.transpWMS_P !== undefined){
+				// 			_map.removeLayer( _layers.transpWMS_P );
+				// 		}
+				// 		var access_token = Auth.getToken().access_token;
 
-						//Lineas
-						_layers.transpWMS = L.tileLayer.wms(
-							BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
-							{
-								layers: layers,
-								format: 'image/png',
-								minZoom: 10,
-								transparent: true
-						});
-						_layers.transpWMS.options.crs = L.CRS.EPSG4326;
-						_layers.transpWMS.addTo(_map);
+				// 		//Lineas
+				// 		_layers.transpWMS = L.tileLayer.wms(
+				// 			BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
+				// 			{
+				// 				layers: layers,
+				// 				format: 'image/png',
+				// 				minZoom: 10,
+				// 				transparent: true
+				// 		});
+				// 		_layers.transpWMS.options.crs = L.CRS.EPSG4326;
+				// 		_layers.transpWMS.addTo(_map);
 
-						//PUNTOS
-						_layers.transpWMS_P = new L.nonTiledLayer.wms(
-							BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
-							{
-								layers: layersP,
-								format: 'image/png',
-								minZoom: 10,
-								transparent: true,
-								info_format: 'text/plain'
-						});
-						_layers.transpWMS_P.options.crs = L.CRS.EPSG4326;
-						_layers.transpWMS_P.addTo(_map);
-					}else{
-						_map.removeLayer( _layers.transpWMS );
-						_map.removeLayer( _layers.transpWMS_P );
-					}
+				// 		//PUNTOS
+				// 		_layers.transpWMS_P = new L.nonTiledLayer.wms(
+				// 			BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
+				// 			{
+				// 				layers: layersP,
+				// 				format: 'image/png',
+				// 				minZoom: 10,
+				// 				transparent: true,
+				// 				info_format: 'text/plain'
+				// 		});
+				// 		_layers.transpWMS_P.options.crs = L.CRS.EPSG4326;
+				// 		_layers.transpWMS_P.addTo(_map);
+				// 	}else{
+				// 		_map.removeLayer( _layers.transpWMS );
+				// 		_map.removeLayer( _layers.transpWMS_P );
+				// 	}
 
 
-				};
+				// };
 
 				scope.drawInMap = function($event, tip){
 					$event.preventDefault();
 					_.each(_toolDraw,function(o){
+						console.log(o.enabled())
 						if(o.enabled() === true){
 							o.disable();
 						}
 					});
-					scope.isDrawAccessibility = true;
+					//scope.isDrawAccessibility = true;
 					_toolDraw[tip].enable();
-				};
-
-				var _drawComplete = function(e){
-					console.log(scope.userDraws)
-					if(scope.isDrawAccessibility){
-						scope.isDrawAccessibility = false;
-						_currentFeature = e;
-						scope.addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
-						scope.activateViasWMS(_currentFeature);
-						_editableLayers.clearLayers();
-						_editableLayers.addLayer( _currentFeature.layer );
-					}
 				};
 
 				scope.activateViasWMS = function( geom ){
@@ -357,11 +354,41 @@
 				};
 
 
-				_$userDraws= angular.element(document.getElementById('accessPanelUserDraws'));
-				scope.addUserDraw2Panel = function(id, name, draw){
+				// _$userDraws= angular.element(document.getElementById('accessPanelUserDraws'));
+
+
+				var _verifyLimitDraws = function(e){
+					_currentFeature = e;
+					//_$js_draw_area = angular.element(document.getElementsByClassName('js-draw-area'));
+					_counterUserDraws = _counterUserDraws + 1;
+					_addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
+					//_showMessage("Se agregó 1 área (" + _counterUserDraws + " de 2) ");
+					if (_counterUserDraws === 2) {
+						scope.disableDrawAccessBtn = true;
+						$timeout(function(){
+							_showMessage("Se llegó al límite de dibujos permitidos (2), elimina uno si deseas agregar otro.");
+						}, 2500);
+					}
+					else {
+						// if(!scope.isDrawAccessibility){
+						// 	console.log(scope.isDrawAccessibility)
+							//_addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
+							//scope.activateViasWMS(_currentFeature);
+							// _editableLayers.clearLayers();
+							// _editableLayers.addLayer( _currentFeature.layer );
+							scope.disableDrawAccessBtn = false;
+						//}
+					}
+				};
+				
+				var _addUserDraw2Panel = function(id, name, draw){
+					console.log(id)
+					console.log(name)
+					console.log(draw)
+					console.log(scope.userDraws.length)
 					var isActive = false;
-					if(id===-1){
-						id = (scope.userDraws.length+1)*-1;
+					if(id === -1){
+						id = (scope.userDraws.length + 1) * -1;
 						isActive = true;
 					}
 					if(isActive){
@@ -372,7 +399,8 @@
 					var img = '';
 					if(draw.layerType==='circle'){
 						img = 'demo-radio area-tool';
-					}else{
+					}
+					else{
 						img = 'demo-area polygon-tool';
 					}
 					scope.userDraws.push({
@@ -382,7 +410,6 @@
 						isActive:isActive,
 						draw:draw
 					});
-
 					var Obj = {
 						nm: name,
 						typ: draw.layerType,
@@ -404,92 +431,44 @@
 					}
 
 					AccessibilityService.addUserDraws(Obj).then(function(data){
+						if (data.res === "correcto") {
+							_showMessage("Se agregó 1 área (" + _counterUserDraws + " de 2) ");
+						}
 						console.log(Obj);
 						console.log(data);
 					});
-					scope.verifyLimitDraws();
+					//scope.verifyLimitDraws();
 				};
 
-				scope.verifyLimitDraws = function(){
-					console.log(scope.userDraws.length >= 2)
-					var _$btnAddNewPoly = angular.element(document.getElementsByClassName('btnAddNewPoly'));
-					var _$btnAddNewRadio = angular.element(document.getElementsByClassName('btnAddNewRadio'));
-					if( scope.userDraws.length >= 2){
-						//_$btnAddNewPoly.attr('disabled',true);
-						//_$btnAddNewRadio.attr('disabled',true);
-						scope.disableDrawAccessBtn = true;
-						$mdToast.show(
-							$mdToast.simple({
-								textContent: "Solo puedes realizar 2 analisis, elimina uno si deseas agregar otro",
-								position: 'top right',
-								hideDelay: 1500,
-								parent: $document[0].querySelector('.js-accessibility-side-panel'),
-								autoWrap: true
-							})
-						);
-					}else{
-						//_$btnAddNewPoly.attr('disabled',false);
-						//_$btnAddNewRadio.attr('disabled',false);
-						scope.disableDrawAccessBtn = false;
-					}
-				};
+				// scope.putNameUserDraw = function(id, nm){
+				// 	AccessibilityService.putUserDraws(id,nm);
+				// };
 
-				scope.getUserDraws = function(){
-					AccessibilityService.getUserDraws().then(function(res){
-						_.each(res.data.draws, function(o){
-							var geo;
-							var img = '';
-							if(o.type_draw==='circle'){
-								geo = {
-										layerType: o.type_draw,
-										layer: L.circle([o.gjson.lat, o.gjson.lng], o.gjson.radius, {
-											color: '#81A1C1'
-										})
-									};
-								img = 'demo-radio area-tool';
-							}else{
-								var coords = _.map(o.gjson.latlngs,function(o){
-									return [o.lat, o.lng];
-								});
-								geo = {
-										layerType: o.type_draw,
-										layer: L.polygon(coords, {
-											color: '#81A1C1'
-										})
-									};
-								img = 'demo-area polygon-tool';
-							}
-							scope.userDraws.push({
-								id: o.id_draw,
-								name: o.name_draw,
-								icon:img,
-								isActive: false,
-								draw: geo
-							});
-						});
-						scope.verifyLimitDraws();
-					});
-				};
-
-				scope.getUserDraws();
-
-				scope.putNameUserDraw = function(id, nm){
-					AccessibilityService.putUserDraws(id,nm);
-				};
 				scope.delUserDraw = function(id){
-					scope.userDraws = _.filter(scope.userDraws, function(o) { return o.id !== id; });
-					_editableLayers.clearLayers();
-					_currentFeature = null;
-					if(_layers.viasUserWMS !== undefined){
-						_map.removeLayer( _layers.viasUserWMS );
-					}
-					AccessibilityService.delUserDraws(id);
-					scope.verifyLimitDraws();
+					console.log(id)
+					scope.userDraws = _.filter(scope.userDraws, function(o) { 
+						return o.id_draw !== id; 
+					});
+					console.log(scope.userDraws)
+					// _editableLayers.clearLayers();
+					// _currentFeature = null;
+					// if(_layers.viasUserWMS !== undefined){
+					// 	_map.removeLayer( _layers.viasUserWMS );
+					// }
+					AccessibilityService.delUserDraws(id)
+					.then(function(res){
+						console.log(res)
+					}, function(error){
+						console.log(error)
+					});
+					//scope.verifyLimitDraws();
 				};
-				scope.zoomToUserDraw = function(id){
-					var d = _.findWhere( scope.userDraws ,{id:id});
-					_map.fitBounds(d.draw.layer.getBounds());
-				};
+
+				// scope.zoomToUserDraw = function(id){
+				// 	var d = _.findWhere( scope.userDraws ,{id:id});
+				// 	_map.fitBounds(d.draw.layer.getBounds());
+				// };
+
 				scope.turnOnOffDraw = function(id){
 					_editableLayers.clearLayers();
 					var d = _.findWhere( scope.userDraws ,{id:id});
@@ -507,16 +486,24 @@
 							_map.removeLayer( _layers.viasUserWMS );
 						}
 					}
-
 				};
-
-			},
-			controller: function($scope) {
+				
+				var _showMessage = function(msg) {
+					$mdToast.show(
+						$mdToast.simple({
+							textContent: msg,
+							position: 'top right',
+							hideDelay: 2500,
+							parent: $document[0].querySelector('.md-dialog-container'),
+							autoWrap: true
+						})
+					);
+				};
 			}
 		};
 	}
 
-	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile', '$mdToast', '$document'];
+	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile', '$mdToast', '$document', '$timeout'];
 	angular.module('accessibility.directive', [])
 		.directive('accessibility', accessibilityDirective);
 })();
