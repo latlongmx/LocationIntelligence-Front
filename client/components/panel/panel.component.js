@@ -146,45 +146,18 @@
 						$scope.selected_zc = false;
 					}
 					if (_data_ep === "accessibility") {
-						//if (!$scope.userDraws){
-							$scope.user_draws = true;
+						if (!$scope.userDraws){
+							$scope.user_draws = false;
 							AccessibilityService.getUserDraws().then(function(res){
-								console.log(res)
-								$scope.userDraws = res.data.draws;
-								// _.each(res.data.draws, function(o){
-								// 	var geo;
-								// 	var img = '';
-								// 	if(o.type_draw==='circle'){
-								// 		geo = {
-								// 				layerType: o.type_draw,
-								// 				layer: L.circle([o.gjson.lat, o.gjson.lng], o.gjson.radius, {
-								// 					color: '#81A1C1'
-								// 				})
-								// 			};
-								// 		img = 'demo-radio area-tool';
-								// 	}else{
-								// 		var coords = _.map(o.gjson.latlngs,function(o){
-								// 			return [o.lat, o.lng];
-								// 		});
-								// 		geo = {
-								// 				layerType: o.type_draw,
-								// 				layer: L.polygon(coords, {
-								// 					color: '#81A1C1'
-								// 				})
-								// 			};
-								// 		img = 'demo-area polygon-tool';
-								// 	}
-								// 	scope.userDraws.push({
-								// 		id: o.id_draw,
-								// 		name: o.name_draw,
-								// 		icon:img,
-								// 		isActive: false,
-								// 		draw: geo
-								// 	});
-								// });
-								// scope.verifyLimitDraws();
+								if (res.data && res.data.draws) {
+									$scope.user_draws = true;
+									_.each(res.data.draws, function(userDraw){
+										userDraw.isActive = false;
+									});
+									$scope.userDraws = res.data.draws;
+								}
 							});
-						//}
+						}
 					}
 
 				});

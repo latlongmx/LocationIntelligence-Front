@@ -287,8 +287,12 @@ button.m-side-panel__locations-list__item {
 	top: 556px;
 }
 
-
-
 .m-side-panel__list-content--in-accessibility {
 	padding:10px 15px;
+}
+
+.m-side-panel__list-content__item__md-input-container {
+	.md-errors-spacer {
+		display:none;
+	}
 }

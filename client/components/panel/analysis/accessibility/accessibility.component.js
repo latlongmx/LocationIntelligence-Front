@@ -15,13 +15,12 @@
 			'line':null,
 			'polygon':null,
 			'circle':null
-		};
-		var _layers = {};
-		var _$userDraws = null;
-		var _$userDrawsGeoms = [];
-		var _counterUserDraws = 0;
-
-		var _$contentCount = {
+		},
+		_editableLayers = new L.FeatureGroup(),
+		_layers = {},
+		_flagUserDraws = [],
+		_counterUserDraws = 0,
+		_$contentCount = {
 			vehi:undefined,
 			trns:undefined
 		};
@@ -44,10 +43,10 @@
 									'<h4 class="m-side-panel__subtitle">Crear área:</h4>',
 								'</div>',
 								'<div layout="column" flex="50" layout-align="center center">',
-									'<md-button id="btnAddNewPoly" ng-disabled="disableDrawAccessBtn" aria-label="" class="md-raised md-fab md-mini leaflet-draw-draw-polygon js-draw-area" title="Dibujar Poligono" ng-click="drawInMap($event,\'polygon\')">Hola</md-button>',
+									'<md-button id="btnAddNewPoly" ng-disabled="disableDrawAccessBtn" aria-label="" class="md-raised md-fab md-mini leaflet-draw-draw-polygon js-draw-area" title="Dibujar Poligono" ng-click="drawAreaInMap($event,\'polygon\')">Hola</md-button>',
 								'</div>',
 								'<div layout="column" flex="50" layout-align="center center">',
-									'<md-button id="btnAddNewRadio" ng-disabled="disableDrawAccessBtn" aria-label="area-tool" class="md-raised md-fab md-mini leaflet-draw-draw-circle  js-draw-area" title="Dibujar Radio" ng-click="drawInMap($event,\'circle\')">',
+									'<md-button id="btnAddNewRadio" ng-disabled="disableDrawAccessBtn" aria-label="area-tool" class="md-raised md-fab md-mini leaflet-draw-draw-circle  js-draw-area" title="Dibujar Radio" ng-click="drawAreaInMap($event,\'circle\')">',
 									  '<i class="demo demo-radio area-tool area-tool--in-accessibility"></i>',
 									'</md-button>',
 								'</div>',
@@ -57,14 +56,14 @@
 							'<h3 class="m-side-panel__user-title">Areas de análisis</h3>',
 							'<ul id="accessPanelUserDraws" class="m-side-panel__list-content m-side-panel__list-content--in-accessibility" ng-if="user_draws">',
 								'<li ng-repeat="draw in userDraws" class="m-side-panel__list-content__item">',
-									'<md-input-container flex="60">',
-										'<input ng-change="putNameUserDraw(draw.id, draw.name)" ng-model-options="{debounce: 750}" ng-model="draw.name" >',
+									'<md-input-container flex="60" class="m-side-panel__list-content__item__md-input-container" layout-align="center center">',
+										'<input ng-change="updateNameUserDraw(draw.id_draw, draw.name_draw)" aria-label="draw.id_draw" ng-model-options="{debounce: 750}" ng-model="draw.name_draw" >',
 									'</md-input-container>',
 									'<p flex="10" class="m-side-panel__list-content__item-single">',
 									'<i class="demo {{draw.icon}}"></i>',
 									'</p>',
-									'<md-switch data-iddraw="draw.id" ng-model="draw.isActive" flex="10" data-iddraw="draw.id" ng-change="turnOnOffDraw(draw.id)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
-									'<md-button flex="10" data-iddraw="draw.id" ng-click="zoomToUserDraw(draw.id)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+									'<md-switch data-iddraw="draw.id_draw" aria-label="draw.id_draw" ng-model="draw.isActive" flex="10" data-iddraw="draw.id_draw" ng-change="turnOnOffDraw(draw.id_draw)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
+									'<md-button flex="10" data-iddraw="draw.id" ng-click="zoomToUserDraw(draw.id_draw)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
 										'<md-icon>zoom_in</md-icon>',
 									'</md-button>',
 									'<md-button flex="10" data-iddraw="draw.id" ng-click="delUserDraw(draw.id_draw)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
@@ -80,17 +79,17 @@
 									'<div layout="column" flex="50" layout-align="center center">',
 										'<h6 class="m-title-sm">Primarias</h6>',
 										'<img ng-src="images/accessibility/highway.png" width="30">',
-										'<p id="accessNumP" style="    margin: 5px 0 0 0;color: #ffffff;font-weight: bold;padding: 3px 15px;background: #22ac9b;font-size: 14px;">0</p>',
+										'<p id="accessNumP" style=" margin: 5px 0 0 0;color: #ffffff;font-weight: bold;padding: 3px 15px;background: #22ac9b;font-size: 14px;">0</p>',
 									'</div>',
 									'<div layout="column" flex="50" layout-align="center center">',
 										'<h6 class="m-side-panel__subtitle">Secundarias</h6>',
 										'<img ng-src="images/accessibility/road-with-broken-line.png" width="30">',
-										'<p id="accessNumS" style="    margin: 5px 0 0 0;color: #ffffff;font-weight: bold;padding: 3px 15px;background: #22ac9b;font-size: 14px;">0</p>',
+										'<p id="accessNumS" style=" margin: 5px 0 0 0;color: #ffffff;font-weight: bold;padding: 3px 15px;background: #22ac9b;font-size: 14px;">0</p>',
 									'</div>',
 									'<div layout="column" flex="50" layout-align="center center">',
 										'<h6 class="m-side-panel__subtitle">Terciarias</h6>',
 										'<img ng-src="images/accessibility/speedometer.png" width="30">',
-										'<p id="accessNumT" style="    margin: 5px 0 0 0;color: #ffffff;font-weight: bold;padding: 3px 15px;background: #22ac9b;font-size: 14px;">0</p>',
+										'<p id="accessNumT" style=" margin: 5px 0 0 0;color: #ffffff;font-weight: bold;padding: 3px 15px;background: #22ac9b;font-size: 14px;">0</p>',
 									'</div>',
 								'</div>',
 							'</div>',
@@ -120,10 +119,12 @@
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr){
-
-				scope.userDraws = [];
-				//scope.disableDrawAccessBtn = true;
+			link: function(scope, element, attr, ctrl){
+				AccessibilityService.getUserDraws().then(function(res){
+					_counterUserDraws = res.data.draws.length;
+					_verifyLimitDraws();
+				});
+				//scope.userDraws = [];
 
 				_$contentCount = {
 					vehi : angular.element(document.getElementById('access_car_content')),
@@ -131,10 +132,26 @@
 				};
 				
 				var _$js_draw_area = null;
+				
+				/**
+				 * [drawAreaInMap description]
+				 * @param  {[type]} e [description]
+				 * @param  {[type]} tip    [Type of area (polygon or circle)]
+				 */
+				scope.drawAreaInMap = function(e, tip){
+					e.preventDefault();
+					_.each(_toolDraw,function(o){
+						if(o.enabled() === true){
+							o.disable();
+						}
+					});
+					//scope.isDrawAccessibility = true;
+					_toolDraw[tip].enable();
+				};
 
 				BaseMapService.map.then(function (map) {
 					_map = map;
-					_editableLayers = new L.FeatureGroup();
+					
 					_map.addLayer(_editableLayers);
 					var opst = {
 						shapeOptions: {
@@ -148,146 +165,143 @@
 					_toolDraw.polygon.setOptions(opst);
 					_toolDraw.circle.setOptions(opst);
 
-					_map.on('draw:created', _verifyLimitDraws);
-					console.log(scope.userDraws)
+					_map.on('draw:created', _drawComplete);
 					//_editableLayers.on('layeradd', _startAccessibilityAnalysis);
 				});
 				
-				// var _drawComplete = function(e){
-				// 	_verifyLimitDraws(e);
-				// };
-				
-
-				// scope.openViasWMS = function(){
-				// 	if(_layers.viasWMS === undefined){
-				// 		_layers.viasWMS = L.tileLayer.dynamicWms(
-				// 			"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&", {
-				// 				layers: 'VIAS',
-				// 				format: 'image/png',
-				// 				minZoom: 10,
-				// 				transparent: true
-				// 		});
-				// 		_layers.viasWMS.options.crs = L.CRS.EPSG4326;
-				// 		_layers.viasWMS.addTo(_map);
-				// 	}else{
-				// 		_map.removeLayer(_layers.viasWMS);
-				// 		_layers.viasWMS = undefined;
-				// 	}
-
-				// };
-
-				// scope.vialToggleWMS = function($event){
-				// 	var $btn = angular.element($event.target);
-				// 	if($event.target.nodeName==='SPAN'){
-				// 		$btn = angular.element($event.target.parentNode);
-				// 	}
-				// 	var lay = $btn.data('tipo');
-				// 	if( !$btn.hasClass('md-primary')  ){
-				// 		$btn.addClass('md-raised');
-				// 		$btn.addClass('md-primary');
-				// 	}else{
-				// 		$btn.removeClass('md-raised');
-				// 		$btn.removeClass('md-primary');
-				// 	}
-				// 	scope.callWMSpublicTrans();
-				// };
-
-				// scope.callWMSpublicTrans = function(){
-				// 	var activeBtns = angular.element(document.getElementsByClassName('btnTransWMS'));
-				// 	var layers = "";
-				// 	var layersP = "";
-				// 	_.each(activeBtns, function(btn){
-				// 		var $btn = angular.element(btn);
-				// 		if($btn.hasClass('md-primary') && $btn.data('tipo') !== ''){
-				// 			layers = layers+$btn.data('tipo')+'_l,';
-				// 			layersP = layersP+$btn.data('tipo')+'_p,';
-				// 		}
-				// 	});
-				// 	layers = layers.substr(0, layers.length-1);
-				// 	layersP = layersP.substr(0, layersP.length-1);
-				// 	if(layers !== ''){
-				// 		if(_layers.transpWMS !== undefined){
-				// 			_map.removeLayer( _layers.transpWMS );
-				// 		}
-				// 		if(_layers.transpWMS_P !== undefined){
-				// 			_map.removeLayer( _layers.transpWMS_P );
-				// 		}
-				// 		var access_token = Auth.getToken().access_token;
-
-				// 		//Lineas
-				// 		_layers.transpWMS = L.tileLayer.wms(
-				// 			BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
-				// 			{
-				// 				layers: layers,
-				// 				format: 'image/png',
-				// 				minZoom: 10,
-				// 				transparent: true
-				// 		});
-				// 		_layers.transpWMS.options.crs = L.CRS.EPSG4326;
-				// 		_layers.transpWMS.addTo(_map);
-
-				// 		//PUNTOS
-				// 		_layers.transpWMS_P = new L.nonTiledLayer.wms(
-				// 			BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
-				// 			{
-				// 				layers: layersP,
-				// 				format: 'image/png',
-				// 				minZoom: 10,
-				// 				transparent: true,
-				// 				info_format: 'text/plain'
-				// 		});
-				// 		_layers.transpWMS_P.options.crs = L.CRS.EPSG4326;
-				// 		_layers.transpWMS_P.addTo(_map);
-				// 	}else{
-				// 		_map.removeLayer( _layers.transpWMS );
-				// 		_map.removeLayer( _layers.transpWMS_P );
-				// 	}
-
-
-				// };
-
-				scope.drawInMap = function($event, tip){
-					$event.preventDefault();
-					_.each(_toolDraw,function(o){
-						console.log(o.enabled())
-						if(o.enabled() === true){
-							o.disable();
-						}
-					});
-					//scope.isDrawAccessibility = true;
-					_toolDraw[tip].enable();
+				var _drawComplete = function(e){
+					_verifyLimitDraws(e);
 				};
+			
 
-				scope.activateViasWMS = function( geom ){
-					var access_token = Auth.getToken().access_token;
-					var geo_wkt = "";
-					geo_wkt = BaseMapFactory.geom2wkt( geom );
-
-					if(_layers.viasUserWMS !== undefined){
-						_map.removeLayer( _layers.viasUserWMS );
+				scope.openViasWMS = function(){
+					if(_layers.viasWMS === undefined){
+						_layers.viasWMS = L.tileLayer.dynamicWms(
+							"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&", {
+								layers: 'VIAS',
+								format: 'image/png',
+								minZoom: 10,
+								transparent: true
+						});
+						_layers.viasWMS.options.crs = L.CRS.EPSG4326;
+						_layers.viasWMS.addTo(_map);
+					}else{
+						_map.removeLayer(_layers.viasWMS);
+						_layers.viasWMS = undefined;
 					}
 
-					_layers.viasUserWMS = L.tileLayer.dynamicWms(
-						BaseMapFactory.API_URL+"/ws_wms?access_token="+access_token,
-						//"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&",
-						{
-							layers: 'VIAS_USR',
-							format: 'image/png',
-							minZoom: 10,
-							transparent: true
-					});
-					_layers.viasUserWMS.setDynamicParam({
-						WKT: function(){
-							return geo_wkt.wkt;
-						},
-						MTS: function(){
-							return geo_wkt.mts;
-						}
-					});
-					_layers.viasUserWMS.options.crs = L.CRS.EPSG4326;
-					_layers.viasUserWMS.addTo(_map);
 				};
 
+				scope.vialToggleWMS = function($event){
+					var $btn = angular.element($event.target);
+					if($event.target.nodeName==='SPAN'){
+						$btn = angular.element($event.target.parentNode);
+					}
+					var lay = $btn.data('tipo');
+					if( !$btn.hasClass('md-primary')  ){
+						$btn.addClass('md-raised');
+						$btn.addClass('md-primary');
+					}else{
+						$btn.removeClass('md-raised');
+						$btn.removeClass('md-primary');
+					}
+					scope.callWMSpublicTrans();
+				};
+
+				scope.callWMSpublicTrans = function(){
+					var activeBtns = angular.element(document.getElementsByClassName('btnTransWMS'));
+					var layers = "";
+					var layersP = "";
+					_.each(activeBtns, function(btn){
+						var $btn = angular.element(btn);
+						if($btn.hasClass('md-primary') && $btn.data('tipo') !== ''){
+							layers = layers+$btn.data('tipo')+'_l,';
+							layersP = layersP+$btn.data('tipo')+'_p,';
+						}
+					});
+					layers = layers.substr(0, layers.length-1);
+					layersP = layersP.substr(0, layersP.length-1);
+					if(layers !== ''){
+						if(_layers.transpWMS !== undefined){
+							_map.removeLayer( _layers.transpWMS );
+						}
+						if(_layers.transpWMS_P !== undefined){
+							_map.removeLayer( _layers.transpWMS_P );
+						}
+						var access_token = Auth.getToken().access_token;
+
+						//Lineas
+						_layers.transpWMS = L.tileLayer.wms(
+							BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
+							{
+								layers: layers,
+								format: 'image/png',
+								minZoom: 10,
+								transparent: true
+						});
+						_layers.transpWMS.options.crs = L.CRS.EPSG4326;
+						_layers.transpWMS.addTo(_map);
+
+						//PUNTOS
+						_layers.transpWMS_P = new L.nonTiledLayer.wms(
+							BaseMapFactory.API_URL+"/ws_transp?access_token="+access_token,
+							{
+								layers: layersP,
+								format: 'image/png',
+								minZoom: 10,
+								transparent: true,
+								info_format: 'text/plain'
+						});
+						_layers.transpWMS_P.options.crs = L.CRS.EPSG4326;
+						_layers.transpWMS_P.addTo(_map);
+					}else{
+						_map.removeLayer( _layers.transpWMS );
+						_map.removeLayer( _layers.transpWMS_P );
+					}
+				};
+
+
+
+				/**
+				 * [activateViasWMS Add viasWMS to mapº]
+				 * @param  {[type]} geom [description]
+				 */
+				var _activateViasWMS = function( geom ){
+					return new Promise(function(resolve, reject){
+						var access_token = Auth.getToken().access_token;
+						var geo_wkt = "";
+						geo_wkt = BaseMapFactory.geom2wkt( geom );
+
+						if(_layers.viasUserWMS !== undefined){
+							_map.removeLayer( _layers.viasUserWMS );
+						}
+
+						_layers.viasUserWMS = L.tileLayer.dynamicWms(
+							BaseMapFactory.API_URL+"/ws_wms?access_token="+access_token, {
+								layers: 'VIAS_USR',
+								format: 'image/png',
+								minZoom: 10,
+								transparent: true
+						});
+						_layers.viasUserWMS.setDynamicParam({
+							WKT: function(){
+								return geo_wkt.wkt;
+							},
+							MTS: function(){
+								return geo_wkt.mts;
+							}
+						});
+						_layers.viasUserWMS.options.crs = L.CRS.EPSG4326;
+						
+						resolve(_layers.viasUserWMS);
+						reject(false);
+					});
+				};
+				
+				/**
+				 * [_startAccessibilityAnalysis Add Transport access data to list]
+				 * @param  {[type]} e [description]
+				 */
 				var _startAccessibilityAnalysis = function(e){
 					var geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
 					var listAccessTrans = angular.element('#listAccessTrans');
@@ -353,16 +367,33 @@
 					_currentFeature = null;
 				};
 
-
-				// _$userDraws= angular.element(document.getElementById('accessPanelUserDraws'));
-
+				//// _$userDraws= angular.element(document.getElementById('accessPanelUserDraws'));
 
 				var _verifyLimitDraws = function(e){
-					_currentFeature = e;
-					//_$js_draw_area = angular.element(document.getElementsByClassName('js-draw-area'));
-					_counterUserDraws = _counterUserDraws + 1;
-					_addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
-					//_showMessage("Se agregó 1 área (" + _counterUserDraws + " de 2) ");
+					if (e) {
+						_currentFeature = e;
+						_counterUserDraws = _counterUserDraws + 1;
+						//_showMessage("Se agregó 1 área (" + _counterUserDraws + " de 2) ");
+						
+						var addDrawToList = _addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
+						var addLinesToMap = _activateViasWMS(_currentFeature);
+						
+						Promise.all([addDrawToList, addLinesToMap])
+						.then(function(data){
+							if(data.length === 2){
+							// if (data[0] !== undefined && data[1] !== undefined) {
+								scope.userDraws.push(data[0]);
+								_editableLayers.clearLayers();
+								_editableLayers.addLayer( _currentFeature.layer );
+								data[1].addTo(_map);
+								_showMessage("se añadio a la lista el dibujo " + _counterUserDraws);
+							}
+						}, function(error){
+							console.log(error)
+						});
+
+					}
+
 					if (_counterUserDraws === 2) {
 						scope.disableDrawAccessBtn = true;
 						$timeout(function(){
@@ -372,116 +403,123 @@
 					else {
 						// if(!scope.isDrawAccessibility){
 						// 	console.log(scope.isDrawAccessibility)
-							//_addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
-							//scope.activateViasWMS(_currentFeature);
-							// _editableLayers.clearLayers();
-							// _editableLayers.addLayer( _currentFeature.layer );
 							scope.disableDrawAccessBtn = false;
 						//}
 					}
 				};
 				
 				var _addUserDraw2Panel = function(id, name, draw){
-					console.log(id)
-					console.log(name)
-					console.log(draw)
-					console.log(scope.userDraws.length)
-					var isActive = false;
-					if(id === -1){
-						id = (scope.userDraws.length + 1) * -1;
-						isActive = true;
-					}
-					if(isActive){
-						_.each(scope.userDraws, function(o){
-							o.isActive = false;
-						});
-					}
-					var img = '';
-					if(draw.layerType==='circle'){
-						img = 'demo-radio area-tool';
-					}
-					else{
-						img = 'demo-area polygon-tool';
-					}
-					scope.userDraws.push({
-						id:id,
-						name:name,
-						icon:img,
-						isActive:isActive,
-						draw:draw
-					});
-					var Obj = {
-						nm: name,
-						typ: draw.layerType,
-						geo: {}
-					};
-					if(draw.layerType === 'polygon'){
-						var latlngs = draw.layer.getLatLngs();
-						Obj.geo = {
-							latlngs: _.map(latlngs[0],function(o){
-							  return { lat: o.lat, lng: o.lng };
-							})
-						};
-					}else{
-						Obj.geo = {
-							radius: draw.layer.getRadius(),
-							lat: draw.layer.getLatLng().lat,
-							lng: draw.layer.getLatLng().lng
-						};
-					}
-
-					AccessibilityService.addUserDraws(Obj).then(function(data){
-						if (data.res === "correcto") {
-							_showMessage("Se agregó 1 área (" + _counterUserDraws + " de 2) ");
+					return new Promise(function(resolve, reject){
+						var isActive = false;
+						if(id === -1){
+							id = (scope.userDraws.length + 1) * -1;
+							isActive = true;
 						}
-						console.log(Obj);
-						console.log(data);
+						if(isActive){
+							_.each(scope.userDraws, function(o){
+								o.isActive = false;
+							});
+						}
+						var img = '';
+						if(draw.layerType==='circle'){
+							img = 'demo-radio area-tool';
+						}
+						else{
+							img = 'demo-area polygon-tool';
+						}
+						
+						var Obj = {
+							nm: name,
+							typ: draw.layerType,
+							geo: {}
+						};
+						if(draw.layerType === 'polygon'){
+							var latlngs = draw.layer.getLatLngs();
+							Obj.geo = {
+								latlngs: _.map(latlngs[0],function(o){
+								  return { lat: o.lat, lng: o.lng };
+								})
+							};
+						}else{
+							Obj.geo = {
+								radius: draw.layer.getRadius(),
+								lat: draw.layer.getLatLng().lat,
+								lng: draw.layer.getLatLng().lng
+							};
+						}
+
+						AccessibilityService.addUserDraws(Obj)
+						.then(function(data){
+							if (data.data.res === "correcto") {
+								var objeto = {
+									id_draw:id,
+									name_draw:name,
+									icon:img,
+									isActive:isActive,
+									draw:draw
+								};
+								resolve(objeto);
+								//scope.userDraws.push
+								//_showMessage("Se agregó 1 área (" + _counterUserDraws + " de 2) ");
+							}
+							// console.log(Obj);
+							// console.log(data);
+						}, function(error){
+							if (error) {
+								reject(false);
+							}
+						});
 					});
 					//scope.verifyLimitDraws();
 				};
 
-				// scope.putNameUserDraw = function(id, nm){
-				// 	AccessibilityService.putUserDraws(id,nm);
-				// };
+				scope.updateNameUserDraw = function(id, nm){
+					AccessibilityService.updateUserDraws(id,nm);
+				};
 
 				scope.delUserDraw = function(id){
-					console.log(id)
-					scope.userDraws = _.filter(scope.userDraws, function(o) { 
-						return o.id_draw !== id; 
-					});
-					console.log(scope.userDraws)
-					// _editableLayers.clearLayers();
-					// _currentFeature = null;
-					// if(_layers.viasUserWMS !== undefined){
-					// 	_map.removeLayer( _layers.viasUserWMS );
-					// }
 					AccessibilityService.delUserDraws(id)
 					.then(function(res){
-						console.log(res)
+						if(res.statusText === "OK"){
+							scope.userDraws = _.filter(scope.userDraws, function(o) { 
+								return o.id_draw !== id; 
+							});
+							_editableLayers.clearLayers();
+							_currentFeature = null;
+							if(_layers.viasUserWMS !== undefined){
+								_map.removeLayer( _layers.viasUserWMS );
+							}
+							_counterUserDraws = _counterUserDraws - 1;
+							_verifyLimitDraws();
+						}
 					}, function(error){
 						console.log(error)
 					});
 					//scope.verifyLimitDraws();
 				};
 
-				// scope.zoomToUserDraw = function(id){
-				// 	var d = _.findWhere( scope.userDraws ,{id:id});
-				// 	_map.fitBounds(d.draw.layer.getBounds());
-				// };
+				scope.zoomToUserDraw = function(id){
+					var d = _.findWhere( scope.userDraws ,{id_draw:id});
+					_map.fitBounds(d.draw.layer.getBounds());
+				};
 
 				scope.turnOnOffDraw = function(id){
 					_editableLayers.clearLayers();
-					var d = _.findWhere( scope.userDraws ,{id:id});
-					if(d.isActive){
+					var d = _.findWhere( scope.userDraws ,{id_draw:id});
+					if(d.isActive === true){
 						_.each(scope.userDraws, function(o){
-							if(o.id!==d.id){
+							if(o.id_draw !== d.id_draw){
 								o.isActive = false;
 							}
 						});
 						_currentFeature = d.draw;
-						scope.activateViasWMS( _currentFeature );
+						_activateViasWMS( _currentFeature )
+						.then(function(geo){
+							geo.addTo(_map);
+						});
 						_editableLayers.addLayer( _currentFeature.layer );
-					}else{
+					}
+					else{
 						if(_layers.viasUserWMS !== undefined){
 							_map.removeLayer( _layers.viasUserWMS );
 						}

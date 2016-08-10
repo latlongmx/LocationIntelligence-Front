@@ -91,7 +91,7 @@
 				return deferred.promise;
 			},
 
-			putUserDraws: function(id, nm){
+			updateUserDraws: function(id, nm){
 				deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
 				var _http = $http({
