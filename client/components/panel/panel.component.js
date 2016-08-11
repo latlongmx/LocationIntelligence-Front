@@ -151,34 +151,36 @@
 							AccessibilityService.getUserDraws().then(function(res){
 								if (res.data && res.data.draws) {
 									$scope.user_draws = true;
-									_.each(res.data.draws, function(userDraw){
+									_.each(res.data.draws, function(o){
 										var geo;
 										var img = '';
-										if(userDraw.type_draw==='circle'){
+										if(o.type_draw==='circle'){
 											geo = {
-													layerType: userDraw.type_draw,
-													layer: L.circle([userDraw.gjson.lat, userDraw.gjson.lng], userDraw.gjson.radius, {
+													layerType: o.type_draw,
+													layer: L.circle([o.gjson.lat, o.gjson.lng], o.gjson.radius, {
 														color: '#81A1C1'
 													})
 												};
 											img = 'demo-radio area-tool';
 										}else{
-											var coords = _.map(userDraw.gjson.latlngs,function(o){
-												return [userDraw.lat, userDraw.lng];
+											var coords = _.map(o.gjson.latlngs,function(o){
+												return [o.lat, o.lng];
 											});
 											geo = {
-													layerType: userDraw.type_draw,
+													layerType: o.type_draw,
 													layer: L.polygon(coords, {
 														color: '#81A1C1'
 													})
 												};
 											img = 'demo-area polygon-tool';
 										}
-										userDraw.isActive = false;
-										userDraw.draw = geo;
-										userDraw.icon = img;
+										o.isActive = false;
+										o.draw = geo;
+										o.icon = img;
 									});
+									
 									$scope.userDraws = res.data.draws;
+									console.log($scope.userDraws)
 								}
 							});
 						}

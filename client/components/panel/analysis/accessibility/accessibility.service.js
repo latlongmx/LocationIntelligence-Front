@@ -15,7 +15,7 @@
 	     * @return {Object} http promise
 	     */
 			viasInfo: function(opts){
-				deferred = $q.defer();
+				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
 				var _http = $http({
 					url: this.apiBaseURL + '/vias',
@@ -46,7 +46,7 @@
 				}else{
 					id = '';
 				}
-				deferred = $q.defer();
+				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
 				var _http = $http({
 					url: this.apiBaseURL + '/ws/draw/'+id,
@@ -69,7 +69,7 @@
 			},
 
 			addUserDraws: function(opts){
-				deferred = $q.defer();
+				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
 				var _http = $http({
 					url: this.apiBaseURL + '/ws/draw/',
@@ -92,7 +92,7 @@
 			},
 
 			updateUserDraws: function(id, nm){
-				deferred = $q.defer();
+				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
 				var _http = $http({
 					url: this.apiBaseURL + '/ws/draw_u/'+id,
@@ -117,7 +117,7 @@
 			},
 
 			delUserDraws: function(id){
-				deferred = $q.defer();
+				var deferred = $q.defer();
 				var access_token = Auth.getToken().access_token;
 				var _http = $http({
 					url: this.apiBaseURL + '/ws/draw/'+id,
