@@ -150,12 +150,34 @@
 							$scope.user_draws = false;
 							AccessibilityService.getUserDraws().then(function(res){
 								if (res.data && res.data.draws) {
-									console.log(res.data.draws)
 									$scope.user_draws = true;
 									_.each(res.data.draws, function(userDraw){
+										var geo;
+										var img = '';
+										if(userDraw.type_draw==='circle'){
+											geo = {
+													layerType: userDraw.type_draw,
+													layer: L.circle([userDraw.gjson.lat, userDraw.gjson.lng], userDraw.gjson.radius, {
+														color: '#81A1C1'
+													})
+												};
+											img = 'demo-radio area-tool';
+										}else{
+											var coords = _.map(userDraw.gjson.latlngs,function(o){
+												return [userDraw.lat, userDraw.lng];
+											});
+											geo = {
+													layerType: userDraw.type_draw,
+													layer: L.polygon(coords, {
+														color: '#81A1C1'
+													})
+												};
+											img = 'demo-area polygon-tool';
+										}
 										userDraw.isActive = false;
+										userDraw.draw = geo;
+										userDraw.icon = img;
 									});
-									console.log(res.data.draws)
 									$scope.userDraws = res.data.draws;
 								}
 							});
