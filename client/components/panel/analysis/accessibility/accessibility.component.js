@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, $compile, $mdToast, $document, $timeout){
+	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, uiService, $compile, $mdToast, $document, $timeout){
 
 		var _$js_accessibility_side_panel = null,
 		_$js_accessibility_item = null,
@@ -124,15 +124,12 @@
 					_counterUserDraws = res.data.draws.length;
 					_verifyLimitDraws();
 				});
-				//scope.userDraws = [];
 
 				_$contentCount = {
 					vehi : angular.element(document.getElementById('access_car_content')),
 					trns : angular.element(document.getElementById('access_trans_content'))
 				};
-				
-				var _$js_draw_area = null;
-				
+
 				/**
 				 * [drawAreaInMap description]
 				 * @param  {[type]} e [description]
@@ -189,7 +186,6 @@
 						_map.removeLayer(_layers.viasWMS);
 						_layers.viasWMS = undefined;
 					}
-
 				};
 
 				scope.vialToggleWMS = function($event){
@@ -260,10 +256,8 @@
 					}
 				};
 
-
-
 				/**
-				 * [activateViasWMS Add viasWMS to mapº]
+				 * [activateViasWMS Add viasWMS to map]
 				 * @param  {[type]} geom [description]
 				 */
 				var _activateViasWMS = function( geom ){
@@ -371,41 +365,39 @@
 
 				var _verifyLimitDraws = function(e){
 					if (e) {
+						uiService.layerIsLoading();
 						_currentFeature = e;
 						_counterUserDraws = _counterUserDraws + 1;
-						//_showMessage("Se agregó 1 área (" + _counterUserDraws + " de 2) ");
-						
 						var addDrawToList = _addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
 						var addLinesToMap = _activateViasWMS(_currentFeature);
-						
 						Promise.all([addDrawToList, addLinesToMap])
 						.then(function(data){
-							if(data.length === 2){
-							// if (data[0] !== undefined && data[1] !== undefined) {
-								scope.userDraws.push(data[0]);
-								_editableLayers.clearLayers();
-								_editableLayers.addLayer( _currentFeature.layer );
-								data[1].addTo(_map);
-								_showMessage("se añadio a la lista el dibujo " + _counterUserDraws);
+							if(data){
+							_editableLayers.clearLayers();
+							_editableLayers.addLayer( _currentFeature.layer );
+							data[1].addTo(_map);
+							uiService.layerIsLoaded();
+							_showMessage("Se agregó 1 área (" + _counterUserDraws + " de 2) ");
+							scope.userDraws.push(data[0]);
+							if (_counterUserDraws === 2) {
+								scope.disableDrawAccessBtn = true;
+								$timeout(function(){
+									_showMessage("Se llegó al límite de dibujos permitidos (2), elimina uno si deseas agregar otro.");
+								}, 2500);
+							}
 							}
 						}, function(error){
 							console.log(error)
 						});
-
 					}
 
-					if (_counterUserDraws === 2) {
-						scope.disableDrawAccessBtn = true;
-						$timeout(function(){
-							_showMessage("Se llegó al límite de dibujos permitidos (2), elimina uno si deseas agregar otro.");
-						}, 2500);
-					}
-					else {
+					
+					//else {
 						// if(!scope.isDrawAccessibility){
 						// 	console.log(scope.isDrawAccessibility)
 							scope.disableDrawAccessBtn = false;
 						//}
-					}
+					//}
 				};
 				
 				var _addUserDraw2Panel = function(id, name, draw){
@@ -452,18 +444,14 @@
 						.then(function(data){
 							if (data.data.res === "correcto") {
 								var objeto = {
-									id_draw:id,
+									id_draw:data.data.id_draw,
 									name_draw:name,
 									icon:img,
 									isActive:isActive,
 									draw:draw
 								};
 								resolve(objeto);
-								//scope.userDraws.push
-								//_showMessage("Se agregó 1 área (" + _counterUserDraws + " de 2) ");
 							}
-							// console.log(Obj);
-							// console.log(data);
 						}, function(error){
 							if (error) {
 								reject(false);
@@ -474,7 +462,12 @@
 				};
 
 				scope.updateNameUserDraw = function(id, nm){
-					AccessibilityService.updateUserDraws(id,nm);
+					AccessibilityService.updateUserDraws(id,nm)
+					.then(function(data){
+						console.log(data)
+					}, function(error){
+						console.log(error)
+					});
 				};
 
 				scope.delUserDraw = function(id){
@@ -482,6 +475,7 @@
 					.then(function(res){
 						if(res.statusText === "OK"){
 							scope.userDraws = _.filter(scope.userDraws, function(o) { 
+								o.isActive = false;
 								return o.id_draw !== id; 
 							});
 							_editableLayers.clearLayers();
@@ -504,6 +498,7 @@
 				};
 
 				scope.turnOnOffDraw = function(id){
+					console.log(id)
 					_editableLayers.clearLayers();
 					var d = _.findWhere( scope.userDraws ,{id_draw:id});
 					if(d.isActive === true){
@@ -541,7 +536,7 @@
 		};
 	}
 
-	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile', '$mdToast', '$document', '$timeout'];
+	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', 'uiService', '$compile', '$mdToast', '$document', '$timeout'];
 	angular.module('accessibility.directive', [])
 		.directive('accessibility', accessibilityDirective);
 })();

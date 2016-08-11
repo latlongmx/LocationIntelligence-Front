@@ -150,10 +150,12 @@
 							$scope.user_draws = false;
 							AccessibilityService.getUserDraws().then(function(res){
 								if (res.data && res.data.draws) {
+									console.log(res.data.draws)
 									$scope.user_draws = true;
 									_.each(res.data.draws, function(userDraw){
 										userDraw.isActive = false;
 									});
+									console.log(res.data.draws)
 									$scope.userDraws = res.data.draws;
 								}
 							});
