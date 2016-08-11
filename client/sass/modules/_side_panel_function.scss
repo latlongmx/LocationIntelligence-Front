@@ -262,6 +262,7 @@ button.m-side-panel__locations-list__item {
 	margin: 10px 0px 0px;
 	right: 0;
 	top: 101px;
+	position:static;
 }
 
 .m-side-panel__list--in-accessibility__car-access {
@@ -269,7 +270,8 @@ button.m-side-panel__locations-list__item {
 	left: 0;
 	margin: 10px 0px 0px;
 	right: 0;
-	top: 258px;
+	top: 0;
+	position:static;
 }
 
 .m-side-panel__list--in-accessibility__access-routes {
@@ -277,14 +279,16 @@ button.m-side-panel__locations-list__item {
 	left: 0;
 	margin: 10px 0px 0px;
 	right: 0;
-	top: 387px;
+	top: 0;
+	position:static;
 }
 .m-side-panel__list--in-accessibility__transport-data {
 	bottom: initial;
 	left: 0;
 	margin: 10px 0px 0px;
 	right: 0;
-	top: 556px;
+	top: 0;
+	position:static;
 }
 
 .m-side-panel__list-content--in-accessibility {

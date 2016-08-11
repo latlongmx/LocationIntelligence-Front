@@ -180,7 +180,6 @@
 									});
 									
 									$scope.userDraws = res.data.draws;
-									console.log($scope.userDraws)
 								}
 							});
 						}
