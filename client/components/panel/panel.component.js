@@ -30,9 +30,6 @@
 					'<od></od>',
 					'<heatmap></heatmap>',
 					'<timerings></timerings>',
-					//'<li class="m-list-functions__item js-panel-item" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
-					//	'<img src="./images/functions/rings_icon.png" class="m-list-functions__item-icon" data-icon="rings_icon"/>',
-					//'</li>',
 				'</ul>',
 			].join(''),
 			controller: function($scope){
@@ -56,7 +53,7 @@
 					if (_data_ep === "demography"){
 						// if (!$scope.locations){
 						// 	$scope.location_list = true;
-							
+
 						// 	LocationService.getLocations()
 						// 	.then(function(res){
 						// 		if(res.data && res.data.places){
@@ -137,9 +134,9 @@
 						cityFile = DFGeoJson;
 						uiService.odIsOpen(_data_ep, cityFile);
 						dm.setLayer = cityFile;
-						
+
 					}
-					
+
 					if (_data_ep !== "od"){
 						uiService.removeCityLayer();
 						odService.removeMarker();
@@ -178,7 +175,7 @@
 										o.draw = geo;
 										o.icon = img;
 									});
-									
+
 									$scope.userDraws = res.data.draws;
 								}
 							});
