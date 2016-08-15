@@ -54,7 +54,6 @@
 					//uiService.listIsLoaded(_data_ep);
 
 					if (_data_ep === "demography"){
-
 					}
 
 					if (_data_ep === "location"){
@@ -119,8 +118,9 @@
 						cityFile = DFGeoJson;
 						uiService.odIsOpen(_data_ep, cityFile);
 						dm.setLayer = cityFile;
-						
+
 					}
+
 					if (_data_ep !== "od"){
 						uiService.removeCityLayer();
 						odService.removeMarker();
@@ -160,7 +160,7 @@
 										o.draw = geo;
 										o.icon = img;
 									});
-									
+
 									$scope.userDraws = res.data.draws;
 								}
 							});
