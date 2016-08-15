@@ -30,9 +30,6 @@
 					'<od></od>',
 					'<heatmap></heatmap>',
 					'<timerings></timerings>',
-					//'<li class="m-list-functions__item js-panel-item" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
-					//	'<img src="./images/functions/rings_icon.png" class="m-list-functions__item-icon" data-icon="rings_icon"/>',
-					//'</li>',
 				'</ul>',
 			].join(''),
 			controller: function($scope){
@@ -41,6 +38,9 @@
 				cityLayer = null;
 				$scope.location_list = false;
 				$scope.competence_list = false;
+				$scope.isTimeOpen = false;
+				$scope.isTripOpen = false;
+				$scope.isOpen = false;
 
 				_$js_exploration_item = angular.element(document.getElementsByClassName('js-panel-item'));
 
@@ -54,25 +54,7 @@
 					//uiService.listIsLoaded(_data_ep);
 
 					if (_data_ep === "demography"){
-						// if (!$scope.locations){
-						// 	$scope.location_list = true;
-							
-						// 	LocationService.getLocations()
-						// 	.then(function(res){
-						// 		if(res.data && res.data.places){
-						// 			$scope.location_list = false;
-						// 			$scope.locations = res.data.places;
-						// 			_.each(res.data.places,function(o){
-						// 				var id = o.id_layer+'-'+o.name_layer.replace(' ','_');
-						// 				BaseMapFactory.addLocation({
-						// 					name: id,
-						// 					data: o.data,
-						// 					extend: o.extend
-						// 				});
-						// 			});
-						// 		}
-						// 	});
-						// }
+
 					}
 
 					if (_data_ep === "location"){
@@ -139,12 +121,12 @@
 						dm.setLayer = cityFile;
 						
 					}
-					
 					if (_data_ep !== "od"){
 						uiService.removeCityLayer();
 						odService.removeMarker();
 						$scope.selected_zc = false;
 					}
+
 					if (_data_ep === "accessibility") {
 						if (!$scope.userDraws){
 							$scope.user_draws = false;
