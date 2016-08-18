@@ -21,42 +21,41 @@
 		lg.submitLogin = function(loginForm, data){
 			uiService.addLogginIsLoading(_$buttonForm, messagesService.addMessageLoggin);
 			if(loginForm.$valid) {
+				loginForm.$submitted = false;
 				_loginProcess = loginService.loginRequest(data);
 				_loginProcess.then(function(result){
+					console.log(result)
 					if(result.status === 200 && result.statusText === "OK") {
 						Auth.login(result.data);
 					}
-				}, function(error){
+				})
+				.catch(function(error){
 					lg.error = true;
+					loginForm.$submitted = true;
 					uiService.removeLogginIsLoading(_$buttonForm, messagesService.removeMessageLoggin);
 					_.each(_$inputsInForm, function(_inputs){
 						uiService.cleanInputs(_inputs);
 					});
-
-					if(error.status === 401 && error.statusText === "Unauthorized") {
-						sessionStorage.removeItem('access_token');
-						lg.message = messagesService.userNotExists();
-						$timeout(function(){
-							lg.error = false;
-						}, 2500);
-					}
-					else {
-						sessionStorage.removeItem('access_token');
-						lg.message = messagesService.serverErrorRequest();
-						$timeout(function(){
-							lg.error = false;
-						}, 2500);
-					}
+					sessionStorage.removeItem('access_token');
+					lg.message = messagesService.userNotExists();
+					$timeout(function(){
+						lg.error = false;
+					}, 2500);
 				});
 			}
-			else {
-				lg.error = true;
-				lg.message = messagesService.fieldsRequired();
-				$timeout(function(){
-					lg.error = false;
-				}, 2500);
-				uiService.removeLogginIsLoading(_$buttonForm, messagesService.removeMessageLoggin);
-			}
+			// else {
+			// 	//loginForm.$submitted = true;
+			// 	lg.error = true;
+			// 	lg.message = messagesService.fieldsRequired();
+			// 	_.each(_$inputsInForm, function(_inputs){
+			// 		uiService.cleanInputs(_inputs);
+			// 	});
+			// 	$timeout(function(){
+			// 		lg.error = false;
+			// 	}, 2500);
+			// 	uiService.removeLogginIsLoading(_$buttonForm, messagesService.removeMessageLoggin);
+			// 	console.log("campos requeridos")
+			// }
 		};
 
 	}

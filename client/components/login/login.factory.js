@@ -4,19 +4,21 @@
 	*/
 	'use strict';
 
-	function AuthFactory($location, $window, $rootScope){
+	function AuthFactory($location, $window, $rootScope, ROLES){
 		var _privateRoutes = null,
+		_userType = null,
 		_session = null,
 		_key = null;
 
 		return {
+			getToken : function() {
+				return JSON.parse(sessionStorage.getItem('access_token'));
+			},
 			login: function(session) {
+				var token = this.getToken();
 				_session = JSON.stringify(session);
 				sessionStorage.setItem('access_token', _session);
 				$location.path("/mapa").replace();
-			},
-			getToken : function() {
-				return JSON.parse(sessionStorage.getItem('access_token'));
 			},
 			logout: function() {
 				sessionStorage.removeItem('access_token');
@@ -35,22 +37,43 @@
 					$location.path("/mapa").replace();
 					return true;
 				}
-
 				return true;
 			},
 			in_array : function(needle, haystack) {
 				var key = '';
 				for(key in haystack){
-					if(haystack[key] == needle){
+					if(haystack[key] === needle){
 						return true;
 					}
 				}
 				return false;
+			},
+			getPermission: function(){
+				var token = this.getToken();
+				if (token) {
+					for(var key in ROLES){
+						if(ROLES[key] === token.userType){
+							_userType = token.userType;
+						}
+					}
+				}
+				else {
+					_userType = null;
+				}
+				return _userType;
 			}
+			// checkPermissions: function(user, token) {
+			// 	for(var key in ROLES){
+			// 		if(ROLES[key] === user){
+			// 			$rootScope.$emit('set-permissions', {user: user, log: true} );
+			// 			//return true;
+			// 		}
+			// 	}
+			// }
 		};
 
 	}
-	AuthFactory.$inject = ['$location', '$window', '$rootScope'];
+	AuthFactory.$inject = ['$location', '$window', '$rootScope', 'ROLES'];
 	angular.module('login.factory', []).
 		factory('Auth', AuthFactory);
 })();

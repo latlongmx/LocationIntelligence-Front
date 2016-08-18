@@ -17,7 +17,7 @@
 				'</div>',
 				'<ul class="m-list-navigation js-list-navigation">',
 					'<li class="m-list-navigation__item js-menu-item"><a>Menu 1</a></li>',
-					'<li class="m-list-navigation__item js-menu-item"><a>Menu 2</a></li>',
+					'<li class="m-list-navigation__item js-menu-item"><a>Mi perfil</a></li>',
 					'<li class="m-list-navigation__item js-logout"><a>Cerrar sesión</a></li>',
 				'</ul>',
 			].join(''),

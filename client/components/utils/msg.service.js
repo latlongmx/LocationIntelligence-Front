@@ -14,7 +14,7 @@
 			return "Iniciar";
 		}
 		this.userNotExists = function(button){
-			return "Las credenciales son incorrectas";
+			return "El usuario no existe";
 		}
 		this.fieldsRequired = function(){
 			return "Los campos son requeridos";

@@ -30,7 +30,6 @@
 		_colorLine = null,
 		_autocomplete = null;
 
-
 		BaseMapService.map.then(function (map) {
 			_mapFunctions(map);
 		});

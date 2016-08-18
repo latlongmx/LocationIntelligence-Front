@@ -264,11 +264,10 @@
 		 * @param {[type]} variable [description]
 		 */
 		factory.setPobVivWMS = function(variable){
-			
 			var self = this;
 			self._curVar = variable;
 			BaseMapService.map.then(function (map) {
-				uiService.layerIsLoading();
+				// uiService.layerIsLoading();
 				self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
 						layers: 'Manzanas',
 						format: 'image/png',
@@ -281,7 +280,7 @@
 						return self._curVar;
 					}
 				});
-				uiService.layerIsLoaded();
+				// uiService.layerIsLoaded();
 				self.LAYERS.pobvivWMS.options.crs = L.CRS.EPSG4326;
 				self.LAYERS.pobvivWMS.addTo(map);
 				self.LAYERS.pobvivWMS.setZIndex(9);

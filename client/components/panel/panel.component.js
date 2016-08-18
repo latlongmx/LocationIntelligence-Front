@@ -25,7 +25,7 @@
 					'<competence></competence>',
 					'<demography></demography>',
 				'</ul>',
-				'<ul class="m-list-functions">',
+				'<ul class="m-list-functions" ng-if="hasPermission">',
 					'<accessibility></accessibility>',
 					'<od></od>',
 					'<heatmap></heatmap>',
@@ -41,6 +41,10 @@
 				$scope.isTimeOpen = false;
 				$scope.isTripOpen = false;
 				$scope.isOpen = false;
+				
+				// if ($rootScope.thisUser) {
+				// 	$rootScope.thisUser === "uA" ? $scope.hasPermission = false : $scope.hasPermission = true;
+				// }
 
 				_$js_exploration_item = angular.element(document.getElementsByClassName('js-panel-item'));
 

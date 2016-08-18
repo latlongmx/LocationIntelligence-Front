@@ -8,17 +8,19 @@
 						<div class="m-login__container-body__logo">
 							<img src="./images/login/login_logo.png" alt="" width="150">
 						</div>
-						<form action="" name="loginForm" class="m-login__container-body__form js-login-form">
+						<form name="loginForm" novalidate class="m-login__container-body__form js-login-form">
 							<fieldset class="m-fieldset">
 							<label for="" class="m-label m-label--in-login" data-user="user">Usuario</label>
-								<input type="text" name="user" class="m-input m-input--in-login" ng-model="lg.login.user" required>
+								<input type="text" name="user" class="m-input m-input--in-login" ng-model="lg.login.user" autocomplete="off" required>
+								<p ng-show="loginForm.user.$error.required && logindForm.$invalid" class="m-input-error js-password-error">El nombre de usuario es requerido</p>
 							</fieldset>
 							<fieldset class="m-fieldset">
 							<label for="" class="m-label m-label--in-login" data-user="password">Password</label>
-								<input type="password" name="password" class="m-input m-input--in-login" ng-model="lg.login.password" required>
+								<input type="password" name="password" class="m-input m-input--in-login" ng-model="lg.login.password" ng-minlength="6" autocomplete="off" required>
+								<p ng-show="loginForm.password.$error.required && logindForm.$invalid" class="m-input-error js-password-error">La contraseña debe ser de al menos 6 carácteres</p>
 							</fieldset>
 							<div class="align-center">
-								<button type="submit" class="pure-button m-login__container-body__button is-larger" ng-click="lg.submitLogin(loginForm, lg.login)">Iniciar</button>
+								<button type="submit" class="pure-button m-login__container-body__button is-larger" ng-disabled="loginForm.$invalid" ng-click="lg.submitLogin(loginForm, lg.login)">Iniciar</button>
 								<span class="m-input-error js-login-error" ng-if="lg.error">{{lg.message}}</span>
 							</div>
 						</form>

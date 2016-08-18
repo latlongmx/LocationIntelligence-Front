@@ -60,9 +60,8 @@
 			'slickCarousel'
 		]
 	)
-	.constant('_',
-		window._
-	)
+	.constant('_', window._)
+	.constant('ROLES', ['uA', 'uB', 'uC'])
 	.run(["$rootScope", "$state", "$stateParams", "Auth", function ($rootScope, $state, $stateParams, Auth) {
 		$rootScope.$state = $state;
 		$rootScope.$stateParams = $stateParams;
@@ -98,13 +97,22 @@
 		L.drawLocal.edit.toolbar.buttons.editDisabled = "No hay dibujos para editar";
 		L.drawLocal.edit.toolbar.buttons.remove = "Eliminar dibujos";
 		L.drawLocal.edit.toolbar.buttons.removeDisabled = "No hay dibujos para eliminar";
-		$rootScope.$on('$viewContentLoading', function(e, config) {
-			//Auth.checkStatus();
+		$rootScope.$on('$viewContentLoading', function() {
 			var auth = Auth.checkStatus();
+			var permissions = Auth.getPermission();
 
 			if(auth === false) {
-					console.log(window)
-					//window.location.href = "http://52.8.211.37/walmex.latlong.mx";
+				Auth.logout();
+				//window.location.href = "http://52.8.211.37/walmex.latlong.mx";
+			}
+			
+			if(permissions !== null) {
+				if (permissions === "uA"){
+					$rootScope.hasPermission = false;
+				}
+				if (permissions === "uC"){
+					$rootScope.hasPermission = true;
+				}
 			}
 		});
 		return $rootScope;
