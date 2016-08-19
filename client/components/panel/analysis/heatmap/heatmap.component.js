@@ -10,6 +10,7 @@
 			restrict: 'E',
 			require: '^panelFunctions',
 			scope: '=',
+			replace:true,
 			template: [
 				'<div>',
 					'<li class="m-list-functions__item js-panel-item" data-ep="heatmap" tooltip-placement="right" uib-tooltip="Mapa de calor" tooltip-animation="true">',

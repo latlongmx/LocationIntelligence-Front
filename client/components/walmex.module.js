@@ -143,5 +143,4 @@
 		$mdThemingProvider.theme('default')
 		    .primaryPalette('demo')
 	});
-	//prueba push dandelion deploy
 })();

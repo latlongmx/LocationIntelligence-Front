@@ -25,7 +25,7 @@
 					'<competence></competence>',
 					'<demography></demography>',
 				'</ul>',
-				'<ul class="m-list-functions" ng-if="hasPermission">',
+				'<ul class="m-list-functions">',
 					'<accessibility></accessibility>',
 					'<od></od>',
 					'<heatmap></heatmap>',
