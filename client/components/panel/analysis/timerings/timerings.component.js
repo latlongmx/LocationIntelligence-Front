@@ -11,8 +11,8 @@
       _map = null;
 
     var _layers = {};
-    var _$userDraws = null;
-    var _$userDrawsGeoms = [];
+    var _$userRings = null;
+    var _$userRingsGeoms = [];
     var _$panel;
 		var _$timeRingsBtns;
 
@@ -41,52 +41,49 @@
         '<li class="m-list-functions__item js-panel-item js-timering-side-panel" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
         '<img src="./images/functions/rings_icon.png" class="m-list-functions__item-icon" data-icon="rings_icon"/>',
         '</li>',
+        '<div class="m-side-panel js-rings-side-panel">',
+        '<h3 class="m-side-panel__title">Rangos de alcance</h3>',
+          '<div class="m-side-panel__list m-side-panel__list--in-accessibility__analysis-area">',
 
-				'<div id="timeRingsBtns" class="hide" style="position: absolute;top: 50px; left: 50px;">', //
+            '<div layout="row">',
+              '<div layout="row" flex="40" layout-align="center center">',
+                '<div flex="75">',
+                  '<h5 class="m-side-panel__subtitle m-side-panel__subtitle--in-locations-actions">Agregar rango de alcance</h5>',
+                '</div>',
+                '<div flex="25">',
+                  '<md-button class="md-fab md-mini md-primary" ng-click="addRing()">',
+                    '<md-icon>add</md-icon>',
+                  '</md-button>',
+                '</div>',
+              '</div>',
+            '</div>',
 
-        // Tiempo
-        '<md-fab-speed-dial md-open="false" md-direction="right" ng-class="md-fling" class="md-fab-float">',
-        '  <md-fab-trigger>',
-        '    <md-button class="md-fab md-warn" aria-label="30 min"><i class="material-icons">av_timer</i></md-button>',
-        '  </md-fab-trigger>',
-        '   <md-fab-actions>',
-        '     <md-button ng-click="setTimeRing(1800)" class="md-fab md-raised md-mini" aria-label="39">30</md-button>',
-        '     <md-button ng-click="setTimeRing(1500)" class="md-fab md-raised md-mini" aria-label="25">25</md-button>',
-        '     <md-button ng-click="setTimeRing(1200)" class="md-fab md-raised md-mini" aria-label="20">20</md-button>',
-        '     <md-button ng-click="setTimeRing(900)" class="md-fab md-raised md-mini" aria-label="15">15</md-button>',
-        '     <md-button ng-click="setTimeRing(600)" class="md-fab md-raised md-mini" aria-label="10">10</md-button>',
-        '     <md-button ng-click="setTimeRing(300)" class="md-fab md-raised md-mini" aria-label="5">5</md-button>',
-        '   </md-fab-actions>',
-        '</md-fab-speed-dial>',
+            '<div>',
+            '<h3 class="m-side-panel__user-title">Mis rangos:</h3>',
+            '<ul id="accessPanelUserRingss" class="m-side-panel__list-content m-side-panel__list-content--in-accessibility" ng-if="user_draws">',
+              '<li ng-repeat="ring in userRings" class="m-side-panel__list-content__item">',
+                '<md-input-container flex="60" class="m-side-panel__list-content__item__md-input-container" layout-align="center center">',
+                  '<input ng-change="updateNameUserRing(ring.id_ring, ring.name_ring)" aria-label="ring.id_ring" ng-model-options="{debounce: 750}" ng-model="ring.name_ring" >',
+                '</md-input-container>',
+                '<p flex="10" class="m-side-panel__list-content__item-single">',
+                '<i class="demo {{ring.icon}}"></i>',
+                '</p>',
+                '<md-switch data-idring="ring.id_ring" aria-label="ring.id_ring" ng-model="ring.isActive" flex="10" data-idring="ring.id_ring" ng-change="turnOnOffRing(ring.id_ring)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
+                '<md-button flex="10" data-idring="ring.id" ng-click="zoomToUserring(ring.id_ring)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+                  '<md-icon>zoom_in</md-icon>',
+                '</md-button>',
+                '<md-button flex="10" data-idring="ring.id" ng-click="delUserring(ring.id_ring)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+                  '<md-icon>delete</md-icon>',
+                '</md-button>',
+              '</li>',
+            '</ul>',
+            '</div>',
 
-        // Tipo de viaje
-        '<md-fab-speed-dial md-open="false" md-direction="right" ng-class="md-fling" class="md-fab-float">',
-        '  <md-fab-trigger>',
-        '    <md-button class="md-fab md-warn" aria-label="bus"><i class="material-icons">drive_eta</i></md-button>',
-        '  </md-fab-trigger>',
-        '   <md-fab-actions>', //bike walk car transit
-        '     <md-button ng-click="setTypeRing(\'transit\')" class="md-fab md-raised md-mini" aria-label="transit">transit</md-button>',
-        '     <md-button ng-click="setTypeRing(\'car\')" class="md-fab md-raised md-mini" aria-label="car">car</md-button>',
-        '     <md-button ng-click="setTypeRing(\'bike\')" class="md-fab md-raised md-mini" aria-label="bike">bike</md-button>',
-        '     <md-button ng-click="setTypeRing(\'walk\')" class="md-fab md-raised md-mini" aria-label="walk">walk</md-button>',
-        '   </md-fab-actions>',
-        '</md-fab-speed-dial>',
+          '</div>',
 
-        //AGREGAR
-        '<md-fab-speed-dial md-open="false" md-direction="right" ng-class="md-fling" class="md-fab-float">',
-        '  <md-fab-trigger>',
-        '    <md-button ng-click="startTravelRing()" class="md-fab md-warn" aria-label="bus"><i class="material-icons">room</i></md-button>',
-        '  </md-fab-trigger>',
-        '</md-fab-speed-dial>',
 
-        //Limpiar
-        '<md-fab-speed-dial md-open="false" md-direction="right" ng-class="md-fling" class="md-fab-float">',
-        '  <md-fab-trigger>',
-        '    <md-button ng-click="removeTravelRings()" class="md-fab md-warn" aria-label="bus"><i class="material-icons">delete</i></md-button>',
-        '  </md-fab-trigger>',
-        '</md-fab-speed-dial>',
-
-        '</div>',
+  				'</div>',
+				'</div>',
 				'</div>'
       ].join(''),
       link: function(scope, element, attr, potencialCtrl) {
@@ -100,6 +97,11 @@
           _polygonRings.addTo(_map);
           _map.on('click', scope.onClickMap);
         });
+
+
+        scope.addRing = function(){
+
+        };
 
         _$panel = angular.element(document.getElementsByClassName('js-timering-side-panel')[0]);
         _$timeRingsBtns = angular.element(document.getElementById('timeRingsBtns'));
@@ -162,7 +164,7 @@
             _polygonRings.clearAndAddLayers(polygons, false);
           });
         };
-        
+
 
       },
       controller: function($scope) {}
