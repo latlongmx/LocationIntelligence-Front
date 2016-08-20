@@ -38,6 +38,9 @@
 				cityLayer = null;
 				$scope.location_list = false;
 				$scope.competence_list = false;
+				$scope.isTimeOpen = false;
+				$scope.isTripOpen = false;
+				$scope.isOpen = false;
 
 				_$js_exploration_item = angular.element(document.getElementsByClassName('js-panel-item'));
 
@@ -142,6 +145,7 @@
 						odService.removeMarker();
 						$scope.selected_zc = false;
 					}
+
 					if (_data_ep === "accessibility") {
 						if (!$scope.userDraws){
 							$scope.user_draws = false;

@@ -99,7 +99,7 @@
 								'</div>',
 								'<div class="m-side-panel__list m-side-panel__list--in-accessibility__access-routes">',
 									'<h3 class="m-side-panel__user-title">Vías de acceso en transporte</h3>',
-										'<md-list id="listAccessTrans" style="overflow-y: auto; height: 140px;padding:0;">',
+										'<md-list id="listAccessTrans">',
 										'</md-list>',
 								'</div>',
 								'<div class="m-side-panel__list m-side-panel__list--in-accessibility__transport-data">',

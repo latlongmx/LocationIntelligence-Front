@@ -16,6 +16,13 @@
 		-webkit-transition-delay: .125s;
 		transition-delay: .125s;
 	}
+	&.is-rings-panel-open{
+		bottom: initial;
+    background: transparent;
+    box-shadow: none;
+    overflow: initial;
+    width: inherit;
+	}
 }
 
 .m-side-panel__title {
