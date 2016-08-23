@@ -153,14 +153,14 @@
         scope.onClickMap = function(evt) {
           if (_$panel.data('start_time') === true) {
             _targetRing = evt.latlng;
-            if(_marker === undefined){
+            /*if(_marker === undefined){
               _marker = L.marker((_targetRing), {
                 icon: _blueMarker
               }).addTo(_map);
             }else{
               _marker.setLatLng(_targetRing).addTo(_map);
               //scope.callTravelRings();
-            }
+            }*/
             _$divTime.removeClass('hide');
           }
         };
@@ -201,15 +201,18 @@
             }
             var name = 'Mi rango '+(mxN);
             var id_ring = mxN;
-            scope.addRing2Catalog({
+            var ring = {
               id_ring: id_ring,
               name: name,
               targetRing: _targetRing,
               isActive: true,
               polygons: polygons,
               timeRing: _timeRing,
-              typeRing: _typeRing
-            });
+              typeRing: _typeRing,
+              marker: L.marker([_targetRing.lat, _targetRing.lng])
+            };
+            ring.marker.addTo(_map);
+            scope.addRing2Catalog(ring);
 
             TimeRingsService.addUserRings({
               nm: name,
@@ -218,8 +221,8 @@
               geo: 'POINT('+_targetRing.lng+' '+_targetRing.lat+')'
             }).then(function(res){
               if(res.data && res.data.id_ring){
-                var ring = _.findWhere(scope.userRings, {id_ring: id_ring});
-                ring.id_ring = res.data.id_ring;
+                var r = _.findWhere(scope.userRings, {id_ring: id_ring});
+                r.id_ring = res.data.id_ring;
               }
             });
           });
@@ -246,7 +249,9 @@
         };
 
         scope.addRing2Catalog = function(ring){
-          ring.marker = L.marker([ring.targetRing.lat, ring.targetRing.lng]);
+          if(ring.marker === undefined){
+            ring.marker = L.marker([ring.targetRing.lat, ring.targetRing.lng]);
+          }
           scope.userRings.push(ring);
         };
 
