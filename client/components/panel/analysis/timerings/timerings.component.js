@@ -4,7 +4,7 @@
    */
   'use strict';
 
-  function timeringsDirective(BaseMapService, BaseMapFactory, Auth, $compile, $mdToast, $document, uiService, $templateRequest) {
+  function timeringsDirective(BaseMapService, BaseMapFactory, Auth, $compile, $mdToast, $document, uiService, $templateRequest, TimeRingsService) {
 
     var _$js_accessibility_side_panel = null,
       _$js_accessibility_item = null,
@@ -42,44 +42,46 @@
       scope: '=',
       template: [
         '<div>',
-        '<li id="btnPanelRing" class="m-list-functions__item js-panel-item js-timering-side-panel" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
-        	'<img src="./images/functions/rings_icon.png" class="m-list-functions__item-icon" data-icon="rings_icon"/>',
-        '</li>',
-        '<div class="m-side-panel js-rings-side-panel">',
-        	'<h3 class="m-side-panel__title">Rangos de alcance</h3>',
-          '<div class="m-side-panel__list m-side-panel__list--in-accessibility__analysis-area">',
-            '<div layout="row">',
-              '<div layout="row" flex="40" layout-align="center center">',
-                '<div flex="75">',
-                  '<h5 class="m-side-panel__subtitle m-side-panel__subtitle--in-locations-actions">Agregar rango de alcance</h5>',
-                '</div>',
-                '<div flex="25">',
-                  '<md-button class="md-fab md-mini md-primary" ng-click="addRing()">',
-                    '<md-icon>add</md-icon>',
-                  '</md-button>',
+          '<li id="btnPanelRing" class="m-list-functions__item js-panel-item js-timering-side-panel" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
+          	'<img src="./images/functions/rings_icon.png" class="m-list-functions__item-icon" data-icon="rings_icon"/>',
+          '</li>',
+          '<div class="m-side-panel js-rings-side-panel">',
+          	'<h3 class="m-side-panel__title">Rangos de alcance</h3>',
+            '<div class="m-side-panel__list m-side-panel__list--in-accessibility__analysis-area">',
+              '<div layout="row">',
+                '<div layout="row" flex="40" layout-align="center center">',
+                  '<div flex="75">',
+                    '<h5 class="m-side-panel__subtitle m-side-panel__subtitle--in-locations-actions">Agregar rango de alcance</h5>',
+                  '</div>',
+                  '<div flex="25">',
+                    '<md-button class="md-fab md-mini md-primary" ng-click="addRing()">',
+                      '<md-icon>add</md-icon>',
+                    '</md-button>',
+                  '</div>',
                 '</div>',
               '</div>',
             '</div>',
-          '<div>',
-          '<h3 class="m-side-panel__user-title">Mis rangos:</h3>',
-            '<ul id="accessPanelUserRingss" class="m-side-panel__list-content m-side-panel__list-content--in-rings" ng-if="userRings">',
-              '<li ng-repeat="ring in userRings" class="m-side-panel__list-content__item">',
-                '<md-input-container flex="60" class="m-side-panel__list-content__item__md-input-container" layout-align="center center">',
-                  '<input ng-change="updateNameUserRing(ring.id_ring, ring.name)" aria-label="ring.id_ring" ng-model-options="{debounce: 750}" ng-model="ring.name" >',
-                '</md-input-container>',
-                '<p flex="10" class="m-side-panel__list-content__item-single">',
-                //'<i class="demo {{ring.icon}}"></i>',
-                '</p>',
-                '<md-switch data-idring="ring.id_ring" aria-label="ring.id_ring" ng-model="ring.isActive" flex="10" ng-change="turnOnOffRing(ring.id_ring)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
-                '<md-button flex="10" data-idring="ring.id" ng-click="zoomToUserRing(ring.id_ring)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
-                  '<md-icon>zoom_in</md-icon>',
-                '</md-button>',
-                '<md-button flex="10" data-idring="ring.id_ring" ng-click="delUserRing(ring.id_ring)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
-                  '<md-icon>delete</md-icon>',
-                '</md-button>',
-              '</li>',
-            '</ul>',
-          '</div>',
+            '<div>',
+              '<h3 class="m-side-panel__user-title">Mis rangos:</h3>',
+              '<ul id="accessPanelUserRingss" class="m-side-panel__list-content m-side-panel__list-content--in-rings" ng-if="userRings">',
+                '<li ng-repeat="ring in userRings" class="m-side-panel__list-content__item">',
+                  '<md-input-container flex="60" class="m-side-panel__list-content__item__md-input-container" layout-align="center center">',
+                    '<input ng-change="updateNameUserRing(ring.id_ring, ring.name)" aria-label="ring.id_ring" ng-model-options="{debounce: 750}" ng-model="ring.name" >',
+                  '</md-input-container>',
+                  '<p flex="10" class="m-side-panel__list-content__item-single">',
+                  //'<i class="demo {{ring.icon}}"></i>',
+                  '</p>',
+                  '<md-switch data-idring="ring.id_ring" aria-label="ring.id_ring" ng-model="ring.isActive" flex="10" ng-change="turnOnOffRing(ring.id_ring)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
+                  '<md-button flex="10" data-idring="ring.id" ng-click="zoomToUserRing(ring.id_ring)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+                    '<md-icon>zoom_in</md-icon>',
+                  '</md-button>',
+                  '<md-button flex="10" data-idring="ring.id_ring" ng-click="delUserRing(ring.id_ring)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
+                    '<md-icon>delete</md-icon>',
+                  '</md-button>',
+                '</li>',
+              '</ul>',
+            '</div>',
+				  '</div>',
 				'</div>'
       ].join(''),
       link: function(scope, element, attr, potencialCtrl) {
@@ -111,6 +113,24 @@
             this.onAdd(options.target);
           };
           _polygonRings.addTo(_map);
+
+        //Load User rings
+        TimeRingsService.getUserRings().then(function(res){
+          if(res.data && res.data.rings){
+            _.each(res.data.rings, function(o){
+              var latlng = L.latLng(o.y, o.x);
+              scope.addRing2Catalog({
+                id_ring: o.id_ring,
+                name: o.name_ring,
+                targetRing: latlng,
+                isActive: false,
+                polygons: undefined,
+                timeRing: o.time_ring,
+                typeRing: o.type_ring
+              });
+            });
+          }
+        });
 
 
         scope.addRing = function(){
@@ -152,11 +172,6 @@
 
         scope.startTravelRing = function(){
           _$panel.data('start_time', true);
-          /*if (_$panel.data('start_time') === undefined || _$panel.data('start_time') === false) {
-            _$panel.data('start_time', true);
-          } else {
-            _$panel.data('start_time', false);
-          }*/
         };
 
         scope.removeTravelRings = function(){
@@ -167,7 +182,6 @@
         scope.setTimeRing = function(time){
           _timeRing = time;
           _$divType.removeClass('hide');
-          //scope.callTravelRings();
         };
         scope.setTypeRing = function(type){
           _typeRing = type;
@@ -179,14 +193,34 @@
           _$panel.data('start_time', false);
 
           scope.callService2GetRings(_timeRing, _typeRing, _targetRing, function(polygons){
+            //_map.fitBounds(_polygonRings.getBoundingBox3857());
+
+            var mxN = 0;
+            if(scope.userRings.length > 0){
+              mxN = _.max(_.pluck(scope.userRings, 'id_ring')) + 1;
+            }
+            var name = 'Mi rango '+(mxN);
+            var id_ring = mxN;
             scope.addRing2Catalog({
-              id_ring: scope.userRings.length,
-              name: 'Mi rango '+(scope.userRings.length+1),
+              id_ring: id_ring,
+              name: name,
               targetRing: _targetRing,
               isActive: true,
               polygons: polygons,
               timeRing: _timeRing,
               typeRing: _typeRing
+            });
+
+            TimeRingsService.addUserRings({
+              nm: name,
+              ty: _typeRing,
+              ti: _timeRing,
+              geo: 'POINT('+_targetRing.lng+' '+_targetRing.lat+')'
+            }).then(function(res){
+              if(res.data && res.data.id_ring){
+                var ring = _.findWhere(scope.userRings, {id_ring: id_ring});
+                ring.id_ring = res.data.id_ring;
+              }
             });
           });
 
@@ -203,7 +237,8 @@
           _travelOptions.setTravelType( type );
 
           r360.PolygonService.getTravelTimePolygons( _travelOptions, function(polygons) {
-            _polygonRings.clearAndAddLayers(polygons, false);
+            //_polygonRings.clearAndAddLayers(polygons, true);
+            _polygonRings.addLayer(polygons);
             if(callback){
               callback(polygons);
             }
@@ -211,35 +246,79 @@
         };
 
         scope.addRing2Catalog = function(ring){
-          if(ring.isActive===true){
-            _.each(scope.userRings,function(o){
-              o.isActive=false;
-            });
-          }
+          ring.marker = L.marker([ring.targetRing.lat, ring.targetRing.lng]);
           scope.userRings.push(ring);
         };
 
 
         //Actions by TimeRing USER
         scope.turnOnOffRing = function(id_ring){
-          var ring = _.findWhere(scope.userRings, {id_ring: id_ring});
-          if(ring.isActive===false){
-            _.each(scope.userRings,function(o){
-              if(o.id_ring!==ring.id_ring){
-                o.isActive=false;
+          _polygonRings.clearLayers();
+          scope.userRings.forEach(function(ring){
+              if(ring.isActive===true){
+                ring.marker.addTo(_map);
+                if(ring.polygons !== undefined){
+                  _polygonRings.addLayer(ring.polygons);
+                }else{
+                  scope.callService2GetRings(ring.timeRing, ring.typeRing, ring.targetRing,function(polygons){
+                    ring.polygons = polygons;
+                  });
+                }
+              }else{
+                _map.removeLayer(ring.marker);
               }
-            });
-            ring.isActive = true;
-            if(ring.polygons !== undefined){
-              _polygonRings.clearAndAddLayers(ring.polygons, false);
-            }else{
-              scope.callService2GetRings(ring.timeRing, ring.typeRing, ring.targetRing,function(polygons){
-                ring.polygons = polygons;
-              });
-            }
-          }else{
-          }
+          });
         };
+
+        scope.zoomToUserRing = function(id_ring){
+          scope.userRings.forEach(function(ring){
+            if(ring.id_ring===id_ring){
+              _map.setView([ring.targetRing.lat, ring.targetRing.lng], 14);
+            }
+          });
+        };
+
+        scope.delUserRing = function(id_ring){
+          TimeRingsService.delUserRings(id_ring)
+					.then(function(res){
+						if(res.statusText === "OK"){
+							scope.userRings = _.filter(scope.userRings, function(o) {
+                if(o.id_ring === id_ring){
+                  o.isActive = false;
+                }
+								return o.id_ring !== id_ring;
+							});
+						}
+					}, function(error){
+						console.log(error);
+					});
+        };
+
+        scope.updateNameUserRing = function(id_ring, name){
+          TimeRingsService.updateUserRings(id_ring, name)
+					.then(function(data){
+						if(data.statusText === "OK"){
+							_showMessage("El nombre del área se actualizó correctamente");
+						}
+						else {
+							_showMessage("Error al actualizar el  nombre del área, intenta nuevamente");
+						}
+					}, function(error){
+						_showMessage("Error al actualizar el  nombre del área, intenta nuevamente");
+					});
+        };
+
+        var _showMessage = function(msg) {
+					$mdToast.show(
+						$mdToast.simple({
+							textContent: msg,
+							position: 'top right',
+							hideDelay: 2500,
+							parent: $document[0].querySelector('.md-dialog-container'),
+							autoWrap: true
+						})
+					);
+				};
 
 
       },
@@ -247,6 +326,6 @@
     };
   }
 
-  timeringsDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', '$compile', '$mdToast', '$document', 'uiService', '$templateRequest'];
+  timeringsDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', '$compile', '$mdToast', '$document', 'uiService', '$templateRequest', 'TimeRingsService'];
   angular.module('walmex').directive('timerings', timeringsDirective);
 })();

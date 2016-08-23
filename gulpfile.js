@@ -34,7 +34,10 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3'], function(){
 			exclude: [
 			'bower_components/jquery/dist/jquery.js',
 			'bower_components/route360/dist/jquery-ui-1.10.0.custom.css',
-			'bower_components/jquery-ui/ui/jquery-ui.js'
+			'bower_components/jquery-ui/ui/jquery-ui.js',
+			'bower_components/leaflet/dist/leaflet.js',
+			'bower_components/leaflet/dist/leaflet-src.js',
+			'bower_components/leaflet/dist/leaflet.css'
 			]
 		}))
 		.pipe($.inject(gulp.src([

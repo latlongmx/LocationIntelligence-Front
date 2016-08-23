@@ -135,6 +135,8 @@
 					trns : angular.element(document.getElementById('access_trans_content'))
 				};
 
+				scope.userDraws = [];
+
 				/**
 				 * [drawAreaInMap description]
 				 * @param  {[type]} e [description]
@@ -169,13 +171,11 @@
 
 					_map.on('draw:created', _drawComplete);
 					_editableLayers.on('layeradd', _startAccessibilityAnalysis);
-				
 				//});
-				
 				var _drawComplete = function(e){
 					_verifyLimitDraws(e);
 				};
-			
+
 
 				scope.openViasWMS = function(){
 					if(_layers.viasWMS === undefined){
@@ -299,7 +299,7 @@
 						_currentFeature = e;
 						_counterUserDraws = _counterUserDraws + 1;
 						_addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
-						
+
 						_activateViasWMS(_currentFeature);
 						//_startAccessibilityAnalysis();
 						_editableLayers.clearLayers();
@@ -316,7 +316,7 @@
 						scope.disableDrawAccessBtn = false;
 					}
 				};
-				
+
 				/**
 				 * [_startAccessibilityAnalysis Add Transport access data to list]
 				 * @param  {[type]} e [description]
@@ -384,7 +384,7 @@
 					});
 					_currentFeature = null;
 				};
-				
+
 				var _addUserDraw2Panel = function(id, name, draw){
 					var isActive = false;
 					if(id === -1){
@@ -457,9 +457,9 @@
 					AccessibilityService.delUserDraws(id)
 					.then(function(res){
 						if(res.statusText === "OK"){
-							scope.userDraws = _.filter(scope.userDraws, function(o) { 
+							scope.userDraws = _.filter(scope.userDraws, function(o) {
 								o.isActive = false;
-								return o.id_draw !== id; 
+								return o.id_draw !== id;
 							});
 							_editableLayers.clearLayers();
 							_currentFeature = null;
@@ -499,7 +499,7 @@
 						}
 					}
 				};
-				
+
 				var _showMessage = function(msg) {
 					$mdToast.show(
 						$mdToast.simple({
