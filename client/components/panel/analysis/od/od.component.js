@@ -319,6 +319,5 @@
 	}
 
 	odDirective.$inject = ['$timeout', 'BaseMapService', 'BaseMapFactory', 'Auth', 'odService', '$compile', 'uiService'];
-	angular.module('od.directive', [])
-		.directive('od', odDirective);
+	angular.module('walmex').directive('od', odDirective);
 })();

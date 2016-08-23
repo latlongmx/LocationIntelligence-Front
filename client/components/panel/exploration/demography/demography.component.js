@@ -328,6 +328,5 @@
 	
 	demographyDirective.$inject = ['DemographyJsonService', 'BaseMapService', 'BaseMapFactory', '$mdToast', '$document', '$timeout'];
 
-	angular.module('demography.directive', [])
-		.directive('demography', demographyDirective);
+	angular.module('walmex').directive('demography', demographyDirective);
 })();

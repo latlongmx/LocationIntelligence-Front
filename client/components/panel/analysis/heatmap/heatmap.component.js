@@ -354,6 +354,5 @@
 
 	heatmapDirective.$inject = ['_', '$mdDialog', '$mdToast', '$mdMedia', '$document', '$timeout', 'CompetenceService', 'HeatmapVarJsonService', 'BaseMapFactory','BaseMapService', 'Auth', '$log'];
 
-	angular.module('heatmap.directive', [])
-		.directive('heatmap', heatmapDirective);
+	angular.module('walmex').directive('heatmap', heatmapDirective);
 })();

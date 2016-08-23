@@ -27,7 +27,6 @@
 
 	}
 	HeatmapVarJsonService.$inject = ['$q', '$http'];
-	angular.module('add.heatmap.service', []).
-		service('HeatmapVarJsonService', HeatmapVarJsonService);
+	angular.module('walmex').service('HeatmapVarJsonService', HeatmapVarJsonService);
 
 })();

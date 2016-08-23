@@ -516,6 +516,5 @@
 	}
 
 	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile', '$mdToast', '$document', '$timeout'];
-	angular.module('accessibility.directive', [])
-		.directive('accessibility', accessibilityDirective);
+	angular.module('walmex').directive('accessibility', accessibilityDirective);
 })();

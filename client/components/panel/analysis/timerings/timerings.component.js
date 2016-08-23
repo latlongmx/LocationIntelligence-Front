@@ -248,6 +248,5 @@
   }
 
   timeringsDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', '$compile', '$mdToast', '$document', 'uiService', '$templateRequest'];
-  angular.module('timerings.directive', [])
-    .directive('timerings', timeringsDirective);
+  angular.module('walmex').directive('timerings', timeringsDirective);
 })();

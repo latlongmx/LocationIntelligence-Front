@@ -242,7 +242,6 @@
 
 	AddCompetenceByCsvController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'CompetenceService'];
 
-	angular.module('add.competence.csv.controller', []).
-	controller('AddCompetenceByCsvController', AddCompetenceByCsvController);
+	angular.module('walmex').controller('AddCompetenceByCsvController', AddCompetenceByCsvController);
 
 })();

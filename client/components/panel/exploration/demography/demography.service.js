@@ -27,7 +27,6 @@
 
 	}
 	DemographyJsonService.$inject = ['$q', '$http'];
-	angular.module('demograhpy.service', []).
-		service('DemographyJsonService', DemographyJsonService);
+	angular.module('walmex').service('DemographyJsonService', DemographyJsonService);
 
 })();

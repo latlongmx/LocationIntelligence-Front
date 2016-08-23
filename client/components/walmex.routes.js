@@ -12,8 +12,7 @@
 			})
 			.when('/mapa', {
 				reload: true,
-				templateUrl: './components/basemap/basemap.component.html',
-				controller: 'BaseMapController'
+				templateUrl: './components/basemap/basemap.component.html'
 			})
 			.otherwise('/login');
 	}]);

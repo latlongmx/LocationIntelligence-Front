@@ -33,7 +33,6 @@
 
 	ringsModalController.$inject = ['$uibModalInstance','$uibModal', '$uibModalStack','$scope', 'BaseMapService', 'BaseMapFactory'];
 
-	angular.module('rings.modal.controller', [])
-		.controller('ringsModalController', ringsModalController);
+	angular.module('walmex').controller('ringsModalController', ringsModalController);
 
 }());

@@ -246,7 +246,6 @@
 
 	AddHeatmapController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'BaseMapService', 'heatmap_variables', 'CompetenceService', 'BaseMapFactory'];
 
-	angular.module('add.heatmap.controller', []).
-	controller('AddHeatmapController', AddHeatmapController);
+	angular.module('walmex').controller('AddHeatmapController', AddHeatmapController);
 
 })();

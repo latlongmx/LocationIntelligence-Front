@@ -45,6 +45,5 @@
 	
 	potentialDirective.$inject = [];
 
-	angular.module('potential.directive', [])
-		.directive('potential', potentialDirective);
+	angular.module('walmex').directive('potential', potentialDirective);
 })();

@@ -340,6 +340,5 @@
 
 	componentDirective.$inject = ['_', '$mdDialog', '$q', '$mdToast', '$mdMedia', '$document', '$timeout', 'CompetenceService', 'CompetenceVarJsonService', 'BaseMapFactory','BaseMapService', 'Auth', '$log', 'uiService'];
 
-	angular.module('competence.directive', [])
-		.directive('competence', componentDirective);
+	angular.module('walmex').directive('competence', componentDirective);
 })();

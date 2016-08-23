@@ -95,6 +95,5 @@
 	}
 
 	avgDayGenderDirective.$inject = ['_','odService', 'uiService', '$rootScope'];
-	angular.module('avg.day.gender.directive', [])
-		.directive('avgDayGender', avgDayGenderDirective);
+	angular.module('walmex').directive('avgDayGender', avgDayGenderDirective);
 })();

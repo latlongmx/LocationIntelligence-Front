@@ -10,14 +10,14 @@
 			replace:true,
 			template: [
 				'<div id="basemap" class="m-basemap">',
-					'<label type="button" aria-label="" style="position: absolute;top: 135px;right: 10px;bottom: initial;z-index: 800;background: #828189;width: 35px;text-align: center;color:#ffffff;">',
-						'<span id="zoom" class="bold" style="font-size:18px;"></span>',
+					'<label  class="m-zoom" type="button" aria-label="">',
+						'<span class="bold m-zoom__text">Zoom Actual</span>',
+						'<span class="bold m-zoom__number js-zoom-number" style="font-size:18px;"></span>',
 					'</label>',
 				'</div>',
 			].join(''),
 			link:function(scope, element){
-				var newZoom = angular.element(document.getElementById('zoom')),
-				_this = null,
+				var _this = null,
 				_map = null,
 				_label = null,
 				_label_item = null,
@@ -39,9 +39,10 @@
 				_drawType = null,
 				_featureGroup = null,
 				_colorLine = null,
-				_autocomplete = null;
-
+				_autocomplete = null,
+				_newZoom = angular.element(document.getElementsByClassName('js-zoom-number'));
 				var _map = BaseMapService.map(element[0]);
+
 				_featureGroup = BaseMapService.featureGroup.addTo(_map);
 				_drawControl = BaseMapService.drawControl(_featureGroup);
 				_drawControl.addTo(_map);
@@ -146,45 +147,40 @@
 					_featureGroup.addLayer(e.layer);
 				});
 
+				/* Update zoom */
+				_newZoom.text(_map.getZoom());
 
-				//BaseMapService.map.then(function(map) {
-					/* Update zoom */
-					newZoom.text(_map.getZoom());
+				/**
+				 * [_getZoom Function to get the current zoom]
+				 * @param  {[number]} zoom [get zoom]
+				 * @return {[type]}      [new zoom]
+				 */
+				function _getZoom(zoom){
+					_newZoom.text(zoom);
+				}
 
-					/**
-					 * [_getZoom Function to get the current zoom]
-					 * @param  {[number]} zoom [get zoom]
-					 * @return {[type]}      [new zoom]
-					 */
-					function _getZoom(zoom){
-						newZoom.text(zoom);
-					}
+				/**
+				 * [description]
+				 * @param  {[type]} event) [Map event when zoom is changed]
+				 * @return {[type]} [Function]
+				 */
+				_map.on('zoomend', function(event){
+					_getZoom(_map.getZoom());
+				});
 
-					/**
-					 * [description]
-					 * @param  {[type]} event) [Map event when zoom is changed]
-					 * @return {[type]} [Function]
-					 */
-					_map.on('zoomend', function(event){
-						_getZoom(_map.getZoom());
-					});
-
-					/**
-					 * [description]
-					 * @param  {[type]} [Map events when user clicks or dragstart]
-					 * @return {[type]} [Service to hide panel]
-					 */
-					_map.on('click dragstart', function(){
-						uiService.changeCurrentPanel(true);
-					});
-				//});
-
+				/**
+				 * [description]
+				 * @param  {[type]} [Map events when user clicks or dragstart]
+				 * @return {[type]} [Service to hide panel]
+				 */
+				_map.on('click dragstart', function(){
+					uiService.changeCurrentPanel(true);
+				});
 			}
 		};
 	}
 
 	BaseMap.$inject = ['$rootScope', '$timeout', 'BaseMapService', 'Auth', 'uiService', 'token'];
 
-	angular.module('basemap.directive', [])
-		.directive('basemap', BaseMap);
+	angular.module('walmex').directive('basemap', BaseMap);
 })();

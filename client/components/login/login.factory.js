@@ -74,6 +74,5 @@
 
 	}
 	AuthFactory.$inject = ['$location', '$window', '$rootScope', 'ROLES'];
-	angular.module('login.factory', []).
-		factory('Auth', AuthFactory);
+	angular.module('walmex').factory('Auth', AuthFactory);
 })();

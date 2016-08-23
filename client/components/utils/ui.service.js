@@ -143,5 +143,5 @@
 
 	}
 	uiService.$inject = ['$mdDialog', 'BaseMapService', 'odService'];
-	angular.module('ui.service', []).service('uiService', uiService);
+	angular.module('walmex').service('uiService', uiService);
 })();

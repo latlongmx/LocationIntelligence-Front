@@ -49,6 +49,5 @@
 	
 	MenuController.$inject = ['$window', 'Auth', '$location', 'BaseMapService'];
 
-	angular.module('menu.directive', [])
-		.directive('menu', MenuController);
+	angular.module('walmex').directive('menu', MenuController);
 })();

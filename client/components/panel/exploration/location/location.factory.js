@@ -53,6 +53,5 @@
   }
 
   LocationFactory.$inject = ['_'];
-	angular.module('location.factory',[])
-		.factory('LocationFactory', LocationFactory);
+	angular.module('walmex').factory('LocationFactory', LocationFactory);
 })();

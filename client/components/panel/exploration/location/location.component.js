@@ -252,6 +252,5 @@
 
 	locationDirective.$inject = ['_', '$mdDialog', '$mdToast', '$document', '$timeout', 'LocationFactory', 'LocationService', 'BaseMapFactory', 'Auth', 'uiService'];
 
-	angular.module('location.directive', [])
-		.directive('location', locationDirective);
+	angular.module('walmex').directive('location', locationDirective);
 })();

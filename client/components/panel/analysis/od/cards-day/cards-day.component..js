@@ -85,6 +85,5 @@
 	}
 
 	cardsDayDirective.$inject = ['_','odService', 'uiService', '$rootScope'];
-	angular.module('cards.day.directive', [])
-		.directive('cardsDay', cardsDayDirective);
+	angular.module('walmex').directive('cardsDay', cardsDayDirective);
 })();

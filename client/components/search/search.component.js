@@ -84,6 +84,5 @@
 	
 	Search.$inject = ['$window', '$timeout', 'BaseMapService'];
 
-	angular.module('search.directive', [])
-		.directive('search', Search);
+	angular.module('walmex').directive('search', Search);
 })();

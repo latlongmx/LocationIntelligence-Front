@@ -289,7 +289,6 @@
 		};
 	}
 	BaseMapService.$inject = ['$q', '$http', 'Auth'];
-	angular.module('basemap.service', []).
-		service('BaseMapService', BaseMapService);
+	angular.module('walmex').service('BaseMapService', BaseMapService);
 
 })();

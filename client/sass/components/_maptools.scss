@@ -4,3 +4,25 @@
 	position:absolute;
 	z-index: 99999;
 }
+
+.m-zoom {
+	background: #828189;
+	bottom: initial;
+	color:#ffffff;
+	position: absolute;
+	right: 10px;
+	text-align: center;
+	top: 135px;
+	width: 35px;
+	padding: 5px 0px;
+	z-index: 800;
+}
+
+.m-zoom__text {
+	display:block;
+	font-size:10px;
+	padding: 5px 0px;
+}
+.m-zoom__number {
+	color: $green-lsmooth;
+}

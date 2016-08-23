@@ -62,7 +62,6 @@
 	
 	LoginController.$inject = ['$scope', '$timeout', 'loginService', 'Auth', 'uiService', 'messagesService'];
 
-	angular.module('login', []).
-	controller('LoginController', LoginController);
+	angular.module('walmex').controller('LoginController', LoginController);
 
 })();

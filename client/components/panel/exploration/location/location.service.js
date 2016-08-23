@@ -163,7 +163,6 @@
 		};
 	}
 	LocationService.$inject = ['$q', '$http', 'Auth'];
-	angular.module('location.service', []).
-		service('LocationService', LocationService);
+	angular.module('walmex').service('LocationService', LocationService);
 
 })();

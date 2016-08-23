@@ -179,6 +179,5 @@
 
 	panelFunctions.$inject = ['$rootScope','$timeout', 'Auth', 'uiService', 'LocationService', 'BaseMapFactory', 'BaseMapService', 'CompetenceService', 'odService', 'AccessibilityService'];
 
-	angular.module('panel.directive', [])
-		.directive('panelFunctions', panelFunctions);
+	angular.module('walmex').directive('panelFunctions', panelFunctions);
 })();

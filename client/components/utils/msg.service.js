@@ -27,5 +27,5 @@
 
 	}
 	//messagesService.$inject = ['$q', '$http'];
-	angular.module('msg.service', []).service('messagesService', messagesService);
+	angular.module('walmex').service('messagesService', messagesService);
 })();
