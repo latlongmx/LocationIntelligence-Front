@@ -43,15 +43,14 @@
 				 * [_searchFunction Search Address]
 				 * @param  {[type]} map [Map]
 				 */
-				var _searchFunction = function(map) {
-					_map = map;
+				//var _searchFunction = function(map) {
 					autocomplete = new google.maps.places.Autocomplete(_searchInputId);
 					google.maps.event.addListener(autocomplete, 'place_changed', _onPlaceChanged);
 
 					$scope.isSearching = function(){
 						this.search_address ? _searchingMethods(): _searchIcon.removeClass('fa-times').addClass('fa-search');
 					}
-				};
+				//};
 
 				/**
 				 * [_searchingMethods Function to clean input]
@@ -68,7 +67,7 @@
 				/**
 				 * [_onPlaceChanged Place marker]
 				 */
-				var _onPlaceChanged = function() {
+				function _onPlaceChanged() {
 					_markerGroup.clearLayers();
 					place = autocomplete.getPlace();
 					_lat = place.geometry.location.lat();
