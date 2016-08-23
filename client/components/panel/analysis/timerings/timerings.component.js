@@ -111,7 +111,6 @@
             this.onAdd(options.target);
           };
           _polygonRings.addTo(_map);
-          _map.on('click', scope.onClickMap);
 
 
         scope.addRing = function(){
@@ -145,6 +144,7 @@
             _$divTime.removeClass('hide');
           }
         };
+        _map.on('click', scope.onClickMap);
 
         _$panel.on('click', function() {
 					//_$timeRingsBtns.toggleClass('hide');
