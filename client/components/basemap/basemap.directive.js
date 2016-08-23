@@ -40,12 +40,12 @@
 				_featureGroup = null,
 				_colorLine = null,
 				_autocomplete = null;
-				
+
 				var _map = BaseMapService.map(element[0]);
 				_featureGroup = BaseMapService.featureGroup.addTo(_map);
 				_drawControl = BaseMapService.drawControl(_featureGroup);
 				_drawControl.addTo(_map);
-				
+
 				_google_roadmap = new L.Google('ROADMAP');
 				_google_satellite = new L.Google();
 				_mapbox_streets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + token, {
@@ -76,13 +76,13 @@
 					'Google Roadmap': _google_roadmap,
 					'Google Satellite': _google_satellite
 				}, {}, { position: 'bottomright'}));
-				
-				
+
+
 				_map.on('baselayerchange', function(e){
 					layerToggle.text("").append('<img src="./images/switcher_map/'+e.name.toLowerCase().replace(' ', '-')+'.jpg" width="120"/>');
 				});
-				
-				
+
+
 				/**
 				 * [Set image name to each layer]
 				 * @type {Array}
@@ -101,9 +101,9 @@
 				_.forEach(_label_item, function(item, index) {
 					angular.element(item).append('<img src="./images/switcher_map/'+imagesArray[index]+'.jpg" width="120"/>');
 				});
-				
+
 				layerToggle.text("").append('<img src="./images/switcher_map/'+imagesArray[0]+'.jpg" width="120"/>');
-				
+
 
 				_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
 				_zoom_in.text("");
@@ -141,16 +141,16 @@
 				_delete_tool.text("");
 				_delete_tool.append('<i class="demo demo-delete delete-tool"></i>');
 
-				
+
 				_map.on('draw:created', function (e) {
 					_featureGroup.addLayer(e.layer);
 				});
 
-				
+
 				//BaseMapService.map.then(function(map) {
 					/* Update zoom */
 					newZoom.text(_map.getZoom());
-					
+
 					/**
 					 * [_getZoom Function to get the current zoom]
 					 * @param  {[number]} zoom [get zoom]
@@ -182,7 +182,7 @@
 			}
 		};
 	}
-	
+
 	BaseMap.$inject = ['$rootScope', '$timeout', 'BaseMapService', 'Auth', 'uiService', 'token'];
 
 	angular.module('basemap.directive', [])
