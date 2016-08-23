@@ -6,6 +6,7 @@
 
 	function heatmapDirective(_, $mdDialog, $mdToast, $mdMedia, $document, $timeout, CompetenceService, HeatmapVarJsonService, BaseMapFactory, BaseMapService, Auth, $log){
 		var _access_token = Auth.getToken();
+		var _map = null;
 		return {
 			restrict: 'E',
 			require: '^panelFunctions',
@@ -106,6 +107,10 @@
 				wkt = null,
 				lastLayer = null,
 				id_predefined_Layer = null;
+				
+				//BaseMapService.map.then(function (map) {
+				_map = BaseMapService.map_layer();
+				//});
 
 				if (!scope.toggleHeatmap) {
 					scope.toggleHeatmap = [];
@@ -195,17 +200,17 @@
 
 						if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
 							scope.current_heatmap_checked = false;
-							BaseMapService.map.then(function (map) {
-								map.removeLayer( BaseMapFactory.LAYERS.USER[idLayer] )
-							});
+							//BaseMapService.map.then(function (map) {
+								_map.removeLayer( BaseMapFactory.LAYERS.USER[idLayer] )
+							//});
 						}
 						else {
 							scope.current_heatmap_checked.$index = true;
 							if (scope.last_heatmap_checked) {
 								lastLayer = BaseMapFactory.LAYERS.USER[scope.last_heatmap_checked.id_heat];
-								BaseMapService.map.then(function (map) {
-									map.removeLayer(lastLayer);
-								});
+								//BaseMapService.map.then(function (map) {
+									_map.removeLayer(lastLayer);
+								//});
 							}
 
 							scope.last_heatmap_checked = false;
@@ -220,9 +225,9 @@
 
 						if (scope.current_heatmap_checked) {
 							var removeLayer = scope.current_heatmap_checked.id_heat;
-							BaseMapService.map.then(function (map) {
-								map.removeLayer( BaseMapFactory.LAYERS.USER[removeLayer] )
-							});
+							//BaseMapService.map.then(function (map) {
+								_map.removeLayer( BaseMapFactory.LAYERS.USER[removeLayer] )
+							//});
 							scope.current_heatmap_checked.$index = false;
 							scope.current_heatmap_checked = "";
 						}
@@ -253,9 +258,9 @@
 				scope.removeHeatmap = function(indexItem, id_layer, index) {
 					var removeLayer = BaseMapFactory.LAYERS.USER[id_layer];
 					if (scope.save_heatmap_variable_list[index].$index === true){
-						BaseMapService.map.then(function (map) {
-							map.removeLayer(removeLayer);
-						});
+						//BaseMapService.map.then(function (map) {
+							_map.removeLayer(removeLayer);
+						//});
 						scope.save_heatmap_variable_list.splice(index,1);
 						scope.toggleHeatmap.splice(index,1);
 						BaseMapService.delUserHeatMap(id_layer);

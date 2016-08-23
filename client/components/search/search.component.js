@@ -30,13 +30,14 @@
 				var _locationMarker = null;
 				var _markerGroup = new L.LayerGroup();
 				
+				_map = BaseMapService.map_layer();
 				/**
 				 * [Get map element]
 				 * @param  {[type]} map
 				 */
-				BaseMapService.map.then(function (map) {
-					_searchFunction(map);
-				});
+				// BaseMapService.map.then(function (map) {
+				// 	_searchFunction(map);
+				// });
 
 				/**
 				 * [_searchFunction Search Address]
@@ -79,8 +80,6 @@
 				};
 
 			}
-			// controller: function($scope){
-			// }
 		};
 	}
 	

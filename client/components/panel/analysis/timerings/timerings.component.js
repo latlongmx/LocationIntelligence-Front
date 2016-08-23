@@ -85,6 +85,7 @@
       link: function(scope, element, attr, potencialCtrl) {
 
         scope.userRings = [];
+        _map = BaseMapService.map_layer();
 
         _$btnPanelRing = angular.element(document.getElementById('btnPanelRing'));
         _$btnPanelRing.on('click',function(){
@@ -105,15 +106,12 @@
       		_$divTime = angular.element(document.getElementById('divTime'));
        });
 
-        BaseMapService.map.then(function(map) {
-          _map = map;
           //Correcccion compatibilidad leaflet 1.0
           _polygonRings._layerAdd = function(options) {
             this.onAdd(options.target);
           };
           _polygonRings.addTo(_map);
           _map.on('click', scope.onClickMap);
-        });
 
 
         scope.addRing = function(){

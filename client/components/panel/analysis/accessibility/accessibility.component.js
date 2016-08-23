@@ -151,8 +151,8 @@
 					_toolDraw[tip].enable();
 				};
 
-				BaseMapService.map.then(function (map) {
-					_map = map;
+				//BaseMapService.map.then(function (map) {
+					_map = BaseMapService.map_layer();
 					_editableLayers = new L.FeatureGroup();
 					_map.addLayer(_editableLayers);
 					var opst = {
@@ -170,7 +170,7 @@
 					_map.on('draw:created', _drawComplete);
 					_editableLayers.on('layeradd', _startAccessibilityAnalysis);
 				
-				});
+				//});
 				
 				var _drawComplete = function(e){
 					_verifyLimitDraws(e);

@@ -6,17 +6,19 @@
 
 	function BaseMapService($q, $http, Auth){
 		var deferred = $q.defer(),
-		_testRequest = null;
+		_testRequest = null,
+		map_element = null;
 		return {
 			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
-			map: deferred.promise,
+			map: function(element){
+				map_element = new L.Map(element).setView([19.432711775616433, -99.13325428962708], 12);
+				return map_element;
+			},
+			map_layer: function(){
+				return map_element;
+			},
 			featureGroup : L.featureGroup(),
 			mapId : 'pokaxperia.pk657nfi',
-			accessToken : 'pk.eyJ1IjoicG9rYXhwZXJpYSIsImEiOiJjaW13eHJ2NHMwM2Uwdjdra3c1bWF3Nzd6In0.leOLCkHazd_6JAQtdiHOFw',
-			resolve: function (element) {
-				deferred.resolve(new L.Map(element).setView([19.432711775616433, -99.13325428962708], 12));
-			},
-
 			autoComplete : function(searchInput){
 				return new google.maps.places.Autocomplete(searchInput);
 			},

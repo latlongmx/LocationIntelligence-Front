@@ -14,9 +14,7 @@
 		factory._map = undefined;
 		factory._curVar = '';
 
-		BaseMapService.map.then(function (map) {
-			factory._map = map;
-		});
+		factory._map = BaseMapService.map_layer();
 
 
 		/**
@@ -191,9 +189,10 @@
 		 */
 		factory.addGeoJSON2Map = function(GeoJSON, typeLayer){
 			var self = this;
-			BaseMapService.map.then(function (map) {
-				self.addLayer(map, typeLayer, GeoJSON);
-			});
+			
+			//BaseMapService.map.then(function (map) {
+				self.addLayer(factory._map, typeLayer, GeoJSON);
+			//});
 		};
 
 		/**
@@ -202,15 +201,15 @@
 		 */
 		factory.addCompetencia = function(GeoJSON){
 			var self = this;
-			BaseMapService.map.then(function (map) {
-				self.addLayer(map, 'competencia', GeoJSON);
-			});
+			//BaseMapService.map.then(function (map) {
+				self.addLayer(factory._map, 'competencia', GeoJSON);
+			//});
 		};
 
 		factory.refreshLayer = function(idLayer, name, url_icon){
-			BaseMapService.map.then(function (map) {
+			//BaseMapService.map.then(function (map) {
 				//factory.LAYERS.USER[idLayer]
-			});
+			//});
 		};
 
 		/**
@@ -235,7 +234,7 @@
 				return;
 			}
 
-			BaseMapService.map.then(function (map) {
+			//BaseMapService.map.then(function (map) {
 				var SCALE = 10;
 				var vals = GeoJSON.features.map(function(o){return parseInt(o.properties[column]) || 0;});
 				var dmax = window._.max(vals);
@@ -255,8 +254,8 @@
 						};
 					}
 				};
-				self.LAYERS.heatMap = L.geoJson(GeoJSON, opts).addTo(map);
-			});
+				self.LAYERS.heatMap = L.geoJson(GeoJSON, opts).addTo(factory._map);
+			//});
 		};
 
 		/**
@@ -266,7 +265,7 @@
 		factory.setPobVivWMS = function(variable){
 			var self = this;
 			self._curVar = variable;
-			BaseMapService.map.then(function (map) {
+			//BaseMapService.map.then(function (map) {
 				// uiService.layerIsLoading();
 				self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
 						layers: 'Manzanas',
@@ -282,9 +281,9 @@
 				});
 				// uiService.layerIsLoaded();
 				self.LAYERS.pobvivWMS.options.crs = L.CRS.EPSG4326;
-				self.LAYERS.pobvivWMS.addTo(map);
+				self.LAYERS.pobvivWMS.addTo(factory._map);
 				self.LAYERS.pobvivWMS.setZIndex(9);
-			});
+			//});
 		};
 
 		/**
@@ -294,16 +293,16 @@
 		factory.delPobVivWMS = function(){
 			if(this.LAYERS.pobvivWMS){
 					var self = this;
-				BaseMapService.map.then(function (map) {
-					map.removeLayer( self.LAYERS.pobvivWMS );
-				});
+				//BaseMapService.map.then(function (map) {
+					factory._map.removeLayer( self.LAYERS.pobvivWMS );
+				//});
 			}
 		};
 
 		factory.setHeatWMS = function(variable){
 			var self = this;
 			self._curVar = variable;
-			BaseMapService.map.then(function (map) {
+			//BaseMapService.map.then(function (map) {
 				self.LAYERS.heatWMS = L.tileLayer.dynamicWms("http://52.8.211.37/cgi-bin/mapserv?map=/var/www/laravel-storage/ms_file_heat.map", {
 					layers: 'heatmap',
 					format: 'image/png',
@@ -316,9 +315,9 @@
 					}
 				});
 				self.LAYERS.heatWMS.options.crs = L.CRS.EPSG4326;
-				self.LAYERS.heatWMS.addTo(map);
+				self.LAYERS.heatWMS.addTo(factory._map);
 				self.LAYERS.heatWMS.setZIndex(10);
-			});
+			//});
 		};
 
 		/********************************************/
@@ -414,8 +413,8 @@
 		 * @param {[type]} options [description]
 		 */
 		factory.addHeatMap = function(options){
-			BaseMapService.map.then(function (map) {
-				options.wkt = _factory.bounds2polygonWKT(map.getBounds());
+			//BaseMapService.map.then(function (map) {
+				options.wkt = _factory.bounds2polygonWKT(factory._map.getBounds());
 				BaseMapService.getHeatMapData(options).then(function(res){
 					if(res.data){
 						var data = res.data.data.map(function (p) {
@@ -426,20 +425,20 @@
 									/*L.heatLayer(res.data.data, {
 										radius: 55
 									}).addTo(map);*/
-									L.heatLayer(data).addTo(map);
+									L.heatLayer(data).addTo(factory._map);
 						}else{
 							_factory.LAYERS.USER['heatmap'].setLatLngs(data);
 						}
 
 					}
 				});
-			});
+			//});
 		};
 
 
 		factory.addHeatMap2Layer = function(layer, cods, reload){
 			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
-				BaseMapService.map.then(function (map) {
+				//BaseMapService.map.then(function (map) {
 					var wkt = _factory.bounds2polygonWKT(map.getBounds());
 					var options = {
 						cod: cods,
@@ -460,12 +459,12 @@
 							}
 						});
 					}
-				});
+				//});
 			}
 			else{
-				BaseMapService.map.then(function (map) {
-					_factory.LAYERS.USER[layer].addTo(map);
-				});
+				// BaseMapService.map.then(function (map) {
+				_factory.LAYERS.USER[layer].addTo(factory._map);
+				// });
 			}
 		};
 
@@ -478,7 +477,7 @@
 		 */
 		factory.addHeatMap2LayerBounds = function(layer, cods, wkt, reload){
 			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
-				BaseMapService.map.then(function (map) {
+				//BaseMapService.map.then(function (map) {
 					var options = {
 						cod: cods,
 						wkt: wkt
@@ -486,25 +485,25 @@
 					uiService.layerIsLoading();
 					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
 						uiService.layerIsLoaded();
-						_factory.LAYERS.USER[layer].addTo(map);
+						_factory.LAYERS.USER[layer].addTo(factory._map);
 					}
 					else{
 						_factory.addHeatMap2Data(options,function(data){
 							if(_factory.LAYERS.USER[layer] === undefined){
 								uiService.layerIsLoaded();
-								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
+								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(factory._map);
 
 							}else{
 								_factory.LAYERS.USER[layer].setLatLngs(data);
 							}
 						});
 					}
-				});
+				//});
 			}
 			else{
-				BaseMapService.map.then(function (map) {
-					_factory.LAYERS.USER[layer].addTo(map);
-				});
+				// BaseMapService.map.then(function (map) {
+				_factory.LAYERS.USER[layer].addTo(factory._map);
+				// });
 			}
 		};
 
@@ -546,7 +545,7 @@
 		 */
 		factory.hideHeatMapCategory = function(category){
 			var categ = category.toLowerCase();
-			BaseMapService.map.then(function (map) {
+			//BaseMapService.map.then(function (map) {
 				var layer = '';
 				switch (categ) {
 					case 'food':
@@ -559,8 +558,8 @@
 						layer = 'heatmapShop';
 						break;
 				}
-				map.removeLayer( _factory.LAYERS.USER[layer] );
-			});
+				factory._map.removeLayer( _factory.LAYERS.USER[layer] );
+			//});
 		};
 
 

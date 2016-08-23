@@ -14,7 +14,7 @@
 		baseURL = null,
 		_zip_code = null,
 		_geometry = [],
-		cityLayer = null;
+		cityLayer = null,
 
 		baseURL = 'http://bbva-api.appdata.mx/basic-stats/';
 
@@ -50,10 +50,8 @@
 		this.removeMarker = function(){
 			return clearLayer(_sMarker);
 		}
-
-		this._map = BaseMapService.map.then(function (map) {
-			return map;
-		});
+		this._map = BaseMapService.map_layer();
+		
 
 		this.loadMap = function(layer, panel){
 			console.log(panel[0])

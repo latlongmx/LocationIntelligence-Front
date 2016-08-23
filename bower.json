@@ -19,7 +19,6 @@
   "dependencies": {
     "pure": "~0.6.0",
     "angular": "~1.5.5",
-    "angular-ui-router": "~0.2.18",
     "angular-animate": "~1.5.5",
     "js-sha256": "^0.3.0",
     "angular-chroma": "*",
@@ -31,6 +30,7 @@
     "angular-file-upload": "~2.3.3",
     "highcharts": "~4.2.5",
     "angular-slick-carousel": "~3.1.6",
-    "route360": "^0.2.7"
+    "route360": "^0.2.7",
+    "angular-route": "~1.5.8"
   }
 }

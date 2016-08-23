@@ -47,7 +47,6 @@
 			'gender.graph.directive',
 			'rings.modal.controller',
 			'search.directive',
-			'ui.router',
 			'ui.bootstrap',
 			'com.pushmenu',
 			'dem.pushmenu',
@@ -62,9 +61,10 @@
 	)
 	.constant('_', window._)
 	.constant('ROLES', ['uA', 'uB', 'uC'])
-	.run(["$rootScope", "$state", "$stateParams", "Auth", function ($rootScope, $state, $stateParams, Auth) {
-		$rootScope.$state = $state;
-		$rootScope.$stateParams = $stateParams;
+	.constant('token', 'pk.eyJ1IjoicG9rYXhwZXJpYSIsImEiOiJjaW13eHJ2NHMwM2Uwdjdra3c1bWF3Nzd6In0.leOLCkHazd_6JAQtdiHOFw')
+	.run(["$rootScope", "$route", "$routeParams", "Auth", function ($rootScope, $route, $routeParams, Auth) {
+		$rootScope.$route = $route;
+		$rootScope.$routeParams = $routeParams;
 		L.drawLocal.draw.toolbar.actions.text = "Cancelar";
 		L.drawLocal.draw.toolbar.actions.title = "Cancelar Dibujo";
 		L.drawLocal.draw.toolbar.finish.text = "Terminar";
@@ -110,7 +110,10 @@
 				if (permissions === "uA"){
 					$rootScope.hasPermission = false;
 				}
-				if (permissions === "uC"){
+				else if (permissions === "uC"){
+					$rootScope.hasPermission = true;
+				}
+				else {
 					$rootScope.hasPermission = true;
 				}
 			}
