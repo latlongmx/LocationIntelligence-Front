@@ -19,11 +19,16 @@
 		var _$divType;
 		var _$divTime;
 		var _$btnPanelRing;
+    var _$rangeRing;
+
 
     r360.config.serviceKey = '8Y81HNSQYTTMBTFXHFF7'; //<-- KEY joyce@latlong.mx
     r360.config.serviceUrl = 'https://service.route360.net/na_southeast/';
     var _polygonRings = r360.leafletPolygonLayer();
     var _travelOptions = r360.travelOptions();
+    //_travelOptions.setIntersectionMode('intersection');   //  union  intersection  average
+    var _targetRings = [];
+    var _timeRingRange = 0;
     var _timeRing = 30;
     var _typeRing = 'car';  // bike walk car transit
     var _targetRing;
@@ -63,6 +68,16 @@
             '</div>',
             '<div>',
               '<h3 class="m-side-panel__user-title">Mis rangos:</h3>',
+              '<div layout="row">',
+                '<input class="range-ring-base c1" type="range" min="5" max="30" step="5" />',
+                '<input class="range-ring-base c2" type="range" min="5" max="30" step="5" />',
+                '<input class="range-ring-base c3" type="range" min="5" max="30" step="5" />',
+                '<input class="range-ring-base c4" type="range" min="5" max="30" step="5" />',
+                '<input class="range-ring-base c5" type="range" min="5" max="30" step="5" />',
+              '</div>',
+              '<div layout="row">',
+                '<input id="slider-ring" class="range-ring" type="range" min="5" max="30" step="5" style="margin-bottom: 10px; margin-top: -15px;"/>',
+              '</div>',
               '<ul id="accessPanelUserRingss" class="m-side-panel__list-content m-side-panel__list-content--in-rings" ng-if="userRings">',
                 '<li ng-repeat="ring in userRings" class="m-side-panel__list-content__item">',
                   '<md-input-container flex="60" class="m-side-panel__list-content__item__md-input-container" layout-align="center center">',
@@ -92,6 +107,7 @@
         }
         _map = BaseMapService.map_layer();
 
+        _$rangeRing = angular.element(document.getElementById('slider-ring'));
         _$btnPanelRing = angular.element(document.getElementById('btnPanelRing'));
         _$btnPanelRing.on('click',function(){
           _$divPoint.addClass('hide');
@@ -156,14 +172,14 @@
         scope.onClickMap = function(evt) {
           if (_$panel.data('start_time') === true) {
             _targetRing = evt.latlng;
-            if(_marker === undefined){
+            /*if(_marker === undefined){
               _marker = L.marker((_targetRing), {
                 icon: _blueMarker
               }).addTo(_map);
             }else{
               _marker.setLatLng(_targetRing).addTo(_map);
               //scope.callTravelRings();
-            }
+            }*/
             _$divTime.removeClass('hide');
           }
         };
@@ -195,43 +211,58 @@
           _$btnPanelRing.trigger('click');
           _$panel.data('start_time', false);
 
+          var mxN = 0;
+          if(scope.userRings.length > 0){
+            mxN = _.max(_.pluck(scope.userRings, 'id_ring')) + 1;
+          }
+          var name = 'Mi rango '+(mxN);
+          var id_ring = mxN;
+          var ring = {
+            id_ring: id_ring,
+            name: name,
+            targetRing: _targetRing,
+            isActive: true,
+            polygons: undefined,
+            timeRing: _timeRing,
+            typeRing: _typeRing,
+            marker: L.marker([_targetRing.lat, _targetRing.lng])
+          };
+
+          TimeRingsService.addUserRings({
+            nm: name,
+            ty: _typeRing,
+            ti: _timeRing,
+            geo: 'POINT('+_targetRing.lng+' '+_targetRing.lat+')'
+          }).then(function(res){
+            if(res.data && res.data.id_ring){
+              var r = _.findWhere(scope.userRings, {id_ring: id_ring});
+              r.id_ring = res.data.id_ring;
+            }
+          });
+
+          if(_targetRings.length>=3){
+            _showMessage("Solo se puede analizar 3 rangos al mismo tiempo");
+            ring.isActive = false;
+            scope.addRing2Catalog(ring);
+            return;
+          }
+
           scope.callService2GetRings(_timeRing, _typeRing, _targetRing, function(polygons){
             //_map.fitBounds(_polygonRings.getBoundingBox3857());
-
-            var mxN = 0;
-            if(scope.userRings.length > 0){
-              mxN = _.max(_.pluck(scope.userRings, 'id_ring')) + 1;
-            }
-            var name = 'Mi rango '+(mxN);
-            var id_ring = mxN;
-            scope.addRing2Catalog({
-              id_ring: id_ring,
-              name: name,
-              targetRing: _targetRing,
-              isActive: true,
-              polygons: polygons,
-              timeRing: _timeRing,
-              typeRing: _typeRing
-            });
-
-            TimeRingsService.addUserRings({
-              nm: name,
-              ty: _typeRing,
-              ti: _timeRing,
-              geo: 'POINT('+_targetRing.lng+' '+_targetRing.lat+')'
-            }).then(function(res){
-              if(res.data && res.data.id_ring){
-                var ring = _.findWhere(scope.userRings, {id_ring: id_ring});
-                ring.id_ring = res.data.id_ring;
-              }
-            });
+            ring.polygons = polygons;
+            ring.marker.addTo(_map);
+            scope.addRing2Catalog(ring);
           });
 
 
         };
 
         scope.callService2GetRings = function(time, type, position, callback){
-          _travelOptions.setSources( [position] );
+          if(typeof position === 'object' && position.length >0 ){
+            _travelOptions.setSources( position );
+          }else{
+            _travelOptions.setSources( [position] );
+          }
           var times = [300, 600, 900, 1200, 1500, 1800];
           var timeSelected = _.filter(times, function(n){
             return n <= time;
@@ -249,28 +280,121 @@
         };
 
         scope.addRing2Catalog = function(ring){
-          ring.marker = L.marker([ring.targetRing.lat, ring.targetRing.lng]);
+          if(ring.marker === undefined){
+            ring.marker = L.marker([ring.targetRing.lat, ring.targetRing.lng]);
+          }
           scope.userRings.push(ring);
         };
 
 
         //Actions by TimeRing USER
+        _$rangeRing.on('change', function(){
+          var timeRing = _$rangeRing.val();
+          if(_$rangeRing.data('oldval') === undefined){
+            _$rangeRing.data('oldval',timeRing);
+          }
+
+          if(_$rangeRing.data('oldval') === timeRing){
+            return;
+          }
+
+          switch (timeRing) { //var times = [300, 600, 900, 1200, 1500, 1800];
+            case '5':
+              _timeRing = 300;
+              break;
+            case '10':
+              _timeRing = 600;
+              break;
+            case '15':
+              _timeRing = 900;
+              break;
+            case '20':
+              _timeRing = 1200;
+              break;
+            case '25':
+              _timeRing = 1500;
+              break;
+            case '30':
+              _timeRing = 1800;
+              break;
+            default:
+
+          }
+          scope.callService2GetRings(_timeRing, _typeRing, _targetRings,function(polygons){
+          });
+        });
+
         scope.turnOnOffRing = function(id_ring){
+          var isFullRingProccess = false;
+          if(_targetRings.length>=3){
+            scope.userRings.forEach(function(ring){
+              if(ring.id_ring===id_ring && ring.isActive && _targetRings.length>=3){
+                ring.isActive = false;
+                isFullRingProccess = true;
+                _map.removeLayer(ring.marker);
+              }
+            });
+          }
+
+          if(isFullRingProccess){
+            _showMessage("Solo se puede analizar 3 rangos al mismo tiempo");
+            return;
+          }
           _polygonRings.clearLayers();
+          _targetRings = [];
+          _timeRing = '';
+          _typeRing = '';
           scope.userRings.forEach(function(ring){
               if(ring.isActive===true){
-                ring.marker.addTo(_map);
-                if(ring.polygons !== undefined){
+                if(_targetRings.length===3){
+                  _showMessage("Solo se puede analizar 3 rangos al mismo tiempo");
+                }else{
+                  ring.marker.addTo(_map);
+                  _targetRings.push(ring.targetRing);
+                  _timeRing = ring.timeRing;
+                  _typeRing = ring.typeRing;
+                }
+                /*if(ring.polygons !== undefined){
                   _polygonRings.addLayer(ring.polygons);
                 }else{
                   scope.callService2GetRings(ring.timeRing, ring.typeRing, ring.targetRing,function(polygons){
                     ring.polygons = polygons;
                   });
-                }
+                }*/
               }else{
                 _map.removeLayer(ring.marker);
               }
           });
+          if(_targetRings.length>0){
+            scope.callService2GetRings(_timeRing, _typeRing, _targetRings,function(polygons){
+            });
+            var timeRing = _timeRing;
+
+            switch (timeRing) { //var times = [300, 600, 900, 1200, 1500, 1800];
+              case '300':
+                timeRing = '5';
+                break;
+              case '600':
+                timeRing = '10';
+                break;
+              case '900':
+                timeRing = '15';
+                break;
+              case '1200':
+                timeRing = '20';
+                break;
+              case '1500':
+                timeRing = '25';
+                break;
+              case '1800':
+                timeRing = '30';
+                break;
+              default:
+
+            }
+            _$rangeRing.data('oldval',timeRing);
+            _$rangeRing.val(timeRing);
+          }
         };
 
         scope.zoomToUserRing = function(id_ring){
