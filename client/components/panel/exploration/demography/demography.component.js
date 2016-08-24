@@ -16,7 +16,7 @@
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-panel-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true" ng-click="openPanel(\'demography\', \'demography_icon\')">',
 						'<img src="./images/functions/demography_icon.png" class="m-list-functions__item-icon" data-icon="demography_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-demography-side-panel">',
@@ -42,7 +42,7 @@
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr, demographyCtrl){
+			link: function(scope, element, attr, ctrl){
 				var _newVariables = null,
 				_resultProcess = null,
 				_matchWord = null,
@@ -78,6 +78,11 @@
 				if (!scope.arreglo) {
 					scope.arreglo = [];
 				}
+				
+				scope.openPanel = function(a,b){
+					ctrl.explorationItem(a,b);
+				}
+				
 				scope.$watchGroup(['_variable_flag','demography_variable_list','current_checked'], function(s){
 					var found = _.filter(s[0],function(item){
 						return item.indexOf(s[2]._variable_name) !== -1;

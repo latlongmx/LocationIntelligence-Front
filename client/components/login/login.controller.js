@@ -24,7 +24,6 @@
 				loginForm.$submitted = false;
 				_loginProcess = loginService.loginRequest(data);
 				_loginProcess.then(function(result){
-					console.log(result)
 					if(result.status === 200 && result.statusText === "OK") {
 						Auth.login(result.data);
 					}

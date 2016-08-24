@@ -13,7 +13,7 @@
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="location" tooltip-placement="right" uib-tooltip="Mis ubicaciones" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-panel-item" data-ep="location" tooltip-placement="right" uib-tooltip="Mis ubicaciones" tooltip-animation="true" ng-click="openPanel(\'location\', \'locations_icon\')">',
 						'<img src="./images/functions/locations_icon.png" class="m-list-functions__item-icon" data-icon="locations_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-location-side-panel">',
@@ -90,7 +90,7 @@
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr){
+			link: function(scope, element, attr, ctrl){
 				var remove_panel = angular.element(document.getElementsByClassName('js-location-side-panel'));
 				var remove_exploration_item = angular.element(document.getElementsByClassName('js-exploration-item'));
 				var _this = null,
@@ -100,6 +100,10 @@
 
 				if (!scope.toggleLocations) {
 					scope.toggleLocations = [];
+				}
+				
+				scope.openPanel = function(a,b){
+					ctrl.explorationItem(a,b);
 				}
 
 				scope.addLocation = function(ev){

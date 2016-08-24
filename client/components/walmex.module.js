@@ -52,7 +52,7 @@
 		L.drawLocal.edit.toolbar.buttons.editDisabled = "No hay dibujos para editar";
 		L.drawLocal.edit.toolbar.buttons.remove = "Eliminar dibujos";
 		L.drawLocal.edit.toolbar.buttons.removeDisabled = "No hay dibujos para eliminar";
-		$rootScope.$on('$viewContentLoading', function() {
+		$rootScope.$on('$routeChangeStart', function() {
 			var auth = Auth.checkStatus();
 			var permissions = Auth.getPermission();
 
@@ -61,15 +61,16 @@
 				//window.location.href = "http://52.8.211.37/walmex.latlong.mx";
 			}
 			
-			if(permissions !== null) {
+			if(permissions) {
 				if (permissions === "uA"){
-					$rootScope.hasPermission = false;
+					$rootScope.userRole = {
+						hasPermission : false
+					}
 				}
-				else if (permissions === "uC"){
-					$rootScope.hasPermission = true;
-				}
-				else {
-					$rootScope.hasPermission = true;
+				if (permissions === "uC"){
+					$rootScope.userRole = {
+						hasPermission : true
+					}
 				}
 			}
 		});

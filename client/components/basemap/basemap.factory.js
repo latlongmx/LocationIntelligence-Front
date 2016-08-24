@@ -14,7 +14,9 @@
 		factory._map = undefined;
 		factory._curVar = '';
 
-		factory._map = BaseMapService.map_layer();
+		factory._map = function() {
+			return BaseMapService.map_layer()
+		}
 
 
 		/**
@@ -191,7 +193,7 @@
 			var self = this;
 			
 			//BaseMapService.map.then(function (map) {
-				self.addLayer(factory._map, typeLayer, GeoJSON);
+				self.addLayer(factory._map(), typeLayer, GeoJSON);
 			//});
 		};
 
@@ -202,7 +204,7 @@
 		factory.addCompetencia = function(GeoJSON){
 			var self = this;
 			//BaseMapService.map.then(function (map) {
-				self.addLayer(factory._map, 'competencia', GeoJSON);
+				self.addLayer(factory._map(), 'competencia', GeoJSON);
 			//});
 		};
 
@@ -254,7 +256,7 @@
 						};
 					}
 				};
-				self.LAYERS.heatMap = L.geoJson(GeoJSON, opts).addTo(factory._map);
+				self.LAYERS.heatMap = L.geoJson(GeoJSON, opts).addTo(factory._map());
 			//});
 		};
 
@@ -315,7 +317,7 @@
 					}
 				});
 				self.LAYERS.heatWMS.options.crs = L.CRS.EPSG4326;
-				self.LAYERS.heatWMS.addTo(factory._map);
+				self.LAYERS.heatWMS.addTo(factory._map());
 				self.LAYERS.heatWMS.setZIndex(10);
 			//});
 		};
@@ -356,7 +358,7 @@
 		};
 
 		factory.addLayerIfTurnedOn = function(id){
-			factory.LAYERS.USER['u'+id].addTo(factory._map);
+			factory.LAYERS.USER['u'+id].addTo(factory._map());
 			factory.LAYERS.USER['u'+id].on('loading', function (event) {
 	        //cargando
 					console.log('cargando: u'+id);
@@ -373,7 +375,7 @@
 		};
 
 		factory.hideLocationID = function(id){
-			factory._map.removeLayer( factory.LAYERS.USER['u'+id] );
+			factory._map().removeLayer( factory.LAYERS.USER['u'+id] );
 		};
 
 		factory.showLocation = function(name){
@@ -382,7 +384,7 @@
 		};
 
 		factory.showLocationID = function(id){
-			factory._map.addLayer( factory.LAYERS.USER['u'+id] );
+			factory._map().addLayer( factory.LAYERS.USER['u'+id] );
 		};
 
 		factory.zoomLocation = function(name){
@@ -393,7 +395,7 @@
 				var bnd = extend.split(',');
 				var bnd1 = bnd[0].split(' ');
 				var bnd2 = bnd[1].split(' ');
-				factory._map.fitBounds([
+				factory._map().fitBounds([
 					[parseFloat(bnd1[1]), parseFloat(bnd1[0])],
 					[parseFloat(bnd2[1]), parseFloat(bnd2[0])]
 				] );
@@ -414,7 +416,7 @@
 		 */
 		factory.addHeatMap = function(options){
 			//BaseMapService.map.then(function (map) {
-				options.wkt = _factory.bounds2polygonWKT(factory._map.getBounds());
+				options.wkt = _factory.bounds2polygonWKT(factory._map().getBounds());
 				BaseMapService.getHeatMapData(options).then(function(res){
 					if(res.data){
 						var data = res.data.data.map(function (p) {
@@ -425,7 +427,7 @@
 									/*L.heatLayer(res.data.data, {
 										radius: 55
 									}).addTo(map);*/
-									L.heatLayer(data).addTo(factory._map);
+									L.heatLayer(data).addTo(factory._map());
 						}else{
 							_factory.LAYERS.USER['heatmap'].setLatLngs(data);
 						}
@@ -439,7 +441,7 @@
 		factory.addHeatMap2Layer = function(layer, cods, reload){
 			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
 				//BaseMapService.map.then(function (map) {
-					var wkt = _factory.bounds2polygonWKT(map.getBounds());
+					var wkt = _factory.bounds2polygonWKT(factory._map().getBounds());
 					var options = {
 						cod: cods,
 						wkt: wkt
@@ -447,13 +449,13 @@
 					uiService.layerIsLoading();
 					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
 						uiService.layerIsLoaded();
-						_factory.LAYERS.USER[layer].addTo(map);
+						_factory.LAYERS.USER[layer].addTo(factory._map());
 					}
 					else{
 						_factory.addHeatMap2Data(options,function(data){
 							if(_factory.LAYERS.USER[layer] === undefined){
 								uiService.layerIsLoaded();
-								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(map);
+								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(factory._map());
 							}else{
 								_factory.LAYERS.USER[layer].setLatLngs(data);
 							}
@@ -463,7 +465,7 @@
 			}
 			else{
 				// BaseMapService.map.then(function (map) {
-				_factory.LAYERS.USER[layer].addTo(factory._map);
+				_factory.LAYERS.USER[layer].addTo(factory._map());
 				// });
 			}
 		};
@@ -485,13 +487,13 @@
 					uiService.layerIsLoading();
 					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
 						uiService.layerIsLoaded();
-						_factory.LAYERS.USER[layer].addTo(factory._map);
+						_factory.LAYERS.USER[layer].addTo(factory._map());
 					}
 					else{
 						_factory.addHeatMap2Data(options,function(data){
 							if(_factory.LAYERS.USER[layer] === undefined){
 								uiService.layerIsLoaded();
-								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(factory._map);
+								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(factory._map());
 
 							}else{
 								_factory.LAYERS.USER[layer].setLatLngs(data);
@@ -502,7 +504,7 @@
 			}
 			else{
 				// BaseMapService.map.then(function (map) {
-				_factory.LAYERS.USER[layer].addTo(factory._map);
+				_factory.LAYERS.USER[layer].addTo(factory._map());
 				// });
 			}
 		};
@@ -558,7 +560,7 @@
 						layer = 'heatmapShop';
 						break;
 				}
-				factory._map.removeLayer( _factory.LAYERS.USER[layer] );
+				factory._map().removeLayer( _factory.LAYERS.USER[layer] );
 			//});
 		};
 

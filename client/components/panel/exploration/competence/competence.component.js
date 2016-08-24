@@ -12,7 +12,7 @@
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Mi competencia" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-panel-item" data-ep="competence" tooltip-placement="right" uib-tooltip="Mi competencia" tooltip-animation="true" ng-click="openPanel(\'competence\', \'competence_icon\')">',
 						'<img src="./images/functions/competence_icon.png" class="m-list-functions__item-icon" data-icon="competence_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-competence-side-panel">',
@@ -105,7 +105,7 @@
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr){
+			link: function(scope, element, attr, ctrl){
 				var _this = null,
 				_removeCompetenceItem = null,
 				_changeLocationIcon = null,
@@ -116,6 +116,10 @@
 				}
 				if (!scope.competence_variables_selected) {
 					scope.competence_variables_selected = [];
+				}
+				
+				scope.openPanel = function(a,b){
+					ctrl.explorationItem(a,b);
 				}
 				
 				CompetenceVarJsonService.competenceVarJsonRequest()

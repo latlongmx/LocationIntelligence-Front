@@ -50,11 +50,12 @@
 		this.removeMarker = function(){
 			return clearLayer(_sMarker);
 		}
-		this._map = BaseMapService.map_layer();
+		this._map = function() {
+			return BaseMapService.map_layer();
+		}
 		
 
 		this.loadMap = function(layer, panel){
-			console.log(panel[0])
 			var items = [],
 			test = null,
 			ranges = null,
@@ -201,11 +202,11 @@
 					_markersCustZC.addLayer(_marker);
 				}
 			});
-			BaseMapService.map.then(function (map) {
-				_polylinesGroup.addTo(map);
-				_markersCustZC.addTo(map);
-				_polygonsGroup.addTo(map).bringToBack();
-			});
+			//BaseMapService.map.then(function (map) {
+				_polylinesGroup.addTo(this._map());
+				_markersCustZC.addTo(this._map());
+				_polygonsGroup.addTo(this._map()).bringToBack();
+			//});
 		}
 
 	}

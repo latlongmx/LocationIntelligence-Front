@@ -14,7 +14,7 @@
 			replace:true,
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="heatmap" tooltip-placement="right" uib-tooltip="Mapa de calor" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-panel-item" data-ep="heatmap" tooltip-placement="right" uib-tooltip="Mapa de calor" tooltip-animation="true" ng-click="openPanel(\'heatmap\', \'heatmap_icon\')">',
 						'<img src="./images/functions/heatmap_icon.png" class="m-list-functions__item-icon" data-icon="heatmap_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-heatmap-side-panel">',
@@ -97,7 +97,8 @@
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr){
+			link: function(scope, element, attr, ctrl){
+
 				var _this = null,
 				_removeHeatmapItem = null,
 				_thisPredefinedHeatmapIsTrue = null,
@@ -108,9 +109,11 @@
 				lastLayer = null,
 				id_predefined_Layer = null;
 				
-				//BaseMapService.map.then(function (map) {
+				scope.openPanel = function(a,b){
+					ctrl.explorationItem(a,b);
+				}
+
 				_map = BaseMapService.map_layer();
-				//});
 
 				if (!scope.toggleHeatmap) {
 					scope.toggleHeatmap = [];

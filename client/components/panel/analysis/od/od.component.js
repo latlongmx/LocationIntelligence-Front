@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function odDirective($timeout, BaseMapService, BaseMapFactory, Auth, odService, $compile, uiService){
+	function odDirective($timeout, BaseMapService, $rootScope, BaseMapFactory, Auth, odService, $compile, uiService){
 		var cityPolygons = null,
 		cityData = null,
 		color_x = null;
@@ -15,57 +15,56 @@
 			scope: true,
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="od" tooltip-placement="right" uib-tooltip="Origen Destino" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-panel-item" data-ep="od" tooltip-placement="right" uib-tooltip="Origen Destino" tooltip-animation="true" ng-click="openPanel(\'od\', \'od_icon\')">',
 						'<img src="./images/functions/od_icon.png" class="m-list-functions__item-icon" data-icon="od_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-od-side-panel">',
-					'<h3 class="m-side-panel__title">Gasto Origen-Destino</h3>',
-					'<div class="m-side-panel__actions pos-relative">',
-						'<h4 class="m-side-panel__subtitle">Código Postal: <span>{{zip_code ? zip_code:"Selecciona un código postal del mapa"}}</span></h4>',
-						'<md-divider></md-divider>',
-						'<span class="m-side-panel__title-action"  ng-if="selected_zc">Información a consultar</span>',
-						'<div layout="row" ng-if="selected_zc">',
-							'<div layout="column" flex="50" layout-align="center center">',
-								'<h6 class="m-side-panel__subtitle" style="margin:auto;">Promedio de pago</h6>',
-								'<md-button class="md-fab md-mini md-primary js-index js-index-0" ng-click="getIndex(0)">',
-									'<md-icon>format_list_bulleted</md-icon>',
-								'</md-button>',
-							'</div>',
-							'<div layout="column" flex="50" layout-align="center center">',
-								'<h6 class="m-side-panel__subtitle" style="margin:auto;">Número de pagos</h6>',
-								'<md-button class="md-fab md-mini md-primary md-hue-2 js-index js-index-1" ng-click="getIndex(1)">',
-									'<md-icon>add</md-icon>',
-								'</md-button>',
-							'</div>',
-							'<div layout="column" flex="50" layout-align="center center">',
-								'<h6 class="m-side-panel__subtitle" style="margin:auto;">Número de tarjetas por día</h6>',
-								'<md-button class="md-fab md-mini md-primary md-hue-2 js-index js-index-2" ng-click="getIndex(2)">',
-									'<md-icon>zoom_in</md-icon>',
-								'</md-button>',
+						'<h3 class="m-side-panel__title">Gasto Origen-Destino</h3>',
+						'<div class="m-side-panel__actions pos-relative">',
+							'<h4 class="m-side-panel__subtitle">Código Postal: <span>{{zip_code ? zip_code:"Selecciona un código postal del mapa"}}</span></h4>',
+							'<md-divider></md-divider>',
+							'<span class="m-side-panel__title-action"  ng-if="selected_zc">Información a consultar</span>',
+							'<div layout="row" ng-if="selected_zc">',
+								'<div layout="column" flex="50" layout-align="center center">',
+									'<h6 class="m-side-panel__subtitle" style="margin:auto;">Promedio de pago</h6>',
+									'<md-button class="md-fab md-mini md-primary js-index js-index-0" ng-click="getIndex(0)">',
+										'<md-icon>format_list_bulleted</md-icon>',
+									'</md-button>',
+								'</div>',
+								'<div layout="column" flex="50" layout-align="center center">',
+									'<h6 class="m-side-panel__subtitle" style="margin:auto;">Número de pagos</h6>',
+									'<md-button class="md-fab md-mini md-primary md-hue-2 js-index js-index-1" ng-click="getIndex(1)">',
+										'<md-icon>add</md-icon>',
+									'</md-button>',
+								'</div>',
+								'<div layout="column" flex="50" layout-align="center center">',
+									'<h6 class="m-side-panel__subtitle" style="margin:auto;">Número de tarjetas por día</h6>',
+									'<md-button class="md-fab md-mini md-primary md-hue-2 js-index js-index-2" ng-click="getIndex(2)">',
+										'<md-icon>zoom_in</md-icon>',
+									'</md-button>',
+								'</div>',
 							'</div>',
 						'</div>',
-					'</div>',
-					'<div class="m-side-panel__list m-side-panel__list--in-od-panel">',
-							'<slick settings="slickConfig" infinite=false slides-to-show=1 slides-to-scroll=1>',
-								'<div class="m-side-panel__list-slider__slide">',
-									'<avg-day-gender class="m-graphic"></avg-day-gender>',
-									'<avg-age class="m-graphic"></avg-age>',
-								'</div>',
-								'<div class="m-side-panel__list-slider__slide">',
-									'<payments-day-gender class="m-graphic"></payments-day-gender>',
-									'<payments-age class="m-graphic"></payments-age>',
-								'</div>',
-								'<div class="m-side-panel__list-slider__slide">',
-									'<cards-day class="m-graphic"></cards-day>',
-									'<cards-age class="m-graphic"></cards-age>',
-								'</div>',
-							 '</slick>',
+						'<div class="m-side-panel__list m-side-panel__list--in-od-panel">',
+								'<slick settings="slickConfig" infinite=false slides-to-show=1 slides-to-scroll=1>',
+									'<div class="m-side-panel__list-slider__slide">',
+										'<avg-day-gender class="m-graphic"></avg-day-gender>',
+										'<avg-age class="m-graphic"></avg-age>',
+									'</div>',
+									'<div class="m-side-panel__list-slider__slide">',
+										'<payments-day-gender class="m-graphic"></payments-day-gender>',
+										'<payments-age class="m-graphic"></payments-age>',
+									'</div>',
+									'<div class="m-side-panel__list-slider__slide">',
+										'<cards-day class="m-graphic"></cards-day>',
+										'<cards-age class="m-graphic"></cards-age>',
+									'</div>',
+								 '</slick>',
+						'</div>',
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr){
-			},
-			controller: function($scope, $rootScope) {
+			link: function(scope, element, attr, ctrl){
 				var datazipcode	= [],
 				_array_avg_day = [],
 				_array_avg_gender = null,
@@ -75,12 +74,16 @@
 				_array_num_payments_age = null,
 				_array_num_cards_day = [],
 				_array_num_cards_age = null;
+				
+				scope.openPanel = function(a,b){
+					ctrl.explorationItem(a,b);
+				}
 
 				/**
 				 * [slickConfig Slick slider init and configurations]
 				 * @type {Object}
 				 */
-				$scope.slickConfig = {
+				scope.slickConfig = {
 					enabled: false,
 					autoplay: false,
 					draggable: false,
@@ -104,11 +107,11 @@
 				 * [getIndex Function to get current index in slick slider, to activate selected category (slide)]
 				 * @param  {[type]} index [description]
 				 */
-				$scope.getIndex = function(index){
+				scope.getIndex = function(index){
 					var selectCategory = angular.element(document.getElementsByClassName('js-index-'+ index));
 					var selectIndex = angular.element(document.getElementsByClassName('js-index'));
 					selectIndex.addClass('md-hue-2')
-					$scope.slickConfig.method.slickGoTo(index);
+					scope.slickConfig.method.slickGoTo(index);
 					selectCategory.removeClass('md-hue-2')
 				}
 
@@ -116,9 +119,9 @@
 				 * [Update ZipCode label]
 				 */
 				var updateZC = $rootScope.$on('zc_event', function(e, data){
-					$scope.selected_zc = true;
-					$scope.slickConfig.enabled = true;
-					$scope.zip_code = data;
+					scope.selected_zc = true;
+					scope.slickConfig.enabled = true;
+					scope.zip_code = data;
 					_getZipCodeData(data);
 				});
 
@@ -314,10 +317,13 @@
 					$rootScope.$emit('cardsDay', _array_num_cards_day);
 					$rootScope.$emit('cardsAge', _array_num_cards_age);
 				}
+			},
+			controller: function($scope) {
+
 			}
 		}
 	}
 
-	odDirective.$inject = ['$timeout', 'BaseMapService', 'BaseMapFactory', 'Auth', 'odService', '$compile', 'uiService'];
+	odDirective.$inject = ['$timeout', 'BaseMapService', '$rootScope', 'BaseMapFactory', 'Auth', 'odService', '$compile', 'uiService'];
 	angular.module('walmex').directive('od', odDirective);
 })();

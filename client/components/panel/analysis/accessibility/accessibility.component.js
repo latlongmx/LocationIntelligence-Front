@@ -31,7 +31,8 @@
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Accesibilidad" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-panel-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Accesibilidad" tooltip-animation="true" ng-click="openPanel(\'accessibility\', \'accessibility_icon\')">',
+					
 						'<img src="./images/functions/accessibility_icon.png" class="m-list-functions__item-icon" data-icon="accessibility_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-accessibility-side-panel">',
@@ -43,11 +44,13 @@
 										'<h4 class="m-side-panel__subtitle">Crear área:</h4>',
 									'</div>',
 									'<div layout="column" flex="50" layout-align="center center">',
-										'<md-button id="btnAddNewPoly" ng-disabled="disableDrawAccessBtn" aria-label="" class="md-raised md-fab md-mini leaflet-draw-draw-polygon js-draw-area" title="Dibujar Poligono" ng-click="drawAreaInMap($event,\'polygon\')">Hola</md-button>',
+										'<md-button id="btnAddNewPoly" ng-disabled="disableDrawAccessBtn" aria-label="btnAddNewPoly" class="md-raised md-fab md-mini leaflet-draw-draw-polygon js-draw-area" title="Dibujar Poligono" ng-click="drawAreaInMap($event,\'polygon\')">',
+										'<i class="demo demo-area polygon-tool"></i>',
+										'</md-button>',
 									'</div>',
 									'<div layout="column" flex="50" layout-align="center center">',
 										'<md-button id="btnAddNewRadio" ng-disabled="disableDrawAccessBtn" aria-label="area-tool" class="md-raised md-fab md-mini leaflet-draw-draw-circle  js-draw-area" title="Dibujar Radio" ng-click="drawAreaInMap($event,\'circle\')">',
-										  '<i class="demo demo-radio area-tool area-tool--in-accessibility"></i>',
+										  '<i class="demo demo-radio area-tool"></i>',
 										'</md-button>',
 									'</div>',
 								'</div>',
@@ -125,6 +128,11 @@
 				'</div>'
 			].join(''),
 			link: function(scope, element, attr, ctrl){
+
+				scope.openPanel = function(a,b){
+					ctrl.explorationItem(a,b);
+				}
+
 				AccessibilityService.getUserDraws().then(function(res){
 					_counterUserDraws = res.data.draws.length;
 					_verifyLimitDraws();

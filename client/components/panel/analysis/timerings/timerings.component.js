@@ -42,7 +42,7 @@
       scope: '=',
       template: [
         '<div>',
-          '<li id="btnPanelRing" class="m-list-functions__item js-panel-item js-timering-side-panel" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true">',
+          '<li id="btnPanelRing" class="m-list-functions__item js-panel-item js-timering-side-panel" data-ep="rings" tooltip-placement="right" uib-tooltip="Rangos de alcance" tooltip-animation="true" ng-click="openPanel(\'rings\', \'rings_icon\')">',
           	'<img src="./images/functions/rings_icon.png" class="m-list-functions__item-icon" data-icon="rings_icon"/>',
           '</li>',
           '<div class="m-side-panel js-rings-side-panel">',
@@ -84,9 +84,12 @@
 				  '</div>',
 				'</div>'
       ].join(''),
-      link: function(scope, element, attr, potencialCtrl) {
+      link: function(scope, element, attr, ctrl) {
 
         scope.userRings = [];
+        scope.openPanel = function(a,b){
+          ctrl.explorationItem(a,b);
+        }
         _map = BaseMapService.map_layer();
 
         _$btnPanelRing = angular.element(document.getElementById('btnPanelRing'));

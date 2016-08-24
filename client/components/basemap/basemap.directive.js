@@ -10,7 +10,7 @@
 			replace:true,
 			template: [
 				'<div id="basemap" class="m-basemap">',
-					'<label  class="m-zoom" type="button" aria-label="">',
+					'<label  class="m-zoom js-zoom" type="button" aria-label="">',
 						'<span class="bold m-zoom__text">Zoom Actual</span>',
 						'<span class="bold m-zoom__number js-zoom-number" style="font-size:18px;"></span>',
 					'</label>',
@@ -157,6 +157,9 @@
 				 */
 				function _getZoom(zoom){
 					_newZoom.text(zoom);
+					$timeout(function(){
+						uiService.removePulse();
+					}, 3000);
 				}
 
 				/**
@@ -165,6 +168,7 @@
 				 * @return {[type]} [Function]
 				 */
 				_map.on('zoomend', function(event){
+					uiService.addPulseWhenZoom();
 					_getZoom(_map.getZoom());
 				});
 

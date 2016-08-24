@@ -16,6 +16,9 @@
 		cityLayerGroup = new L.LayerGroup(),
 		_set_panel = [];
 		
+		this._map = function() {
+			return BaseMapService.map_layer();
+		}
 		/* Template for Loader progress */
 		this.loaderTemplate = [
 			'<div class="m-loading">',
@@ -31,7 +34,17 @@
 				'</div>',
 			'</div>',
 		].join('');
-
+		
+		this.pulseRingNotification = '<span class="pnd-pulse-ring"></span>';
+		
+		this.addPulseWhenZoom = function() {
+			return angular.element(document.getElementsByClassName("js-zoom")).append(this.pulseRingNotification);
+		}
+		
+		this.removePulse = function() {
+			return angular.element(document.getElementsByClassName('pnd-pulse-ring')).remove();
+		}
+		
 		/* Login */
 		this.addLogginIsLoading = function(button, message){
 			button.attr("disabled", true);
@@ -55,6 +68,8 @@
 		this.layerIsLoaded = function(){
 			return angular.element(document.getElementsByClassName('m-loading')).remove();
 		}
+		
+		/* Pulse */
 		
 		/* Panel */
 		this.changeCurrentPanel = function(boo, layer) {
@@ -122,9 +137,7 @@
 		this.addCityLayer = function(layer) {
 			if (layer) {
 				cityLayerGroup.addLayer(odService.loadMap(layer, this.getPanel()));
-				BaseMapService.map.then(function (map) {
-					cityLayerGroup.addTo(map);
-				});
+				cityLayerGroup.addTo(this._map());
 			}
 		}
 
