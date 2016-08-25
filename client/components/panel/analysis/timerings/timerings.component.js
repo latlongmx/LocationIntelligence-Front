@@ -216,7 +216,7 @@
           scope.openPanel = function(a,b){
             ctrl.explorationItem(a,b);
           };
-          angular.element(document.getElementById('timeRingsBtns')).remove();
+          angular.element(document.getElementById('timeRingsBtns')).hide();
           //_$btnPanelRing.trigger('click');
           _$panel.data('start_time', false);
 
