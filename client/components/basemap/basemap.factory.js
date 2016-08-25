@@ -267,25 +267,22 @@
 		factory.setPobVivWMS = function(variable){
 			var self = this;
 			self._curVar = variable;
-			//BaseMapService.map.then(function (map) {
-				// uiService.layerIsLoading();
-				self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
-						layers: 'Manzanas',
-						format: 'image/png',
-						minZoom: 13,
-						transparent: true
-				});
-				//
-				self.LAYERS.pobvivWMS.setDynamicParam({
-					col: function(){
-						return self._curVar;
-					}
-				});
-				// uiService.layerIsLoaded();
-				self.LAYERS.pobvivWMS.options.crs = L.CRS.EPSG4326;
-				self.LAYERS.pobvivWMS.addTo(factory._map);
-				self.LAYERS.pobvivWMS.setZIndex(9);
-			//});
+			self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
+					layers: 'Manzanas',
+					format: 'image/png',
+					minZoom: 13,
+					transparent: true
+			});
+			//
+			self.LAYERS.pobvivWMS.setDynamicParam({
+				col: function(){
+					return self._curVar;
+				}
+			});
+			// uiService.layerIsLoaded();
+			self.LAYERS.pobvivWMS.options.crs = L.CRS.EPSG4326;
+			self.LAYERS.pobvivWMS.addTo(factory._map());
+			self.LAYERS.pobvivWMS.setZIndex(9);
 		};
 
 		/**
@@ -294,32 +291,28 @@
 		 */
 		factory.delPobVivWMS = function(){
 			if(this.LAYERS.pobvivWMS){
-					var self = this;
-				//BaseMapService.map.then(function (map) {
-					factory._map.removeLayer( self.LAYERS.pobvivWMS );
-				//});
+				var self = this;
+				factory._map().removeLayer( self.LAYERS.pobvivWMS );
 			}
 		};
 
 		factory.setHeatWMS = function(variable){
 			var self = this;
 			self._curVar = variable;
-			//BaseMapService.map.then(function (map) {
-				self.LAYERS.heatWMS = L.tileLayer.dynamicWms("http://52.8.211.37/cgi-bin/mapserv?map=/var/www/laravel-storage/ms_file_heat.map", {
-					layers: 'heatmap',
-					format: 'image/png',
-					minZoom: 13,
-					transparent: true
-				});
-				self.LAYERS.heatWMS.setDynamicParam({
-					col: function(){
-						return self._curVar;
-					}
-				});
-				self.LAYERS.heatWMS.options.crs = L.CRS.EPSG4326;
-				self.LAYERS.heatWMS.addTo(factory._map());
-				self.LAYERS.heatWMS.setZIndex(10);
-			//});
+			self.LAYERS.heatWMS = L.tileLayer.dynamicWms("http://52.8.211.37/cgi-bin/mapserv?map=/var/www/laravel-storage/ms_file_heat.map", {
+				layers: 'heatmap',
+				format: 'image/png',
+				minZoom: 13,
+				transparent: true
+			});
+			self.LAYERS.heatWMS.setDynamicParam({
+				col: function(){
+					return self._curVar;
+				}
+			});
+			self.LAYERS.heatWMS.options.crs = L.CRS.EPSG4326;
+			self.LAYERS.heatWMS.addTo(factory._map());
+			self.LAYERS.heatWMS.setZIndex(10);
 		};
 
 		/********************************************/

@@ -60,7 +60,8 @@
 				_last_variable_flag = null,
 				_last_variable_list = null,
 				_last_list = null,
-				_last_flag = null;
+				_last_flag = null,
+				_map = BaseMapService.map_layer();
 				scope.last_checked = null;
 				scope.current_checked = null;
 				scope.last_on = null;
@@ -278,15 +279,13 @@
 				 * @param  {[type]} param [description]
 				 */
 				var _demographyWKTRequest = function(param) {
-					BaseMapService.map.then(function (map) {
-						if(map.getZoom() < 13){
-							$timeout(function(){
-								_showToastMessage("Se necesita un zoom mínimo de 14 para visualizar la capa");
-							}, 2500);
-							//
-						}
-						BaseMapFactory.setPobVivWMS(param);
-					});
+					if(_map.getZoom() < 13){
+						$timeout(function(){
+							_showToastMessage("Se necesita un zoom mínimo de 14 para visualizar la capa");
+						}, 2500);
+						//
+					}
+					BaseMapFactory.setPobVivWMS(param);
 				};
 				
 				scope.removeVariable = function(parent,index) {

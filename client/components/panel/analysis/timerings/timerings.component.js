@@ -33,7 +33,8 @@
     var _typeRing = 'car';  // bike walk car transit
     var _targetRing;
     var _marker;
-    var _blueMarker;
+    var _blueMarker,
+    template;
 
     var _$contentCount = {
       vehi: undefined,
@@ -104,20 +105,24 @@
         scope.userRings = [];
         scope.openPanel = function(a,b){
           ctrl.explorationItem(a,b);
-        };
-        _map = BaseMapService.map_layer();
-
-        _$rangeRing = angular.element(document.getElementById('slider-ring'));
-        _$btnPanelRing = angular.element(document.getElementById('btnPanelRing'));
-        _$btnPanelRing.on('click',function(){
           _$divPoint.addClass('hide');
           _$divType.addClass('hide');
           _$divTime.addClass('hide');
           _$panel.data('start_time', false);
-        });
+        };
+        _map = BaseMapService.map_layer();
+
+        _$rangeRing = angular.element(document.getElementById('slider-ring'));
+        // _$btnPanelRing = angular.element(document.getElementById('btnPanelRing'));
+        // _$btnPanelRing.on('click',function(){
+        //   _$divPoint.addClass('hide');
+        //   _$divType.addClass('hide');
+        //   _$divTime.addClass('hide');
+        //   _$panel.data('start_time', false);
+        // });
 
         $templateRequest("./components/panel/analysis/timerings/add.timering.tpl.html").then(function(html){
-          var template = angular.element(html);
+          template = angular.element(html);
           element.append(template);
           $compile(template)(scope);
           _$timeRingsBtns = angular.element(document.getElementById('timeRingsBtns'));
@@ -208,7 +213,11 @@
         };
 
         scope.callTravelRings = function(){
-          _$btnPanelRing.trigger('click');
+          scope.openPanel = function(a,b){
+            ctrl.explorationItem(a,b);
+          };
+          angular.element(document.getElementById('timeRingsBtns')).remove();
+          //_$btnPanelRing.trigger('click');
           _$panel.data('start_time', false);
 
           var mxN = 0;
@@ -234,9 +243,11 @@
             ti: _timeRing,
             geo: 'POINT('+_targetRing.lng+' '+_targetRing.lat+')'
           }).then(function(res){
-            if(res.data && res.data.id_ring){
-              var r = _.findWhere(scope.userRings, {id_ring: id_ring});
-              r.id_ring = res.data.id_ring;
+            if(res.data && res.id_ring){
+              
+              
+              var r = _.findWhere(scope.userRings, {id_ring: res.id_ring});
+              r.id_ring = res.id_ring;
             }
           });
 

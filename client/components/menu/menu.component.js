@@ -18,12 +18,10 @@
 				'<ul class="m-list-navigation js-list-navigation">',
 					'<li class="m-list-navigation__item js-menu-item"><a>Menu 1</a></li>',
 					'<li class="m-list-navigation__item js-menu-item"><a>Mi perfil</a></li>',
-					'<li class="m-list-navigation__item js-logout"><a>Cerrar sesión</a></li>',
+					'<li class="m-list-navigation__item js-logout" ng-click="logOut()"><a>Cerrar sesión</a></li>',
 				'</ul>',
 			].join(''),
-			controllerAs: "menu",
 			controller: function($scope) {
-				var menu = this;
 				var _$js_menu_button = angular.element(document.getElementsByClassName('js-menu-button'));
 				var _$js_list_navigation = angular.element(document.getElementsByClassName('js-list-navigation'));
 				var _$js_logout = angular.element(document.getElementsByClassName('js-logout'));
@@ -36,9 +34,9 @@
 					return false;
 				});
 				
-				_$js_logout.on('click', function(){
+				$scope.logOut = function(){
 					Auth.logout();
-				});
+				};
 
 			}
 		};
