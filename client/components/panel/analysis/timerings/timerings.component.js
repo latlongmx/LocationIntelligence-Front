@@ -177,14 +177,14 @@
         scope.onClickMap = function(evt) {
           if (_$panel.data('start_time') === true) {
             _targetRing = evt.latlng;
-            /*if(_marker === undefined){
+            if(_marker === undefined){
               _marker = L.marker((_targetRing), {
                 icon: _blueMarker
               }).addTo(_map);
             }else{
               _marker.setLatLng(_targetRing).addTo(_map);
               //scope.callTravelRings();
-            }*/
+            }
             _$divTime.removeClass('hide');
           }
         };
@@ -244,8 +244,8 @@
             geo: 'POINT('+_targetRing.lng+' '+_targetRing.lat+')'
           }).then(function(res){
             if(res.data && res.id_ring){
-              
-              
+
+
               var r = _.findWhere(scope.userRings, {id_ring: res.id_ring});
               r.id_ring = res.id_ring;
             }
@@ -257,11 +257,14 @@
             scope.addRing2Catalog(ring);
             return;
           }
+          _targetRings.push(_targetRing);
 
-          scope.callService2GetRings(_timeRing, _typeRing, _targetRing, function(polygons){
+          scope.callService2GetRings(_timeRing, _typeRing, _targetRings, function(polygons){
             //_map.fitBounds(_polygonRings.getBoundingBox3857());
             ring.polygons = polygons;
+            _polygonRings.fitMap();
             ring.marker.addTo(_map);
+            _map.removeLayer(_marker);
             scope.addRing2Catalog(ring);
           });
 
@@ -309,7 +312,7 @@
             return;
           }
 
-          switch (timeRing) { //var times = [300, 600, 900, 1200, 1500, 1800];
+          switch (timeRing.toString()) { //var times = [300, 600, 900, 1200, 1500, 1800];
             case '5':
               _timeRing = 300;
               break;
@@ -365,13 +368,6 @@
                   _timeRing = ring.timeRing;
                   _typeRing = ring.typeRing;
                 }
-                /*if(ring.polygons !== undefined){
-                  _polygonRings.addLayer(ring.polygons);
-                }else{
-                  scope.callService2GetRings(ring.timeRing, ring.typeRing, ring.targetRing,function(polygons){
-                    ring.polygons = polygons;
-                  });
-                }*/
               }else{
                 _map.removeLayer(ring.marker);
               }
@@ -381,7 +377,7 @@
             });
             var timeRing = _timeRing;
 
-            switch (timeRing) { //var times = [300, 600, 900, 1200, 1500, 1800];
+            switch (timeRing.toString()) { //var times = [300, 600, 900, 1200, 1500, 1800];
               case '300':
                 timeRing = '5';
                 break;
