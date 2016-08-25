@@ -15,8 +15,8 @@
 		factory._curVar = '';
 
 		factory._map = function() {
-			return BaseMapService.map_layer()
-		}
+			return BaseMapService.map_layer();
+		};
 
 
 		/**
@@ -415,58 +415,49 @@
 		 * @param {[type]} options [description]
 		 */
 		factory.addHeatMap = function(options){
-			//BaseMapService.map.then(function (map) {
-				options.wkt = _factory.bounds2polygonWKT(factory._map().getBounds());
-				BaseMapService.getHeatMapData(options).then(function(res){
-					if(res.data){
-						var data = res.data.data.map(function (p) {
-							 return [p[0], p[1]];
-						});
-						if(_factory.LAYERS.USER['heatmap']===undefined){
-							_factory.LAYERS.USER['heatmap'] =
-									/*L.heatLayer(res.data.data, {
-										radius: 55
-									}).addTo(map);*/
-									L.heatLayer(data).addTo(factory._map());
-						}else{
-							_factory.LAYERS.USER['heatmap'].setLatLngs(data);
-						}
-
+			options.wkt = _factory.bounds2polygonWKT(factory._map().getBounds());
+			BaseMapService.getHeatMapData(options).then(function(res){
+				if(res.data){
+					var data = res.data.data.map(function (p) {
+						 return [p[0], p[1]];
+					});
+					if(_factory.LAYERS.USER.heatmap === undefined){
+						_factory.LAYERS.USER.heatmap = L.heatLayer(data).addTo(factory._map());
 					}
-				});
-			//});
+					else{
+						_factory.LAYERS.USER['heatmap'].setLatLngs(data);
+					}
+
+				}
+			});
 		};
 
 
 		factory.addHeatMap2Layer = function(layer, cods, reload){
 			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
-				//BaseMapService.map.then(function (map) {
-					var wkt = _factory.bounds2polygonWKT(factory._map().getBounds());
-					var options = {
-						cod: cods,
-						wkt: wkt
-					};
-					uiService.layerIsLoading();
-					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
-						uiService.layerIsLoaded();
-						_factory.LAYERS.USER[layer].addTo(factory._map());
-					}
-					else{
-						_factory.addHeatMap2Data(options,function(data){
-							if(_factory.LAYERS.USER[layer] === undefined){
-								uiService.layerIsLoaded();
-								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(factory._map());
-							}else{
-								_factory.LAYERS.USER[layer].setLatLngs(data);
-							}
-						});
-					}
-				//});
+				var wkt = _factory.bounds2polygonWKT(factory._map().getBounds());
+				var options = {
+					cod: cods,
+					wkt: wkt
+				};
+				uiService.layerIsLoading();
+				if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
+					uiService.layerIsLoaded();
+					_factory.LAYERS.USER[layer].addTo(factory._map());
+				}
+				else{
+					_factory.addHeatMap2Data(options,function(data){
+						if(_factory.LAYERS.USER[layer] === undefined){
+							uiService.layerIsLoaded();
+							_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(factory._map());
+						}else{
+							_factory.LAYERS.USER[layer].setLatLngs(data);
+						}
+					});
+				}
 			}
 			else{
-				// BaseMapService.map.then(function (map) {
 				_factory.LAYERS.USER[layer].addTo(factory._map());
-				// });
 			}
 		};
 
@@ -479,33 +470,29 @@
 		 */
 		factory.addHeatMap2LayerBounds = function(layer, cods, wkt, reload){
 			if(_factory.LAYERS.USER[layer]===undefined || reload === true){
-				//BaseMapService.map.then(function (map) {
-					var options = {
-						cod: cods,
-						wkt: wkt
-					};
-					uiService.layerIsLoading();
-					if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
-						uiService.layerIsLoaded();
-						_factory.LAYERS.USER[layer].addTo(factory._map());
-					}
-					else{
-						_factory.addHeatMap2Data(options,function(data){
-							if(_factory.LAYERS.USER[layer] === undefined){
-								uiService.layerIsLoaded();
-								_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(factory._map());
+				var options = {
+					cod: cods,
+					wkt: wkt
+				};
+				uiService.layerIsLoading();
+				if(reload===false && _factory.LAYERS.USER[layer] !== undefined){
+					uiService.layerIsLoaded();
+					_factory.LAYERS.USER[layer].addTo(factory._map());
+				}
+				else{
+					_factory.addHeatMap2Data(options,function(data){
+						if(_factory.LAYERS.USER[layer] === undefined){
+							uiService.layerIsLoaded();
+							_factory.LAYERS.USER[layer] = L.heatLayer(data).addTo(factory._map());
 
-							}else{
-								_factory.LAYERS.USER[layer].setLatLngs(data);
-							}
-						});
-					}
-				//});
+						}else{
+							_factory.LAYERS.USER[layer].setLatLngs(data);
+						}
+					});
+				}
 			}
 			else{
-				// BaseMapService.map.then(function (map) {
 				_factory.LAYERS.USER[layer].addTo(factory._map());
-				// });
 			}
 		};
 
@@ -530,13 +517,13 @@
 			switch (categ) {
 				case 'food':
 					_factory.addHeatMap2Layer('heatmapFood','722',reload);
-					break;
+				break;
 				case 'tourism':
 					_factory.addHeatMap2Layer('heatmapTourism','721,712',reload);
-					break;
+				break;
 				case 'shop':
 					_factory.addHeatMap2Layer('heatmapShop','46',reload);
-					break;
+				break;
 			}
 		};
 
@@ -547,21 +534,19 @@
 		 */
 		factory.hideHeatMapCategory = function(category){
 			var categ = category.toLowerCase();
-			//BaseMapService.map.then(function (map) {
-				var layer = '';
-				switch (categ) {
-					case 'food':
-						layer = 'heatmapFood';
-						break;
-					case 'tourism':
-						layer = 'heatmapTourism';
-						break;
-					case 'shop':
-						layer = 'heatmapShop';
-						break;
-				}
-				factory._map().removeLayer( _factory.LAYERS.USER[layer] );
-			//});
+			var layer = '';
+			switch (categ) {
+				case 'food':
+					layer = 'heatmapFood';
+					break;
+				case 'tourism':
+					layer = 'heatmapTourism';
+					break;
+				case 'shop':
+					layer = 'heatmapShop';
+					break;
+			}
+			factory._map().removeLayer( _factory.LAYERS.USER[layer] );
 		};
 
 

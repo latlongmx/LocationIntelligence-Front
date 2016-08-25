@@ -131,7 +131,7 @@
 
 				scope.openPanel = function(a,b){
 					ctrl.explorationItem(a,b);
-				}
+				};
 
 				AccessibilityService.getUserDraws().then(function(res){
 					_counterUserDraws = res.data.draws.length;
@@ -443,7 +443,7 @@
 							});
 						}
 					}, function(error){
-						console.log(error)
+						console.log(error);
 					});
 				};
 
@@ -478,7 +478,7 @@
 							_verifyLimitDraws();
 						}
 					}, function(error){
-						console.log(error)
+						console.log(error);
 					});
 					//scope.verifyLimitDraws();
 				};

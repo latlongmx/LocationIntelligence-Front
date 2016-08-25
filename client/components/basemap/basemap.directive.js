@@ -41,12 +41,11 @@
 				_colorLine = null,
 				_autocomplete = null,
 				_newZoom = angular.element(document.getElementsByClassName('js-zoom-number'));
-				var _map = BaseMapService.map(element[0]);
+				_map = BaseMapService.map(element[0]);
 
 				_featureGroup = BaseMapService.featureGroup.addTo(_map);
 				_drawControl = BaseMapService.drawControl(_featureGroup);
 				_drawControl.addTo(_map);
-
 				_google_roadmap = new L.Google('ROADMAP');
 				_google_satellite = new L.Google();
 				_mapbox_streets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + token, {

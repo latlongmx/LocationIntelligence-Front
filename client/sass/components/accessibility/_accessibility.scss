@@ -1,12 +1,12 @@
 .leaflet-draw-draw-polygon--in-accessibility,
 .leaflet-draw-draw-circle--in-accessibility {
-	background-color: rgb(34,172,155) !important;
+	background-color: $green-strong-0 !important;
 }
 
 .polygon-tool--in-accessibility,
 .area-tool--in-accessibility {
 	&:before{
-		color: rgba(255,255,255,0.87) !important;
+		color: rgba($white ,0.87) !important;
 	}
 	
 }

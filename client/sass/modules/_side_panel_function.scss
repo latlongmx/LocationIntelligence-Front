@@ -1,6 +1,6 @@
 .m-side-panel {
 	@include box-shadow(8px 8px 13px -6px rgba(0,0,0,0.25));
-	background: #ffffff;
+	background: $white;
 	bottom: 18px;
 	left: 55px;
 	position: absolute;
@@ -26,29 +26,29 @@
 }
 
 .m-side-panel__title {
-	border-bottom: 1px solid #f3f3f3;
-	color: $white;
-	background: $gray;
-	margin: 0;
-	padding:10px;
-	text-align: left;
+	border-bottom: 1px solid $gray100;
+  background: $gray100;
+  color: $gray-l0;
+  margin: 0;
+  padding: 10px;
+  text-align: left;
 }
 
 .m-side-panel__subtitle {
-	color: $gray50;
-	display: inline-block;
+	color: $gray75;
+	display: block;
 	font-weight: 400;
 	margin: 0 0 10px 0;
 	text-align: left;
 	span {
 		font-weight: bold;
-		color: $gray;
+		color: $gray100;
 	}
 }
 
 .m-side-panel__user-title {
-	background: $green-ssmooth;
-	color: $white;
+	background:$gray-l0;
+	color: $gray100;
 	font-size: 16px;
 	font-weight: 500;
 	margin: 0;
@@ -57,10 +57,9 @@
 }
 
 .m-side-panel__title-action {
-	color: $gray25;
-	display: block;
-	font-size: 14px;
-	margin: 10px 0 15px;
+	color: $gray50;
+	display: inline-block;
+	margin: 0px;
 }
 
 .m-side-panel__body {
@@ -86,7 +85,7 @@
 }
 
 .m-side-panel__header {
-	padding: 0px 15px;
+	//padding: 0px 15px;
 }
 
 .m-side-panel__list {
@@ -95,16 +94,17 @@
 	overflow-y: auto;
 	position: absolute;
 	right: 15px;
-	top: 239px;
+	top: 250px;
 }
 
 .m-side-panel__list-titles {
-	padding:0px;
+	padding: 5px 15px;
+	display:flex;
+	border-bottom:1px solid $gray-l75;
 }
 
-.m-side-panel__list-titles__column-name {
-	border-bottom: 1px solid $gray0;
-	color: $gray75;
+.m-side-panel__list-column-title {
+	color: $gray50;
 	font-size: 14px;
 	font-weight: normal;
 	margin:0;
@@ -131,7 +131,7 @@
 	position:relative;
 	@include transition(background 0.25s ease-in-out);
 	&:before {
-		background:$gray0;
+		background:$gray-l25;
 		bottom:0;
 		content:"";
 		height: 1px;
@@ -140,7 +140,7 @@
 		right: 0;
 	}
 	&:hover {
-		background: rgba($gray0,0.25);
+		background: rgba($gray-l0, 0.5);
 	}
 	p {
 		color: $gray75;
@@ -172,9 +172,6 @@ button.m-side-panel__locations-list__item {
 	cursor:pointer;
 }
 
-.m-side-panel__list--in-competence {
-	padding-top:15px;
-}
 
 .md-input-container--in-competence {
 	margin:0px;
@@ -213,10 +210,6 @@ button.m-side-panel__locations-list__item {
 	}
 }
 
-.m-side-panel__subtitle--in-location-list {
-	display:block;
-}
-
 .m-side-panel__panel_one,
 .m-side-panel__panel_two {
 	position: relative;
@@ -228,11 +221,11 @@ button.m-side-panel__locations-list__item {
   left: 0;
   position: absolute;
   right: 0;
-  top: 330px;
+  top: 350px;
 }
 
-.m-side-panel__list--in-competence-panel {
-	top: 286px;
+.m-side-panel__list--in-competence {
+	top: 299px;
 }
 .m-side-panel__list--in-od-panel {
 	top:200px;
@@ -253,7 +246,7 @@ button.m-side-panel__locations-list__item {
 }
 
 .m-side-panel__list--in-heatmap-panel-custom {
-	top:55px;
+	top:66px;
 	// bottom: initial;
 	// position: initial;
 	// padding: 0px 15px;

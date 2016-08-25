@@ -77,7 +77,7 @@
 				
 				scope.openPanel = function(a,b){
 					ctrl.explorationItem(a,b);
-				}
+				};
 
 				/**
 				 * [slickConfig Slick slider init and configurations]
@@ -110,10 +110,10 @@
 				scope.getIndex = function(index){
 					var selectCategory = angular.element(document.getElementsByClassName('js-index-'+ index));
 					var selectIndex = angular.element(document.getElementsByClassName('js-index'));
-					selectIndex.addClass('md-hue-2')
+					selectIndex.addClass('md-hue-2');
 					scope.slickConfig.method.slickGoTo(index);
-					selectCategory.removeClass('md-hue-2')
-				}
+					selectCategory.removeClass('md-hue-2');
+				};
 
 				/**
 				 * [Update ZipCode label]
@@ -142,14 +142,14 @@
 								uiService.layerIsLoaded();
 							}
 						}, function(error){
-							console.log(error)
+							console.log(error);
 							uiService.layerIsLoaded();
 						});
 					}
 					else {
 						_getSeries(datazipcode[zipCode]);
 					}
-				}
+				};
 				
 				/**
 				 * [_getSeries Build day, age and gender series data for charts]

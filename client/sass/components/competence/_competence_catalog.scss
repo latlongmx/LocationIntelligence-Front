@@ -40,7 +40,7 @@
 		}
 		 
 		&::-webkit-scrollbar-thumb {
-			@include box-shadow( inset 0 0 10px rgba(255,255,255,0.3)); 
+			@include box-shadow( inset 0 0 10px rgba($white ,0.3)); 
 		}
 	}
 	&::-webkit-scrollbar {
@@ -68,7 +68,7 @@
 	// font-size: 1.5em;
 	line-height: 1em;
 	//color: #1f4164;
-	color: $gray;
+	color: $gray100;
 	text-align: left;
 	max-width: 75%;
 	font-weight: 500;
@@ -106,12 +106,12 @@
 	@include transition(all 0.25s linear);
 	background-color: rgba($gray0, 0.25);
 	a {
-		color: $gray75;
+		color: $gray100;
 	}
 }
 
 .multilevelpushmenu__in-competence a {
-	color: $gray75;
+	color: $gray100;
 	display: block;
 	font-size: 16px;
 	font-weight: 300;
@@ -131,7 +131,7 @@
 	display: block;
 	//padding: .4em .4em .4em .4em;
 	padding: 0em;
-	background: #666470;
+	background: $gray50;
 	//border-top: 1px solid #295685;
 }
 

@@ -1,10 +1,10 @@
 
 .m-button-ghost {
 	background:transparent !important;
-	color: $gray !important;
+	color: $gray100 !important;
 	@include transition(all linear 0.25s);
 	&:hover {
-		background:$gray !important;
+		background:$gray100 !important;
 		color: $white !important;
 	}
 }
@@ -27,28 +27,28 @@
 
 
 .button-ghost-sit {
-	color: $green-lsmooth !important;
+	color: $green-light-0 !important;
 	@include transition(all linear 0.25s);
 	&:hover {
-		background:$green-lsmooth !important;
+		background:$green-light-0 !important;
 		color: $white !important;
 	}
 }
 
 .button-ghost-dot {
-	color: $green-lmedium !important;
+	color: $green-light-50 !important;
 	@include transition(all linear 0.25s);
 	&:hover {
-		background:$green-lmedium !important;
+		background:$green-light-50 !important;
 		color: $white !important;
 	}
 }
 
 .button-ghost-gd {
-	color: $green-ldark !important;
+	color: $green-strong-50 !important;
 	@include transition(all linear 0.25s);
 	&:hover {
-		background:$green-ldark !important;
+		background:$green-strong-50 !important;
 		color: $white !important;
 	}
 }

@@ -77,11 +77,11 @@
 }
 
 .leaflet-top.leaflet-left{
-	z-index:999;
+	z-index:401;
 }
 
 .leaflet-bottom.leaflet-right {
-	z-index:999;
+	z-index:401;
 }
 
 .leaflet-left{
@@ -118,12 +118,12 @@
 	display:block;
 	&:before {
 		padding: 8px;
-		color: $gray;
+		color: $gray100;
 		display:block;
 	}
 	&:hover {
 		&:before {
-			color: $green-sdark;
+			color: $green-strong-25;
 		}
 	}
 }
@@ -135,14 +135,14 @@
 .delete-tool {
 	display:block;
 	&:before {
-		color: $gray;
+		color: $gray100;
 		display:block;
 		font-size: 22px;
 		padding: 7px 0px;
 	}
 	&:hover {
 		&:before {
-			color: $green-sdark;
+			color: $green-strong-25;
 		}
 	}
 }
@@ -179,7 +179,7 @@
 		background-image: none;
 		border-radius: 50% !important;
 		border: 0px solid transparent;
-		color: $gray;
+		color: $gray100;
 		cursor: pointer;
 		font-weight: 600;
 		height: initial;
@@ -238,8 +238,8 @@
 		}
 		span {
 			@include transition(all linear 0.25s);
-			background: rgba($gray, 0.95);
-			border-right: 4px solid $green-ssmooth;
+			background: rgba($gray100, 0.95);
+			border-right: 4px solid $green-light-0;
 			bottom: 0;
 			color: $white;
 			display: none;

@@ -10,7 +10,7 @@
 }
 .m-burger-menu {
 	@include transition(all 0.2s ease-in-out);
-	background: $gray;
+	background: $gray100;
 	cursor: pointer;
 	//margin: 10px;
 	padding: 2.5px 10px;

@@ -52,11 +52,11 @@
           '</li>',
           '<div class="m-side-panel js-rings-side-panel">',
           	'<h3 class="m-side-panel__title">Rangos de alcance</h3>',
-            '<div class="m-side-panel__list m-side-panel__list--in-accessibility__analysis-area">',
+            '<div class="m-side-panel__actions pos-relative">',
               '<div layout="row">',
                 '<div layout="row" flex="40" layout-align="center center">',
                   '<div flex="75">',
-                    '<h5 class="m-side-panel__subtitle m-side-panel__subtitle--in-locations-actions">Agregar rango de alcance</h5>',
+                    '<h5 class="m-side-panel__title-action">Agregar rango de alcance</h5>',
                   '</div>',
                   '<div flex="25">',
                     '<md-button class="md-fab md-mini md-primary" ng-click="addRing()">',
@@ -104,7 +104,7 @@
         scope.userRings = [];
         scope.openPanel = function(a,b){
           ctrl.explorationItem(a,b);
-        }
+        };
         _map = BaseMapService.map_layer();
 
         _$rangeRing = angular.element(document.getElementById('slider-ring'));

@@ -19,7 +19,7 @@
 	padding: 10px;
 	cursor:pointer;
 	&:hover{
-		background: $gray;
+		background: $gray100;
 		color: $white;
 	}
 }
@@ -50,16 +50,16 @@
 	&.is-item-panel-active {
 		background: $white;
 		&:before {
-			background: $green-sdark;
+			background: $green-strong-100;
 		}
 		.m-list-functions__item-icon {
-			color: $green-sdark;
+			color: $green-light-100;
 		}
 	}
 }	
 
 .m-list-functions__item-icon {
-	color: $gray;
+	color: $gray100;
 	display:block;
 	width: 35px;
 	vertical-align:middle;
@@ -71,7 +71,7 @@
 	-webkit-transition-delay: 0.01ms;
 	@include transform(translate(100%,0));
 	@include transition(transform .3s ease-in-out);
-	background: $gray;
+	background: $gray100;
 	margin: 0px 50px 0px 0px;
 	padding: 0;
 	transition-delay: 0.01ms;
@@ -95,7 +95,7 @@
 		font-weight: 400;
 		padding: 10.5px 10px;
 		&:hover {
-			color: $green-sdark;
+			color: $green-light-100;
 			background: $white;
 		}
 	}

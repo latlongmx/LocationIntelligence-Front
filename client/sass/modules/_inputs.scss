@@ -14,14 +14,14 @@
   border-top: 0 !important;
   border-left: 0 !important;
   border-right: 0 !important;
-  color: $gray;
+  color: $gray100;
   margin: 0 !important;
   outline:0;
   padding-left: 15px;
   width: 100%;
   &:focus {
-    border-bottom: 1px solid $green-lsmooth !important;
-    box-shadow: 0 1px 0 0 $green-lsmooth !important;
+    border-bottom: 1px solid $green-strong-25 !important;
+    box-shadow: 0 1px 0 0 $green-strong-25 !important;
   }
 }
 
@@ -43,7 +43,7 @@
 	border-top-left-radius: 0px !important;
 	border-top-right-radius:0px !important;
 	border-top: 0px solid transparent !important;
-	color: $gray;
+	color: $gray100;
 	height: 44px !important;
 	line-height: 100%;
 	margin: 0 !important;
@@ -64,7 +64,7 @@
 }
 
 .parsley-custom-error-message {
-	color: #B71C1C;
+	color: $danger;
 	font-size: 12px;
 	font-weight: bold;
 	letter-spacing: 1.5px;
@@ -80,8 +80,8 @@
   font-weight: 600;
   height: 35px;
   &:focus {
-    border-bottom: 1px solid $gray !important;
-    box-shadow: 0 1px 0 0 $gray !important;
+    border-bottom: 1px solid $gray100 !important;
+    box-shadow: 0 1px 0 0 $gray100 !important;
   }
 }
 
@@ -101,23 +101,23 @@
 		color: $gray0;
 	}
 	&:-moz-placeholder {
-		color: $gray0;
+		color: $gray100;
 	}
 	&::-moz-placeholder {
-		color: $gray0;
+		color: $gray100;
 	}
 	&:-ms-input-placeholder {
-		color: $gray0;
+		color: $gray100;
 	}
 	&:focus {
-	  border-bottom: 1px solid #C3EE97 !important;
+	  border-bottom: 1px solid $green-light-0 !important;
 	  @include box-shadow(none !important);
 	  @include transition(box-shadow linear 5s);
 	}
 }
 
 .m-input--in-competence__catalog {
-	border-bottom: 1px solid $gray0 !important;
+	border-bottom: 1px solid $gray100 !important;
 	color: $gray50;
 	height: initial;
 	margin: 7px auto !important;
@@ -137,7 +137,7 @@
 		color: $gray25;
 	}
 	&:focus {
-	  border-bottom: 1px solid $gray !important;
+	  border-bottom: 1px solid $gray100 !important;
 	}
 }
 

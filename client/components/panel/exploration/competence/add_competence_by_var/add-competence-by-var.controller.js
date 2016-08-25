@@ -9,13 +9,13 @@
 		$scope.nw = null;
 		$scope.se = null;
 		$scope.bbox = null;
-		var countAdded = 0;
-		BaseMapService.map.then(function (map) {
-			$scope.bounds = map.getBounds();
-			$scope.nw = $scope.bounds.getNorthWest();
-			$scope.se = $scope.bounds.getSouthEast();
-			$scope.bbox = [$scope.nw.lng, $scope.se.lat, $scope.se.lng, $scope.nw.lat].join(',');
-		});
+		var countAdded = 0,
+		_map = BaseMapService.map_layer();
+
+		$scope.bounds = _map.getBounds();
+		$scope.nw = $scope.bounds.getNorthWest();
+		$scope.se = $scope.bounds.getSouthEast();
+		$scope.bbox = [$scope.nw.lng, $scope.se.lat, $scope.se.lng, $scope.nw.lat].join(',');
 		var _newCompetenceVariables = null,
 		_resultOfProcess = null,
 		_matchWordCompetence = null,

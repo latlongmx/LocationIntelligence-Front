@@ -21,19 +21,19 @@
 							'<h4 class="m-side-panel__subtitle">Agregar ubicaciones de mi competencia:</h4>',
 							'<div layout="row">',
 								'<div layout="column" flex="50" layout-align="center center">',
-									'<h6 class="m-side-panel__subtitle" style="margin:auto;">Por categoría</h6>',
+									'<h5 class="m-side-panel__title-action" style="margin:auto;">Por categoría</h5>',
 									'<md-button class="md-fab md-mini md-primary" ng-click="addCompetenceByVariable()">',
 						        '<md-icon>format_list_bulleted</md-icon>',
 						      '</md-button>',
 								'</div>',
 								'<div layout="column" flex="50" layout-align="center center">',
-									'<h6 class="m-side-panel__subtitle" style="margin:auto;">Importar de archivo</h6>',
+									'<h5 class="m-side-panel__title-action" style="margin:auto;">Importar de archivo</h5>',
 									'<md-button class="md-fab md-mini md-primary" ng-click="addCompetenceByCsv()">',
 						        '<md-icon>add</md-icon>',
 						      '</md-button>',
 								'</div>',
 								'<div layout="column" flex="50" layout-align="center center">',
-									'<h6 class="m-side-panel__subtitle" style="margin:auto;">Por nombre exacto</h6>',
+									'<h5 class="m-side-panel__title-action" style="margin:auto;">Por nombre exacto</h5>',
 									'<md-button class="md-fab md-mini md-primary" ng-click="addCompetenceByName()">',
 									  '<md-icon>zoom_in</md-icon>',
 									'</md-button>',
@@ -53,7 +53,7 @@
 								'<div flex="50" layout="row" layout-align="center center" class="m-side-panel__actions-columns">',
 									'<div layout="row" layout-align="center center">',
 										'<div flex="75">',
-											'<h5 class="m-side-panel__subtitle m-side-panel__subtitle--in-locations-actions">Mostrar/ocultar Capas activas</h5>',
+											'<h5 class="m-side-panel__title-action" style="text-align:initial;">Mostrar/ocultar Capas activas</h5>',
 										'</div>',
 										'<div flex="25">',
 												'<md-switch class="md-primary md-hue-1" aria-label="all-competences" ng-model="all_competences" ng-change="toggleGralCompetences(competence)"></md-switch>',
@@ -64,24 +64,22 @@
 							'</div>',
 						'</div>',
 						'<div class="m-side-panel__header">',
-							'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">Mis ubicaciones</h4>',
+							'<h4 class="m-side-panel__user-title">Mis competencias</h4>',
 							'<ul class="m-side-panel__list-titles">',
-								'<div layout="row">',
-									'<p flex="10" class="bold m-side-panel__list-titles__column-name">Icono</p>',
-									'<p flex="35" class="bold m-side-panel__list-titles__column-name">Categoría</p>',
-									'<p flex="20" class="bold m-side-panel__list-titles__column-name"># Negocios</p>',
-									'<p flex="10" class="bold m-side-panel__list-titles__column-name">Acciones</p>',
-									'<p flex="10" class="bold m-side-panel__list-titles__column-name"></p>',
-									'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
-									'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
-									'<p flex="5" class="bold m-side-panel__list-titles__column-name"></p>',
-								'</div>',
+								'<li flex="10" class="m-side-panel__list-column-title">Icono</li>',
+								'<li flex="35" class="m-side-panel__list-column-title">Categoría</li>',
+								'<li flex="20" class="m-side-panel__list-column-title"># Negocios</li>',
+								'<li flex="10" class="m-side-panel__list-column-title">Acciones</li>',
+								'<li flex="10" class="m-side-panel__list-column-title"></li>',
+								'<li flex="5" class="m-side-panel__list-column-title"></li>',
+								'<li flex="5" class="m-side-panel__list-column-title"></li>',
+								'<li flex="5" class="m-side-panel__list-column-title"></li>',
 							'</ul>',
 						'</div>',
 						'<div layout="row" class="layout-align-space-around-stretch layout-row" ng-if="competence_list">',
 							'<md-progress-circular md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
 						'</div>',
-						'<div class="m-side-panel__list m-side-panel__list--in-competence-panel">',
+						'<div class="m-side-panel__list m-side-panel__list--in-competence">',
 							'<ul class="m-side-panel__list-content">',
 								'<li class="m-side-panel__list-content__item js-competence-item" ng-repeat="competence in save_competence_variable_list | filter: search_competence">',
 									'<div flex="10">',
@@ -120,7 +118,7 @@
 				
 				scope.openPanel = function(a,b){
 					ctrl.explorationItem(a,b);
-				}
+				};
 				
 				CompetenceVarJsonService.competenceVarJsonRequest()
 				.then(function(result){
@@ -167,7 +165,7 @@
 
 						}
 					});
-				}
+				};
 
 				scope.addCompetenceByCsv = function(ev){
 					$mdDialog.show({
@@ -195,7 +193,7 @@
 					}, function(failAdding) {
 						console.log(failAdding);
 					});
-				}
+				};
 
 				scope.addCompetenceByName = function(ev){
 					$mdDialog.show({
@@ -223,7 +221,7 @@
 					}, function(failAdding) {
 						console.log(failAdding);
 					});
-				}
+				};
 
 				scope.editLayerCompetence = function(this_item, competence_item, index){
 					var id = competence_item.id_layer +'-'+ competence_item.name_layer.replace(' ','_');
@@ -254,19 +252,19 @@
 								}
 								else {
 									BaseMapFactory.updateLocationID(competence_item.id_layer);
-									BaseMapFactory.hideLocation(id)
+									BaseMapFactory.hideLocation(id);
 								}
 							});
 						}
 					}, function(failAdding) {
 						console.log(failAdding);
 					});
-				}
+				};
 
 				scope.zoomToCompetenceLayer = function(id_layer, name_layer) {
 					var id = id_layer +'-'+ name_layer.replace(' ','_');
 					BaseMapFactory.zoomLocation(id);
-				}
+				};
 
 				scope.turnOnOffLayerCompetence = function(layer, loc) {
 					_thisCompetenceIsTrue = this;
@@ -283,7 +281,7 @@
 						}
 					}
 					layer === true ? BaseMapFactory.showLocation(id): BaseMapFactory.hideLocation(id);
-				}
+				};
 
 				scope.removeCompetence = function(indexItem, id_layer, name, index) {
 					var id = id_layer +'-'+ name.replace(' ','_');
@@ -305,7 +303,7 @@
 							}
 						}
 					}
-				}
+				};
 
 				scope.toggleGralCompetences = function() {
 					if(this.all_competences === true) {
@@ -325,7 +323,7 @@
 					if (scope.toggleCompetence.length === 0) {
 						scope.is_toggle_gral_competence = false;
 					}
-				}
+				};
 
 				var _deleteMessage = function(msg) {
 					$mdToast.show(
@@ -337,7 +335,7 @@
 							autoWrap: true
 						})
 					);
-				}
+				};
 			}
 		};
 	}

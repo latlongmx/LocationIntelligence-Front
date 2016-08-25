@@ -65,12 +65,12 @@
 				if (permissions === "uA"){
 					$rootScope.userRole = {
 						hasPermission : false
-					}
+					};
 				}
 				if (permissions === "uC"){
 					$rootScope.userRole = {
 						hasPermission : true
-					}
+					};
 				}
 			}
 		});
@@ -78,28 +78,26 @@
 	}])
 	.config(function($mdThemingProvider){
 		$mdThemingProvider.definePalette('demo', {
-			'50': '#22ac9b',
-			'100': '#00b8b0',
-			'200': '#6fc9c4',
-			'300': '#82c341',
-			'400': '#acd08c',
-			'500': '#22ac9b',
-			'600': '#00b8b0',
-			'700': '#6fc9c4',
-			'800': '#D3D3D5',
-			'900': '#A2A2A7',
-			'A100': '#828189',
-			'A200': '#666470',
-			'A400': '#828189',
-			'A700': '#A2A2A7',
+			'50': '#75b238',
+			'100': '#82c341',
+			'200': '#8fc954',
+			'300': '#9CCF68',
+			'400': '#A8D57B',
+			'500': '#1C8B7D',
+			'600': '#1F9C8C',
+			'700': '#22AC9B',
+			'800': '#25BCAA',
+			'900': '#28CDB9',
+			'A100': '#dfdfe2',
+			'A200': '#d2d2d5',
+			'A400': '#c5c5c9',
+			'A700': '#b8b8bd',
 			'contrastDefaultColor': 'light',
-			'contrastLightColors': ['50', '100', '200'],
-			'hue-1': '300',
-			'hue-2': '400',
-			'hue-3': '500',
-
+			'contrastLightColors': ['A100', 'A200', 'A400'],
+			'hue-1': '600',
+			'hue-2': '700',
+			'hue-3': '800',
 		});
-		$mdThemingProvider.theme('default')
-		    .primaryPalette('demo')
+		$mdThemingProvider.theme('default').primaryPalette('demo');
 	});
 })();

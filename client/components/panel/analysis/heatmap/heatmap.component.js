@@ -23,7 +23,7 @@
 							'<div layout="row">',
 								'<div layout="row" flex="40" layout-align="center center">',
 									'<div flex="75">',
-										'<h5 class="m-side-panel__subtitle m-side-panel__subtitle--in-locations-actions">Agregar mapa de calor</h5>',
+										'<h5 class="m-side-panel__title-action">Agregar mapa de calor</h5>',
 									'</div>',
 									'<div flex="25">',
 										'<md-button class="md-fab md-mini md-primary" ng-click="addHeatmap()">',
@@ -41,13 +41,11 @@
 						'</div>',
 						'<div class="m-side-panel__panel_one">',
 							'<div class="m-side-panel__header">',
-								'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">Categorias populares</h4>',
+								'<h4 class="m-side-panel__user-title">Categorias populares</h4>',
 								'<ul class="m-side-panel__list-titles">',
-									'<div layout="row">',
-										'<p flex="10" class="bold m-side-panel__list-titles__column-name">Icono</p>',
-										'<p flex="75" class="bold m-side-panel__list-titles__column-name">Categoría</p>',
-										'<p flex class="bold m-side-panel__list-titles__column-name">Acciones</p>',
-									'</div>',
+									'<li flex="10" class="bold m-side-panel__list-column-title">Icono</li>',
+									'<li flex="75" class="bold m-side-panel__list-column-title">Categoría</li>',
+									'<li flex class="bold m-side-panel__list-column-title">Acciones</li>',
 								'</ul>',
 							'</div>',
 							'<div class="m-side-panel__list m-side-panel__list--in-heatmap-panel-predefined">',
@@ -66,13 +64,11 @@
 						
 						'<div class="m-side-panel__panel_two">',
 							'<div class="m-side-panel__header">',
-								'<h4 class="m-side-panel__subtitle m-side-panel__subtitle--in-location-list">Mis categorías</h4>',
+								'<h4 class="m-side-panel__user-title">Mis categorías</h4>',
 								'<ul class="m-side-panel__list-titles">',
-									'<div layout="row">',
-										'<p flex="55" class="bold m-side-panel__list-titles__column-name">Categoría</p>',
-										'<p flex="20" class="bold m-side-panel__list-titles__column-name">Tipo</p>',
-										'<p flex class="bold m-side-panel__list-titles__column-name">Acciones</p>',
-									'</div>',
+										'<li flex="55" class="bold m-side-panel__list-column-title">Categoría</li>',
+										'<li flex="20" class="bold m-side-panel__list-column-title">Tipo</li>',
+										'<li flex class="bold m-side-panel__list-column-title">Acciones</li>',
 								'</ul>',
 							'</div>',
 							'<div layout="row" class="layout-align-space-around-stretch layout-row" ng-if="heatmap_list">',
@@ -111,7 +107,7 @@
 				
 				scope.openPanel = function(a,b){
 					ctrl.explorationItem(a,b);
-				}
+				};
 
 				_map = BaseMapService.map_layer();
 
@@ -160,7 +156,7 @@
 
 						}
 					});
-				}
+				};
 
 				scope.editLayerHeatmap = function(heatmap_item, index){
 					$mdDialog.show({
@@ -180,7 +176,7 @@
 					}, function(failUpdating) {
 						console.log(failUpdating);
 					});
-				}
+				};
 
 
 				scope.variableHeatmapShowed = function(list, index){
@@ -203,17 +199,13 @@
 
 						if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
 							scope.current_heatmap_checked = false;
-							//BaseMapService.map.then(function (map) {
-								_map.removeLayer( BaseMapFactory.LAYERS.USER[idLayer] )
-							//});
+							_map.removeLayer( BaseMapFactory.LAYERS.USER[idLayer]);
 						}
 						else {
 							scope.current_heatmap_checked.$index = true;
 							if (scope.last_heatmap_checked) {
 								lastLayer = BaseMapFactory.LAYERS.USER[scope.last_heatmap_checked.id_heat];
-								//BaseMapService.map.then(function (map) {
-									_map.removeLayer(lastLayer);
-								//});
+								_map.removeLayer(lastLayer);
 							}
 
 							scope.last_heatmap_checked = false;
@@ -228,12 +220,10 @@
 
 						if (scope.current_heatmap_checked) {
 							var removeLayer = scope.current_heatmap_checked.id_heat;
-							//BaseMapService.map.then(function (map) {
-								_map.removeLayer( BaseMapFactory.LAYERS.USER[removeLayer] )
-							//});
+							_map.removeLayer( BaseMapFactory.LAYERS.USER[removeLayer] )
 							scope.current_heatmap_checked.$index = false;
 							scope.current_heatmap_checked = "";
-						}
+						};
 
 						for (var i = 0; i < list.predefinedCategories.length; i++) {
 							list.predefinedCategories[i].$index = false;
@@ -276,69 +266,6 @@
 						_deleteMessage("Se eliminó " + indexItem.name_heat);
 					}
 				}
-				
-				// var _toggleEachLayer = function(self, array_list, index) {
-				// 	var removeLayer = "";
-				// 	scope.last_heatmap_checked = scope.current_heatmap_checked;
-				// 	scope.current_heatmap_checked = self.heatmap;
-
-				// 	for (var i = 0; i < array_list.save_heatmap_variable_list.length; i++) {
-				// 		array_list.save_heatmap_variable_list[i].$index = false;
-				// 	}
-				// 	for (var i = 0; i < array_list.predefinedCategories.length; i++) {
-				// 		array_list.predefinedCategories[i].$index = false;
-				// 	}
-
-				// 	if (scope.current_heatmap_checked.bounds) {
-				// 		idLayer = scope.current_heatmap_checked.id_heat;
-				// 		cods = scope.current_heatmap_checked.cods;
-				// 		wkt = scope.current_heatmap_checked.bounds;
-				// 		if (scope.last_heatmap_checked) {
-				// 			if (scope.last_heatmap_checked.name) {
-				// 				BaseMapFactory.hideHeatMapCategory(scope.last_heatmap_checked.name);
-				// 				//scope.last_heatmap_checked = false;
-				// 			}
-				// 			else {
-				// 				removeLayer = BaseMapFactory.LAYERS.USER[scope.last_heatmap_checked.id_heat];
-				// 				BaseMapService.map.then(function (map) {
-				// 					map.removeLayer(removeLayer);
-				// 				});
-				// 			}
-				// 			//scope.last_heatmap_checked = false;
-				// 		}
-						
-				// 		if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
-				// 			scope.current_heatmap_checked = false;
-				// 			removeLayer = BaseMapFactory.LAYERS.USER[scope.last_heatmap_checked.id_heat];
-				// 			BaseMapService.map.then(function (map) {
-				// 				map.removeLayer(removeLayer);
-				// 			});
-				// 		}
-						
-				// 		scope.current_heatmap_checked.$index = true;
-				// 		BaseMapFactory.addHeatMap2LayerBounds(idLayer, cods, wkt, false);
-				// 	}
-				// 	else {
-				// 		if (scope.last_heatmap_checked) {
-				// 			BaseMapFactory.hideHeatMapCategory(scope.last_heatmap_checked.name);
-				// 			scope.last_heatmap_checked = false;
-				// 		}
-						
-				// 		if (scope.current_heatmap_checked === scope.last_heatmap_checked) {
-				// 			scope.current_heatmap_checked = false;
-				// 			removeLayer = BaseMapFactory.LAYERS.USER[scope.current_heatmap_checked.id_heat];
-				// 			BaseMapService.map.then(function (map) {
-				// 				map.removeLayer(removeLayer);
-				// 			});
-				// 		}
-						
-				// 		scope.current_heatmap_checked.$index = true;
-				// 		BaseMapFactory.addHeatMapCategory(scope.current_heatmap_checked.name);
-				// 	}
-					
-					
-					
-				// }
 
 				var _deleteMessage = function(msg) {
 					$mdToast.show(

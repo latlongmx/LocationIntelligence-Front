@@ -38,7 +38,6 @@
 				
 				_$js_logout.on('click', function(){
 					Auth.logout();
-					$scope.$apply();
 				});
 
 			}

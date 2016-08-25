@@ -14,7 +14,7 @@
 		baseURL = null,
 		_zip_code = null,
 		_geometry = [],
-		cityLayer = null,
+		cityLayer = null;
 
 		baseURL = 'http://bbva-api.appdata.mx/basic-stats/';
 
@@ -37,23 +37,23 @@
 					}
 				}
 			}
-		}
+		};
 		
 		var setZcGeometry = function(geometry){
 			_geometry.push(geometry);
-		}
+		};
 		
 		var getZcGeometry = function(){
 			return _geometry;
-		}
+		};
 
 		this.removeMarker = function(){
 			return clearLayer(_sMarker);
-		}
+		};
+
 		this._map = function() {
 			return BaseMapService.map_layer();
-		}
-		
+		};
 
 		this.loadMap = function(layer, panel){
 			var items = [],
@@ -80,7 +80,7 @@
 				}
 			});
 			return cityLayer;
-		}
+		};
 
 		this.onEachFeature = function(feature, layer) {
 			layer.on('click', function(e) {
@@ -93,7 +93,7 @@
 				$rootScope.$emit('zc_event', feature.properties.ZipCode)
 				this._map.setView([zcMarker._latlng.lat, zcMarker._latlng.lng, this._map._zoom]);
 			});
-		}
+		};
 		
 		this.getBasicStats = function(zc) {
 			deferred = $q.defer();
@@ -109,7 +109,7 @@
 				deferred.reject(error);
 			});
 			return deferred.promise;
-		}
+		};
 
 		this.setMarkers = function(d, zip_code) {
 			var serie = new geostats(),
@@ -202,13 +202,10 @@
 					_markersCustZC.addLayer(_marker);
 				}
 			});
-			//BaseMapService.map.then(function (map) {
-				_polylinesGroup.addTo(this._map());
-				_markersCustZC.addTo(this._map());
-				_polygonsGroup.addTo(this._map()).bringToBack();
-			//});
-		}
-
+			_polylinesGroup.addTo(this._map());
+			_markersCustZC.addTo(this._map());
+			_polygonsGroup.addTo(this._map()).bringToBack();
+		};
 	}
 
 	odService.$inject = ['_', '$q', '$http', 'Auth' ,'BaseMapService', '$rootScope'];

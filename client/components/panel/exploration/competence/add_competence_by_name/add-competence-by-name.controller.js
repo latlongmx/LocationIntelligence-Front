@@ -15,12 +15,12 @@
 		$scope.name_nw = null;
 		$scope.name_se = null;
 		$scope.name_bbox = null;
-		BaseMapService.map.then(function (map) {
-			$scope.name_bounds = map.getBounds();
-			$scope.name_nw = $scope.name_bounds.getNorthWest();
-			$scope.name_se = $scope.name_bounds.getSouthEast();
-			$scope.name_bbox = [$scope.name_nw.lng, $scope.name_se.lat, $scope.name_se.lng, $scope.name_nw.lat].join(',');
-		});
+		var _map = BaseMapService.map_layer();
+
+		$scope.name_bounds = _map.getBounds();
+		$scope.name_nw = $scope.name_bounds.getNorthWest();
+		$scope.name_se = $scope.name_bounds.getSouthEast();
+		$scope.name_bbox = [$scope.name_nw.lng, $scope.name_se.lat, $scope.name_se.lng, $scope.name_nw.lat].join(',');
 
 		uploader.filters.push({
 			name: 'imageFilterByName',
