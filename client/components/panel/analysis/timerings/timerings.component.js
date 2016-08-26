@@ -416,12 +416,20 @@
           TimeRingsService.delUserRings(id_ring)
 					.then(function(res){
 						if(res.statusText === "OK"){
+              _targetRings = [];
 							scope.userRings = _.filter(scope.userRings, function(o) {
                 if(o.id_ring === id_ring){
                   o.isActive = false;
+                  _map.removeLayer(o.marker);
+                }
+                if(o.isActive===true && o.id_ring !== id_ring){
+                  if(_targetRings.length<3){
+                    _targetRings.push(o.targetRing);
+                  }
                 }
 								return o.id_ring !== id_ring;
 							});
+              scope.callService2GetRings(_timeRing, _typeRing, _targetRings,function(polygons){});
 						}
 					}, function(error){
 						console.log(error);

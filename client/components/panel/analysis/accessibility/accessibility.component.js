@@ -23,6 +23,7 @@
 			vehi:undefined,
 			trns:undefined
 		};
+		var _isDrawAccessibility = false;
 
 		return {
 			restrict: 'E',
@@ -32,7 +33,7 @@
 			template: [
 				'<div>',
 					'<li class="m-list-functions__item js-panel-item" data-ep="accessibility" tooltip-placement="right" uib-tooltip="Accesibilidad" tooltip-animation="true" ng-click="openPanel(\'accessibility\', \'accessibility_icon\')">',
-					
+
 						'<img src="./images/functions/accessibility_icon.png" class="m-list-functions__item-icon" data-icon="accessibility_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-accessibility-side-panel">',
@@ -157,7 +158,7 @@
 							o.disable();
 						}
 					});
-					//scope.isDrawAccessibility = true;
+					_isDrawAccessibility = true;
 					_toolDraw[tip].enable();
 				};
 
@@ -181,7 +182,10 @@
 					_editableLayers.on('layeradd', _startAccessibilityAnalysis);
 				//});
 				var _drawComplete = function(e){
-					_verifyLimitDraws(e);
+					if(_isDrawAccessibility === true){
+						_isDrawAccessibility = false;
+						_verifyLimitDraws(e);
+					}
 				};
 
 
