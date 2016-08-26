@@ -1,550 +1,1864 @@
-	[
-		{
-			"name": "Minería",
-			"id": "",
+[
+	{
+		"name": "Minería",
+		"id": "",
+		"icon": "fa fa-male",
+		"link": "",
+		"menu": {
+			"title": "Minería",
 			"icon": "fa fa-male",
-			"link": "",
-			"menu": {
-				"title": "Minería",
-				"icon": "fa fa-male",
-				"items": [
-					{
-						"name": "Minería",
-						"id": "21"
-					}
-				]
-			}
-		},
-		{
-			"name": "Generación, transmisión y distribución de energía eléctrica, suministro de agua y de gas por ductos al consumidor final",
-			"id": "",
-			"icon": "fa fa-male",
-			"link": "",
-			"menu": {
-				"title": "Generación, transmisión y distribución de energía eléctrica, suministro de agua y de gas por ductos al consumidor final",
-				"icon": "fa fa-male",
-				"items": [
-					{
-						"name": "Generación, transmisión y distribución de energía eléctrica, suministro de agua y de gas por ductos al consumidor final",
-						"id": "22"
-					}
-				]
-			}
-		},
-		{
-			"name": "Construcción",
-			"id": "",
-			"icon": "fa fa-male",
-			"link": "",
-			"menu": {
-				"title": "Construcción",
-				"icon": "fa fa-male",
-				"items": [
-					{
-						"name": "Construcción",
-						"id": "23"
-					}
-				]
-			}
-		},
-		{
-			"name": "Industrias Manufactureras",
-			"menu": {
-				"title": "Industrias Manufactureras",
-				"icon": "fa fa-male",
-				"items": [
-					{
-						"name": "Industria alimentaria",
-						"id": "311"
-					},
-					{
-						"name": "Industria de las bebidas y del tabaco",
-						"id": "312"
-					},
-					{
-						"name": "Fabricación de insumos textiles y acabado de textiles",
-						"id": "313"
-					},
-					{
-						"name": "Fabricación de productos textiles, excepto prendas de vestir",
-						"id": "314"
-					},
-					{
-						"name": "Fabricación de prendas de vestir",
-						"id": "315"
-					},
-					{
-						"name": "Curtido y acabado de cuero y piel, y fabricación de productos de cuero, piel y materiales sucedáneos",
-						"id": "316"
-					},
-					{
-						"name": "Industria de la madera",
-						"id": "321"
-					},
-					{
-						"name": "Industria del papel",
-						"id": "322"
-					},
-					{
-						"name": "Impresión e industrias conexas",
-						"id": "323"
-					},
-					{
-						"name": "Fabricación de productos derivados del petróleo y del carbón",
-						"id": "324"
-					},
-					{
-						"name": "Industria química",
-						"id": "325"
-					},
-					{
-						"name": "Industria del plástico y del hule",
-						"id": "326"
-					},
-					{
-						"name": "Fabricación de productos a base de minerales no metálicos",
-						"id": "327"
-					},
-					{
-						"name": "Industrias metálicas básicas",
-						"id": "331"
-					},
-					{
-						"name": "Fabricación de productos metálicos",
-						"id": "332"
-					},
-					{
-						"name": "Fabricación de maquinaria y equipo",
-						"id": "333"
-					},
-					{
-						"name": "Fabricación de equipo de computación, comunicación, medición y de otros equipos, componentes y accesorios electrónicos",
-						"id": "334"
-					},
-					{
-						"name": "Fabricación de accesorios, aparatos eléctricos y equipo de generación de energía eléctrica",
-						"id": "335"
-					},
-					{
-						"name": "Fabricación de equipo de transporte",
-						"id": "336"
-					},
-					{
-						"name": "Fabricación de muebles, colchones y persianas",
-						"id": "337"
-					},
-					{
-						"name": "Otras industrias manufactureras",
-						"id": "339"
-					}
-				]
-			}
-		},
-		{
-			"name": "Comercio al por mayor",
-			"menu": {
-				"title": "Comercio al por mayor",
-				"icon": "fa fa-male",
-				"items": [
-					{
-						"name": "Comercio al por mayor de abarrotes, alimentos, bebidas, hielo y tabaco",
-						"id": "431"
-					},
-					{
-						"name": "Comercio al por mayor de productos textiles y calzado",
-						"id": "432"
-					},
-					{
-						"name": "Comercio al por mayor de productos farmacéuticos, de perfumería, artículos para el esparcimiento, electrodomésticos menores y aparatos de línea blanca",
-						"id": "433"
-					},
-					{
-						"name": "Comercio al por mayor de materias primas agropecuarias y forestales, para la industria, y materiales de desecho",
-						"id": "434"
-					},
-					{
-						"name": "Comercio al por mayor de maquinaria, equipo y mobiliario para actividades agropecuarias, industriales, de servicios y comerciales, y de otra maquinaria y equipo de uso general",
-						"id": "435"
-					},
-					{
-						"name": "Comercio al por mayor de camiones y de partes y refacciones nuevas para automóviles, camionetas y camiones",
-						"id": "436"
-					},
-					{
-						"name": "Intermediación de comercio al por mayor",
-						"id": "437"
-					}
-				]
-			}
-		},
-		{
-			"name": "Comercio al por menor",
-			"icon": "fa fa-male",
-			"menu": {
-				"title": "Comercio al por menor",
-				"icon": "fa fa-male",
-				"items": [
-					{
-						"name": "Comercio al por menor de abarrotes, alimentos, bebidas, hielo y tabaco",
-						"id": "",
-						"menu": {
-							"title": "Comercio al por menor de abarrotes, alimentos, bebidas, hielo y tabaco",
-							"icon": "fa fa-male",
-							"items": [
-								{
-									"name": "Comercio al por menor de abarrotes y alimentos",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de abarrotes y alimentos",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor en tiendas de abarrotes, ultramarinos y misceláneas",
-												"id": "46111"
-											},
-											{
-												"name": "Comercio al por menor de carnes",
-												"id": "46112"
-											},
-											{
-												"name": "Comercio al por menor de frutas y verduras frescas",
-												"id": "46113"
-											},
-											{
-												"name": "Comercio al por menor de semillas y granos alimenticios, especias y chiles secos",
-												"id": "46114"
-											},
-											{
-												"name": "Comercio al por menor de leche, otros productos lácteos y embutidos",
-												"id": "46115"
-											},
-											{
-												"name": "Comercio al por menor de dulces y materias primas para repostería",
-												"id": "46116"
-											},
-											{
-												"name": "Comercio al por menor de paletas de hielo y helados",
-												"id": "46117"
-											},
-											{
-												"name": "Comercio al por menor de otros alimentos",
-												"id": "46119"
-											}
-										]
-									}
-								},
-								{
-									"name": "Comercio al por menor de bebidas, hielo y tabaco",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de bebidas, hielo y tabaco",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor de bebidas y hielo",
-												"id": "",
-												"menu": {
-													"title": "Comercio al por menor de bebidas y hielo",
-													"icon": "fa fa-male",
-													"items": [
-														{
-															"name": "Comercio al por menor de vinos y licores",
-															"id": "461211"
-														},
-														{
-															"name": "Comercio al por menor de cerveza",
-															"id": "461212"
-														},
-														{
-															"name": "Comercio al por menor de bebidas no alcohólicas y hielo",
-															"id": "461213"
-														}
-													]
-												}
-											},
-											{
-												"name": "Comercio al por menor de cigarros, puros y tabaco",
-												"id": "46122"
-											}
-										]
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "Comercio al por menor en tiendas de autoservicio y departamentales",
-						"id": "",
-						"menu": {
-							"title": "Comercio al por menor en tiendas de autoservicio y departamentales",
-							"icon": "fa fa-male",
-							"items": [
-								{
-									"name": "Comercio al por menor en tiendas de autoservicio",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor en tiendas de autoservicio",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor en supermercados",
-												"id": "462111"
-											},
-											{
-												"name": "Comercio al por menor en minisupers",
-												"id": "462112"
-											}
-										]
-									}
-								},
-								{
-									"name": "Comercio al por menor en tiendas departamentales",
-									"id": "4622"
-								}
-							]
-						}
-					},
-					{
-						"name": "Comercio al por menor de productos textiles, bisutería, accesorios de vestir y calzado",
-						"menu": {
-							"title": "Comercio al por menor de productos textiles, bisutería, accesorios de vestir y calzado",
-							"items": [
-								{
-									"name": "Comercio al por menor de productos textiles, excepto ropa",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de productos textiles, excepto ropa",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor de telas",
-												"id": "463111"
-											},
-											{
-												"name": "Comercio al por menor de blancos",
-												"id": "463112"
-											},
-											{
-												"name": "Comercio al por menor de artículos de mercería y bonetería",
-												"id": "463113"
-											}
-										]
-									}
-								},
-								{
-									"name": "Comercio al por menor de ropa, bisutería y accesorios de vestir",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de ropa, bisutería y accesorios de vestir",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor de ropa, excepto de bebé y lencería",
-												"id": "463211"
-											},
-											{
-												"name": "Comercio al por menor de ropa de bebé",
-												"id": "463212"
-											},
-											{
-												"name": "Comercio al por menor de lencería",
-												"id": "463213"
-											},
-											{
-												"name": "Comercio al por menor de disfraces, vestimenta regional y vestidos de novia",
-												"id": "463214"
-											},
-											{
-												"name": "Comercio al por menor de bisutería y accesorios de vestir",
-												"id": "463215"
-											},
-											{
-												"name": "Comercio al por menor de ropa de cuero y piel y de otros artículos de estos materiales",
-												"id": "463216"
-											},
-											{
-												"name": "Comercio al por menor de pañales desechables",
-												"id": "463217"
-											},
-											{
-												"name": "Comercio al por menor de sombreros",
-												"id": "463218"
-											}
-										]
-									}
-								},
-								{
-									"name": "Comercio al por menor de calzado",
-									"id": "4633"
-								}
-							]
-						}
-					},
-					{
-						"name": "Comercio al por menor de artículos para el cuidado de la salud",
-						"menu": {
-							"title": "Comercio al por menor de artículos para el cuidado de la salud",
-							"items": [
-								{
-									"name": "Comercio al por menor de productos farmacéuticos y naturistas",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de productos farmacéuticos y naturistas",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Farmacias sin minisúper",
-												"id": "464111"
-											},
-											{
-												"name": "Farmacias con minisúper",
-												"id": "464112"
-											},
-											{
-												"name": "Comercio al por menor de productos naturistas, medicamentos homeopáticos y de complementos alimenticios",
-												"id": "464113"
-											}
-										]
-									}
-								},
-								{
-									"name": "Comercio al por menor de lentes y artículos ortopédicos",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de lentes y artículos ortopédicos",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor de lentes",
-												"id": "464121"
-											},
-											{
-												"name": "Comercio al por menor de artículos ortopédicos",
-												"id": "464122"
-											}
-										]
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "Comercio al por menor de artículos de papelería, para el esparcimiento y otros artículos de uso personal",
-						"menu": {
-							"title": "Comercio al por menor de artículos de papelería, para el esparcimiento y otros artículos de uso personal",
-							"items": [
-								{
-									"name": "Comercio al por menor de artículos de perfumería y joyería",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de artículos de perfumería y joyería",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor de artículos de perfumería y cosméticos",
-												"id": "465111"
-											},
-											{
-												"name": "Comercio al por menor de artículos de joyería y relojes",
-												"id": "465112"
-											}
-										]
-									}
-								},
-								{
-									"name": "Comercio al por menor de artículos para el esparcimiento",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de artículos para el esparcimiento",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor de discos y casetes",
-												"id": "465211"
-											},
-											{
-												"name": "Comercio al por menor de juguetes",
-												"id": "465212"
-											},
-											{
-												"name": "Comercio al por menor de bicicletas",
-												"id": "465213"
-											},
-											{
-												"name": "Comercio al por menor de equipo y material fotográfico",
-												"id": "465214"
-											},
-											{
-												"name": "Comercio al por menor de artículos y aparatos deportivos",
-												"id": "465215"
-											},
-											{
-												"name": "Comercio al por menor de instrumentos musicales",
-												"id": "465216"
-											}
-										]
-									}
-								},
-								{
-									"name": "Comercio al por menor de artículos de papelería, libros, revistas y periódicos",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de artículos de papelería, libros, revistas y periódicos",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor de artículos de papelería",
-												"id": "465311"
-											},
-											{
-												"name": "Comercio al por menor de libros",
-												"id": "465312"
-											},
-											{
-												"name": "Comercio al por menor de revistas y periódicos",
-												"id": "465313"
-											}
-										]
-									}
-								},
-								{
-									"name": "Comercio al por menor de mascotas, regalos, artículos religiosos, desechables, artesanías y otros artículos de uso personal",
-									"id": "",
-									"menu": {
-										"title": "Comercio al por menor de mascotas, regalos, artículos religiosos, desechables, artesanías y otros artículos de uso personal",
-										"icon": "fa fa-male",
-										"items": [
-											{
-												"name": "Comercio al por menor de mascotas",
-												"id": "465911"
-											},
-											{
-												"name": "Comercio al por menor de regalos",
-												"id": "465912"
-											},
-											{
-												"name": "Comercio al por menor de artículos religiosos",
-												"id": "465913"
-											},
-											{
-												"name": "Comercio al por menor de artículos desechables",
-												"id": "465914"
-											},
-											{
-												"name": "Comercio al por menor en tiendas de artesanías",
-												"id": "465915"
-											},
-											{
-												"name": "Comercio al por menor de otros artículos de uso personal",
-												"id": "465919"
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
+			"items": [
+				{
+					"name": "Minería",
+					"id": "21"
+				}
+			]
 		}
-	]
+	},
+	{
+		"name": "Generación, transmisión y distribución de energía eléctrica, suministro de agua y de gas por ductos al consumidor final",
+		"id": "",
+		"icon": "fa fa-male",
+		"link": "",
+		"menu": {
+			"title": "Generación, transmisión y distribución de energía eléctrica, suministro de agua y de gas por ductos al consumidor final",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Generación, transmisión y distribución de energía eléctrica, suministro de agua y de gas por ductos al consumidor final",
+					"id": "22"
+				}
+			]
+		}
+	},
+	{
+		"name": "Construcción",
+		"id": "",
+		"icon": "fa fa-male",
+		"link": "",
+		"menu": {
+			"title": "Construcción",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Construcción",
+					"id": "23"
+				}
+			]
+		}
+	},
+	{
+		"name": "Industrias Manufactureras",
+		"menu": {
+			"title": "Industrias Manufactureras",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Industria alimentaria",
+					"id": "311"
+				},
+				{
+					"name": "Industria de las bebidas y del tabaco",
+					"id": "312"
+				},
+				{
+					"name": "Fabricación de insumos textiles y acabado de textiles",
+					"id": "313"
+				},
+				{
+					"name": "Fabricación de productos textiles, excepto prendas de vestir",
+					"id": "314"
+				},
+				{
+					"name": "Fabricación de prendas de vestir",
+					"id": "315"
+				},
+				{
+					"name": "Curtido y acabado de cuero y piel, y fabricación de productos de cuero, piel y materiales sucedáneos",
+					"id": "316"
+				},
+				{
+					"name": "Industria de la madera",
+					"id": "321"
+				},
+				{
+					"name": "Industria del papel",
+					"id": "322"
+				},
+				{
+					"name": "Impresión e industrias conexas",
+					"id": "323"
+				},
+				{
+					"name": "Fabricación de productos derivados del petróleo y del carbón",
+					"id": "324"
+				},
+				{
+					"name": "Industria química",
+					"id": "325"
+				},
+				{
+					"name": "Industria del plástico y del hule",
+					"id": "326"
+				},
+				{
+					"name": "Fabricación de productos a base de minerales no metálicos",
+					"id": "327"
+				},
+				{
+					"name": "Industrias metálicas básicas",
+					"id": "331"
+				},
+				{
+					"name": "Fabricación de productos metálicos",
+					"id": "332"
+				},
+				{
+					"name": "Fabricación de maquinaria y equipo",
+					"id": "333"
+				},
+				{
+					"name": "Fabricación de equipo de computación, comunicación, medición y de otros equipos, componentes y accesorios electrónicos",
+					"id": "334"
+				},
+				{
+					"name": "Fabricación de accesorios, aparatos eléctricos y equipo de generación de energía eléctrica",
+					"id": "335"
+				},
+				{
+					"name": "Fabricación de equipo de transporte",
+					"id": "336"
+				},
+				{
+					"name": "Fabricación de muebles, colchones y persianas",
+					"id": "337"
+				},
+				{
+					"name": "Otras industrias manufactureras",
+					"id": "339"
+				}
+			]
+		}
+	},
+	{
+		"name": "Comercio al por mayor",
+		"menu": {
+			"title": "Comercio al por mayor",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Comercio al por mayor de abarrotes, alimentos, bebidas, hielo y tabaco",
+					"id": "431"
+				},
+				{
+					"name": "Comercio al por mayor de productos textiles y calzado",
+					"id": "432"
+				},
+				{
+					"name": "Comercio al por mayor de productos farmacéuticos, de perfumería, artículos para el esparcimiento, electrodomésticos menores y aparatos de línea blanca",
+					"id": "433"
+				},
+				{
+					"name": "Comercio al por mayor de materias primas agropecuarias y forestales, para la industria, y materiales de desecho",
+					"id": "434"
+				},
+				{
+					"name": "Comercio al por mayor de maquinaria, equipo y mobiliario para actividades agropecuarias, industriales, de servicios y comerciales, y de otra maquinaria y equipo de uso general",
+					"id": "435"
+				},
+				{
+					"name": "Comercio al por mayor de camiones y de partes y refacciones nuevas para automóviles, camionetas y camiones",
+					"id": "436"
+				},
+				{
+					"name": "Intermediación de comercio al por mayor",
+					"id": "437"
+				}
+			]
+		}
+	},
+	{
+		"name": "Comercio al por menor",
+		"icon": "fa fa-male",
+		"menu": {
+			"title": "Comercio al por menor",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Comercio al por menor de abarrotes, alimentos, bebidas, hielo y tabaco",
+					"id": "",
+					"menu": {
+						"title": "Comercio al por menor de abarrotes, alimentos, bebidas, hielo y tabaco",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Comercio al por menor de abarrotes y alimentos",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de abarrotes y alimentos",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor en tiendas de abarrotes, ultramarinos y misceláneas",
+											"id": "46111"
+										},
+										{
+											"name": "Comercio al por menor de carnes",
+											"id": "46112"
+										},
+										{
+											"name": "Comercio al por menor de frutas y verduras frescas",
+											"id": "46113"
+										},
+										{
+											"name": "Comercio al por menor de semillas y granos alimenticios, especias y chiles secos",
+											"id": "46114"
+										},
+										{
+											"name": "Comercio al por menor de leche, otros productos lácteos y embutidos",
+											"id": "46115"
+										},
+										{
+											"name": "Comercio al por menor de dulces y materias primas para repostería",
+											"id": "46116"
+										},
+										{
+											"name": "Comercio al por menor de paletas de hielo y helados",
+											"id": "46117"
+										},
+										{
+											"name": "Comercio al por menor de otros alimentos",
+											"id": "46119"
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de bebidas, hielo y tabaco",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de bebidas, hielo y tabaco",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de bebidas y hielo",
+											"id": "",
+											"menu": {
+												"title": "Comercio al por menor de bebidas y hielo",
+												"icon": "fa fa-male",
+												"items": [
+													{
+														"name": "Comercio al por menor de vinos y licores",
+														"id": "461211"
+													},
+													{
+														"name": "Comercio al por menor de cerveza",
+														"id": "461212"
+													},
+													{
+														"name": "Comercio al por menor de bebidas no alcohólicas y hielo",
+														"id": "461213"
+													}
+												]
+											}
+										},
+										{
+											"name": "Comercio al por menor de cigarros, puros y tabaco",
+											"id": "46122"
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Comercio al por menor en tiendas de autoservicio y departamentales",
+					"id": "",
+					"menu": {
+						"title": "Comercio al por menor en tiendas de autoservicio y departamentales",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Comercio al por menor en tiendas de autoservicio",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor en tiendas de autoservicio",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor en supermercados",
+											"id": "462111"
+										},
+										{
+											"name": "Comercio al por menor en minisupers",
+											"id": "462112"
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor en tiendas departamentales",
+								"id": "4622"
+							}
+						]
+					}
+				},
+				{
+					"name": "Comercio al por menor de productos textiles, bisutería, accesorios de vestir y calzado",
+					"menu": {
+						"title": "Comercio al por menor de productos textiles, bisutería, accesorios de vestir y calzado",
+						"items": [
+							{
+								"name": "Comercio al por menor de productos textiles, excepto ropa",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de productos textiles, excepto ropa",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de telas",
+											"id": "463111"
+										},
+										{
+											"name": "Comercio al por menor de blancos",
+											"id": "463112"
+										},
+										{
+											"name": "Comercio al por menor de artículos de mercería y bonetería",
+											"id": "463113"
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de ropa, bisutería y accesorios de vestir",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de ropa, bisutería y accesorios de vestir",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de ropa, excepto de bebé y lencería",
+											"id": "463211"
+										},
+										{
+											"name": "Comercio al por menor de ropa de bebé",
+											"id": "463212"
+										},
+										{
+											"name": "Comercio al por menor de lencería",
+											"id": "463213"
+										},
+										{
+											"name": "Comercio al por menor de disfraces, vestimenta regional y vestidos de novia",
+											"id": "463214"
+										},
+										{
+											"name": "Comercio al por menor de bisutería y accesorios de vestir",
+											"id": "463215"
+										},
+										{
+											"name": "Comercio al por menor de ropa de cuero y piel y de otros artículos de estos materiales",
+											"id": "463216"
+										},
+										{
+											"name": "Comercio al por menor de pañales desechables",
+											"id": "463217"
+										},
+										{
+											"name": "Comercio al por menor de sombreros",
+											"id": "463218"
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de calzado",
+								"id": "4633"
+							}
+						]
+					}
+				},
+				{
+					"name": "Comercio al por menor de artículos para el cuidado de la salud",
+					"menu": {
+						"title": "Comercio al por menor de artículos para el cuidado de la salud",
+						"items": [
+							{
+								"name": "Comercio al por menor de productos farmacéuticos y naturistas",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de productos farmacéuticos y naturistas",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Farmacias sin minisúper",
+											"id": "464111"
+										},
+										{
+											"name": "Farmacias con minisúper",
+											"id": "464112"
+										},
+										{
+											"name": "Comercio al por menor de productos naturistas, medicamentos homeopáticos y de complementos alimenticios",
+											"id": "464113"
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de lentes y artículos ortopédicos",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de lentes y artículos ortopédicos",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de lentes",
+											"id": "464121"
+										},
+										{
+											"name": "Comercio al por menor de artículos ortopédicos",
+											"id": "464122"
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Comercio al por menor de artículos de papelería, para el esparcimiento y otros artículos de uso personal",
+					"menu": {
+						"title": "Comercio al por menor de artículos de papelería, para el esparcimiento y otros artículos de uso personal",
+						"items": [
+							{
+								"name": "Comercio al por menor de artículos de perfumería y joyería",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de artículos de perfumería y joyería",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de artículos de perfumería y cosméticos",
+											"id": "465111"
+										},
+										{
+											"name": "Comercio al por menor de artículos de joyería y relojes",
+											"id": "465112"
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de artículos para el esparcimiento",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de artículos para el esparcimiento",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de discos y casetes",
+											"id": "465211"
+										},
+										{
+											"name": "Comercio al por menor de juguetes",
+											"id": "465212"
+										},
+										{
+											"name": "Comercio al por menor de bicicletas",
+											"id": "465213"
+										},
+										{
+											"name": "Comercio al por menor de equipo y material fotográfico",
+											"id": "465214"
+										},
+										{
+											"name": "Comercio al por menor de artículos y aparatos deportivos",
+											"id": "465215"
+										},
+										{
+											"name": "Comercio al por menor de instrumentos musicales",
+											"id": "465216"
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de artículos de papelería, libros, revistas y periódicos",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de artículos de papelería, libros, revistas y periódicos",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de artículos de papelería",
+											"id": "465311"
+										},
+										{
+											"name": "Comercio al por menor de libros",
+											"id": "465312"
+										},
+										{
+											"name": "Comercio al por menor de revistas y periódicos",
+											"id": "465313"
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de mascotas, regalos, artículos religiosos, desechables, artesanías y otros artículos de uso personal",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de mascotas, regalos, artículos religiosos, desechables, artesanías y otros artículos de uso personal",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de mascotas",
+											"id": "465911"
+										},
+										{
+											"name": "Comercio al por menor de regalos",
+											"id": "465912"
+										},
+										{
+											"name": "Comercio al por menor de artículos religiosos",
+											"id": "465913"
+										},
+										{
+											"name": "Comercio al por menor de artículos desechables",
+											"id": "465914"
+										},
+										{
+											"name": "Comercio al por menor en tiendas de artesanías",
+											"id": "465915"
+										},
+										{
+											"name": "Comercio al por menor de otros artículos de uso personal",
+											"id": "465919"
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Comercio al por menor de enseres domésticos, computadoras, artículos para la decoración de interiores y artículos usados",
+					"menu": {
+						"title": "Comercio al por menor de enseres domésticos, computadoras, artículos para la decoración de interiores y artículos usados",
+						"items": [
+							{
+								"name": "Comercio al por menor de muebles para el hogar y otros enseres domésticos",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de muebles para el hogar y otros enseres domésticos",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de muebles para el hogar",
+											"id": 466111 
+										},
+										{
+											"name": "Comercio al por menor de electrodomésticos menores y aparatos de línea blanca",
+											"id": 466112 
+										},
+										{
+											"name": "Comercio al por menor de muebles para jardín",
+											"id": 466113 
+										},
+										{
+											"name": "Comercio al por menor de cristalería, loza y utensilios de cocina",
+											"id": 466114 
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de mobiliario, equipo y accesorios de cómputo, teléfonos y otros aparatos de comunicación",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de mobiliario, equipo y accesorios de cómputo, teléfonos y otros aparatos de comunicación",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de mobiliario, equipo y accesorios de cómputo",
+											"id": 466211
+										},
+										{
+											"name": "Comercio al por menor de teléfonos y otros aparatos de comunicación",
+											"id": 466212
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de artículos para la decoración de interiores",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de artículos para la decoración de interiores",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de alfombras, cortinas, tapices y similares",
+											"id": 466311
+										},
+										{
+											"name": "Comercio al por menor de plantas y flores naturales",
+											"id": 466312
+										},
+										{
+											"name": "Comercio al por menor de antigüedades y obras de arte",
+											"id": 466313
+										},
+										{
+											"name": "Comercio al por menor de lámparas ornamentales y candiles",
+											"id": 466314
+										},
+										{
+											"name": "Comercio al por menor de otros artículos para la decoración de interiores",
+											"id": 466319
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de artículos usados",
+								"id": 4664
+							}
+						]
+					}
+				},
+				{
+					"name": "Comercio al por menor de artículos de ferretería, tlapalería y vidrios",
+					"menu": {
+						"title": "Comercio al por menor de artículos de ferretería, tlapalería y vidrios",
+						"items": [
+							{
+								"name": "Comercio al por menor de artículos de ferretería, tlapalería y vidrios",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de artículos de ferretería, tlapalería y vidrios",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor en ferreterías y tlapalerías",
+											"id": 467111
+										},
+										{
+											"name": "Comercio al por menor de pisos y recubrimientos cerámicos",
+											"id": 467112
+										},
+										{
+											"name": "Comercio al por menor de pintura",
+											"id": 467113
+										},
+										{
+											"name": "Comercio al por menor de vidrios y espejos",
+											"id": 467114
+										},
+										{
+											"name": "Comercio al por menor de artículos para la limpieza",
+											"id": 467115
+										},
+										{
+											"name": "Comercio al por menor de materiales para la construcción en tiendas de autoservicio especializadas",
+											"id": 467116
+										},
+										{
+											"name": "Comercio al por menor de artículos para albercas y otros artículos",
+											"id": 467117
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Comercio al por menor de vehículos de motor, refacciones, combustibles y lubricantes",
+					"menu": {
+						"title": "Comercio al por menor de vehículos de motor, refacciones, combustibles y lubricantes",
+						"items": [
+							{
+								"name": "Comercio al por menor de automóviles y camionetas",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de automóviles y camionetas",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de automóviles y camionetas nuevos",
+											"id": 468111
+										},
+										{
+											"name": "Comercio al por menor de automóviles y camionetas usados",
+											"id": 468112
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de partes y refacciones para automóviles, camionetas y camiones",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de partes y refacciones para automóviles, camionetas y camiones",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de partes y refacciones nuevas para automóviles, camionetas y camiones",
+											"id": 468211
+										},
+										{
+											"name": "Comercio al por menor de partes y refacciones usadas para automóviles, camionetas y camiones",
+											"id": 468212
+										},
+										{
+											"name": "Comercio al por menor de llantas y cámaras para automóviles, camionetas y camiones",
+											"id": 468213
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de motocicletas y otros vehículos de motor",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de motocicletas y otros vehículos de motor",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de motocicletas",
+											"id": 468311
+										},
+										{
+											"name": "Comercio al por menor de otros vehículos de motor",
+											"id": 468319
+										}
+									]
+								}
+							},
+							{
+								"name": "Comercio al por menor de combustibles, aceites y grasas lubricantes",
+								"id": "",
+								"menu": {
+									"title": "Comercio al por menor de combustibles, aceites y grasas lubricantes",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Comercio al por menor de combustibles",
+											"id": "",
+											"menu": {
+												"title": "Comercio al por menor de combustibles",
+												"icon": "fa fa-male",
+												"items": [
+													{
+														"name": "Comercio al por menor de gasolina y diesel",
+														"id": 468411
+													},
+													{
+														"name": "Comercio al por menor de gas L.P. en cilindros y para tanques estacionarios",
+														"id": 468412
+													},
+													{
+														"name": "Comercio al por menor de gas L.P. en estaciones de carburación",
+														"id": 468413
+													},
+													{
+														"name": "Comercio al por menor de otros combustibles",
+														"id": 468419
+													}
+												]
+											}
+										},
+										{
+											"name": "Comercio al por menor de aceites y grasas lubricantes, aditivos y similares para vehículos de motor",
+											"id": 46842
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Comercio al por menor exclusivamente a través de Internet, y catálogos impresos, televisión y similares",
+					"id": 469
+				}
+			]
+		}
+	},
+	{
+		"name": "Transportes, correos y almacenamiento",
+		"icon": "fa fa-male",
+		"menu": {
+			"title": "Transportes, correos y almacenamiento",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Transporte aéreo",
+					"id": 481
+				},
+				{
+					"name": "Transporte por ferrocarril",
+					"id": 482
+				},
+				{
+					"name": "Transporte por agua",
+					"id": 483
+				},
+				{
+					"name": "Autotransporte de carga",
+					"id": "",
+					"menu": {
+						"title": "Autotransporte de carga",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Autotransporte de carga general",
+								"id": "",
+								"menu": {
+									"title": "Autotransporte de carga general",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Autotransporte local de carga general",
+											"id": "",
+											"menu": {
+												"title": "Autotransporte local de carga general",
+												"icon": "fa fa-male",
+												"items": [
+													{
+														"name": "Autotransporte local de productos agrícolas sin refrigeración",
+														"id": 484111
+													},
+													{
+														"name": "Otro autotransporte local de carga general",
+														"id": 484119
+													}
+												]
+											}
+										},
+										{
+											"name": "Autotransporte foráneo de carga general",
+											"id": "",
+											"menu": {
+												"title": "Autotransporte foráneo de carga general",
+												"icon": "fa fa-male",
+												"items": [
+													{
+														"name": "Autotransporte foráneo de productos agrícolas sin refrigeración",
+														"id": 484121
+													},
+													{
+														"name": "Otro autotransporte foráneo de carga general",
+														"id": 484129
+													}
+												]
+											}
+										}
+									]
+								}
+							},
+							{
+								"name": "Autotransporte de carga especializado",
+								"id": "",
+								"menu": {
+									"title": "Autotransporte de carga especializado",
+									"items": [
+										{
+											"name": "Servicios de mudanzas",
+											"id": 48421
+										},
+										{
+											"name": "Autotransporte local de carga especializado, excepto mudanzas",
+											"id": "",
+											"menu": {
+												"title": "Autotransporte local de carga especializado, excepto mudanzas",
+												"icon": "fa fa-male",
+												"items": [
+													{
+														"name": "Autotransporte local de materiales para la construcción",
+														"id": 484221
+													},
+													{
+														"name": "Autotransporte local de materiales y residuos peligrosos",
+														"id": 484222
+													},
+													{
+														"name": "Autotransporte local con refrigeración",
+														"id": 484223
+													},
+													{
+														"name": "Autotransporte local de madera",
+														"id": 484224
+													},
+													{
+														"name": "Otro autotransporte local de carga especializado",
+														"id": 484229
+													}
+												]
+											}
+										},
+										{
+											"name": "Autotransporte foráneo de carga especializado, excepto mudanzas",
+											"id": "",
+											"menu": {
+												"title": "Autotransporte foráneo de carga especializado, excepto mudanzas",
+												"icon": "fa fa-male",
+												"items": [
+													{
+														"name": "Autotransporte foráneo de materiales para la construcción",
+														"id": 484231
+													},
+													{
+														"name": "Autotransporte foráneo de materiales y residuos peligrosos",
+														"id": 484232
+													},
+													{
+														"name": "Autotransporte foráneo con refrigeración",
+														"id": 484233
+													},
+													{
+														"name": "Autotransporte foráneo de madera",
+														"id": 484234
+													},
+													{
+														"name": "Otro autotransporte foráneo de carga especializado",
+														"id": 484239
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Transporte terrestre de pasajeros, excepto por ferrocarril",
+					"id": "",
+					"menu": {
+						"title": "Transporte terrestre de pasajeros, excepto por ferrocarril",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Transporte colectivo urbano y suburbano de pasajeros de ruta fija",
+								"id": "",
+								"menu": {
+									"title": "Transporte colectivo urbano y suburbano de pasajeros de ruta fija",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Transporte colectivo urbano y suburbano de pasajeros en autobuses de ruta fija",
+											"id": 485111
+										},
+										{
+											"name": "Transporte colectivo urbano y suburbano de pasajeros en trolebuses y trenes ligeros",
+											"id": 485113
+										},
+										{
+											"name": "Transporte colectivo urbano y suburbano de pasajeros en metro",
+											"id": 485114
+										}
+									]
+								}
+							},
+							{
+								"name": "Transporte colectivo foráneo de pasajeros de ruta fija",
+								"id": "",
+								"menu": {
+									"title": "Transporte colectivo foráneo de pasajeros de ruta fija",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Transporte colectivo foráneo de pasajeros de ruta fija",
+											"id": 485210
+										}
+									]
+								}
+							},
+							{
+								"name": "Servicio de taxis y limusinas",
+								"id": 4853
+							},
+							{
+								"name": "Transporte escolar y de personal",
+								"id": 4854
+							},
+							{
+								"name": "Alquiler de autobuses con chofer",
+								"id": 4855
+							},
+							{
+								"name": "Otro transporte terrestre de pasajeros",
+								"id": 4859
+							}
+						]
+					}
+				},
+				{
+					"name": "Transporte por ductos",
+					"id": 486
+				},
+				{
+					"name": "Transporte turístico",
+					"id": "",
+					"menu": {
+						"title": "Transporte turístico",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Transporte turístico por tierra",
+								"id": 4871
+							},
+							{
+								"name": "Transporte turístico por agua",
+								"id": 4872
+							},
+							{
+								"name": "Otro transporte turístico",
+								"id": 4879
+							}
+						]
+					}
+				},
+				{
+					"name": "Servicios relacionados con el transporte",
+					"id": "",
+					"menu": {
+						"title": "Servicios relacionados con el transporte",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Servicios relacionados con el transporte aéreo",
+								"id": 4881
+							},
+							{
+								"name": "Servicios relacionados con el transporte por ferrocarril",
+								"id": 4882
+							},
+							{
+								"name": "Servicios relacionados con el transporte por agua",
+								"id": 4883
+							},
+							{
+								"name": "Servicios relacionados con el transporte por carretera",
+								"id": 4884
+							},
+							{
+								"name": "Servicios de intermediación para el transporte de carga",
+								"id": 4885
+							},
+							{
+								"name": "Otros servicios relacionados con el transporte",
+								"id": 4889
+							}
+						]
+					}
+				},
+				{
+					"name": "Servicios postales",
+					"id": 491
+				},
+				{
+					"name": "Servicios de mensajería y paquetería",
+					"id": "",
+					"menu": {
+						"title": "Servicios de mensajería y paquetería",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Servicios de mensajería y paquetería foránea",
+								"id": 4921
+							},
+							{
+								"name": "Servicios de mensajería y paquetería local",
+								"id": 4922
+							}
+						]
+					}
+				},
+				{
+					"name": "Servicios de almacenamiento",
+					"id": "",
+					"menu": {
+						"title": "Servicios de almacenamiento",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Almacenes generales de depósito y otros servicios de almacenamiento general sin instalaciones especializadas",
+								"id": 49311
+							},
+							{
+								"name": "Almacenamiento con refrigeración",
+								"id": 49312
+							},
+							{
+								"name": "Almacenamiento de productos agrícolas que no requieren refrigeración",
+								"id": 49313
+							},
+							{
+								"name": "Otros servicios de almacenamiento con instalaciones especializadas",
+								"id": 49319
+							}
+						]
+					}
+				}
+			]
+		}
+	},
+	{
+		"name": "Información en medios masivos",
+		"icon": "fa fa-male",
+		"menu": {
+			"title": "Información en medios masivos",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Edición de periódicos, revistas, libros, software y otros materiales, y edición de estas publicaciones integrada con la impresión",
+					"id": "",
+					"menu": {
+						"title": "Edición de periódicos, revistas, libros, software y otros materiales, y edición de estas publicaciones integrada con la impresión",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Edición de periódicos, revistas, libros y similares, y edición de estas publicaciones integrada con la impresión",
+								"id": 5111
+							},
+							{
+								"name": "Edición de software y edición de software integrada con la reproducción",
+								"id": 5112
+							}
+						]
+					}
+				},
+				{
+					"name": "Industria fílmica y del video, e industria del sonido",
+					"id": "",
+					"menu": {
+						"title": "Industria fílmica y del video, e industria del sonido",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Industria fílmica y del video",
+								"id": "",
+								"menu": {
+									"title": "Industria fílmica y del video",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Exhibición de películas y otros materiales audiovisuales",
+											"id": 51213
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Radio y televisión",
+					"id": 515
+				},
+				{
+					"name": "Telecomunicaciones",
+					"id": 517
+				},
+				{
+					"name": "Procesamiento electrónico de información, hospedaje y otros servicios relacionados",
+					"id": 518
+				},
+				{
+					"name": "Otros servicios de información",
+					"id": 519
+				}
+			]
+		}
+	},
+	{
+		"name": "Servicios financieros y de seguros",
+		"icon": "fa fa-male",
+		"menu": {
+			"title": "Servicios financieros y de seguros",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Banca central",
+					"id": 521
+				},
+				{
+					"name": "Instituciones de intermediación crediticia y financiera no bursátil",
+					"id": "",
+					"menu": {
+						"title": "Instituciones de intermediación crediticia y financiera no bursátil",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Banca múltiple",
+								"id": 5221
+							},
+							{
+								"name": "Instituciones financieras de fomento económico",
+								"id": 5222
+							},
+							{
+								"name": "Uniones de crédito e instituciones de ahorro",
+								"id": "",
+								"menu": {
+									"title": "Uniones de crédito e instituciones de ahorro",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Uniones de crédito",
+											"id": 52231
+										},
+										{
+											"name": "Cajas de ahorro popular",
+											"id": 52232
+										},
+										{
+											"name": "Otras instituciones de ahorro y préstamo",
+											"id": 52239
+										}
+									]
+								}
+							},
+							{
+								"name": "Otras instituciones de intermediación crediticia y financiera no bursátil",
+								"id": "",
+								"menu": {
+									"title": "Otras instituciones de intermediación crediticia y financiera no bursátil",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Arrendadoras financieras",
+											"id": 52241
+										},
+										{
+											"name": "Compañías de factoraje financiero",
+											"id": 52242
+										},
+										{
+											"name": "Sociedades financieras de objeto limitado",
+											"id": 52243
+										},
+										{
+											"name": "Compañías de autofinanciamiento",
+											"id": 52244
+										},
+										{
+											"name": "Montepíos y casas de empeño",
+											"id": 52245
+										},
+										{
+											"name": "Sociedades financieras de objeto múltiple",
+											"id": 52246
+										},
+										{
+											"name": "Otras instituciones de intermediación crediticia y financiera no bursátil",
+											"id": 52249
+										}
+									]
+								}
+							},
+							{
+								"name": "Servicios relacionados con la intermediación crediticia no bursátil",
+								"id": 5225
+							}
+						]
+					}
+				},
+				{
+					"name": "Actividades bursátiles, cambiarias y de inversión financiera",
+					"id": "",
+					"menu": {
+						"title": "Actividades bursátiles, cambiarias y de inversión financiera",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Casas de bolsa, casas de cambio y centros cambiarios",
+								"id": 5231
+							},
+							{
+								"name": "Bolsa de valores",
+								"id": 5232
+							},
+							{
+								"name": "Asesoría en inversiones y otros servicios relacionados con la intermediación bursátil",
+								"id": 5239
+							}
+						]
+					}
+				},
+				{
+					"name": "Compañías de fianzas, seguros y pensiones",
+					"id": "",
+					"menu": {
+						"title": "Compañías de fianzas, seguros y pensiones",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Instituciones de seguros y fianzas",
+								"id": 5241
+							},
+							{
+								"name": "Servicios relacionados con los seguros y las fianzas",
+								"id": 5242
+							}
+						]
+					}
+				}
+			]
+		}
+	},
+	{
+		"name": "Servicios inmobiliarios y de alquiler de bienes muebles e intangibles",
+		"icon": "fa fa-male",
+		"menu": {
+			"title": "Servicios inmobiliarios y de alquiler de bienes muebles e intangibles",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Servicios inmobiliarios",
+					"id": 531
+				},
+				{
+					"name": "Servicios de alquiler de bienes muebles",
+					"id": "",
+					"menu": {
+						"title": "Servicios de alquiler de bienes muebles",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Alquiler de automóviles, camiones y otros transportes terrestres",
+								"id": 5321
+							},
+							{
+								"name": "Alquiler de artículos para el hogar y personales",
+								"id": 5322
+							}
+						]
+					}
+				},
+				{
+					"name": "Servicios de alquiler de marcas registradas, patentes y franquicias",
+					"id": 533
+				}
+			]
+		}
+	},
+	{
+		"name": "Servicios profesionales, científicos y técnicos",
+		"icon": "fa fa-male",
+		"menu": {
+			"title": "Servicios profesionales, científicos y técnicos",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Servicios legales",
+					"id": 5411
+				},
+				{
+					"name": "Servicios de contabilidad, auditoría y servicios relacionados",
+					"id": 5412
+				},
+				{
+					"name": "Servicios de arquitectura, ingeniería y actividades relacionadas",
+					"id": 5413
+				},
+				{
+					"name": "Diseño especializado",
+					"id": 5414
+				},
+				{
+					"name": "Servicios de diseño de sistemas de cómputo y servicios relacionados",
+					"id": 5415
+				},
+				{
+					"name": "Servicios de consultoría administrativa, científica y técnica",
+					"id": 5416
+				},
+				{
+					"name": "Servicios de investigación científica y desarrollo",
+					"id": 5417
+				},
+				{
+					"name": "Servicios de publicidad y actividades relacionadas",
+					"id": 5418
+				},
+				{
+					"name": "Otros servicios profesionales, científicos y técnicos",
+					"id": "",
+					"menu": {
+						"title": "Otros servicios profesionales, científicos y técnicos",
+						"icon": "fa fa-male",
+						"items": [
+							{
+								"name": "Servicios veterinarios",
+								"id": "",
+								"menu": {
+									"title": "Servicios veterinarios",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Servicios veterinarios para mascotas prestados por el sector privado",
+											"id": 541941
+										},
+										{
+											"name": "Servicios veterinarios para mascotas prestados por el sector público",
+											"id": 541942
+										}
+									]
+								}
+							}
+						]
+					}
+				}
+			]
+		}
+	},
+	{
+		"name": "Corporativos",
+		"icon": "fa fa-male",
+		"id": 55
+	},
+	{
+		"name": "Servicios de apoyo a los negocios y manejo de residuos y desechos, y servicios de remediación",
+		"icon": "fa fa-male",
+		"menu": {
+			"title": "Servicios de apoyo a los negocios y manejo de residuos y desechos, y servicios de remediación",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Servicios de apoyo a los negocios",
+					"id": "",
+					"menu": {
+						"title": "Servicios de apoyo a los negocios",
+						"id": "",
+						"items": [
+							{
+								"name": "Servicios de apoyo secretarial, fotocopiado, cobranza, investigación crediticia y similares",
+								"id": "",
+								"menu": {
+									"title": "Servicios de apoyo secretarial, fotocopiado, cobranza, investigación crediticia y similares",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Servicios de fotocopiado, fax, acceso a computadoras y afines",
+											"id": "",
+											"menu": {
+												"title": "Servicios de fotocopiado, fax, acceso a computadoras y afines",
+												"icon": "fa fa-male",
+												"items": [
+													{
+														"name": "Servicios de fotocopiado, fax y afines",
+														"id": 561431
+													},
+													{
+														"name": "Servicios de acceso a computadoras",
+														"id": 561432
+													}
+												]
+											}
+										}
+									]
+								}
+							},
+							{
+								"name": "Servicios de apoyo a los negocios",
+								"id": 5615
+							},
+							{
+								"name": "Servicios de investigación, protección y seguridad",
+								"id": 5616
+							},
+							{
+								"name": "Servicios de limpieza",
+								"id": 5617
+							}
+						]
+					}
+				},
+				{
+					"name": "Servicios de apoyo a los negocios",
+					"id": 562
+				}
+			]
+		}
+	},
+	{
+		"name": "Servicios educativos",
+		"icon": "fa fa-male",
+		"menu": {
+			"title": "Servicios educativos",
+			"icon": "fa fa-male",
+			"items": [
+				{
+					"name": "Escuelas de educación básica, media y para necesidades especiales",
+					"id": "",
+					"menu": {
+						"title": "Escuelas de educación básica, media y para necesidades especiales",
+						"id": "",
+						"items": [
+							{
+								"name": "Escuelas de educación preescolar",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de educación preescolar",
+									"id": "",
+									"items": [
+										{
+											"name": "Escuelas de educación preescolar del sector privado",
+											"id": 611111
+										},
+										{
+											"name": "Escuelas de educación preescolar del sector público",
+											"id": 611112
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas de educación primaria",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de educación primaria",
+									"id": "",
+									"items": [
+										{
+											"name": "Escuelas de educación primaria del sector privado",
+											"id": 611121
+										},
+										{
+											"name": "Escuelas de educación primaria del sector público",
+											"id": 611122
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas de educación secundaria general",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de educación secundaria general",
+									"id": "",
+									"items": [
+										{
+											"name": "Escuelas de educación secundaria general del sector privado",
+											"id": 611131
+										},
+										{
+											"name": "Escuelas de educación secundaria general del sector público",
+											"id": 611132
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas de educación secundaria técnica",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de educación secundaria técnica",
+									"id": "",
+									"items": [
+										{
+											"name": "Escuelas de educación secundaria técnica del sector privado",
+											"id": 611141
+										},
+										{
+											"name": "Escuelas de educación secundaria técnica del sector público",
+											"id": 611142
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas de educación media técnica terminal",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de educación media técnica terminal",
+									"id": "",
+									"items": [
+										{
+											"name": "Escuelas de educación media técnica terminal del sector privado",
+											"id": 611151
+										},
+										{
+											"name": "Escuelas de educación media técnica terminal del sector público",
+											"id": 611152
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas de educación media superior",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de educación media superior",
+									"id": "",
+									"items": [
+										{
+											"name": "Escuelas de educación media superior del sector privado",
+											"id": 611161
+										},
+										{
+											"name": "Escuelas de educación media superior del sector público",
+											"id": 611162
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas que combinan diversos niveles de educación",
+								"id": "",
+								"menu": {
+									"title": "Escuelas que combinan diversos niveles de educación",
+									"id": "",
+									"items": [
+										{
+											"name": "Escuelas del sector privado que combinan diversos niveles de educación",
+											"id": 611171
+										},
+										{
+											"name": "Escuelas del sector público que combinan diversos niveles de educación",
+											"id": 611172
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas de educación para necesidades especiales",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de educación para necesidades especiales",
+									"id": "",
+									"items": [
+										{
+											"name": "Escuelas del sector privado de educación para necesidades especiales",
+											"id": 611181
+										},
+										{
+											"name": "Escuelas del sector público de educación para necesidades especiales",
+											"id": 611182
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Escuelas de educación técnica superior",
+					"id": "",
+					"menu": {
+						"title": "Escuelas de educación técnica superior",
+						"id": "",
+						"items": [
+							{
+								"name": "Escuelas de educación técnica superior del sector privado",
+								"id": 611211
+							},
+							{
+								"name": "Escuelas de educación técnica superior del sector público",
+								"id": 611212
+							}
+						]
+					}
+				},
+				{
+					"name": "Escuelas de educación superior",
+					"id": "",
+					"menu": {
+						"title": "Escuelas de educación superior",
+						"id": "",
+						"items": [
+							{
+								"name": "Escuelas de educación superior del sector privado",
+								"id": 611311
+							},
+							{
+								"name": "Escuelas de educación superior del sector público",
+								"id": 611312
+							}
+						]
+					}
+				},
+				{
+					"name": "Escuelas comerciales, de computación y de capacitación para ejecutivos",
+					"id": "",
+					"menu": {
+						"title": "Escuelas comerciales, de computación y de capacitación para ejecutivos",
+						"id": "",
+						"items": [
+							{
+								"name": "Escuelas comerciales y secretariales",
+								"id": "",
+								"menu": {
+									"title": "Escuelas comerciales y secretariales",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Escuelas comerciales y secretariales del sector privado",
+											"id": 611411
+										},
+										{
+											"name": "Escuelas comerciales y secretariales del sector público",
+											"id": 611412
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas de computación",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de computación",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Escuelas de computación del sector privado",
+											"id": 611421
+										},
+										{
+											"name": "Escuelas de computación del sector público",
+											"id": 611422
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas para la capacitación de ejecutivos",
+								"id": "",
+								"menu": {
+									"title": "Escuelas para la capacitación de ejecutivos",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Escuelas para la capacitación de ejecutivos del sector privado",
+											"id": 611431
+										},
+										{
+											"name": "Escuelas para la capacitación de ejecutivos del sector público",
+											"id": 611432
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Escuelas de oficios",
+					"id": "",
+					"menu": {
+						"title": "Escuelas de oficios",
+						"id": "",
+						"items": [
+							{
+								"name": "Escuelas del sector privado dedicadas a la enseñanza de oficios",
+								"id": 611511
+							},
+							{
+								"name": "Escuelas del sector público dedicadas a la enseñanza de oficios",
+								"id": 611512
+							}
+						]
+					}
+				},
+				{
+					"name": "Otros servicios educativos",
+					"id": "",
+					"menu": {
+						"title": "Otros servicios educativos",
+						"id": "",
+						"items": [
+							{
+								"name": "Escuelas de arte",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de arte",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Escuelas de arte del sector privado",
+											"id": 611611
+										},
+										{
+											"name": "Escuelas de arte del sector público",
+											"id": 611612
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas de deporte",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de deporte",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Escuelas de deporte del sector privado",
+											"id": 611621
+										},
+										{
+											"name": "Escuelas de deporte del sector público",
+											"id": 611622
+										}
+									]
+								}
+							},
+							{
+								"name": "Escuelas de idiomas",
+								"id": "",
+								"menu": {
+									"title": "Escuelas de idiomas",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Escuelas de idiomas del sector privado",
+											"id": 611631
+										},
+										{
+											"name": "Escuelas de idiomas del sector público",
+											"id": 611632
+										}
+									]
+								}
+							},
+							{
+								"name": "Otros servicios educativos",
+								"id": "",
+								"menu": {
+									"title": "Otros servicios educativos",
+									"icon": "fa fa-male",
+									"items": [
+										{
+											"name": "Servicios de profesores particulares",
+											"id": 611691
+										},
+										{
+											"name": "Otros servicios educativos proporcionados por el sector privado",
+											"id": 611698
+										},
+										{
+											"name": "Otros servicios educativos proporcionados por el sector público",
+											"id": 611699
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Servicios de apoyo a la educación",
+					"id": 611710
+				}
+			]
+		}
+	}
+]
