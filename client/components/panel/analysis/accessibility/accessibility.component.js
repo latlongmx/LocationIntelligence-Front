@@ -147,7 +147,7 @@
 							o.disable();
 						}
 					});
-					//scope.isDrawAccessibility = true;
+					scope.isDrawAccessibility = true;
 					_toolDraw[tip].enable();
 				};
 
@@ -295,25 +295,29 @@
 				};
 
 				var _verifyLimitDraws = function(e){
-					if (e) {
-						_currentFeature = e;
-						_counterUserDraws = _counterUserDraws + 1;
-						_addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
-						
-						_activateViasWMS(_currentFeature);
-						//_startAccessibilityAnalysis();
-						_editableLayers.clearLayers();
-						_editableLayers.addLayer( _currentFeature.layer );
-					}
+					if(scope.isDrawAccessibility){
+						scope.isDrawAccessibility = false;
+						if (e) {
+							
+							_currentFeature = e;
+							_counterUserDraws = _counterUserDraws + 1;
+							_addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
+							
+							_activateViasWMS(_currentFeature);
+							//_startAccessibilityAnalysis();
+							_editableLayers.clearLayers();
+							_editableLayers.addLayer( _currentFeature.layer );
+						}
 
-					if (_counterUserDraws === 2) {
-						scope.disableDrawAccessBtn = true;
-						$timeout(function(){
-							_showMessage("Se llegó al límite de dibujos permitidos (2), elimina uno si deseas agregar otro.");
-						}, 2500);
-					}
-					else {
-						scope.disableDrawAccessBtn = false;
+						if (_counterUserDraws === 2) {
+							scope.disableDrawAccessBtn = true;
+							$timeout(function(){
+								_showMessage("Se llegó al límite de dibujos permitidos (2), elimina uno si deseas agregar otro.");
+							}, 2500);
+						}
+						else {
+							scope.disableDrawAccessBtn = false;
+						}
 					}
 				};
 				
