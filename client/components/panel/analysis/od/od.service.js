@@ -56,7 +56,6 @@
 		});
 
 		this.loadMap = function(layer, panel){
-			console.log(panel[0])
 			var items = [],
 			test = null,
 			ranges = null,
