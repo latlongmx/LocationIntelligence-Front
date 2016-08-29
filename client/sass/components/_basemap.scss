@@ -77,11 +77,11 @@
 }
 
 .leaflet-top.leaflet-left{
-	z-index:999;
+	z-index:auto;
 }
 
 .leaflet-bottom.leaflet-right {
-	z-index:999;
+	z-index:auto;
 }
 
 .leaflet-left{
@@ -155,7 +155,7 @@
 
 .leaflet-draw.leaflet-control {
 	float:right;
-	top:170px;
+	top:220px;
 }
 
 .leaflet-control-layers.leaflet-control {

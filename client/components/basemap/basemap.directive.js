@@ -10,13 +10,14 @@
 			replace:true,
 			template: [
 				'<div id="basemap" class="m-basemap">',
-					'<label type="button" aria-label="" style="position: absolute;top: 135px;right: 10px;bottom: initial;z-index: 800;background: #828189;width: 35px;text-align: center;color:#ffffff;">',
-						'<span id="zoom" class="bold" style="font-size:18px;"></span>',
+					'<label  class="m-zoom js-zoom" type="button" aria-label="">',
+						'<span class="bold m-zoom__text">Zoom Actual</span>',
+						'<span class="bold m-zoom__number js-zoom-number" style="font-size:18px;"></span>',
 					'</label>',
 				'</div>',
 			].join(''),
 			link:function(scope, element){
-				var newZoom = angular.element(document.getElementById('zoom'));
+				var newZoom = angular.element(document.getElementsByClassName('js-zoom-number'));
 				BaseMapService.resolve(element[0]);
 				
 				BaseMapService.map.then(function(map) {
