@@ -65,10 +65,11 @@
 	.run(["$rootScope", "$state", "$stateParams", "Auth", function ($rootScope, $state, $stateParams, Auth) {
 		$rootScope.$state = $state;
 		$rootScope.$stateParams = $stateParams;
+
 		L.drawLocal.draw.toolbar.actions.text = "Cancelar";
 		L.drawLocal.draw.toolbar.actions.title = "Cancelar Dibujo";
-		L.drawLocal.draw.toolbar.finish.text = "Terminar";
-		L.drawLocal.draw.toolbar.finish.title = "Terminar Dibujo";
+		// L.drawLocal.draw.toolbar.finish.text = "Terminar";
+		// L.drawLocal.draw.toolbar.finish.title = "Terminar Dibujo";
 		L.drawLocal.draw.toolbar.buttons.polyline = "Dibujar Líneas";
 		L.drawLocal.draw.toolbar.buttons.polygon = "Dibujar Poligono";
 		L.drawLocal.draw.toolbar.buttons.circle = "Dibujar Radio";
@@ -83,20 +84,18 @@
 		L.drawLocal.draw.handlers.circle.radius = "Radio";
 		L.drawLocal.draw.handlers.circle.tooltip.start = "Click y arrastrar para dibujar un radio";
 		L.drawLocal.draw.handlers.simpleshape.tooltip.end = "Suelte el ratón para completar el radio";
-
 		L.drawLocal.edit.handlers.edit.tooltip.subtext = "click en Cancelar para deshacer los cambios";
 		L.drawLocal.edit.handlers.edit.tooltip.text = "Control de arrastre, o marcador para editar dibujo";
 		L.drawLocal.edit.handlers.remove.tooltip.text = "Click en un dibujo para eliminar";
-
 		L.drawLocal.edit.toolbar.actions.cancel.text = "Cancelar";
 		L.drawLocal.edit.toolbar.actions.cancel.title = "Cancelar editar, deshacer todos los cambios";
 		L.drawLocal.edit.toolbar.actions.save.text = "Guardar";
 		L.drawLocal.edit.toolbar.actions.save.title = "Guardar cambios";
-
 		L.drawLocal.edit.toolbar.buttons.edit = "Editar dibujo";
 		L.drawLocal.edit.toolbar.buttons.editDisabled = "No hay dibujos para editar";
 		L.drawLocal.edit.toolbar.buttons.remove = "Eliminar dibujos";
 		L.drawLocal.edit.toolbar.buttons.removeDisabled = "No hay dibujos para eliminar";
+
 		$rootScope.$on('$viewContentLoading', function() {
 			var auth = Auth.checkStatus();
 			var permissions = Auth.getPermission();
