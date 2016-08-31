@@ -66,7 +66,7 @@
 						'<div layout="row" class="layout-align-space-around-stretch layout-row" ng-if="location_list">',
 							'<md-progress-circular md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
 						'</div>',
-						'<div class="m-side-panel__list">',
+						'<div class="m-side-panel__list m-side-panel__list--in-location-panel">',
 							'<ul class="m-side-panel__list-content">',
 								'<li class="m-side-panel__list-content__item js-location-item" ng-repeat="location in locations | filter: search_location">',
 									'<div flex="10">',
