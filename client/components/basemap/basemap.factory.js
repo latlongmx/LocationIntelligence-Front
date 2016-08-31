@@ -29,7 +29,7 @@
 			var coors = "";
 			var latlngs = layer.getLatLngs();
 			if(geomtype==='polygon'){
-				latlngs = latlngs[0];
+				latlngs = latlngs;
 			}
 			for (var i=0; i<latlngs.length; i++){
 				if (i !== 0){

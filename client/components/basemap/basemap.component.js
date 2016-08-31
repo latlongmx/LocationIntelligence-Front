@@ -85,19 +85,22 @@
 			_.forEach(_label_item, function(item, index) {
 				angular.element(item).append('<img src="./images/switcher_map/'+imagesArray[index]+'.jpg" width="120"/>');
 			});
-			
+
 			layerToggle.text("").append('<img src="./images/switcher_map/'+imagesArray[0]+'.jpg" width="120"/>');
-			
+
 			map.on('baselayerchange', function(e){
 				console.log(e.name.toLowerCase().replace(' ', '-'))
 				layerToggle.text("").append('<img src="./images/switcher_map/'+e.name.toLowerCase().replace(' ', '-')+'.jpg" width="120"/>');
 			});
-			
+
 
 			_featureGroup = BaseMapService.featureGroup.addTo(map);
 			_drawControl = BaseMapService.drawControl(_featureGroup);
 			_drawControl.addTo(map);
 
+			map.on('draw:deleted', function (e) {
+
+			});
 			map.on('draw:created', function (e) {
 					//_drawType = e.layerType;
 					//var geo_wkt = BaseMapFactory.geom2wkt(e);

@@ -65,7 +65,7 @@
 			display:block !important;
 			a:not(first-child) {
 				border-bottom:1px solid #aaaaaa;
-			} 
+			}
 		}
 	}
 }
@@ -211,7 +211,7 @@
 			&:before{
 				font-size: 25px;
 			}
-			
+
 		}
 	}
 	.leaflet-control-layers-list {
@@ -265,3 +265,10 @@
 }
 
 
+
+.leaflet-tile-loaded {
+	z-index: 4;
+}
+.leaflet-image-layer {
+	z-index: 4;
+}

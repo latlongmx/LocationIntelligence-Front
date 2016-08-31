@@ -42,8 +42,6 @@
 				$scope.isTripOpen = false;
 				$scope.isOpen = false;
 
-				//_$js_exploration_item = angular.element(document.getElementsByClassName('js-panel-item'));
-
 				dm.explorationItem = function(dataEp, iconEp){
 					_data_ep = dataEp;
 					_currentPanelId = angular.element(document.querySelector('[data-ep="'+_data_ep+'"]'));
@@ -158,6 +156,14 @@
 										o.isActive = false;
 										o.draw = geo;
 										o.icon = img;
+
+										/*scope.userDraws.push({
+											id: o.id_draw,
+											name: o.name_draw,
+											icon:img,
+											isActive: false,
+											draw: geo
+										});*/
 									});
 
 									$scope.userDraws = res.data.draws;
