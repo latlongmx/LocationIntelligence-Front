@@ -9,11 +9,13 @@
 			
 			if (form.$valid) {
 				BaseMapService.updUserHeatMap(heatmap_layer_id , data.nm)
-				.then(function(data){
-					if(data.statusText === "OK"){
-						$mdDialog.hide(true);
+				.then(function(result){
+					if(result.statusText === "OK"){
+						var updatedValues = {heat_name: data.nm, success: true};
+						$mdDialog.hide(updatedValues);
 					}
 				}, function(error){
+					_showToastMessage('Ocurrió un error al actualizar el nomnbre, intente nuevamente');
 					console.log(error)
 				});
 			}

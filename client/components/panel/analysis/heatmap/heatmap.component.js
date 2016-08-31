@@ -171,8 +171,8 @@
 						},
 					})
 					.then(function(updateLayer) {
-						if (updateLayer === true) {
-							
+						if (updateLayer.success === true) {
+							scope.save_heatmap_variable_list[index].name_heat = updateLayer.heat_name;
 						}
 					}, function(failUpdating) {
 						console.log(failUpdating);
