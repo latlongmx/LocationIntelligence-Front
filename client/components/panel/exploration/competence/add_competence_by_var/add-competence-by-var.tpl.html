@@ -17,11 +17,11 @@
 			<com-push-menu menu="menu" options="options_com"></com-push-menu>
 		</div>
 		<div layout-padding="10" ng-if="addingCompetence">
-			<md-progress-linear md-mode="indeterminate" ></md-progress-linear>
+			<md-progress-linear class="md-primary md-hue-3" md-mode="indeterminate"></md-progress-linear>
 		</div>
 	</md-dialog-content>
 	<md-dialog-actions layout="row">
+	<md-button class="md-raised md-primary" ng-click="ok()" flex="50">Listo</md-button>
 		<md-button class="md-raised md-warn" ng-click="cancel()" flex="50">Cancelar</md-button>
-		<md-button class="md-raised md-primary" ng-click="ok()" flex="50">Listo</md-button>
 	</md-dialog-actions>
 </md-dialog>

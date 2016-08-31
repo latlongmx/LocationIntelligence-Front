@@ -200,21 +200,6 @@
 		// 	}
 		// }
 
-		/**
-		 * [_showToastMessage Function to open $mdDialog]
-		 * @param  {[type]} message [Message to show in $mdDialog]
-		 */
-		var _showToastMessage = function(message) {
-			$mdToast.show(
-				$mdToast.simple({
-					textContent: message,
-					position: 'top right',
-					hideDelay: 2500,
-					parent: $document[0].querySelector('.md-dialog-cotainer'),
-				})
-			);
-		}
-
 		$scope.hide = function() {
 			$mdDialog.hide();
 		};
@@ -236,11 +221,27 @@
 							$mdDialog.hide(true);
 						}
 					}, function(error){
+						_showToastMessage('Ocurrió un error al agregar, intenta nuevamente');
 						console.log(error);
 					});
 				});
 			}
 		};
+		
+		/**
+		 * [_showToastMessage Function to open $mdDialog]
+		 * @param  {[type]} message [Message to show in $mdDialog]
+		 */
+		var _showToastMessage = function(message) {
+			$mdToast.show(
+				$mdToast.simple({
+					textContent: message,
+					position: 'top right',
+					hideDelay: 2500,
+					parent: $document[0].querySelector('.md-dialog-container'),
+				})
+			);
+		}
 
 	};
 

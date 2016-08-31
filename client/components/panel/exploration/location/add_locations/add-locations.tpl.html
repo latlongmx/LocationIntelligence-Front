@@ -49,13 +49,13 @@
 						</md-input-container>
 					</div>
 					<div layout="row" style="margin:10px 0 0px;">
-						<button class="md-primary md-hue-2 md-raised md-button" flex="50" ng-click="uploader.loadFile(newLocationForm, location)" ng-disabled="newLocationForm.$invalid">Subir archivo</button>
+						<button class="md-primary md-raised md-button" flex="50" ng-click="uploader.loadFile(newLocationForm, location)" ng-disabled="newLocationForm.$invalid">Subir archivo</button>
 						<button class="md-warn md-raised md-hue-2 md-button md-ink-ripple" flex="50" ng-click="cancel()">Cancelar</button>
 					</div>
 				</form>
 			</div>
 			<div layout-padding="10" ng-if="validateFile">
-				<md-progress-linear class="md-primary md-hue-1" md-mode="indeterminate" ></md-progress-linear>
+				<md-progress-linear class="md-primary md-hue-3" md-mode="indeterminate" ></md-progress-linear>
 			</div>
 		</md-dialog-content>
 </md-dialog>

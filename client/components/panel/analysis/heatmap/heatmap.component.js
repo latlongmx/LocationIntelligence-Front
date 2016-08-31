@@ -343,7 +343,7 @@
 							textContent: msg,
 							position: 'top right',
 							hideDelay: 1500,
-							parent: $document[0].querySelector('.js-heatmap-side-panel'),
+							parent: $document[0].querySelector('.md-dialog-container'),
 							autoWrap: true
 						})
 					);

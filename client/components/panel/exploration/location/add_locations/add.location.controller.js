@@ -204,7 +204,7 @@
 
 			var _chooseLatLng = function(evt) {
 				LocationFactory.processCSV(evt,function(columns){
-					if (columns && columns.length > 3) {
+					if (columns && columns.length >= 3) {
 						_showToastMessage('Archivo válido');
 						$scope.set_columns = true;
 						$scope.items = columns;

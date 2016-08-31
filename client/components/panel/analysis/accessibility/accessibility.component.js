@@ -312,20 +312,18 @@
 							_addUserDraw2Panel(-1,'Mi dibujo',_currentFeature);
 
 							_activateViasWMS(_currentFeature);
-							//_startAccessibilityAnalysis();
 							_editableLayers.clearLayers();
 							_editableLayers.addLayer( _currentFeature.layer );
 						}
-
-						if (_counterUserDraws === 2) {
-							scope.disableDrawAccessBtn = true;
-							$timeout(function(){
-								_showMessage("Se llegó al límite de dibujos permitidos (2), elimina uno si deseas agregar otro.");
-							}, 2500);
-						}
-						else {
-							scope.disableDrawAccessBtn = false;
-						}
+					}
+					if (_counterUserDraws === 2) {
+						scope.disableDrawAccessBtn = true;
+						$timeout(function(){
+							_showMessage("Se llegó al límite de dibujos permitidos (2), elimina uno si deseas agregar otro.");
+						}, 2500);
+					}
+					else {
+						scope.disableDrawAccessBtn = false;
 					}
 				};
 
