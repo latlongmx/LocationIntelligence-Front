@@ -12,6 +12,9 @@
 		_editableLayers = null,
 		_currentFeature = null,
 		listAccessTrans = null,
+		accessNumP = null,
+		accessNumS = null,
+		accessNumT = null,
 		_toolDraw = {
 			'line':null,
 			'polygon':null,
@@ -134,6 +137,9 @@
 					ctrl.explorationItem(a,b);
 				};
 				listAccessTrans = angular.element(document.getElementById('listAccessTrans'));
+				accessNumP = angular.element('#accessNumP').html('0');
+				accessNumS = angular.element('#accessNumS').html('0');
+				accessNumT = angular.element('#accessNumT').html('0');
 				//scope.userDraws = [];
 				scope.isDrawAccessibility = true;
 
@@ -340,9 +346,6 @@
 					var geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
 					
 					listAccessTrans.html('');
-					angular.element('#accessNumP').html('0');
-					angular.element('#accessNumS').html('0');
-					angular.element('#accessNumT').html('0');
 					var opts = {
 						WKT: geo_wkt.wkt,
 						MTS: geo_wkt.mts
@@ -368,9 +371,9 @@
 									t++;
 								}
 							});
-							angular.element('#accessNumP').html(p);
-							angular.element('#accessNumS').html(s);
-							angular.element('#accessNumT').html(t);
+							accessNumP.html(p);
+							accessNumS.html(s);
+							accessNumT.html(t);
 
 							var cat_vias = {
 								'CC': 'Corredores Concesionados',
@@ -489,6 +492,10 @@
 							_currentFeature = null;
 							if(_layers.viasUserWMS !== undefined){
 								_map.removeLayer( _layers.viasUserWMS );
+								listAccessTrans.empty();
+								accessNumP.html('0');
+								accessNumS.html('0');
+								accessNumT.html('0');
 							}
 							_counterUserDraws = _counterUserDraws - 1;
 							_verifyLimitDraws();
@@ -496,7 +503,6 @@
 					}, function(error){
 						console.log(error)
 					});
-					//scope.verifyLimitDraws();
 				};
 
 				scope.zoomToUserDraw = function(id){
@@ -520,6 +526,9 @@
 					else{
 						if(_layers.viasUserWMS !== undefined){
 							listAccessTrans.empty();
+							accessNumP.html('0');
+							accessNumS.html('0');
+							accessNumT.html('0');
 							_map.removeLayer( _layers.viasUserWMS );
 						}
 					}
