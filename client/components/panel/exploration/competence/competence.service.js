@@ -164,7 +164,6 @@
 		};
 	}
 	CompetenceService.$inject = ['$q', '$http', 'Auth'];
-	angular.module('competence.service', []).
-		service('CompetenceService', CompetenceService);
+	angular.module('walmex').service('CompetenceService', CompetenceService);
 
 })();

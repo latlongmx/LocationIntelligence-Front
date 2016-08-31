@@ -254,7 +254,6 @@
 
 	AddCompetenceByVarController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService', 'CompetenceVarJsonService', 'BaseMapService', 'competence_variables', 'CompetenceService', 'competence_variables_selected'];
 
-	angular.module('add.competence.var.controller', []).
-	controller('AddCompetenceByVarController', AddCompetenceByVarController);
+	angular.module('walmex').controller('AddCompetenceByVarController', AddCompetenceByVarController);
 
 })();

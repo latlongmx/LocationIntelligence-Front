@@ -569,7 +569,6 @@
 
 
 	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_', 'Auth', 'uiService', '$timeout'];
-	angular.module('basemap.factory',[])
-		.factory('BaseMapFactory', BaseMapFactory);
+	angular.module('walmex').factory('BaseMapFactory', BaseMapFactory);
 
 })();

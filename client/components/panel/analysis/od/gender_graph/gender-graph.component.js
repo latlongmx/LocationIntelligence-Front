@@ -77,6 +77,5 @@
 	}
 
 	genderGraphDirective.$inject = [];
-	angular.module('gender.graph.directive', [])
-		.directive('gender', genderGraphDirective);
+	angular.module('walmex').directive('gender', genderGraphDirective);
 })();

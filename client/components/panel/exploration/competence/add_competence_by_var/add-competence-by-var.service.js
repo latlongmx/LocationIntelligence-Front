@@ -27,7 +27,6 @@
 
 	}
 	CompetenceVarJsonService.$inject = ['$q', '$http'];
-	angular.module('add.competence.var.service', []).
-		service('CompetenceVarJsonService', CompetenceVarJsonService);
+	angular.module('walmex').service('CompetenceVarJsonService', CompetenceVarJsonService);
 
 })();

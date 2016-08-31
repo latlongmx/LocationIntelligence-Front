@@ -19,6 +19,5 @@
 	
 	//HistoricalFunctions.$inject = [];
 
-	angular.module('historical.directive', [])
-		.directive('historicalFunctions', HistoricalFunctions);
+	angular.module('walmex').directive('historicalFunctions', HistoricalFunctions);
 })();

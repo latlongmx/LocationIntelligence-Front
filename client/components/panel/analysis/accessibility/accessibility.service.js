@@ -142,7 +142,6 @@
 		return _service;
 	}
 	AccessibilityService.$inject = ['$q', '$http', 'Auth'];
-	angular.module('accessibility.service', []).
-		service('AccessibilityService', AccessibilityService);
+	angular.module('walmex').service('AccessibilityService', AccessibilityService);
 
 })();

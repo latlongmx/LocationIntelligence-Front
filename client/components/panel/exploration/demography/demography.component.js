@@ -16,7 +16,7 @@
 			scope: '=',
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-panel-item" data-ep="demography" tooltip-placement="right" uib-tooltip="Demografía" tooltip-animation="true" ng-click="openPanel(\'demography\', \'demography_icon\')">',
 						'<img src="./images/functions/demography_icon.png" class="m-list-functions__item-icon" data-icon="demography_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-demography-side-panel">',
@@ -42,7 +42,7 @@
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr, demographyCtrl){
+			link: function(scope, element, attr, ctrl){
 				var _newVariables = null,
 				_resultProcess = null,
 				_matchWord = null,
@@ -66,6 +66,10 @@
 				scope.last_on = null;
 				scope.current_on = null;
 				scope.options = {};
+				
+				scope.openPanel = function(a,b){
+					ctrl.explorationItem(a,b);
+				};
 				
 				if (!scope.demography_variable_list) {
 					scope.demography_variable_list = [];
@@ -328,6 +332,5 @@
 	
 	demographyDirective.$inject = ['DemographyJsonService', 'BaseMapService', 'BaseMapFactory', '$mdToast', '$document', '$timeout'];
 
-	angular.module('demography.directive', [])
-		.directive('demography', demographyDirective);
+	angular.module('walmex').directive('demography', demographyDirective);
 })();

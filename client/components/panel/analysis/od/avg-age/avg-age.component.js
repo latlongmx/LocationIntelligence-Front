@@ -109,6 +109,5 @@
 	}
 
 	avgAgeDirective.$inject = ['_','odService', 'uiService', '$rootScope'];
-	angular.module('avg.age.directive', [])
-		.directive('avgAge', avgAgeDirective);
+	angular.module('walmex').directive('avgAge', avgAgeDirective);
 })();

@@ -4,7 +4,9 @@
   <div id="divPoint" class="hide">
     <md-fab-speed-dial md-open="false" md-direction="right" ng-class="md-fling" class="md-fab-float">
       <md-fab-trigger>
-        <md-button ng-click="startTravelRing()" class="md-fab md-warn" aria-label="bus"><i class="material-icons">room</i></md-button>
+        <md-button ng-click="startTravelRing()" class="md-fab md-accent md-hue-2 md-button md-default-theme md-ink-ripple" aria-label="bus" style="background:rgb(255,23,68);">
+          <md-icon>place</md-icon>
+        </md-button>
       </md-fab-trigger>
     </md-fab-speed-dial>
   </div>
@@ -14,15 +16,17 @@
   <div id="divTime" class="hide">
     <md-fab-speed-dial md-open="false" md-direction="right" ng-class="md-fling" class="md-fab-float">
       <md-fab-trigger>
-        <md-button class="md-fab md-warn" aria-label="30 min"><i class="material-icons">av_timer</i></md-button>
+        <md-button class="md-fab" aria-label="30 min" style="background:rgb(255,23,68);">
+          <md-icon>timer</md-icon>
+        </md-button>
       </md-fab-trigger>
       <md-fab-actions>
-        <md-button ng-click="setTimeRing(1800)" class="md-fab md-raised md-mini" aria-label="39">30</md-button>
-        <md-button ng-click="setTimeRing(1500)" class="md-fab md-raised md-mini" aria-label="25">25</md-button>
-        <md-button ng-click="setTimeRing(1200)" class="md-fab md-raised md-mini" aria-label="20">20</md-button>
-        <md-button ng-click="setTimeRing(900)" class="md-fab md-raised md-mini" aria-label="15">15</md-button>
-        <md-button ng-click="setTimeRing(600)" class="md-fab md-raised md-mini" aria-label="10">10</md-button>
-        <md-button ng-click="setTimeRing(300)" class="md-fab md-raised md-mini" aria-label="5">5</md-button>
+        <md-button ng-click="setTimeRing(1800)" class="md-fab md-raised md-mini" aria-label="39" style="background: rgb(193, 39, 45);color: #ffffff;">30</md-button>
+        <md-button ng-click="setTimeRing(1500)" class="md-fab md-raised md-mini" aria-label="25" style="background: rgb(241, 90, 36);color: #ffffff;">25</md-button>
+        <md-button ng-click="setTimeRing(1200)" class="md-fab md-raised md-mini" aria-label="20" style="background: rgb(247, 147, 30);color: #ffffff;">20</md-button>
+        <md-button ng-click="setTimeRing(900)" class="md-fab md-raised md-mini" aria-label="15" style="background: rgb(140, 198, 63);color: #ffffff;">15</md-button>
+        <md-button ng-click="setTimeRing(600)" class="md-fab md-raised md-mini" aria-label="10" style="background: rgb(57, 181, 74);color: #ffffff;">10</md-button>
+        <md-button ng-click="setTimeRing(300)" class="md-fab md-raised md-mini" aria-label="5" style="background: rgb(0, 104, 55);color: #ffffff;">5</md-button>
       </md-fab-actions>
     </md-fab-speed-dial>
   </div>
@@ -31,13 +35,21 @@
   <div id="divType" class="hide">
     <md-fab-speed-dial md-open="false" md-direction="right" ng-class="md-fling" class="md-fab-float">
       <md-fab-trigger>
-        <md-button class="md-fab md-warn" aria-label="bus"><i class="material-icons">drive_eta</i></md-button>
+        <md-button class="md-fab md-warn" aria-label="bus" style="background:rgb(255,23,68);"><i class="material-icons">drive_eta</i></md-button>
       </md-fab-trigger>
       <md-fab-actions>
-        <md-button ng-click="setTypeRing('transit')" class="md-fab md-raised md-mini" aria-label="transit">transit</md-button>
-        <md-button ng-click="setTypeRing('car')" class="md-fab md-raised md-mini" aria-label="car">car</md-button>
-        <md-button ng-click="setTypeRing('bike')" class="md-fab md-raised md-mini" aria-label="bike">bike</md-button>
-        <md-button ng-click="setTypeRing('walk')" class="md-fab md-raised md-mini" aria-label="walk">walk</md-button>
+        <md-button ng-click="setTypeRing('transit')" class="md-fab md-raised md-mini" aria-label="transit" style="background:rgb(255,82,82);color:#ffffff;">
+          <md-icon>directions_bus</md-icon>
+        </md-button>
+        <md-button ng-click="setTypeRing('car')" class="md-fab md-raised md-mini" aria-label="car" style="background:rgb(255,82,82);color:#ffffff;">
+          <md-icon>directions_car</md-icon>
+        </md-button>
+        <md-button ng-click="setTypeRing('bike')" class="md-fab md-raised md-mini" aria-label="bike" style="background:rgb(255,82,82);color:#ffffff;">
+          <md-icon>directions_bike</md-icon>
+        </md-button>
+        <md-button ng-click="setTypeRing('walk')" class="md-fab md-raised md-mini" aria-label="walk" style="background:rgb(255,82,82);color:#ffffff;">
+          <md-icon>directions_walk</md-icon>
+        </md-button>
       </md-fab-actions>
     </md-fab-speed-dial>
   </div>

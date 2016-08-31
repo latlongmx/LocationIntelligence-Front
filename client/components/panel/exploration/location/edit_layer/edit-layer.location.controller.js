@@ -123,7 +123,6 @@
 
 	EditLayerLocationController.$inject = ['$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', '$document', 'FileUploader', 'layer_id', 'LocationService', 'BaseMapFactory'];
 
-	angular.module('edit.layer.location.controller', []).
-	controller('EditLayerLocationController', EditLayerLocationController);
+	angular.module('walmex').controller('EditLayerLocationController', EditLayerLocationController);
 
 })();

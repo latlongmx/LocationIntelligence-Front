@@ -1,6 +1,6 @@
 (function(){
 	/*
-	* BaseMap Module
+	* Login Factory
 	*/
 	'use strict';
 
@@ -62,18 +62,9 @@
 				}
 				return _userType;
 			}
-			// checkPermissions: function(user, token) {
-			// 	for(var key in ROLES){
-			// 		if(ROLES[key] === user){
-			// 			$rootScope.$emit('set-permissions', {user: user, log: true} );
-			// 			//return true;
-			// 		}
-			// 	}
-			// }
 		};
 
 	}
 	AuthFactory.$inject = ['$location', '$window', '$rootScope', 'ROLES'];
-	angular.module('login.factory', []).
-		factory('Auth', AuthFactory);
+	angular.module('walmex').factory('Auth', AuthFactory);
 })();

@@ -18,7 +18,7 @@
 				'<ul class="m-list-navigation js-list-navigation">',
 					'<li class="m-list-navigation__item js-menu-item"><a>Menu 1</a></li>',
 					'<li class="m-list-navigation__item js-menu-item"><a>Mi perfil</a></li>',
-					'<li class="m-list-navigation__item js-logout"><a>Cerrar sesión</a></li>',
+					'<li class="m-list-navigation__item js-logout"><a >Cerrar sesión</a></li>',
 				'</ul>',
 			].join(''),
 			controllerAs: "menu",
@@ -49,6 +49,5 @@
 	
 	MenuController.$inject = ['$window', 'Auth', '$location', 'BaseMapService'];
 
-	angular.module('menu.directive', [])
-		.directive('menu', MenuController);
+	angular.module('walmex').directive('menu', MenuController);
 })();

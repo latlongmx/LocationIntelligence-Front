@@ -238,7 +238,6 @@
 
 	AddLocationController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'LocationService'];
 
-	angular.module('add.location.controller', []).
-	controller('AddLocationController', AddLocationController);
+	angular.module('walmex').controller('AddLocationController', AddLocationController);
 
 })();

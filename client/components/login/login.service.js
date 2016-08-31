@@ -1,6 +1,6 @@
 (function(){
 	/*
-	* BaseMap Module
+	* Login Service
 	*/
 	'use strict';
 	
@@ -42,7 +42,6 @@
 
 	}
 	loginService.$inject = ['$q', '$http', '$httpParamSerializer'];
-	angular.module('login.service', []).
-		service('loginService', loginService);
+	angular.module('walmex').service('loginService', loginService);
 
 })();

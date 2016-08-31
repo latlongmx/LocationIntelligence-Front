@@ -212,7 +212,6 @@
 	}
 
 	odService.$inject = ['_', '$q', '$http', 'Auth' ,'BaseMapService', '$rootScope'];
-	angular.module('od.service', []).
-		service('odService', odService);
+	angular.module('walmex').service('odService', odService);
 
 })();

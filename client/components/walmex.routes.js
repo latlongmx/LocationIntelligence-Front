@@ -2,8 +2,7 @@
 	'use strict';
 	
 	angular.module('routes', ['ui.router'])
-	.config(['$stateProvider', '$urlRouterProvider','$sceProvider', function($stateProvider, $urlRouterProvider, $sceProvider) {
-		$sceProvider.enabled(false);
+	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.otherwise('/login');
 		$stateProvider
 			.state('login', {

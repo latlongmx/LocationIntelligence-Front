@@ -25,7 +25,7 @@
 					'<competence></competence>',
 					'<demography></demography>',
 				'</ul>',
-				'<ul class="m-list-functions">',
+				'<ul class="m-list-functions" ng-if="userRole.hasPermission">',
 					'<accessibility></accessibility>',
 					'<od></od>',
 					'<heatmap></heatmap>',
@@ -41,18 +41,13 @@
 				$scope.isTimeOpen = false;
 				$scope.isTripOpen = false;
 				$scope.isOpen = false;
-				
-				// if ($rootScope.thisUser) {
-				// 	$rootScope.thisUser === "uA" ? $scope.hasPermission = false : $scope.hasPermission = true;
-				// }
 
-				_$js_exploration_item = angular.element(document.getElementsByClassName('js-panel-item'));
+				//_$js_exploration_item = angular.element(document.getElementsByClassName('js-panel-item'));
 
-				_$js_exploration_item.on('click', function(e){
-					e.preventDefault();
-					_data_ep = this.getAttribute('data-ep');
+				dm.explorationItem = function(dataEp, iconEp){
+					_data_ep = dataEp;
 					_currentPanelId = angular.element(document.querySelector('[data-ep="'+_data_ep+'"]'));
-					_currentIconActive = angular.element(this).children().data('icon');
+					_currentIconActive = iconEp;
 					_current_data_side_panel = angular.element(document.getElementsByClassName('js-'+_data_ep+'-side-panel'));
 					uiService.panelIsOpen(_currentPanelId, _currentIconActive, _current_data_side_panel);
 					//uiService.listIsLoaded(_data_ep);
@@ -171,7 +166,7 @@
 						}
 					}
 
-				});
+				};
 			}
 
 		};
@@ -179,6 +174,5 @@
 
 	panelFunctions.$inject = ['$rootScope','$timeout', 'Auth', 'uiService', 'LocationService', 'BaseMapFactory', 'BaseMapService', 'CompetenceService', 'odService', 'AccessibilityService'];
 
-	angular.module('panel.directive', [])
-		.directive('panelFunctions', panelFunctions);
+	angular.module('walmex').directive('panelFunctions', panelFunctions);
 })();

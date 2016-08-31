@@ -141,7 +141,6 @@
 		};
 	}
 	HeatmapService.$inject = ['$q', '$http', 'Auth'];
-	angular.module('heatmap.service', []).
-		service('HeatmapService', HeatmapService);
+	angular.module('walmex').service('HeatmapService', HeatmapService);
 
 })();

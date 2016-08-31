@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function odDirective($timeout, BaseMapService, BaseMapFactory, Auth, odService, $compile, uiService){
+	function odDirective($rootScope, $timeout, BaseMapService, BaseMapFactory, Auth, odService, $compile, uiService){
 		var cityPolygons = null,
 		cityData = null,
 		color_x = null;
@@ -15,7 +15,7 @@
 			scope: true,
 			template: [
 				'<div>',
-					'<li class="m-list-functions__item js-panel-item" data-ep="od" tooltip-placement="right" uib-tooltip="Origen Destino" tooltip-animation="true">',
+					'<li class="m-list-functions__item js-panel-item" data-ep="od" tooltip-placement="right" uib-tooltip="Origen Destino" tooltip-animation="true" ng-click="openPanel(\'od\', \'od_icon\')">',
 						'<img src="./images/functions/od_icon.png" class="m-list-functions__item-icon" data-icon="od_icon"/>',
 					'</li>',
 					'<div class="m-side-panel js-od-side-panel">',
@@ -63,9 +63,7 @@
 					'</div>',
 				'</div>'
 			].join(''),
-			link: function(scope, element, attr){
-			},
-			controller: function($scope, $rootScope) {
+			link: function(scope, element, attr, ctrl){
 				var datazipcode	= [],
 				_array_avg_day = [],
 				_array_avg_gender = null,
@@ -75,12 +73,17 @@
 				_array_num_payments_age = null,
 				_array_num_cards_day = [],
 				_array_num_cards_age = null;
+				
+				
+				scope.openPanel = function(a,b){
+					ctrl.explorationItem(a,b);
+				};
 
 				/**
 				 * [slickConfig Slick slider init and configurations]
 				 * @type {Object}
 				 */
-				$scope.slickConfig = {
+				scope.slickConfig = {
 					enabled: false,
 					autoplay: false,
 					draggable: false,
@@ -104,11 +107,11 @@
 				 * [getIndex Function to get current index in slick slider, to activate selected category (slide)]
 				 * @param  {[type]} index [description]
 				 */
-				$scope.getIndex = function(index){
+				scope.getIndex = function(index){
 					var selectCategory = angular.element(document.getElementsByClassName('js-index-'+ index));
 					var selectIndex = angular.element(document.getElementsByClassName('js-index'));
 					selectIndex.addClass('md-hue-2')
-					$scope.slickConfig.method.slickGoTo(index);
+					scope.slickConfig.method.slickGoTo(index);
 					selectCategory.removeClass('md-hue-2')
 				}
 
@@ -116,9 +119,9 @@
 				 * [Update ZipCode label]
 				 */
 				var updateZC = $rootScope.$on('zc_event', function(e, data){
-					$scope.selected_zc = true;
-					$scope.slickConfig.enabled = true;
-					$scope.zip_code = data;
+					scope.selected_zc = true;
+					scope.slickConfig.enabled = true;
+					scope.zip_code = data;
 					_getZipCodeData(data);
 				});
 
@@ -318,7 +321,6 @@
 		}
 	}
 
-	odDirective.$inject = ['$timeout', 'BaseMapService', 'BaseMapFactory', 'Auth', 'odService', '$compile', 'uiService'];
-	angular.module('od.directive', [])
-		.directive('od', odDirective);
+	odDirective.$inject = ['$rootScope', '$timeout', 'BaseMapService', 'BaseMapFactory', 'Auth', 'odService', '$compile', 'uiService'];
+	angular.module('walmex').directive('od', odDirective);
 })();

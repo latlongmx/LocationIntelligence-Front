@@ -190,7 +190,6 @@
 
 	BaseMapController.$inject = ['_', '$scope', 'BaseMapFactory', 'BaseMapService'];
 
-	angular.module('basemap', []).
-	controller('BaseMapController', BaseMapController);
+	angular.module('walmex').controller('BaseMapController', BaseMapController);
 
 })();

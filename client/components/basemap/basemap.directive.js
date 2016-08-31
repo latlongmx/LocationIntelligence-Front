@@ -17,12 +17,12 @@
 				'</div>',
 			].join(''),
 			link:function(scope, element){
-				var newZoom = angular.element(document.getElementsByClassName('js-zoom-number'));
+				var _newZoom = angular.element(document.getElementsByClassName('js-zoom-number'));
 				BaseMapService.resolve(element[0]);
 				
 				BaseMapService.map.then(function(map) {
 					/* Update zoom */
-					newZoom.text(map.getZoom());
+					_newZoom.text(map.getZoom());
 					
 					/**
 					 * [_getZoom Function to get the current zoom]
@@ -30,7 +30,10 @@
 					 * @return {[type]}      [new zoom]
 					 */
 					function _getZoom(zoom){
-						newZoom.text(zoom);
+						_newZoom.text(zoom);
+						$timeout(function(){
+							uiService.removePulse();
+						}, 3000);
 					}
 
 					/**
@@ -39,6 +42,7 @@
 					 * @return {[type]} [Function]
 					 */
 					map.on('zoomend', function(event){
+						uiService.addPulseWhenZoom();
 						_getZoom(map.getZoom());
 					});
 
@@ -58,6 +62,5 @@
 	
 	BaseMap.$inject = ['$rootScope', '$timeout', 'BaseMapService', 'Auth', 'uiService'];
 
-	angular.module('basemap.directive', [])
-		.directive('basemap', BaseMap);
+	angular.module('walmex').directive('basemap', BaseMap);
 })();

@@ -95,6 +95,5 @@
 	}
 
 	paymentsDayGenderDirective.$inject = ['_','odService', 'uiService', '$rootScope'];
-	angular.module('payments.day.gender.directive', [])
-		.directive('paymentsDayGender', paymentsDayGenderDirective);
+	angular.module('walmex').directive('paymentsDayGender', paymentsDayGenderDirective);
 })();

@@ -31,30 +31,40 @@
 				'</div>',
 			'</div>',
 		].join('');
+		
+		this.pulseZoomNotification = '<span class="pnd-pulse-ring"></span>';
+		
+		this.addPulseWhenZoom = function() {
+			return angular.element(document.getElementsByClassName("js-zoom")).append(this.pulseZoomNotification);
+		};
+		
+		this.removePulse = function() {
+			return angular.element(document.getElementsByClassName('pnd-pulse-ring')).remove();
+		};
 
 		/* Login */
 		this.addLogginIsLoading = function(button, message){
 			button.attr("disabled", true);
 			button.text(message);
-		}
+		};
 
 		this.removeLogginIsLoading = function(button, message){
 			button.attr("disabled", false);
 			button.text(message);
-		}
+		};
 
 		this.cleanInputs = function(inputs){
 			inputs.value = "";
-		}
+		};
 
 		/* Loader layer map */
 		this.layerIsLoading = function(){
 			return angular.element(document.getElementsByTagName("body")).append(this.loaderTemplate);
-		}
+		};
 
 		this.layerIsLoaded = function(){
 			return angular.element(document.getElementsByClassName('m-loading')).remove();
-		}
+		};
 		
 		/* Panel */
 		this.changeCurrentPanel = function(boo, layer) {
@@ -75,23 +85,23 @@
 					_current_data_side_panel.addClass('is-panel-open');
 				}
 			}
-		}
+		};
 
 		this.changePreviousPanel = function() {
 			_previousPanelActive.children().attr('src', './images/functions/'+_previousIconActive+'.png');
 			_previousPanelActive.removeClass('is-item-panel-active');
 			_previous_data_side_panel.removeClass('is-panel-open');
 			this.removeCityLayer();
-		}
+		};
 
 		this.setPanel = function(a,b,c) {
 			_set_panel = [];
 			_set_panel.push(a,b,c);
-		}
+		};
 
 		this.getPanel = function() {
 			return _set_panel;
-		}
+		};
 
 		this.panelIsOpen = function(currentPanelId, currentIcon, currentPanel, layer){
 			this.setPanel(currentPanelId,currentIcon,currentPanel);
@@ -116,7 +126,7 @@
 			if(_previous_data_side_panel){
 				!_current_data_side_panel ? this.changeCurrentPanel(true) : this.changePreviousPanel();
 			}
-		}
+		};
 		
 		/* Layer OD */
 		this.addCityLayer = function(layer) {
@@ -126,12 +136,12 @@
 					cityLayerGroup.addTo(map);
 				});
 			}
-		}
+		};
 
 		this.removeCityLayer = function() {
 			cityLayerGroup.clearLayers();
 			_od_active = "";
-		}
+		};
 
 		this.odIsOpen = function(od, data) {
 			_od_previous = _od_active;
@@ -139,9 +149,9 @@
 			if (_od_previous !== _od_active){
 				this.addCityLayer(data);
 			}
-		}
+		};
 
 	}
 	uiService.$inject = ['$mdDialog', 'BaseMapService', 'odService'];
-	angular.module('ui.service', []).service('uiService', uiService);
+	angular.module('walmex').service('uiService', uiService);
 })();

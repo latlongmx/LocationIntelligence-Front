@@ -151,7 +151,6 @@
 
 	AddCompetenceByNameController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', 'FileUploader', '$document', 'LocationFactory', 'CompetenceService', 'BaseMapService', 'BaseMapFactory'];
 
-	angular.module('add.competence.name.controller', []).
-	controller('AddCompetenceByNameController', AddCompetenceByNameController);
+	angular.module('walmex').controller('AddCompetenceByNameController', AddCompetenceByNameController);
 
 })();

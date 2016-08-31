@@ -3,51 +3,7 @@
 	'use strict';
 
 	angular.module('walmex',[
-			'login',
-			'login.service',
-			'login.factory',
-			'basemap',
-			'basemap.directive',
-			'basemap.service',
-			'basemap.factory',
 			'routes',
-			'menu.directive',
-			'panel.directive',
-			'location.service',
-			'location.directive',
-			'location.factory',
-			'add.location.controller',
-			'edit.layer.location.controller',
-			'competence.directive',
-			'competence.service',
-			'add.competence.csv.controller',
-			'add.competence.var.controller',
-			'add.competence.name.controller',
-			'add.competence.var.service',
-			'edit.layer.competence.controller',
-			'demograhpy.service',
-			'demography.directive',
-			'potential.directive',
-			'accessibility.directive',
-			'accessibility.service',
-			'heatmap.directive',
-			'heatmap.service',
-			'timerings.directive',
-			'add.heatmap.controller',
-			'add.heatmap.service',
-			'edit.layer.heatmap.controller',
-			'od.directive',
-			'od.service',
-			'avg.day.gender.directive',
-			'avg.age.directive',
-			'payments.day.gender.directive',
-			'payments.age.directive',
-			'cards.day.directive',
-			'cards.age.directive',
-			'gender.graph.directive',
-			'rings.modal.controller',
-			'search.directive',
-			'ui.router',
 			'ui.bootstrap',
 			'com.pushmenu',
 			'dem.pushmenu',
@@ -55,8 +11,6 @@
 			'chroma.angularChroma',
 			'ngMaterial',
 			'angularFileUpload',
-			'ui.service',
-			'msg.service',
 			'slickCarousel'
 		]
 	)
@@ -105,12 +59,16 @@
 				//window.location.href = "http://52.8.211.37/walmex.latlong.mx";
 			}
 			
-			if(permissions !== null) {
+			if(permissions) {
 				if (permissions === "uA"){
-					$rootScope.hasPermission = false;
+					$rootScope.userRole = {
+						hasPermission : false
+					};
 				}
 				if (permissions === "uC"){
-					$rootScope.hasPermission = true;
+					$rootScope.userRole = {
+						hasPermission : true
+					};
 				}
 			}
 		});
@@ -137,9 +95,9 @@
 			'hue-1': '300',
 			'hue-2': '400',
 			'hue-3': '500',
-
 		});
-		$mdThemingProvider.theme('default')
-		    .primaryPalette('demo')
+		
+		$mdThemingProvider.theme('default').primaryPalette('demo');
+
 	});
 })();

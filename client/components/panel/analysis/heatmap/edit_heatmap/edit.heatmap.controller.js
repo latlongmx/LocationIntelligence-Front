@@ -48,7 +48,6 @@
 
 	EditLayerHeatmapController.$inject = ['$scope', '$mdDialog', '$mdToast', 'heatmap_layer_id', 'BaseMapService'];
 
-	angular.module('edit.layer.heatmap.controller', []).
-	controller('EditLayerHeatmapController', EditLayerHeatmapController);
+	angular.module('walmex').controller('EditLayerHeatmapController', EditLayerHeatmapController);
 
 })();

@@ -109,6 +109,5 @@
 	}
 
 	paymentsAgeDirective.$inject = ['_','odService', 'uiService', '$rootScope'];
-	angular.module('payments.age.directive', [])
-		.directive('paymentsAge', paymentsAgeDirective);
+	angular.module('walmex').directive('paymentsAge', paymentsAgeDirective);
 })();
