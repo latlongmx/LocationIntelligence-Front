@@ -41,7 +41,7 @@
 				$scope.isTimeOpen = false;
 				$scope.isTripOpen = false;
 				$scope.isOpen = false;
-				
+
 				// if ($rootScope.thisUser) {
 				// 	$rootScope.thisUser === "uA" ? $scope.hasPermission = false : $scope.hasPermission = true;
 				// }
@@ -163,6 +163,14 @@
 										o.isActive = false;
 										o.draw = geo;
 										o.icon = img;
+
+										/*scope.userDraws.push({
+											id: o.id_draw,
+											name: o.name_draw,
+											icon:img,
+											isActive: false,
+											draw: geo
+										});*/
 									});
 
 									$scope.userDraws = res.data.draws;
