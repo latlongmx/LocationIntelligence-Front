@@ -35,20 +35,22 @@
   <div id="divType" class="hide">
     <md-fab-speed-dial md-open="false" md-direction="right" ng-class="md-fling" class="md-fab-float">
       <md-fab-trigger>
-        <md-button class="md-fab md-warn" aria-label="bus" style="background:rgb(255,23,68);"><i class="material-icons">drive_eta</i></md-button>
+        <md-button class="md-fab md-warn" aria-label="bus" style="background:rgb(255,23,68);">
+          <md-icon style="color:#ffffff;">directions_walk</md-icon>
+        </md-button>
       </md-fab-trigger>
       <md-fab-actions>
-        <md-button ng-click="setTypeRing('transit')" class="md-fab md-raised md-mini" aria-label="transit" style="background:rgb(255,82,82);color:#ffffff;">
-          <md-icon>directions_bus</md-icon>
+        <md-button ng-click="setTypeRing('transit')" class="md-fab md-raised md-mini" aria-label="transit" style="background:rgb(255,82,82);">
+          <md-icon style="color:#ffffff;">directions_bus</md-icon>
         </md-button>
-        <md-button ng-click="setTypeRing('car')" class="md-fab md-raised md-mini" aria-label="car" style="background:rgb(255,82,82);color:#ffffff;">
-          <md-icon>directions_car</md-icon>
+        <md-button ng-click="setTypeRing('car')" class="md-fab md-raised md-mini" aria-label="car" style="background:rgb(255,82,82);">
+          <md-icon style="color:#ffffff;">directions_car</md-icon>
         </md-button>
-        <md-button ng-click="setTypeRing('bike')" class="md-fab md-raised md-mini" aria-label="bike" style="background:rgb(255,82,82);color:#ffffff;">
-          <md-icon>directions_bike</md-icon>
+        <md-button ng-click="setTypeRing('bike')" class="md-fab md-raised md-mini" aria-label="bike" style="background:rgb(255,82,82);">
+          <md-icon style="color:#ffffff;">directions_bike</md-icon>
         </md-button>
-        <md-button ng-click="setTypeRing('walk')" class="md-fab md-raised md-mini" aria-label="walk" style="background:rgb(255,82,82);color:#ffffff;">
-          <md-icon>directions_walk</md-icon>
+        <md-button ng-click="setTypeRing('walk')" class="md-fab md-raised md-mini" aria-label="walk" style="background:rgb(255,82,82);">
+          <md-icon style="color:#ffffff;">directions_walk</md-icon>
         </md-button>
       </md-fab-actions>
     </md-fab-speed-dial>

@@ -147,6 +147,11 @@
 	}
 }
 
+.polygon-tool--in-accessibility,
+.area-tool--in-accessibility {
+	color: $white;
+}
+
 .leaflet-zoom-out {
 	&:before {
 		padding: 8px 6.5px;

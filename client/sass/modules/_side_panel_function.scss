@@ -73,7 +73,7 @@
 }
 
 .m-side-panel__actions {
-	padding: 10px 15px 0px;
+	padding: 10px 15px 10px;
 	text-align: left;
 }
 
@@ -266,7 +266,7 @@ button.m-side-panel__locations-list__item {
 .m-side-panel__list--in-accessibility__analysis-area {
 	bottom: initial;
 	left: 0;
-	margin: 10px 0px 0px;
+	//margin: 10px 0px 0px;
 	right: 0;
 	top: 101px;
 	position:static;
@@ -275,7 +275,7 @@ button.m-side-panel__locations-list__item {
 .m-side-panel__list--in-accessibility__car-access {
 	bottom: initial;
 	left: 0;
-	margin: 10px 0px 0px;
+	// margin: 10px 0px 0px;
 	right: 0;
 	top: 0;
 	position:static;
@@ -284,15 +284,17 @@ button.m-side-panel__locations-list__item {
 .m-side-panel__list--in-accessibility__access-routes {
 	bottom: initial;
 	left: 0;
-	margin: 10px 0px 0px;
+	// margin: 10px 0px 0px;
 	right: 0;
 	top: 0;
 	position:static;
+	text-align:left;
 }
+
 .m-side-panel__list--in-accessibility__transport-data {
 	bottom: initial;
 	left: 0;
-	margin: 10px 0px 0px;
+	// margin: 10px 0px 0px;
 	right: 0;
 	top: 0;
 	position:static;

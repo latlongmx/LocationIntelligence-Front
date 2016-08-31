@@ -11,6 +11,7 @@
 		_map = null,
 		_editableLayers = null,
 		_currentFeature = null,
+		listAccessTrans = null,
 		_toolDraw = {
 			'line':null,
 			'polygon':null,
@@ -43,13 +44,13 @@
 										'<h4 class="m-side-panel__subtitle">Crear área:</h4>',
 									'</div>',
 									'<div layout="column" flex="50" layout-align="center center">',
-										'<md-button id="btnAddNewPoly" ng-disabled="disableDrawAccessBtn" aria-label="btnAddNewPoly" class="md-raised md-fab md-mini leaflet-draw-draw-polygon js-draw-area" title="Dibujar Poligono" ng-click="drawAreaInMap($event,\'polygon\')">',
-										'<i class="demo demo-area polygon-tool"></i>',
+										'<md-button id="btnAddNewPoly" ng-disabled="disableDrawAccessBtn" aria-label="btnAddNewPoly" class="md-primary md-raised md-fab md-mini js-draw-area" title="Dibujar Poligono" ng-click="drawAreaInMap($event,\'polygon\')">',
+											'<md-icon>crop_din</md-icon>',
 										'</md-button>',
 									'</div>',
 									'<div layout="column" flex="50" layout-align="center center">',
-										'<md-button id="btnAddNewRadio" ng-disabled="disableDrawAccessBtn" aria-label="area-tool" class="md-raised md-fab md-mini leaflet-draw-draw-circle  js-draw-area" title="Dibujar Radio" ng-click="drawAreaInMap($event,\'circle\')">',
-										  '<i class="demo demo-radio area-tool"></i>',
+										'<md-button id="btnAddNewRadio" ng-disabled="disableDrawAccessBtn" aria-label="area-tool" class="md-primary  md-raised md-fab md-mini js-draw-area" title="Dibujar Radio" ng-click="drawAreaInMap($event,\'circle\')">',
+											'<md-icon>panorama_fish_eye</md-icon>',
 										'</md-button>',
 									'</div>',
 								'</div>',
@@ -64,7 +65,7 @@
 										'<p flex="10" class="m-side-panel__list-content__item-single">',
 										'<i class="demo {{draw.icon}}"></i>',
 										'</p>',
-										'<md-switch data-iddraw="draw.id_draw" aria-label="draw.id_draw" ng-model="draw.isActive" flex="10" data-iddraw="draw.id_draw" ng-change="turnOnOffDraw(draw.id_draw)" ng-model="layer" md-no-ink class="md-primary md-hue-1 m-side-panel__list-content__item-single"></md-switch>',
+										'<md-switch data-iddraw="draw.id_draw" aria-label="draw.id_draw" ng-model="draw.isActive" flex="10" data-iddraw="draw.id_draw" ng-change="turnOnOffDraw(draw.id_draw)" ng-model="layer" md-no-ink class="md-primary md-hue-3 m-side-panel__list-content__item-single"></md-switch>',
 										'<md-button flex="10" data-iddraw="draw.id" ng-click="zoomToUserDraw(draw.id_draw)" class="md-icon-button md-button md-ink-ripple m-side-panel__list-content__item-single">',
 											'<md-icon>zoom_in</md-icon>',
 										'</md-button>',
@@ -75,7 +76,7 @@
 								'</ul>',
 							'</div>',
 						'</div>',
-						'<div style="position: inherit;top: 241px;bottom: 0;overflow-y: auto;">',
+						'<div style="position: inherit;top: 256px;bottom: 0;overflow-y: auto;">',
 							'<div>',
 								'<div class="m-side-panel__list m-side-panel__list--in-accessibility__car-access">',
 									'<h3 class="m-side-panel__user-title">Vías de acceso vehicular</h3>',
@@ -101,8 +102,10 @@
 								'</div>',
 								'<div class="m-side-panel__list m-side-panel__list--in-accessibility__access-routes">',
 									'<h3 class="m-side-panel__user-title">Vías de acceso en transporte</h3>',
-										'<md-list id="listAccessTrans">',
-										'</md-list>',
+									'<div layout="row" class="layout-align-space-around-stretch layout-row" ng-if="access_routes">',
+										'<md-progress-circular md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
+									'</div>',
+									'<md-list id="listAccessTrans" layout-padding="1"></md-list>',
 								'</div>',
 								'<div class="m-side-panel__list m-side-panel__list--in-accessibility__transport-data">',
 									'<h3 class="m-side-panel__user-title">Datos de transporte público</h3>',
@@ -114,7 +117,7 @@
 											'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="SUB">Tren Suburbano</md-button>',
 										'</md-list-item>',
 										'<md-list-item layout="row">',
-											'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="STE">Transportes eléctrico</md-button>',
+											'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="STE">Transportes eléctricos</md-button>',
 											'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="RTP">Transporte de pasajeros</md-button>',
 											'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="CC">Concesionados</md-button>',
 											'<md-button flex="25" class="btnTransWMS md-button--in-accessibility" ng-click="vialToggleWMS($event)" data-tipo="NCC">Nochebús</md-button>',
@@ -130,6 +133,7 @@
 				scope.openPanel = function(a,b){
 					ctrl.explorationItem(a,b);
 				};
+				listAccessTrans = angular.element(document.getElementById('listAccessTrans'));
 				//scope.userDraws = [];
 				scope.isDrawAccessibility = true;
 
@@ -332,8 +336,9 @@
 				 * @param  {[type]} e [description]
 				 */
 				var _startAccessibilityAnalysis = function(){
+					scope.access_routes = true;
 					var geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
-					var listAccessTrans = angular.element('#listAccessTrans');
+					
 					listAccessTrans.html('');
 					angular.element('#accessNumP').html('0');
 					angular.element('#accessNumS').html('0');
@@ -343,6 +348,7 @@
 						MTS: geo_wkt.mts
 					};
 					AccessibilityService.viasInfo(opts).then(function(res){
+						
 						if(res && res.data){
 							var info = res.data.info;
 							var p = 0;
@@ -378,15 +384,23 @@
 
 							var trans = _.countBy(res.data.transp,'agency_id');
 							t = 0;
+							scope.trnasport = "directions_bus";
 							_.each(trans, function(v,k){
+								var template = [
+									'<md-list-item class="md-2-line" style="min-height:inherit;">',
+										'<md-button class="md-secondary md-icon-button" aria-label="call" style="left:0;">',
+											'<i class="material-icons color-gray50">directions_bus</i>',
+										'</md-button>',
+								    '<div class="md-list-item-text" style="padding-left:50px;margin:0;">',
+								      '<h4>'+cat_vias[k]+'</h4>',
+								      '<h6 style="margin:0;">'+k+'</h6>',
+								    '</div>',
+								    '<md-button class="md-secondary md-icon-button color-gray75" aria-label="call">'+v+'</md-button>',
+								  '</md-list-item>',
+								];
 								t++;
-								listAccessTrans.append([
-									'<md-list-item>',
-										'<img ng-src=""></img>',
-										'<p>'+cat_vias[k]+'</p>',
-										'<p id="accessNumT">'+v+'</p>',
-									'</md-list-item>'
-								].join(''));
+								listAccessTrans.append(template.join(''));
+								scope.access_routes = false;
 							});
 						}
 					}, function(error){
@@ -505,6 +519,7 @@
 					}
 					else{
 						if(_layers.viasUserWMS !== undefined){
+							listAccessTrans.empty();
 							_map.removeLayer( _layers.viasUserWMS );
 						}
 					}
