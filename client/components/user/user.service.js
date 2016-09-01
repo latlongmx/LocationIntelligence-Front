@@ -56,7 +56,6 @@
 		};
 	}
 	UserService.$inject = ['$q', '$http', 'Auth'];
-	angular.module('user.service', []).
-		service('UserService', UserService);
+	angular.module('walmex').service('UserService', UserService);
 
 })();

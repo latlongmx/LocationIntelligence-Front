@@ -106,6 +106,8 @@
 			map.on('zoomend', function (e) {
 				UserFactory.saveMapView();
 			});
+			UserFactory.getMapView();
+
 
 
 			map.on('draw:deleted', function (e) {
