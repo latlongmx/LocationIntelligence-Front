@@ -102,23 +102,28 @@ L.NonTiledLayer.WMS = L.NonTiledLayer.extend({
       return;
     } // do nothing if there's an error
 
-    var html = "";
-    var json = JSON.parse(content);
-    _.each(json.features, function(o){
-      _.each(o.properties.description, function(oo, i){
-        _.each(oo,function(v,n){
-          html += "<strong>"+n.trim()+"</strong>:"+v.trim()+"<br>";
-        });
-      });
-    });
+		try{
+			var html = "";
+	    var json = JSON.parse(content);
+	    _.each(json.features, function(o){
+	      _.each(o.properties.description, function(oo, i){
+	        _.each(oo,function(v,n){
+	          html += "<strong>"+n.trim()+"</strong>:"+v.trim()+"<br>";
+	        });
+	      });
+	    });
 
-    // Otherwise show the content in a popup, or something.
-    L.popup({
-        maxWidth: 800
-      })
-      .setLatLng(latlng)
-      .setContent(html)
-      .openOn(this._map);
+	    // Otherwise show the content in a popup, or something.
+	    L.popup({
+	        maxWidth: 800
+	      })
+	      .setLatLng(latlng)
+	      .setContent(html)
+	      .openOn(this._map);
+		}catch(e){
+
+		}
+
   },
 
 	getImageUrl: function (world1, world2, width, height) {

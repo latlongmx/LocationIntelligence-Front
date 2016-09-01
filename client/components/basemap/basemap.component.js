@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	var BaseMapController = function(_, $scope, BaseMapFactory, BaseMapService){
+	var BaseMapController = function(_, $scope, BaseMapFactory, BaseMapService, UserFactory){
 
 		var _this = null,
 		_map = null,
@@ -97,6 +97,16 @@
 			_featureGroup = BaseMapService.featureGroup.addTo(map);
 			_drawControl = BaseMapService.drawControl(_featureGroup);
 			_drawControl.addTo(map);
+
+
+			//USER SAVE ZOOM AND BOUNDS
+			map.on('moveend', function (e) {
+				UserFactory.saveMapView();
+			});
+			map.on('zoomend', function (e) {
+				UserFactory.saveMapView();
+			});
+
 
 			map.on('draw:deleted', function (e) {
 
@@ -191,7 +201,7 @@
 		// });
 	};
 
-	BaseMapController.$inject = ['_', '$scope', 'BaseMapFactory', 'BaseMapService'];
+	BaseMapController.$inject = ['_', '$scope', 'BaseMapFactory', 'BaseMapService','UserFactory'];
 
 	angular.module('walmex').controller('BaseMapController', BaseMapController);
 
