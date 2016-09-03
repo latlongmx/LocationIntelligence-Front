@@ -30,6 +30,12 @@
 	background: $green-ssmooth;
 	color: $white;
 	font-weight: 600;
-	margin-top: 30px;
 	width: 100%;
+	text-transform:uppercase;
+}
+
+.m-login__container-body__success-signup {
+	img {
+		margin:0 auto;
+	}
 }

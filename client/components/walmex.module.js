@@ -53,10 +53,9 @@
 		$rootScope.$on('$viewContentLoading', function() {
 			var auth = Auth.checkStatus();
 			var permissions = Auth.getPermission();
-
+			console.log(auth)
 			if(auth === false) {
 				Auth.logout();
-				//window.location.href = "http://52.8.211.37/walmex.latlong.mx";
 			}
 			
 			if(permissions) {

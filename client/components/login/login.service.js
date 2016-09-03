@@ -7,6 +7,10 @@
 	function loginService($q, $http, $httpParamSerializer){
 		var deferred = null,
 		_loginRequest = null,
+		_signupRequest = null,
+		_signupdata = null,
+		_userType = null,
+		_email = null,
 		_username = null,
 		_password = null,
 		_grant_type = "password",
@@ -33,6 +37,31 @@
 			});
 
 			_loginRequest.then(function(result){
+				deferred.resolve(result);
+			}, function(error){
+				deferred.reject(error);
+			});
+			return deferred.promise;
+		};
+		
+		this.signupRequest = function(data){
+			deferred = $q.defer();
+			_email = data.email;
+			_username = data.user;
+			_password = md5(data.password);
+			_userType = 'uA';
+			_signupdata = {u: _username, p: _password, ml: _email, tu: _userType};
+			
+			_signupRequest = $http({
+				url: 'http://52.8.211.37/api.walmex.latlong.mx/oa/register',
+				method: 'POST',
+				data: $httpParamSerializer(_signupdata),
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'
+				}
+			});
+
+			_signupRequest.then(function(result){
 				deferred.resolve(result);
 			}, function(error){
 				deferred.reject(error);

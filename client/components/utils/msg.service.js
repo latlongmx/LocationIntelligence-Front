@@ -6,12 +6,25 @@
 	
 	function messagesService(){
 		
+		/* Signup */
+		this.addMessageSignup = function(button){
+			return "Creando cuenta...";
+		}
+		this.removeMessageSignup = function(button){
+			return "Crear cuenta";
+		}
+		this.redireccionandoToLogin = function(button){
+			return "Redireciconando a login";
+		}
 		/* Login */
 		this.addMessageLoggin = function(button){
 			return "Iniciando...";
 		}
 		this.removeMessageLoggin = function(button){
 			return "Iniciar";
+		}
+		this.userExists = function(button){
+			return "El usuario o email ya existe";
 		}
 		this.userNotExists = function(button){
 			return "El usuario no existe";

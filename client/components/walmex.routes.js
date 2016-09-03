@@ -12,6 +12,13 @@
 				controller: 'LoginController',
 				controllerAs: 'lg'
 			})
+			.state('registro', {
+				url: '/registro',
+				reload: true,
+				templateUrl: './components/signup/signup.html',
+				controller: 'RegistroController',
+				controllerAs: 'rg'
+			})
 			.state('mapa', {
 				url: '/mapa',
 				reload: true,

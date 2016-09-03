@@ -6,16 +6,21 @@
 
 	function AuthFactory($location, $window, $rootScope, ROLES){
 		var _privateRoutes = null,
+		_publicRoutes = null,
 		_userType = null,
 		_session = null,
-		_key = null;
+		_key = null,
+		_token = null;
 
 		return {
 			getToken : function() {
-				return JSON.parse(sessionStorage.getItem('access_token'));
+				if (JSON.parse(sessionStorage.getItem('access_token'))) {
+					return JSON.parse(sessionStorage.getItem('access_token'));
+				}
+				return console.error("not autorized");
 			},
 			login: function(session) {
-				var token = this.getToken();
+				_token = this.getToken();
 				_session = JSON.stringify(session);
 				sessionStorage.setItem('access_token', _session);
 				$location.path("/mapa").replace();
@@ -25,21 +30,22 @@
 				$location.path("/").replace();
 			},
 			checkStatus : function() {
-				var token = this.getToken();
+				_token = this.getToken();
 				_privateRoutes = ["/mapa"];
+				_publicRoutes = ["/login", "/registro"];
 
-				if(this.in_array($location.path(), _privateRoutes) && token === null){
-					$location.path("/login").replace();
-					return false;
+				if (_token) {
+					if (this.status_routes($location.path(), _privateRoutes) || this.status_routes($location.path(), _publicRoutes)) {
+						$location.path("/mapa").replace();
+						return true;
+					}
 				}
-
-				if($location.path("/login") && token !== null){
-					$location.path("/mapa").replace();
+				if (this.status_routes($location.path(), _publicRoutes)) {
 					return true;
 				}
-				return true;
+				return false;
 			},
-			in_array : function(needle, haystack) {
+			status_routes : function(needle, haystack) {
 				var key = '';
 				for(key in haystack){
 					if(haystack[key] === needle){
@@ -49,11 +55,11 @@
 				return false;
 			},
 			getPermission: function(){
-				var token = this.getToken();
-				if (token) {
+				_token = this.getToken();
+				if (_token) {
 					for(var key in ROLES){
-						if(ROLES[key] === token.userType){
-							_userType = token.userType;
+						if(ROLES[key] === _token.userType){
+							_userType = _token.userType;
 						}
 					}
 				}

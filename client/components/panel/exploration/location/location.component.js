@@ -6,6 +6,7 @@
 
 	function locationDirective(_, $mdDialog, $mdToast, $document, $timeout,  LocationFactory, LocationService, BaseMapFactory, Auth, uiService){
 		var _access_token = Auth.getToken();
+		console.log(_access_token)
 
 		return {
 			restrict: 'E',

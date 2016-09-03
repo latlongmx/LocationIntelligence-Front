@@ -1,0 +1,49 @@
+<div class="m-login">
+	<div class="m-login__container">
+		<div class="container">
+			<div class="pure-g">
+				<div class="pure-u-1 pure-u-sm-5-24 pure-u-md-6-24 pure-u-lg-8-24 pure-u-xl-9-24"></div>
+				<div class="pure-u-1 pure-u-sm-14-24 pure-u-md-12-24 pure-u-lg-8-24 pure-u-xl-6-24">
+					<div class="m-login__container-body">
+						<div class="m-login__container-body__logo">
+							<img src="./images/login/login_logo.png" alt="" width="150">
+						</div>
+						<form name="signupForm" novalidate class="m-login__container-body__form js-signup-form" ng-if="!rg.signup_success">
+							<fieldset class="m-fieldset">
+							<label for="" class="m-label m-label--in-login" data-user="email">Email</label>
+								<input type="email" name="email" class="m-input m-input--in-login" ng-model="rg.signup.email" autocomplete="off" required>
+								<p ng-show="signupForm.email.$invalid && !signupForm.email.$pristine" class="m-input-error js-email-error">El email no es válido</p>
+							</fieldset>
+							<fieldset class="m-fieldset">
+							<label for="" class="m-label m-label--in-login" data-user="user">Usuario</label>
+								<input type="text" name="user" class="m-input m-input--in-login" ng-model="rg.signup.user" autocomplete="off" required>
+								<p ng-show="signupForm.user.$invalid && !signupForm.user.$pristine" class="m-input-error js-user-error">El nombre de usuario es requerido</p>
+							</fieldset>
+							<fieldset class="m-fieldset">
+								<label for="" class="m-label m-label--in-login" data-user="password">Password</label>
+									<input type="password" name="password" class="m-input m-input--in-login" ng-model="rg.signup.password" ng-minlength="6" autocomplete="off" required>
+									<p ng-show="signupForm.password.$invalid && !signupForm.password.$pristine" class="m-input-error js-password-error">La contraseña debe ser mínimo de 6 carácteres
+							</fieldset>
+							<fieldset class="m-fieldset">
+								<label for="" class="m-label m-label--in-login" data-user="repassword">Confirmar Password</label>
+								<input type="password" name="repassword" class="m-input m-input--in-login" ng-model="rg.signup.repassword" ng-minlength="6" autocomplete="off" required>
+								<p ng-show="signupForm.repassword.$invalid && !signupForm.repassword.$pristine" class="m-input-error js-repassword-error">La contraseña no coincide</p>
+							</fieldset>
+							<div class="align-center">
+								<button type="submit" class="pure-button m-login__container-body__button is-larger" ng-click="rg.submitSignup(signupForm, rg.signup)">Crear cuenta</button>
+								<span class="m-input-error js-signup-error" ng-if="rg.error">{{rg.message}}</span>
+							</div>
+						</form>
+						<div class="m-login__container-body__success-signup" ng-if="rg.signup_success">
+							<img src="./images/login/signup_success.png" alt="" width="75">
+						</div>
+						<div class="m-signup-login">
+							<button class="pure-button m-signup-login__question" ui-sref="login">¿Ya tienes una cuenta?</button>
+						</div>
+					</div>
+				</div>
+				<div class="pure-u-1 pure-u-sm-5-24 pure-u-md-6-24 pure-u-lg-8-24 pure-u-xl-9-24"></div>
+			</div>
+		</div>
+	</div>
+</div>
