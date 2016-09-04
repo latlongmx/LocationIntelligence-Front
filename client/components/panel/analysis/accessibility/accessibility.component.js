@@ -106,8 +106,9 @@
 								'<div class="m-side-panel__list m-side-panel__list--in-accessibility__access-routes">',
 									'<h3 class="m-side-panel__user-title">Vías de acceso en transporte</h3>',
 									'<div layout="row" class="layout-align-space-around-stretch layout-row" ng-if="access_routes">',
-										'<md-progress-circular md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
+										'<md-progress-circular class="md-primary md-hue-3" md-diameter="70" md-mode="indeterminate"></md-progress-circular>',
 									'</div>',
+									'<h4 class="color-gray50 margin0 padding-l padding-r padding-top padding-bottom" ng-if="access_routes_not_found">No hay datos que mostrar</h4>',
 									'<md-list id="listAccessTrans" layout-padding="1"></md-list>',
 								'</div>',
 								'<div class="m-side-panel__list m-side-panel__list--in-accessibility__transport-data">',
@@ -343,6 +344,7 @@
 				 */
 				var _startAccessibilityAnalysis = function(){
 					scope.access_routes = true;
+					scope.access_routes_not_found = false;
 					var geo_wkt = BaseMapFactory.geom2wkt(_currentFeature);
 					
 					listAccessTrans.html('');
@@ -351,16 +353,18 @@
 						MTS: geo_wkt.mts
 					};
 					AccessibilityService.viasInfo(opts).then(function(res){
-						
+						console.log(res.data)
 						if(res && res.data){
 							var info = res.data.info;
 							var p = 0;
 							var s = 0;
 							var t = 0;
+							var trans = null;
 							var pP = ["Carretera","Autopista","Periférico","Circuito"];
 							var pS = ["Avenida","Viaducto","Eje vial","Circunvalación","Boulevard","Calzada"];
 							var pT = ["Calle","Continuación","Corredor","Prolongación","Pasaje","Diagonal","Retorno","Andador","Cerrada","Privada","Plaza","Ampliación","Callejón"];
 							var noms = [];
+
 							_.each(info,function(o){
 								var tipoVial = o.tipovial;
 								if(pP.indexOf(tipoVial)!==-1){
@@ -385,26 +389,33 @@
 								'SUB': 'Ferrocarriles Suburbanos'
 							};
 
-							var trans = _.countBy(res.data.transp,'agency_id');
 							t = 0;
 							scope.trnasport = "directions_bus";
-							_.each(trans, function(v,k){
-								var template = [
-									'<md-list-item class="md-2-line" style="min-height:inherit;">',
-										'<md-button class="md-secondary md-icon-button" aria-label="call" style="left:0;">',
-											'<i class="material-icons color-gray50">directions_bus</i>',
-										'</md-button>',
-								    '<div class="md-list-item-text" style="padding-left:50px;margin:0;">',
-								      '<h4>'+cat_vias[k]+'</h4>',
-								      '<h6 style="margin:0;">'+k+'</h6>',
-								    '</div>',
-								    '<md-button class="md-secondary md-icon-button color-gray75" aria-label="call">'+v+'</md-button>',
-								  '</md-list-item>',
-								];
-								t++;
-								listAccessTrans.append(template.join(''));
+
+							if (res.data.transp.length !== 0) {
+								trans = _.countBy(res.data.transp,'agency_id')
+								_.each(trans, function(v,k){
+									var template = [
+										'<md-list-item class="md-2-line" style="min-height:inherit;">',
+											'<md-button class="md-secondary md-icon-button" aria-label="call" style="left:0;">',
+												'<i class="material-icons color-gray50">directions_bus</i>',
+											'</md-button>',
+									    '<div class="md-list-item-text" style="padding-left:50px;margin:0;">',
+									      '<h4>'+cat_vias[k]+'</h4>',
+									      '<h6 style="margin:0;">'+k+'</h6>',
+									    '</div>',
+									    '<md-button class="md-secondary md-icon-button color-gray75" aria-label="call">'+v+'</md-button>',
+									  '</md-list-item>',
+									];
+									t++;
+									listAccessTrans.append(template.join(''));
+									scope.access_routes = false;
+								});
+							}
+							else {
+								scope.access_routes_not_found = true;
 								scope.access_routes = false;
-							});
+							}
 						}
 					}, function(error){
 						console.log(error);
@@ -492,6 +503,7 @@
 							_currentFeature = null;
 							if(_layers.viasUserWMS !== undefined){
 								_map.removeLayer( _layers.viasUserWMS );
+								scope.access_routes_not_found = false;
 								listAccessTrans.empty();
 								accessNumP.html('0');
 								accessNumS.html('0');
@@ -530,6 +542,7 @@
 							accessNumS.html('0');
 							accessNumT.html('0');
 							_map.removeLayer( _layers.viasUserWMS );
+							scope.access_routes_not_found = false;
 						}
 					}
 				};
