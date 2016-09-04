@@ -36,9 +36,10 @@
 						</form>
 						<div class="m-login__container-body__success-signup" ng-if="rg.signup_success">
 							<img src="./images/login/signup_success.png" alt="" width="75">
+							<h2 class="color-gray50 weight300 align-center">Registro exitoso</h2>
 						</div>
 						<div class="m-signup-login">
-							<button class="pure-button m-signup-login__question" ui-sref="login">¿Ya tienes una cuenta?</button>
+							<button class="pure-button m-signup-login__question" ui-sref="login">{{rg.success_signup}}</button>
 						</div>
 					</div>
 				</div>

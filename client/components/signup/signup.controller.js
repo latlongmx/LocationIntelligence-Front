@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function RegistroController($scope, $timeout, loginService, Auth, uiService, messagesService){
+	function RegistroController($scope, $location, $timeout, loginService, Auth, uiService, messagesService){
 		var rg = this,
 		_$js_login_form = null,
 		_data = null,
@@ -17,6 +17,8 @@
 		_$js_signup_error = angular.element(document.getElementsByClassName('js-signup-error'));
 		_$inputsInForm = angular.element(document.getElementsByName('signupForm')).find('input');
 		_$buttonForm = angular.element(document.getElementsByName('signupForm')).find('[type=submit]');
+		
+		rg.success_signup = "¿Ya tienes una cuenta?";
 
 		rg.submitSignup = function(signupForm, data){
 			uiService.addLogginIsLoading(_$buttonForm, messagesService.addMessageSignup);
@@ -36,10 +38,11 @@
 					}
 					if(result.status === 200 && result.data.user_exist === 0) {
 						rg.signup_success = true;
+						rg.success_signup = messagesService.redirectToLogin();
 						uiService.addLogginIsLoading(_$buttonForm, messagesService.redireccionandoToLogin);
 						$timeout(function(){
 							$location.path("/login").replace();
-						}, 2500);
+						}, 3000);
 					}
 				}, function(error){
 					rg.error = true;
@@ -67,7 +70,7 @@
 
 	}
 	
-	RegistroController.$inject = ['$scope', '$timeout', 'loginService', 'Auth', 'uiService', 'messagesService'];
+	RegistroController.$inject = ['$scope', '$location', '$timeout', 'loginService', 'Auth', 'uiService', 'messagesService'];
 
 	angular.module('walmex').controller('RegistroController', RegistroController);
 

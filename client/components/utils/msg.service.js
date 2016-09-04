@@ -13,8 +13,8 @@
 		this.removeMessageSignup = function(button){
 			return "Crear cuenta";
 		}
-		this.redireccionandoToLogin = function(button){
-			return "Redireciconando a login";
+		this.redirectToLogin = function(button){
+			return "Redireccionando...";
 		}
 		/* Login */
 		this.addMessageLoggin = function(button){

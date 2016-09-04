@@ -53,7 +53,6 @@
 		$rootScope.$on('$viewContentLoading', function() {
 			var auth = Auth.checkStatus();
 			var permissions = Auth.getPermission();
-			console.log(auth)
 			if(auth === false) {
 				Auth.logout();
 			}
