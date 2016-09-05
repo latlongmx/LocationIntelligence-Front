@@ -116,14 +116,15 @@
 						$timeout(function(){
 							cityFile = DFGeoJson;
 							uiService.odIsOpen(_data_ep, cityFile);
-						}, 750);
+						}, 500);
 						if (currentZipCodes !== true && _currentZipCodes.zipCodes !== null && _currentZipCodes.zipCode !== null && _currentZipCodes.marker !== null) {
-							uiService.layerIsLoading();
+							//uiService.layerIsLoading();
 							$timeout(function(){
 								currentZipCodes = true;
 								odService.setMarkers(_currentZipCodes.zipCodes, _currentZipCodes.zipCode, _currentZipCodes.marker);
-								uiService.layerIsLoaded();
+								
 							}, 1500);
+							//uiService.layerIsLoaded();
 							
 						}
 						

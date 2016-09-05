@@ -226,7 +226,7 @@
 
 					_polygonsGroup = L.geoJson(_geometry_Zc, {
 						style: function(feature) {
-							return { fillOpacity: 0.25, weight: 1.2, color: "#22ac9b", fillColor: "#22ac9b"};
+							return { fillOpacity: 0.5, weight: 1.2, color: "#22ac9b", fillColor: "#22ac9b"};
 						}
 					});
 					_polylinesGroup.addLayer(_polyline);
