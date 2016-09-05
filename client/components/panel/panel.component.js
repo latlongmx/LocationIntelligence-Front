@@ -41,7 +41,7 @@
 				$scope.isTimeOpen = false;
 				$scope.isTripOpen = false;
 				$scope.isOpen = false;
-
+				var currentZipCodes = false;
 				dm.explorationItem = function(dataEp, iconEp){
 					_data_ep = dataEp;
 					_currentPanelId = angular.element(document.querySelector('[data-ep="'+_data_ep+'"]'));
@@ -112,16 +112,29 @@
 					}
 
 					if (_data_ep === "od"){
-						cityFile = DFGeoJson;
-						uiService.odIsOpen(_data_ep, cityFile);
+						var _currentZipCodes = odService.getCurrentZipCodes();
+						$timeout(function(){
+							cityFile = DFGeoJson;
+							uiService.odIsOpen(_data_ep, cityFile);
+						}, 750);
+						if (currentZipCodes !== true && _currentZipCodes.zipCodes !== null && _currentZipCodes.zipCode !== null && _currentZipCodes.marker !== null) {
+							uiService.layerIsLoading();
+							$timeout(function(){
+								currentZipCodes = true;
+								odService.setMarkers(_currentZipCodes.zipCodes, _currentZipCodes.zipCode, _currentZipCodes.marker);
+								uiService.layerIsLoaded();
+							}, 1500);
+							
+						}
+						
 						dm.setLayer = cityFile;
-
 					}
 
 					if (_data_ep !== "od"){
 						uiService.removeCityLayer();
 						odService.removeMarker();
-						$scope.selected_zc = false;
+						currentZipCodes = false;
+						//odService.removeCharts();
 					}
 
 					if (_data_ep === "accessibility") {
@@ -156,14 +169,6 @@
 										o.isActive = false;
 										o.draw = geo;
 										o.icon = img;
-
-										/*scope.userDraws.push({
-											id: o.id_draw,
-											name: o.name_draw,
-											icon:img,
-											isActive: false,
-											draw: geo
-										});*/
 									});
 
 									$scope.userDraws = res.data.draws;

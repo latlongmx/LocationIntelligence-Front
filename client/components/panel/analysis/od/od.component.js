@@ -7,12 +7,12 @@
 	function odDirective($rootScope, $timeout, BaseMapService, BaseMapFactory, Auth, odService, $compile, uiService){
 		var cityPolygons = null,
 		cityData = null,
-		color_x = null;
+		color_x = null,
+		_chartChilds = null;
 		return {
 			restrict: 'E',
-			replace: true,
 			require: '^panelFunctions',
-			scope: true,
+			scope: {},
 			template: [
 				'<div>',
 					'<li class="m-list-functions__item js-panel-item" data-ep="od" tooltip-placement="right" uib-tooltip="Origen Destino" tooltip-animation="true" ng-click="openPanel(\'od\', \'od_icon\')">',
@@ -23,11 +23,11 @@
 					'<div class="m-side-panel__actions pos-relative">',
 						'<h4 class="m-side-panel__subtitle">Código Postal: <span>{{zip_code ? zip_code:"Selecciona un código postal del mapa"}}</span></h4>',
 						'<md-divider></md-divider>',
-						'<span class="m-side-panel__title-action"  ng-if="selected_zc">Información a consultar</span>',
+						'<span class="m-side-panel__title-action" ng-if="selected_zc">Información a consultar</span>',
 						'<div layout="row" ng-if="selected_zc">',
 							'<div layout="column" flex="50" layout-align="center center">',
 								'<h6 class="m-side-panel__subtitle" style="margin:auto;">Promedio de pago</h6>',
-								'<md-button class="md-fab md-mini md-primary js-index js-index-0" ng-click="getIndex(0)">',
+								'<md-button class="md-fab md-mini md-hue-2 md-primary js-index js-index-0" ng-click="getIndex(0)">',
 									'<md-icon>format_list_bulleted</md-icon>',
 								'</md-button>',
 							'</div>',
@@ -74,7 +74,8 @@
 				_array_num_cards_day = [],
 				_array_num_cards_age = null;
 				
-				
+				scope.selected_zc = true;
+
 				scope.openPanel = function(a,b){
 					ctrl.explorationItem(a,b);
 				};
@@ -89,7 +90,12 @@
 					draggable: false,
 					dots: false,
 					arrows:false,
-					method: {}
+					method: {},
+					event: {
+						init: function(){
+							angular.element(document.getElementsByClassName('js-index-0')).removeClass('md-hue-2');
+						}
+					}
 				};
 				
 				/**
@@ -108,11 +114,14 @@
 				 * @param  {[type]} index [description]
 				 */
 				scope.getIndex = function(index){
-					var selectCategory = angular.element(document.getElementsByClassName('js-index-'+ index));
 					var selectIndex = angular.element(document.getElementsByClassName('js-index'));
-					selectIndex.addClass('md-hue-2')
+					selectIndex.addClass('md-hue-2');
+					var selectCategory = angular.element(document.getElementsByClassName('js-index-'+ index));
+					selectCategory.removeClass('md-hue-2');
+					//var selectIndex = angular.element(document.getElementsByClassName('js-index'));
+					
 					scope.slickConfig.method.slickGoTo(index);
-					selectCategory.removeClass('md-hue-2')
+					
 				}
 
 				/**
@@ -135,14 +144,12 @@
 						odService.getBasicStats(zipCode)
 						.then(function(result){
 							if(result.status === 200 && result.statusText === "OK"){
-								
 								datazipcode[zipCode] = result.data;
 								_getSeries(result.data, zipCode);
 								uiService.changeCurrentPanel(true);
 								uiService.layerIsLoaded();
 							}
 						}, function(error){
-							console.log(error)
 							uiService.layerIsLoaded();
 						});
 					}
@@ -307,6 +314,7 @@
 					}
 
 					if (d.customer_zipcodes.zcs !== null) {
+						odService.setCurrentZipCodes(d.customer_zipcodes, zip_code);
 						odService.setMarkers(d.customer_zipcodes, zip_code);
 					}
 
@@ -316,6 +324,8 @@
 					$rootScope.$emit('paymentsAge', _array_num_payments_age);
 					$rootScope.$emit('cardsDay', _array_num_cards_day);
 					$rootScope.$emit('cardsAge', _array_num_cards_age);
+					_chartChilds = angular.element(document.getElementsByClassName('highcharts-container'));
+					odService.setCurrentCharts(_chartChilds);
 				}
 			}
 		}

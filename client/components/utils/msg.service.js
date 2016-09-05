@@ -27,7 +27,7 @@
 			return "El usuario o email ya existe";
 		}
 		this.userNotExists = function(button){
-			return "El usuario no existe";
+			return "Usuario o contraseña no válido";
 		}
 		this.fieldsRequired = function(){
 			return "Los campos son requeridos";

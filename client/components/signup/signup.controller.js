@@ -21,6 +21,7 @@
 		rg.success_signup = "¿Ya tienes una cuenta?";
 
 		rg.submitSignup = function(signupForm, data){
+			console.log(signupForm)
 			uiService.addLogginIsLoading(_$buttonForm, messagesService.addMessageSignup);
 			if(signupForm.$valid) {
 				_signupProcess = loginService.signupRequest(data);

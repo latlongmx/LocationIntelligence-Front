@@ -14,7 +14,11 @@
 		baseURL = null,
 		_zip_code = null,
 		_geometry = [],
-		cityLayer = null;
+		cityLayer = null,
+		_currentCharts = null,
+		_currentZipCodes = null,
+		_currentZipCode = null,
+		_currentMarker = null;
 
 		baseURL = 'http://bbva-api.appdata.mx/basic-stats/';
 
@@ -48,7 +52,33 @@
 		}
 
 		this.removeMarker = function(){
-			return clearLayer(_sMarker);
+			_currentMarker = zcMarker;
+			_sMarker.clearLayers();
+			_markersCustZC.clearLayers();
+			_polylinesGroup.clearLayers();
+			_polygonsGroup.clearLayers();
+		}
+		this.setCurrentCharts = function(currentCharts){
+			_currentCharts = currentCharts;
+		}
+		this.getCurrentCharts = function(){
+			return _currentCharts;
+		}
+		this.removeCharts = function(){
+			_.each(this.getCurrentCharts(), function(cChart){
+				angular.element(cChart).remove();
+			});
+		}
+		this.setCurrentZipCodes = function(currentZipCodes, zip_code){
+			_currentZipCodes = currentZipCodes;
+			_currentZipCode = zip_code;
+		}
+		this.getCurrentZipCodes = function(){
+			return {
+				zipCodes :_currentZipCodes,
+				zipCode: _currentZipCode,
+				marker: _currentMarker
+			};
 		}
 
 		this._map = BaseMapService.map.then(function (map) {
@@ -111,7 +141,8 @@
 			return deferred.promise;
 		}
 
-		this.setMarkers = function(d, zip_code) {
+		this.setMarkers = function(d, zip_code, current_marker) {
+
 			var serie = new geostats(),
 			color_x = new Array('#22ac9b', '#82c341', '#acd08c', '#cbdf7d'),
 			test = null,
@@ -195,7 +226,7 @@
 
 					_polygonsGroup = L.geoJson(_geometry_Zc, {
 						style: function(feature) {
-							return { fillOpacity: 0.75, weight: 1.2, color: "#22ac9b", fillColor: "#22ac9b"};
+							return { fillOpacity: 0.25, weight: 1.2, color: "#22ac9b", fillColor: "#22ac9b"};
 						}
 					});
 					_polylinesGroup.addLayer(_polyline);
@@ -206,6 +237,10 @@
 				_polylinesGroup.addTo(map);
 				_markersCustZC.addTo(map);
 				_polygonsGroup.addTo(map).bringToBack();
+				if(current_marker) {
+					_sMarker.addLayer(current_marker);
+					_sMarker.addTo(map);
+				}
 			});
 		}
 

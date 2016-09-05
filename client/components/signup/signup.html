@@ -27,10 +27,10 @@
 							<fieldset class="m-fieldset">
 								<label for="" class="m-label m-label--in-login" data-user="repassword">Confirmar Password</label>
 								<input type="password" name="repassword" class="m-input m-input--in-login" ng-model="rg.signup.repassword" ng-minlength="6" autocomplete="off" required>
-								<p ng-show="signupForm.repassword.$invalid && !signupForm.repassword.$pristine" class="m-input-error js-repassword-error">La contraseña no coincide</p>
+								<p ng-show="signupForm.repassword.$invalid && !signupForm.repassword.$pristine || rg.signup.password !== rg.signup.repassword" class="m-input-error js-repassword-error">La contraseña no coincide</p>
 							</fieldset>
 							<div class="align-center">
-								<button type="submit" class="pure-button m-login__container-body__button is-larger" ng-click="rg.submitSignup(signupForm, rg.signup)">Crear cuenta</button>
+								<button type="submit" class="pure-button m-login__container-body__button is-larger" ng-disabled="signupForm.$invalid || rg.signup.password !== rg.signup.repassword" ng-click="rg.submitSignup(signupForm, rg.signup)">Crear cuenta</button>
 								<span class="m-input-error js-signup-error" ng-if="rg.error">{{rg.message}}</span>
 							</div>
 						</form>
