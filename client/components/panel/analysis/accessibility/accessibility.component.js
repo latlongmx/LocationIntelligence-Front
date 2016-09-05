@@ -146,7 +146,7 @@
 
 				AccessibilityService.getUserDraws().then(function(res){
 					_counterUserDraws = res.data.draws.length;
-					_verifyLimitDraws();
+					//_verifyLimitDraws();
 				});
 
 				_$contentCount = {

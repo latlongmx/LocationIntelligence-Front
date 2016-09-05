@@ -144,6 +144,9 @@
 							AccessibilityService.getUserDraws().then(function(res){
 								if (res.data && res.data.draws) {
 									$scope.user_draws = true;
+									if (res.data.draws.length === 2) {
+										$scope.disableDrawAccessBtn = true;
+									}
 									_.each(res.data.draws, function(o){
 										var geo;
 										var img = '';
