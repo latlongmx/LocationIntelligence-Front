@@ -20,7 +20,7 @@
 				return console.error("not autorized");
 			},
 			login: function(session) {
-				_token = this.getToken();
+				//_token = this.getToken();
 				_session = JSON.stringify(session);
 				sessionStorage.setItem('access_token', _session);
 				$location.path("/mapa").replace();

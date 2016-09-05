@@ -21,7 +21,6 @@
 		rg.success_signup = "¿Ya tienes una cuenta?";
 
 		rg.submitSignup = function(signupForm, data){
-			console.log(signupForm)
 			uiService.addLogginIsLoading(_$buttonForm, messagesService.addMessageSignup);
 			if(signupForm.$valid) {
 				_signupProcess = loginService.signupRequest(data);
@@ -39,11 +38,22 @@
 					}
 					if(result.status === 200 && result.data.user_exist === 0) {
 						rg.signup_success = true;
-						rg.success_signup = messagesService.redirectToLogin();
+						rg.success_signup = messagesService.loginFirstTime();
+						loginService.loginRequest({user: data.user, password: data.password})
+						.then(function(result){
+							if(result.status === 200 && result.statusText === "OK"){
+								$timeout(function(){
+									rg.success_signup = messagesService.redirectToMap();
+								}, 2500);
+								$timeout(function(){
+									Auth.login(result.data);
+								}, 3500);
+							}
+						}, function(error){
+							messagesService.serverErrorRequest();
+						});
+						
 						uiService.addLogginIsLoading(_$buttonForm, messagesService.redireccionandoToLogin);
-						$timeout(function(){
-							$location.path("/login").replace();
-						}, 3000);
 					}
 				}, function(error){
 					rg.error = true;
