@@ -5,6 +5,7 @@
 L.NonTiledLayer = L.Class.extend({
 
     includes: L.Mixin.Events,
+    _visible: false,
 
     options: {
         attribution: '',
@@ -49,6 +50,7 @@ L.NonTiledLayer = L.Class.extend({
 
         this._bufferImage = this._initImage();
         this._currentImage = this._initImage();
+        this._visible = true;
 
         this._update();
     },
@@ -64,6 +66,7 @@ L.NonTiledLayer = L.Class.extend({
         if (map.options.zoomAnimation) {
             map.off('zoomanim', this._animateZoom, this);
         }
+        this._visible = false;
     },
 
     addTo: function (map) {
@@ -88,14 +91,17 @@ L.NonTiledLayer = L.Class.extend({
     // TODO remove bringToFront/bringToBack duplication from TileLayer/Path
     bringToFront: function () {
         if (this._div) {
-            this._pane.appendChild(this._div);
+            //this._pane.appendChild(this._div);
+            this._map._panes.overlayPane.appendChild(this._div);
         }
         return this;
     },
 
     bringToBack: function () {
         if (this._div) {
-            this._pane.insertBefore(this._div, this._pane.firstChild);
+            var pane = this._map._panes.overlayPane;
+            //this._pane.insertBefore(this._div, this._pane.firstChild);
+            pane.insertBefore(this._div, pane.firstChild);
         }
         return this;
     },
