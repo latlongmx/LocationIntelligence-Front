@@ -1,0 +1,28 @@
+<md-dialog flex="initial" class="m-dialog--in-ftue">
+	<multi-step-container steps="steps" class="sliding-steps simple-prev-next">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>{{$getActiveStep().title}}</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon aria-label="Close dialog">close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content layout="row" layout-padding="2">
+			<step-container class="multi-step-body step-initial step-forward step-backward">
+	        <div class="form-step"></div>
+	    </step-container>
+			<!-- <main step-container></main> -->
+		</md-dialog-content>
+		<md-dialog-actions layout="row" layout-align="end end">
+			<button class="md-primary md-raised md-button md-ink-ripple md-hue-3" ng-if="!$isFirst()" class="btn btn-default" ng-click="$previousStep()">
+					Anterior
+			</button>
+			<button class="md-primary md-raised md-button md-ink-ripple" ng-disabled="$isLast() || ($getActiveStep().hasForm && !$getActiveStep().valid)" class="btn btn-default" ng-if="!$isLast()" ng-click="$nextStep()">
+					Siguiente
+			</button>
+			<md-button class="md-primary md-raised md-button md-ink-ripple md-warn" ng-click="finishFtue()" ng-if="$isLast()" ng-disabled="$getActiveStep().hasForm && !$getActiveStep().valid">Finish</md-button>
+		</md-dialog-actions>
+	</multi-step-container>
+</md-dialog>

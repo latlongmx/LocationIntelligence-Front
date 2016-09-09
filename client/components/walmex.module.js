@@ -11,7 +11,8 @@
 			'chroma.angularChroma',
 			'ngMaterial',
 			'angularFileUpload',
-			'slickCarousel'
+			'slickCarousel',
+			'multiStepForm'
 		]
 	)
 	.constant('_', window._)

@@ -1,0 +1,28 @@
+<md-content flex layout-padding>
+	<form name="ftueForm" form-step-validity>
+		<div layout="row" layout-padding="1">
+			<md-input-container>
+				<label>Nombre del negocio</label>
+				<input ng-model="ftue.business" type="text" autocomplete="off" required>
+			</md-input-container>
+			<md-input-container>
+				<label>Categoría</label>
+				<md-select ng-model="ftue.business_category" required>
+					<md-option><em>None</em></md-option>
+					<md-option ng-value="categoria_1"><em>Categoria 1</em></md-option>
+					<md-option ng-value="categoria_2"><em>Categoria 2</em></md-option>
+					<md-option ng-value="categoria_3"><em>Categoria 3</em></md-option>
+				</md-select>
+			</md-input-container>
+			<md-input-container>
+				<label>Sub Categoría</label>
+				<md-select ng-model="ftue.business_subcategory" required>
+					<md-option><em>None</em></md-option>
+					<md-option ng-value="subcategoria_1"><em>Sub Categoria 1</em></md-option>
+					<md-option ng-value="subcategoria_2"><em>Sub Categoria 2</em></md-option>
+					<md-option ng-value="subcategoria_3"><em>Sub Categoria 3</em></md-option>
+				</md-select>
+			</md-input-container>
+		</div>
+	</form>
+</md-content>
