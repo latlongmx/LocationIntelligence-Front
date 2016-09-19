@@ -1,28 +1,59 @@
-<md-content flex layout-padding>
-	<form name="ftueForm" form-step-validity>
-		<div layout="row" layout-padding="1">
-			<md-input-container>
-				<label>Nombre del negocio</label>
+<div layout="row" layout-padding="1">
+	<form name="ftueForm" form-step-validity flex="start">
+		<div layout="row" layout-align="start" flex>
+			<md-input-container flex="50">
+				<label>Nombre de negocio</label>
 				<input ng-model="ftue.business" type="text" autocomplete="off" required>
 			</md-input-container>
-			<md-input-container>
-				<label>Categoría</label>
+			<md-input-container flex="50">
+				<label>Categoría de negocio</label>
 				<md-select ng-model="ftue.business_category" required>
-					<md-option><em>None</em></md-option>
-					<md-option ng-value="categoria_1"><em>Categoria 1</em></md-option>
-					<md-option ng-value="categoria_2"><em>Categoria 2</em></md-option>
-					<md-option ng-value="categoria_3"><em>Categoria 3</em></md-option>
+					<md-option value="categoria_1"><em>Categoria 1</em></md-option>
+					<md-option value="categoria_2"><em>Categoria 2</em></md-option>
+					<md-option value="categoria_3"><em>Categoria 3</em></md-option>
 				</md-select>
 			</md-input-container>
+		</div>
+		<div layout="row">
+			<h5 class="normal color-gray75" style="margin:0;">Introduce hasta 3 ciudades para explorar</h5>
+		</div>
+		<div layout="row" flex>
 			<md-input-container>
-				<label>Sub Categoría</label>
-				<md-select ng-model="ftue.business_subcategory" required>
-					<md-option><em>None</em></md-option>
-					<md-option ng-value="subcategoria_1"><em>Sub Categoria 1</em></md-option>
-					<md-option ng-value="subcategoria_2"><em>Sub Categoria 2</em></md-option>
-					<md-option ng-value="subcategoria_3"><em>Sub Categoria 3</em></md-option>
+				<md-select ng-model="ftue.business_subcategory" class="md-select--in-business-subcategory" multiple>
+					<md-option value="Aguascalientes">Aguascalientes</md-option>
+					<md-option value="Baja California">Baja California</md-option>
+					<md-option value="Baja California Sur">Baja California Sur</md-option>
+					<md-option value="Campeche">Campeche</md-option>
+					<md-option value="Coahuila de Zaragoza">Coahuila de Zaragoza</md-option>
+					<md-option value="Colima">Colima</md-option>
+					<md-option value="Chiapas">Chiapas</md-option>
+					<md-option value="Chihuahua">Chihuahua</md-option>
+					<md-option value="Distrito Federal">Distrito Federal</md-option>
+					<md-option value="Durango">Durango</md-option>
+					<md-option value="Guanajuato">Guanajuato</md-option>
+					<md-option value="Guerrero">Guerrero</md-option>
+					<md-option value="Hidalgo">Hidalgo</md-option>
+					<md-option value="Jalisco">Jalisco</md-option>
+					<md-option value="México">México</md-option>
+					<md-option value="Michoacán de Ocampo">Michoacán de Ocampo</md-option>
+					<md-option value="Morelos">Morelos</md-option>
+					<md-option value="Nayarit">Nayarit</md-option>
+					<md-option value="Nuevo León">Nuevo León</md-option>
+					<md-option value="Oaxaca">Oaxaca</md-option>
+					<md-option value="Puebla">Puebla</md-option>
+					<md-option value="Querétaro">Querétaro</md-option>
+					<md-option value="Quintana Roo">Quintana Roo</md-option>
+					<md-option value="San Luis Potosí">San Luis Potosí</md-option>
+					<md-option value="Sinaloa">Sinaloa</md-option>
+					<md-option value="Sonora">Sonora</md-option>
+					<md-option value="Tabasco">Tabasco</md-option>
+					<md-option value="Tamaulipas">Tamaulipas</md-option>
+					<md-option value="Tlaxcala">Tlaxcala</md-option>
+					<md-option value="Veracruz de Ignacio de la Llave">Veracruz de Ignacio de la Llave</md-option>
+					<md-option value="Yucatán">Yucatán</md-option>
+					<md-option value="Zacatecas">Zacatecas</md-option>
 				</md-select>
 			</md-input-container>
 		</div>
 	</form>
-</md-content>
+</div>
