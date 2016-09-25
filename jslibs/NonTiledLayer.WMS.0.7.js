@@ -107,7 +107,12 @@ L.NonTiledLayer.WMS = L.NonTiledLayer.extend({
       console.log(err);
       return;
     } // do nothing if there's an error
-
+		if(typeof content==='string'){
+      content = content.trim();
+      if(content === ''){
+        return;
+      }
+    }
 		try{
 			var html = "";
 	    var json = JSON.parse(content);
