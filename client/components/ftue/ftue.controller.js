@@ -23,11 +23,20 @@
 				hasForm: true
 			},
 			{
-				templateUrl: './components/ftue/steps-tpl/slide2.html',
-				title: '¿En qué etapa se encuentra tu negocio?',
-				hasForm: true
+				templateUrl: './components/ftue/steps-tpl/slide4.html',
+				title: 'Añadiendo capas',
+				controller: AddingLayersCtrl
+				// hasForm: true
+			},
+			{
+				templateUrl: './components/ftue/steps-tpl/slide5.html',
+				title: 'Completado',
 			}
-		]
+		];
+
+		function AddingLayersCtrl() {
+			console.log("AddingLayersCtrl")
+		}
 		
 		$scope.finishFtue = function() {
 			var dataForm = $scope.ftue;

@@ -1,0 +1,51 @@
+<div layout="row" flex="100">
+	<h2 class="color-gray75">¡Tu mapa personalizado está listo!</h2>
+</div>
+<p>Es momento de explorar tu ciudad objetivo, hemos añadido algunas ubicaciones a tu mapa.</p>
+
+<div layout="row" layout-align="start center" ng-if="ftue.stage === 'expanding_business'" layout-padding="1">
+	<md-card md-colors="md-primary" flex="100">
+	  <md-card-title>
+	    <md-card-title-media>
+	      <div class="md-media-sm card-media" layout md-colors="md-primary">
+	      	<img src="./images/functions/locations_icon_active.png" class="md-card-image" alt="image caption">
+	      </div>
+	    </md-card-title-media>
+	    <md-card-title-text>
+	      <span class="md-headline color-gray">Mis Ubicaciones</span>
+	      <span class="md-subhead description">Tus ubicaciones están marcadas en azul</span>
+	    </md-card-title-text>
+	    <md-card-title-media layout-align="center center">
+	      <div class="md-media" layout md-colors="md-primary" layout-align="center center">
+	      	<img src="./images/login/my_location_pin.png" class="md-avatar" alt="image caption" style="width:40px;height:40px;display:inline-block;">
+	      </div>
+	    </md-card-title-media>
+	  </md-card-title>
+	</md-card>
+</div>
+
+<div layout="row" layout-align="start center" layout-padding="1">
+	<md-card md-colors="md-primary" flex="100">
+	  <md-card-title>
+	    <md-card-title-media>
+	      <div class="md-media-sm card-media" layout md-colors="md-primary">
+	      	<img src="./images/functions/competence_icon_active.png" class="md-card-image" alt="image caption">
+	      </div>
+	    </md-card-title-media>
+	    <md-card-title-text>
+	      <span class="md-headline color-gray">Mis Competencias</span>
+	      <span class="md-subhead description"><span>*</span>Las ubicaciones de tu competencia están marcadas en rojo.</span>
+	    </md-card-title-text>
+	    <md-card-title-media layout-align="center center">
+	      <div class="md-media" layout md-colors="md-primary" layout-align="center center">
+	      	<img src="./images/login/my_competence_pin.png" class="md-avatar" alt="image caption" style="width:40px;height:40px;display:inline-block;">
+	      </div>
+	    </md-card-title-media>
+	  </md-card-title>
+	</md-card>
+</div>
+
+
+<div layout="row" flex="100">
+	<small clasS="color-gray50">*Sólo los mejores matches para tu competencia fueron añadidos. Probablemente haya más que pueden ser añadidos fácilmente conforme vayas explorando.</small>
+</div>

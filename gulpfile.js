@@ -47,8 +47,8 @@ gulp.task('inject', ['lib1', 'lib2', 'lib3'], function(){
 			'bower_components/angular-ui-bootstrap/ui-bootstrap-custom-tpls-1.3.2.js',
 			'bower_components/md5/md5.js',
 			'bower_components/jslibs/leaflet-heat/Leaflet.heat.js',
-			'bower_components/jslibs/NonTiledLayer.js',
 			'bower_components/jslibs/NonTiledLayer.WMS.js',
+			'bower_components/jslibs/NonTiledLayer.WMS.0.7.js',
 			'bower_components/jslibs/leaflet.singletilewmslayer.js',
 			'bower_components/jslibs/leaflet.dynamicWMS.js',
 			'bower_components/jslibs/geostats.js'
