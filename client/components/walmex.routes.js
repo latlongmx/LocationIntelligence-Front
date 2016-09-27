@@ -22,6 +22,11 @@
 			.state('mapa', {
 				url: '/mapa',
 				reload: true,
+				resolve: {
+					firstTime: function(){
+						return {value: 'first_time'}
+					}
+				},
 				templateUrl: './components/basemap/basemap.component.html',
 				controller: 'BaseMapController'
 			});

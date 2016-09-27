@@ -9,6 +9,7 @@
 							<div class="m-login__container-body__logo">
 								<img src="./images/login/login_logo.png" alt="" width="150">
 							</div>
+
 							<form name="signupForm" novalidate class="m-login__container-body__form js-signup-form" ng-if="!rg.signup_success">
 								<fieldset class="m-fieldset">
 								<label for="" class="m-label m-label--in-login" data-user="email">Email</label>
@@ -36,7 +37,12 @@
 								</div>
 							</form>
 
-							<div class="m-signup-login">
+							<div class="m-login__container-body__success-signup" ng-if="rg.signup_success">
+								<img src="./images/login/signup_success.png" alt="" width="75">
+								<h2 class="color-gray50 weight300 align-center">Registro exitoso</h2>
+							</div>
+
+							<div class="m-signup-login" ng-if="rg.signup_success">
 								<button class="pure-button m-signup-login__question" ui-sref="login">{{rg.success_signup}}</button>
 							</div>
 						</div>

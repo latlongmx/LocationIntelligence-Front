@@ -34,8 +34,12 @@
 			}
 		];
 
-		function AddingLayersCtrl() {
-			console.log("AddingLayersCtrl")
+		function AddingLayersCtrl(multiStepFormInstance) {
+			$scope.layer_added = true;
+			$timeout(function(){
+				$scope.layer_added = false;
+			}, 5000);
+			//var currentStep = multiStepFormInstance.getActiveStep();
 		}
 		
 		$scope.finishFtue = function() {

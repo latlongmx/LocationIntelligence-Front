@@ -4,9 +4,10 @@
 	*/
 	'use strict';
 
-	var BaseMapController = function(_, $scope, BaseMapFactory, BaseMapService, UserFactory){
+	var BaseMapController = function(_, $timeout,  $scope, BaseMapFactory, BaseMapService, UserFactory, Auth, $mdDialog, uiService){
 
 		var _this = null,
+		_access_token = null,
 		_map = null,
 		_label = null,
 		_label_item = null,
@@ -29,6 +30,8 @@
 		_featureGroup = null,
 		_colorLine = null,
 		_autocomplete = null;
+
+		_access_token = Auth.getToken();
 
 		BaseMapService.map.then(function (map) {
 			_mapFunctions(map);
@@ -100,56 +103,16 @@
 
 
 			//USER SAVE ZOOM AND BOUNDS
-			map.on('moveend', function (e) {
+			map.on('moveend zoomend', function (e) {
 				UserFactory.saveMapView();
 			});
-			map.on('zoomend', function (e) {
-				UserFactory.saveMapView();
-			});
+			// map.on('zoomend', function (e) {
+			// 	UserFactory.saveMapView();
+			// });
 			UserFactory.getMapView();
 
-
-
-			map.on('draw:deleted', function (e) {
-
-			});
 			map.on('draw:created', function (e) {
-					//_drawType = e.layerType;
-					//var geo_wkt = BaseMapFactory.geom2wkt(e);
-					// if(geo_wkt){
-					// 	//Servicio que obtiene las geometrias del area seleccionada
-					// 	var servType = 'denue_2016';
-					// 	var cols = '';
-					// 	if(e.layerType==='circle'){
-					// 		servType = 'inter15_vias';
-					// 		cols = 'tipovial';
-					// 	}else if(e.layerType==='polyline'){
-					// 		servType = 'pobviv2010';
-					// 		cols = 'pea';
-					// 	}
-					// 	var opts = {
-					// 		s:'inegi',
-					// 		t: servType,
-					// 		c: cols,
-					// 		w:'',
-					// 		wkt: geo_wkt.wkt,
-					// 		mts: geo_wkt.mts
-					// 	};
-					// 	BaseMapService.intersect(opts).then(function(result){
-					// 		if(result && result.data){
-					// 			var info = result.data.info;
-					// 			var geojson = result.data.geojson;
-					// 			BaseMapFactory.addGeoJSON2Map(geojson, servType);
-					// 		}
-					// 	}, function(error){
-					// 		console.log(error);
-					// 	});
-					// }
-
-					//layer = e.layer;
-					// Do whatever else you need to. (save to db, add to map etc)
-
-					_featureGroup.addLayer(e.layer);
+				_featureGroup.addLayer(e.layer);
 			});
 
 			_zoom_in = angular.element(document.getElementsByClassName('leaflet-control-zoom-in'));
@@ -189,6 +152,32 @@
 			_delete_tool.append('<i class="demo demo-delete delete-tool"></i>');
 		};
 
+		if (_access_token.ftueShowed === "0") {
+			_firstTimeUser();
+		}
+		function _firstTimeUser() {
+			uiService.layerIsLoading();
+
+			$timeout(function(){
+				uiService.layerIsLoaded();
+				$mdDialog.show({
+					controller: 'FirstTimeUserController',
+					templateUrl: './components/ftue/ftue.tpl.html',
+					parent: angular.element(document.body),
+					clickOutsideToClose:false
+				})
+				.then(function(result){
+					if (result.success === true) {
+						console.log(result)
+					}
+					
+				});
+			}, 5000);
+
+		}
+
+		
+
 		// _map.on('baselayerchange', function(e){
 		// 	console.log(e)
 		// 	if(e.name === "Google Roadmap"){
@@ -203,7 +192,7 @@
 		// });
 	};
 
-	BaseMapController.$inject = ['_', '$scope', 'BaseMapFactory', 'BaseMapService','UserFactory'];
+	BaseMapController.$inject = ['_', '$timeout', '$scope', 'BaseMapFactory', 'BaseMapService','UserFactory', 'Auth', '$mdDialog', 'uiService'];
 
 	angular.module('walmex').controller('BaseMapController', BaseMapController);
 

@@ -19,7 +19,7 @@
 			<button class="md-primary md-raised md-button md-ink-ripple md-hue-3" ng-if="!$isFirst()" class="btn btn-default" ng-click="$previousStep()">
 					Anterior
 			</button>
-			<button class="md-primary md-raised md-button md-ink-ripple" ng-disabled="$isLast() || ($getActiveStep().hasForm && !$getActiveStep().valid)" class="btn btn-default" ng-if="!$isLast()" ng-click="$nextStep()">
+			<button class="md-primary md-raised md-button md-ink-ripple" ng-disabled="$isLast() || layer_added === true || ($getActiveStep().hasForm && !$getActiveStep().valid)" class="btn btn-default" ng-if="!$isLast()" ng-click="$nextStep()">
 					Siguiente
 			</button>
 			<md-button class="md-primary md-raised md-button md-ink-ripple md-warn" ng-click="finishFtue()" ng-if="$isLast()" ng-disabled="$getActiveStep().hasForm && !$getActiveStep().valid">Finish</md-button>
