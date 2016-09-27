@@ -36,7 +36,7 @@
 		];
 
 		function AddingLayersCtrl() {
-			
+	
 			$scope.layer_added = true;
 			var access_token = Auth.getToken();
 			var formData = new FormData();
@@ -50,9 +50,9 @@
 
 			BaseMapService.addCompetenciaQuery(formData)
 			.then(function(result){
-				if (result.statusText === 'OK') {
+				console.log(result)
+				if (result.statusText === 'OK' && result.status === 200) {
 					$scope.adding_layer_status = "Las capas de tu competencia han sido añadidas al mapa.";
-					$scope.layer_added = false;
 					_registerFtue();
 				}
 			}, function(error){
@@ -74,6 +74,10 @@
 				FtueService.addNewFtue(formData)
 				.then(function(result){
 					console.log(result);
+					if (result.statusText === 'OK' && result.status === 200) {
+						$scope.layer_added = false;
+					}
+					
 				}, function(error){
 					console.log(error);
 				});
@@ -83,7 +87,7 @@
 		
 		$scope.finishFtue = function() {
 			//var dataForm = $scope.ftue;
-			$mdDialog.hide({ftue_status: "completed", success: true, data: dataForm});
+			$mdDialog.hide({ftue_status: "completed", success: true});
 		}
 		
 		

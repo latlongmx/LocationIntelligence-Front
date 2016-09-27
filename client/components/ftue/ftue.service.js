@@ -7,7 +7,7 @@
 	function FtueService($q, $http, Auth){
 		var deferred = null;
 		return {
-			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
+			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx/ws',
 
 			/**
 			 * [addNewCompetence Add new competence by Csv to map]

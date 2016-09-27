@@ -175,9 +175,11 @@
 					templateUrl: './components/ftue/ftue.tpl.html',
 					parent: angular.element(document.body),
 					clickOutsideToClose:false,
+					escapeToClose: false,
 					locals: {
 						ftue_bbox: $scope.ftue_bbox
-					}
+					},
+					preserveScope: false
 				})
 				.then(function(result){
 					if (result.success === true && result.ftue_status === "completed") {
