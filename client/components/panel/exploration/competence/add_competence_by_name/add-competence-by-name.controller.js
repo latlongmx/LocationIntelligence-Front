@@ -95,12 +95,6 @@
 					}
 				}, function(error){
 					console.log(error)
-					// if(error.status === 500) {
-					// 	_showToastMessage('Hubo un error, intenta nuevamente');
-					// }
-					// else {
-					// 	_showToastMessage('No hay elementos para esa categoría');
-					// }
 				});
 			}
 

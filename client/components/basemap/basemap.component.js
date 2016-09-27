@@ -156,6 +156,16 @@
 			_firstTimeUser();
 		}
 		function _firstTimeUser() {
+			$scope.ftue_bounds = null;
+			$scope.ftue_nw = null;
+			$scope.ftue_se = null;
+			$scope.ftue_bbox = null;
+			BaseMapService.map.then(function (map) {
+				$scope.ftue_bounds = map.getBounds();
+				$scope.ftue_nw = $scope.ftue_bounds.getNorthWest();
+				$scope.ftue_se = $scope.ftue_bounds.getSouthEast();
+				$scope.ftue_bbox = [$scope.ftue_nw.lng, $scope.ftue_se.lat, $scope.ftue_se.lng, $scope.ftue_nw.lat].join(',');
+			});
 			uiService.layerIsLoading();
 
 			$timeout(function(){
@@ -164,13 +174,15 @@
 					controller: 'FirstTimeUserController',
 					templateUrl: './components/ftue/ftue.tpl.html',
 					parent: angular.element(document.body),
-					clickOutsideToClose:false
+					clickOutsideToClose:false,
+					locals: {
+						ftue_bbox: $scope.ftue_bbox
+					}
 				})
 				.then(function(result){
-					if (result.success === true) {
+					if (result.success === true && result.ftue_status === "completed") {
 						console.log(result)
 					}
-					
 				});
 			}, 5000);
 

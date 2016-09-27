@@ -4,8 +4,9 @@
 	*/
 	'use strict';
 
-	function FirstTimeUserController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, $location){
+	function FirstTimeUserController(_, $scope, $mdDialog, $mdToast, $interval, $timeout, $location, ftue_bbox, BaseMapService, FtueService, Auth){
 		$scope.ftue = {};
+		$scope.adding_layer_status = "Añadiendo las ubicaciones de tu competencia al mapa...";
 		$scope.steps = [
 			{
 				templateUrl: './components/ftue/steps-tpl/slide1.html',
@@ -34,17 +35,55 @@
 			}
 		];
 
-		function AddingLayersCtrl(multiStepFormInstance) {
+		function AddingLayersCtrl() {
+			
 			$scope.layer_added = true;
-			$timeout(function(){
-				$scope.layer_added = false;
-			}, 5000);
-			//var currentStep = multiStepFormInstance.getActiveStep();
+			var access_token = Auth.getToken();
+			var formData = new FormData();
+			var pin = "";
+
+			formData.append('qf', 'oxxo' );
+			formData.append('qb', ftue_bbox );
+			formData.append('competence', "1" );
+			formData.append('nm', "mi competencia" );
+			formData.append('pin', pin?pin:'' );
+
+			BaseMapService.addCompetenciaQuery(formData)
+			.then(function(result){
+				if (result.statusText === 'OK') {
+					$scope.adding_layer_status = "Las capas de tu competencia han sido añadidas al mapa.";
+					$scope.layer_added = false;
+					_registerFtue();
+				}
+			}, function(error){
+				console.log(error)
+			});
+
+			function _registerFtue() {
+				var dataForm = $scope.ftue;
+				var formData = new FormData();
+
+				formData.append('ftue_etapa', dataForm.stage );
+				formData.append('ftue_nombre', dataForm.company_name );
+				formData.append('ftue_categoria', dataForm.business_category);
+				formData.append('ftue_subcat1', "" );
+				formData.append('ftue_subcat2', "" );
+				formData.append('ftue_entidad', dataForm.city );
+				formData.append('ftue_municipio', "" );
+
+				FtueService.addNewFtue(formData)
+				.then(function(result){
+					console.log(result);
+				}, function(error){
+					console.log(error);
+				});
+			}
+
 		}
 		
 		$scope.finishFtue = function() {
-			var dataForm = $scope.ftue;
-			$mdDialog.hide({success: true, data: dataForm});
+			//var dataForm = $scope.ftue;
+			$mdDialog.hide({ftue_status: "completed", success: true, data: dataForm});
 		}
 		
 		
@@ -59,7 +98,7 @@
 		
 	};
 
-	FirstTimeUserController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', '$location'];
+	FirstTimeUserController.$inject = ['_','$scope', '$mdDialog', '$mdToast', '$interval', '$timeout', '$location', 'ftue_bbox', 'BaseMapService', 'FtueService', 'Auth'];
 
 	angular.module('walmex').controller('FirstTimeUserController', FirstTimeUserController);
 
