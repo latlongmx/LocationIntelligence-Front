@@ -4,10 +4,10 @@
 	*/
 	'use strict';
 
-	function UserService($q, $http, Auth){
+	function UserService($q, $http, Auth, baseUrl){
 		var deferred = null;
 		return {
-			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
+			apiBaseURL: baseUrl,
 
 			getOptions: function(){
 				deferred = $q.defer();
@@ -55,7 +55,7 @@
 			}
 		};
 	}
-	UserService.$inject = ['$q', '$http', 'Auth'];
+	UserService.$inject = ['$q', '$http', 'Auth', 'baseUrl'];
 	angular.module('walmex').service('UserService', UserService);
 
 })();

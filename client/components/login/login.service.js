@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 	
-	function loginService($q, $http, $httpParamSerializer){
+	function loginService($q, $http, $httpParamSerializer, baseUrl){
 		var deferred = null,
 		_loginRequest = null,
 		_signupRequest = null,
@@ -28,7 +28,7 @@
 			_data = {username: _username, password: _password, grant_type: _grant_type, client_id: _client_id, client_secret: _client_secret};
 			
 			_loginRequest = $http({
-				url: 'http://52.8.211.37/api.walmex.latlong.mx/oa/accesstk',
+				url: baseUrl + '/oa/accesstk',
 				method: 'POST',
 				data: $httpParamSerializer(_data),
 				headers: {
@@ -53,7 +53,7 @@
 			_signupdata = {u: _username, p: _password, ml: _email, tu: _userType};
 			
 			_signupRequest = $http({
-				url: 'http://52.8.211.37/api.walmex.latlong.mx/oa/register',
+				url: baseUrl + '/oa/register',
 				method: 'POST',
 				data: $httpParamSerializer(_signupdata),
 				headers: {
@@ -70,7 +70,7 @@
 		};
 
 	}
-	loginService.$inject = ['$q', '$http', '$httpParamSerializer'];
+	loginService.$inject = ['$q', '$http', '$httpParamSerializer', 'baseUrl'];
 	angular.module('walmex').service('loginService', loginService);
 
 })();

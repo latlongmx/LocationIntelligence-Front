@@ -4,10 +4,10 @@
 	*/
 	'use strict';
 
-	function CompetenceService($q, $http, Auth){
+	function CompetenceService($q, $http, Auth, baseUrl){
 		var deferred = null;
 		return {
-			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
+			apiBaseURL: baseUrl,
 
 			/**
 			 * [addNewCompetence Add new competence by Csv to map]
@@ -163,7 +163,7 @@
 			}
 		};
 	}
-	CompetenceService.$inject = ['$q', '$http', 'Auth'];
+	CompetenceService.$inject = ['$q', '$http', 'Auth', 'baseUrl'];
 	angular.module('walmex').service('CompetenceService', CompetenceService);
 
 })();

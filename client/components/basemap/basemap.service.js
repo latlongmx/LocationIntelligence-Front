@@ -4,11 +4,11 @@
 	*/
 	'use strict';
 
-	function BaseMapService($q, $http, Auth){
+	function BaseMapService($q, $http, Auth, baseUrl){
 		var deferred = $q.defer(),
 		_testRequest = null;
 		return {
-			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
+			apiBaseURL: baseUrl,
 			map: deferred.promise,
 			featureGroup : L.featureGroup(),
 			mapId : 'pokaxperia.pk657nfi',
@@ -286,7 +286,7 @@
 
 		};
 	}
-	BaseMapService.$inject = ['$q', '$http', 'Auth'];
+	BaseMapService.$inject = ['$q', '$http', 'Auth', 'baseUrl'];
 	angular.module('walmex').service('BaseMapService', BaseMapService);
 
 })();

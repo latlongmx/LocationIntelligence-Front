@@ -4,7 +4,7 @@
 	*/
 	'use strict';
 
-	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, $compile, $mdToast, $document, $timeout){
+	function accessibilityDirective(BaseMapService, BaseMapFactory, Auth, AccessibilityService, $compile, $mdToast, $document, $timeout, baseUrl){
 
 		var _$js_accessibility_side_panel = null,
 		_$js_accessibility_item = null,
@@ -199,7 +199,7 @@
 				scope.openViasWMS = function(){
 					if(_layers.viasWMS === undefined){
 						_layers.viasWMS = L.tileLayer.dynamicWms(
-							"http://52.8.211.37/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&", {
+							baseUrl + "/cgi-bin/mapserv?map=/var/www/sites/api.walmex.latlong.mx/api/storage/MAPS/vias.map&", {
 								layers: 'VIAS',
 								format: 'image/png',
 								minZoom: 10,
@@ -562,6 +562,6 @@
 		};
 	}
 
-	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile', '$mdToast', '$document', '$timeout'];
+	accessibilityDirective.$inject = ['BaseMapService', 'BaseMapFactory', 'Auth', 'AccessibilityService', '$compile', '$mdToast', '$document', '$timeout', 'baseUrl'];
 	angular.module('walmex').directive('accessibility', accessibilityDirective);
 })();

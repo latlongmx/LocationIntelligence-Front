@@ -4,10 +4,10 @@
 	*/
 	'use strict';
 
-	function AccessibilityService($q, $http, Auth){
+	function AccessibilityService($q, $http, Auth, baseUrl){
 		var deferred = null;
     var _service = {
-			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
+			apiBaseURL: baseUrl,
 
       /**
 	     * [viasInfo: Solicita la informacion de las vias que tocan el dibujo]
@@ -141,7 +141,7 @@
 		};
 		return _service;
 	}
-	AccessibilityService.$inject = ['$q', '$http', 'Auth'];
+	AccessibilityService.$inject = ['$q', '$http', 'Auth', 'baseUrl'];
 	angular.module('walmex').service('AccessibilityService', AccessibilityService);
 
 })();

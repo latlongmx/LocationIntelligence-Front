@@ -4,10 +4,10 @@
 	*/
 	'use strict';
 
-	function HeatmapService($q, $http, Auth){
+	function HeatmapService($q, $http, Auth, baseUrl){
 		var deferred = null;
 		return {
-			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
+			apiBaseURL: baseUrl,
 
 			/**
 			 * [addNewCompetence Add new competence by Csv to map]
@@ -140,7 +140,7 @@
 			// }
 		};
 	}
-	HeatmapService.$inject = ['$q', '$http', 'Auth'];
+	HeatmapService.$inject = ['$q', '$http', 'Auth', 'baseUrl'];
 	angular.module('walmex').service('HeatmapService', HeatmapService);
 
 })();

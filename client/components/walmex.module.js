@@ -17,6 +17,7 @@
 	)
 	.constant('_', window._)
 	.constant('ROLES', ['uA', 'uB', 'uC'])
+	.constant('baseUrl', 'http://138.197.198.71/api.walmex.latlong.mx')
 	.run(["$rootScope", "$state", "$stateParams", "Auth", function ($rootScope, $state, $stateParams, Auth) {
 		$rootScope.$state = $state;
 		$rootScope.$stateParams = $stateParams;

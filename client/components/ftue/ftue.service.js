@@ -4,10 +4,10 @@
 	*/
 	'use strict';
 
-	function FtueService($q, $http, Auth){
+	function FtueService($q, $http, Auth, baseUrl){
 		var deferred = null;
 		return {
-			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx/ws',
+			apiBaseURL: baseUrl,
 
 			/**
 			 * [addNewCompetence Add new competence by Csv to map]
@@ -18,7 +18,7 @@
 				deferred = $q.defer();
 
 				$http({
-					url: this.apiBaseURL+'/ftue',
+					url: this.apiBaseURL+'/ws/ftue',
 					method: "POST",
 					data: formData,
 					transformRequest: angular.identity,
@@ -36,7 +36,7 @@
 			}
 		};
 	}
-	FtueService.$inject = ['$q', '$http', 'Auth'];
+	FtueService.$inject = ['$q', '$http', 'Auth', 'baseUrl'];
 	angular.module('walmex').service('FtueService', FtueService);
 
 })();

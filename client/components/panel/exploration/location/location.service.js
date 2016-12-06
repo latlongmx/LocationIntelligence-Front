@@ -4,11 +4,11 @@
 	*/
 	'use strict';
 
-	function LocationService($q, $http, Auth){
+	function LocationService($q, $http, Auth, baseUrl){
 		var deferred = null,
 		access_token = Auth.getToken();
 		return {
-			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
+			apiBaseURL: baseUrl,
 
 			/**
 			 * [addNewLocation Add new locations to map]
@@ -165,7 +165,7 @@
 			}
 		};
 	}
-	LocationService.$inject = ['$q', '$http', 'Auth'];
+	LocationService.$inject = ['$q', '$http', 'Auth', 'baseUrl'];
 	angular.module('walmex').service('LocationService', LocationService);
 
 })();

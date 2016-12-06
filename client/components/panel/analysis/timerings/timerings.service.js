@@ -4,10 +4,10 @@
 	*/
 	'use strict';
 
-	function TimeRingsService($q, $http, Auth){
+	function TimeRingsService($q, $http, Auth, baseUrl){
 		var deferred = null;
     var _service = {
-			apiBaseURL: 'http://52.8.211.37/api.walmex.latlong.mx',
+			apiBaseURL: baseUrl,
 
 			getUserRings: function(id){
 				var obs = {};
@@ -113,7 +113,7 @@
 		};
 		return _service;
 	}
-	TimeRingsService.$inject = ['$q', '$http', 'Auth'];
+	TimeRingsService.$inject = ['$q', '$http', 'Auth', 'baseUrl'];
 	angular.module('walmex').service('TimeRingsService', TimeRingsService);
 
 })();

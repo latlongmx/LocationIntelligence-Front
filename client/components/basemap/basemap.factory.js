@@ -5,12 +5,12 @@
 	*/
 	'use strict';
 
-	function BaseMapFactory(BaseMapService, chroma, _, Auth, uiService, $timeout) { //_, chroma, $http
+	function BaseMapFactory(BaseMapService, chroma, _, Auth, uiService, $timeout, baseUrl) { //_, chroma, $http
 		var factory = {};
 		var _factory = factory;
 		factory.LAYERS = {};
 		factory.LAYERS.USER = {};
-		factory.API_URL = 'http://52.8.211.37/api.walmex.latlong.mx';
+		factory.API_URL = baseUrl;
 		factory._map = undefined;
 		factory._curVar = '';
 
@@ -268,7 +268,7 @@
 			self._curVar = variable;
 			BaseMapService.map.then(function (map) {
 				// uiService.layerIsLoading();
-				self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms("http://52.8.211.37/api.walmex.latlong.mx/dyn/pb_wms?", {
+				self.LAYERS.pobvivWMS = L.tileLayer.dynamicWms(baseUrl + "/dyn/pb_wms?", {
 						layers: 'Manzanas',
 						format: 'image/png',
 						minZoom: 13,
@@ -304,7 +304,7 @@
 			var self = this;
 			self._curVar = variable;
 			BaseMapService.map.then(function (map) {
-				self.LAYERS.heatWMS = L.tileLayer.dynamicWms("http://52.8.211.37/cgi-bin/mapserv?map=/var/www/laravel-storage/ms_file_heat.map", {
+				self.LAYERS.heatWMS = L.tileLayer.dynamicWms(baseUrl + "/cgi-bin/mapserv?map=/var/www/laravel-storage/ms_file_heat.map", {
 					layers: 'heatmap',
 					format: 'image/png',
 					minZoom: 13,
@@ -334,7 +334,7 @@
 		factory.addLocationID = function(id){
 			var access_token = Auth.getToken().access_token;
 			factory.LAYERS.USER['u'+id] = new L.nonTiledLayer.wms(
-				"http://52.8.211.37/api.walmex.latlong.mx/ws/ws_wms?LID="+id+"&access_token="+access_token+"&t=" + (new Date().getTime()),
+				baseUrl + "/ws/ws_wms?LID="+id+"&access_token="+access_token+"&t=" + (new Date().getTime()),
 			{
 				layers: 'usermap',
 				format: 'image/png',
@@ -568,7 +568,7 @@
 	}
 
 
-	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_', 'Auth', 'uiService', '$timeout'];
+	BaseMapFactory.$inject = ['BaseMapService', 'chroma','_', 'Auth', 'uiService', '$timeout', 'baseUrl'];
 	angular.module('walmex').factory('BaseMapFactory', BaseMapFactory);
 
 })();
